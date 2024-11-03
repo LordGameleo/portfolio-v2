@@ -1,0 +1,77 @@
+@import "../../_globalColor";
+
+.dev-icons {
+  display: flex;
+  flex-wrap: wrap;  /* Allows items to wrap into the next line */
+  padding-left: 0;
+  list-style: none;
+  font-size: 3rem;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  text-align: center;
+}
+
+.software-skill-inline {
+  flex: 0 0 calc(20% - 20px); /* 20% width minus margin for 5 items in a row */
+  margin-right: 20px;
+  margin-bottom: 20px;
+  box-sizing: border-box; /* Ensures padding/margins are included in width */
+}
+
+.software-skill-inline:nth-child(5n) {
+  margin-right: 0; /* Remove margin for the last item in each row */
+}
+
+.software-skill-inline > i, svg {
+  color: $subTitle;
+  fill: $subTitle;
+}
+
+.software-skill-inline > svg {
+  margin-bottom: -10px;
+}
+
+.software-skill-inline :hover {
+  color: $skillsColor;
+  fill: $skillsColor;
+}
+
+.software-skill-inline > div {
+  color: $subTitle;
+  font-size: 10px;
+}
+
+.software-skill-inline:hover {
+  color: $skillsColor;
+}
+
+.icon{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  gap: 10px;
+  .icon-content{
+    flex: 1 1 auto;
+    i {
+      height: 100%;
+      width: 100%;
+      font-size: 3rem;
+    }
+  }
+  .skill-name{
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .dev-icons {
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .software-skill-inline{
+    flex: 1 1 calc(20%); 
+    width: 100px;
+    margin: 0;
+  }
+}
