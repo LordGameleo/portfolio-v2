@@ -1,0 +1,1737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asian Paints Ltd — financial dashboard, FY15–FY26</title>
+<style>
+  .viz-root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --grid:           #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --hover:          rgba(11,11,11,0.05);
+    --scale:          #2a78d6;
+    --leverage:       #eb6834;
+    --capital:        #1baf7a;
+    --delta-good:     #006300;
+    --delta-bad:      #d03b3b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .viz-root {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page:           #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --grid:           #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --hover:          rgba(255,255,255,0.07);
+      --scale:          #3987e5;
+      --leverage:       #d95926;
+      --capital:        #199e70;
+      --delta-good:     #0ca30c;
+      --delta-bad:      #d03b3b;
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --page:           #0d0d0d;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --grid:           #2c2c2a;
+    --baseline:       #383835;
+    --border:         rgba(255,255,255,0.10);
+    --hover:          rgba(255,255,255,0.07);
+    --scale:          #3987e5;
+    --leverage:       #d95926;
+    --capital:        #199e70;
+    --delta-good:     #0ca30c;
+    --delta-bad:      #d03b3b;
+  }
+
+  html, body { margin: 0; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--page, #f9f9f7); }
+  .viz-root { background: var(--page); color: var(--text-primary); min-height: 100vh; padding: 32px 20px 48px; box-sizing: border-box; }
+  /* use the width that's actually there; the chart re-lays-out to match */
+  .card {
+    max-width: min(1560px, 96vw); margin: 0 auto; background: var(--surface-1);
+    border: 1px solid var(--border); border-radius: 10px; padding: 24px 24px 16px;
+  }
+  /* breadcrumb back to the library index — same pattern as the concalls page */
+  .crumb { font-size: 12px; margin: 0 0 10px; }
+  .crumb a { color: var(--scale); text-decoration: none; }
+  .crumb a:hover { text-decoration: underline; }
+  .crumb span { color: var(--text-muted); }
+
+  h1 { font-size: 19px; font-weight: 600; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 2px; line-height: 1.5; }
+  .note { font-size: 12px; color: var(--text-muted); margin: 6px 0 0; line-height: 1.5; }
+
+  .families { display: flex; gap: 18px; flex-wrap: wrap; margin: 12px 0 0; }
+  .fam { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: var(--text-secondary); }
+  .key { width: 16px; height: 2px; border-radius: 1px; display: inline-block; flex: none; }
+
+  .controls { display: flex; align-items: center; gap: 10px; margin: 14px 0 8px; flex-wrap: wrap; }
+  .controls .label { font-size: 11.5px; color: var(--text-muted); }
+  .segmented { display: inline-flex; border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+  .segmented button {
+    font: inherit; font-size: 12px; padding: 5px 11px; border: 0; cursor: pointer;
+    background: transparent; color: var(--text-secondary); border-right: 1px solid var(--border);
+  }
+  .segmented button:last-child { border-right: 0; }
+  .segmented button:hover { background: var(--hover); }
+  .segmented button[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); font-weight: 600; }
+  .mode-hint { font-size: 11.5px; color: var(--text-muted); }
+
+  .chart-wrap { position: relative; }
+  svg { display: block; width: 100%; height: auto; overflow: visible; }
+  /* SVG type. The viewBox is 1:1 with pixels, so these are real sizes and can
+     be stepped up on a larger screen instead of scaling with the container. */
+  .tick-text { font-size: 11px; fill: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .panel-title { font-size: 12.5px; font-weight: 600; fill: var(--text-primary); }
+  .panel-unit { font-size: 11px; fill: var(--text-muted); }
+  .panel-latest { font-size: 12.5px; font-weight: 600; fill: var(--text-primary); font-variant-numeric: tabular-nums; }
+  .dual-warn { font-size: 10px; fill: var(--text-muted); font-style: italic; }
+  /* touch readout drawn inside the panel, at the finger */
+  .chip-bg { fill: var(--surface-1); stroke: var(--border); }
+  .chip-hd { font-size: 10.5px; font-weight: 600; fill: var(--text-primary); }
+  .chip-tx { font-size: 10.5px; fill: var(--text-secondary); }
+  .chip-vl { font-size: 10.5px; font-weight: 600; fill: var(--text-primary); font-variant-numeric: tabular-nums; }
+  /* on a dual-axis panel the tick colour says which series owns which axis;
+     the (L)/(R) tag in the header carries the same information without colour */
+  .tick-text.axis-l { fill: var(--scale); }
+  .tick-text.axis-r { fill: var(--capital); }
+
+
+  /* The board sticks only while the panels are on screen. That is CSS, not JS: a
+     sticky element cannot escape its containing block, so scoping it to a wrapper
+     that ENDS with the chart makes it slide away by itself once the graphs are
+     past — there is nothing to read against below them. */
+  .stickyscope { position: relative; }
+  /* zero-footprint marker at the board's natural position; when it leaves the
+     top of the viewport the board is stuck, which is what drives the compact form */
+  .board-sentinel { position: absolute; top: 0; left: 0; width: 1px; height: 1px; }
+  /* Compacting the board shrinks its flow height, which would yank the chart
+     upward at the exact moment it sticks. This absorbs the difference so nothing
+     below the board moves. Height is set in JS from the measured delta. */
+  .board-spacer { height: 0; }
+
+  /* readout board — sticky, so it stays put while scrolling the lower panels */
+  .board {
+    position: sticky; top: 0; z-index: 4;
+    box-sizing: border-box; width: 100%;
+    background: var(--surface-1);
+    border: 1px solid var(--border); border-radius: 9px;
+    padding: 11px 14px 12px;
+    /* auto side margins so that when `width` shrinks on stick, the box collapses
+       toward the CENTRE of the page rather than to the left edge */
+    margin: 0 auto 16px;
+    /* soft lift so that when it sticks it reads as floating over the panels */
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+  }
+  /* Expand/collapse animation. `width` is an explicit length in both states —
+     transitioning to or from `max-width: none` would not animate at all. Every
+     property here that affects HEIGHT shares one duration and easing with
+     .board-spacer, so the two stay in step and the chart below does not drift. */
+  .board, .board-spacer, .board .tiles, .board-head,
+  .board-year, .tile-label, .tile-value, .tile-delta {
+    transition: width .26s cubic-bezier(.4, 0, .2, 1),
+                height .26s cubic-bezier(.4, 0, .2, 1),
+                padding .26s cubic-bezier(.4, 0, .2, 1),
+                gap .26s cubic-bezier(.4, 0, .2, 1),
+                margin .26s cubic-bezier(.4, 0, .2, 1),
+                font-size .26s cubic-bezier(.4, 0, .2, 1),
+                border-radius .26s, box-shadow .26s;
+  }
+  /* Measuring the collapsed height mid-transition returns a half-animated value,
+     so the delta is measured once with animation suppressed. */
+  .board.measuring, .board.measuring *, .board.measuring + .board-spacer {
+    transition: none !important;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .board, .board-spacer, .board .tiles, .board-head,
+    .board-year, .tile-label, .tile-value, .tile-delta { transition: none; }
+  }
+  .board-head { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 11px; }
+  .board-year { font-size: 13.5px; font-weight: 600; color: var(--text-primary); }
+  .board-vs { font-size: 11.5px; color: var(--text-muted); }
+  .board-extra { margin-left: auto; font-size: 11.5px; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+  .tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 11px 14px; }
+  @media (max-width: 660px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .tile { min-width: 0; border-radius: 3px; }
+  /* The tile for the panel under the cursor. A spread box-shadow paints the halo
+     OUTSIDE the box, so highlighting cannot nudge the grid — padding or a border
+     here would reflow all twelve tiles on every pointermove. */
+  .tile.active {
+    background: var(--hover);
+    box-shadow: 0 0 0 6px var(--hover);
+  }
+  .tile.active .tile-label { color: var(--text-primary); font-weight: 600; }
+  .tile-label {
+    display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-secondary);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  /* stat-tile values take proportional figures; only the deltas need to align */
+  .tile-value { font-size: 15px; font-weight: 600; color: var(--text-primary); margin-top: 3px; }
+  .tile-delta { font-size: 11px; font-variant-numeric: tabular-nums; margin-top: 1px; }
+  .tile-delta.good { color: var(--delta-good); }
+  .tile-delta.bad  { color: var(--delta-bad); }
+  .tile-delta.flat { color: var(--text-muted); }
+
+  /* recent earnings calls — one row per call; headlines and Q&A as sub-parts */
+  .calls { margin: 26px 0 0; padding-top: 20px; border-top: 1px solid var(--grid); }
+  .calls-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin: 0 0 3px; }
+  .calls h2 { font-size: 15px; font-weight: 600; margin: 0; }
+  .calls .more { margin-left: auto; font-size: 12px; }
+  .calls .more a { color: var(--scale); text-decoration: none; font-weight: 600; }
+  .calls .more a:hover { text-decoration: underline; }
+  .calls .lede { font-size: 12px; color: var(--text-muted); margin: 0 0 14px; line-height: 1.5; }
+
+  .call-row {
+    border: 1px solid var(--border); border-radius: 9px;
+    padding: 13px 16px 15px; margin: 0 0 12px;
+  }
+  .call-row:last-child { margin-bottom: 0; }
+  .call-row.latest { border-left: 3px solid var(--scale); }
+  .call-row-head { display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; margin: 0 0 12px; }
+  .call-row-head .q { font-size: 13.5px; font-weight: 600; }
+  .call-row-head .when { font-size: 10.5px; color: var(--text-muted); }
+  .call-row-head .deep { margin-left: auto; font-size: 11.5px; }
+  .call-row-head .deep a { color: var(--scale); text-decoration: none; }
+  .call-row-head .deep a:hover { text-decoration: underline; }
+
+  .call-subs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 780px) { .call-subs { grid-template-columns: 1fr; } }
+  .sub { min-width: 0; }
+  .sub h4 {
+    font-size: 10.5px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+    color: var(--text-muted); margin: 0 0 7px; padding-bottom: 5px;
+    border-bottom: 1px solid var(--grid);
+  }
+  .sub.qna h4 { color: var(--leverage); border-bottom-color: var(--leverage); }
+  .sub ul { margin: 0; padding-left: 16px; }
+  .sub li { font-size: 12px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 8px; }
+  .sub li:last-child { margin-bottom: 0; }
+  .sub.qna li::marker { color: var(--leverage); }
+
+  /* critical points — SWOT-shaped, extended as the analysis grows */
+  .points { margin: 26px 0 0; padding-top: 20px; border-top: 1px solid var(--grid); }
+  .points h2 { font-size: 15px; font-weight: 600; margin: 0 0 3px; }
+  .points .lede { font-size: 12px; color: var(--text-muted); margin: 0 0 14px; line-height: 1.5; }
+  .quads { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  @media (max-width: 720px) { .quads { grid-template-columns: 1fr; } }
+  .quad {
+    border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px 13px;
+    border-left-width: 3px;
+  }
+  .quad.s { border-left-color: var(--delta-good); }
+  .quad.w { border-left-color: var(--delta-bad); }
+  .quad.o { border-left-color: var(--scale); }
+  .quad.t { border-left-color: var(--leverage); }
+  .quad h3 { font-size: 14.5px; font-weight: 600; margin: 0 0 3px; }
+  .quad .cnt { font-size: 11px; color: var(--text-muted); font-weight: 400; }
+  .quad ul { margin: 9px 0 0; padding: 0; list-style: none; }
+  .quad li { font-size: 12px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 9px; }
+  .quad li:last-child { margin-bottom: 0; }
+  .pt-claim { color: var(--text-primary); font-weight: 600; }
+  .pt-ev { font-variant-numeric: tabular-nums; }
+  .pt-src {
+    display: inline-block; font-size: 10px; padding: 1px 5px; margin-left: 4px;
+    border: 1px solid var(--border); border-radius: 4px; color: var(--text-muted);
+    white-space: nowrap; vertical-align: 1px;
+  }
+  .pt-src.unver { border-style: dashed; }
+  .refs { margin: 18px 0 0; }
+  .refs h3 { font-size: 12.5px; font-weight: 600; margin: 0 0 7px; }
+  .refs ol { margin: 0; padding-left: 20px; }
+  .refs li { font-size: 11.5px; color: var(--text-secondary); line-height: 1.65; }
+  .refs a { color: var(--scale); }
+  .refs .pending { color: var(--delta-bad); font-weight: 600; }
+
+  details { margin: 14px 0 0; }
+  summary { font-size: 12.5px; color: var(--text-secondary); cursor: pointer; padding: 4px 0; }
+  .tbl-scroll { overflow-x: auto; }
+  table { border-collapse: collapse; font-size: 11.5px; margin-top: 10px; width: 100%; }
+  th, td { text-align: right; padding: 5px 7px; border-bottom: 1px solid var(--grid); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  th:first-child, td:first-child { text-align: left; }
+  th { color: var(--text-secondary); font-weight: 600; }
+  td { color: var(--text-primary); }
+  .src { font-size: 11.5px; color: var(--text-muted); margin: 16px 0 0; line-height: 1.6; }
+  /* long unbroken tokens — file names, dotted identifiers — have no natural
+     break point and overflow a phone viewport; `anywhere` also shrinks min-content
+     so it cannot push the page wide in a grid or flex context either */
+  code { overflow-wrap: anywhere; }
+  @media (max-width: 640px) {
+    /* a sticky bar eats too much of a phone screen, and touch readouts are
+       better placed at the finger — see the per-panel chip in the SVG */
+    .board { position: static; box-shadow: none; }
+    .viz-root { padding: 14px 8px 32px; }
+    .card { max-width: 100%; padding: 14px 12px 12px; border-radius: 8px; }
+    h1 { font-size: 17px; }
+    .board { padding: 10px 11px 11px; }
+    .board-extra { margin-left: 0; flex-basis: 100%; }
+  }
+
+  /* Laptop type scale — ~1.3x the phone sizes. Safe to do because the viewBox is
+     1:1 with pixels, so these are real point sizes, not a zoom. Headings are
+     stepped well clear of body text so hierarchy is obvious. Spacing that has to
+     clear this type is DERIVED in layout(), not hardcoded — see TICK_H/TITLE_H. */
+  @media (min-width: 900px) {
+    .crumb { font-size: 13.5px; }
+    h1 { font-size: 23px; }
+    .sub { font-size: 16px; }
+    .note { font-size: 13.5px; }
+    .fam { font-size: 13.5px; }
+    .controls .label, .mode-hint { font-size: 13px; }
+    .segmented button { font-size: 13px; padding: 6px 12px; }
+
+    .tick-text { font-size: 16px; }
+    .panel-title { font-size: 18px; }
+    .panel-unit { font-size: 13.5px; }
+    .panel-latest { font-size: 18px; }
+    .dual-warn { font-size: 13px; }
+    .chip-hd, .chip-tx, .chip-vl { font-size: 13px; }
+
+    .board { padding: 15px 20px 17px; }
+    .board-head { margin-bottom: 14px; }
+    .board-year { font-size: 18px; }
+    .board-vs, .board-extra { font-size: 13.5px; }
+    .tiles { gap: 17px 24px; }
+    .tile-label { font-size: 13.5px; }
+    .tile-value { font-size: 20px; margin-top: 4px; }
+    /* 1px under a 20px figure reads as a collision; give the delta its own line */
+    .tile-delta { font-size: 13.5px; margin-top: 3px; }
+
+    /* section headings clearly above their content */
+    .points h2, .calls h2 { font-size: 21px; }
+    .points .lede, .calls .lede { font-size: 13.5px; }
+    .quad h3 { font-size: 18px; }
+    .quad .cnt { font-size: 13.5px; }
+    .quad li { font-size: 14.5px; }
+    .pt-src { font-size: 12px; }
+    .sub h4 { font-size: 14.5px; }
+    .sub li { font-size: 14.5px; }
+    .call-row-head .q { font-size: 16px; }
+    .call-row-head .when { font-size: 13px; }
+    .call-row-head .deep, .calls .more { font-size: 13.5px; }
+    .refs h3 { font-size: 15.5px; }
+    .refs li { font-size: 13px; }
+    summary { font-size: 13.5px; }
+    table { font-size: 13.5px; }
+    th, td { padding: 6px 9px; }
+    .src { font-size: 13px; }
+
+    /* Stuck form: a narrow reference card, not a full-width banner. Going narrow
+       and taller (4 columns, so 3 rows here) beats going wide and short — it
+       uncovers the right-hand column of panels entirely, which a full-width strip
+       never does however short it gets. */
+    .board.stuck {
+      width: 780px; padding: 14px 22px 16px;
+      /* flush with the top of the viewport, rounded below — reads as a card that
+         has descended from the top edge. Centred by the auto margins on .board. */
+      border-radius: 0 0 12px 12px; border-top: 0;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.13);
+    }
+    .board.stuck .board-head { margin-bottom: 12px; }
+    .board.stuck .board-year { font-size: 17px; }
+    .board.stuck .board-extra { display: none; }   /* no room, and it is in the table */
+    /* Narrow rather than short is what uncovers the panels — at 780px of 1410 the
+       whole right-hand column stays visible, so the tiles can keep generous
+       spacing instead of being squeezed to buy height. */
+    .board.stuck .tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 15px 22px; }
+    .board.stuck .tile-label { font-size: 13px; }
+    .board.stuck .tile-value { font-size: 17px; margin-top: 4px; }
+    .board.stuck .tile-delta { font-size: 12.5px; margin-top: 3px; }
+  }
+</style>
+</head>
+<body>
+<div class="viz-root">
+  <div class="card">
+    <p class="crumb"><a href="../../">← All analyses</a> <span>/ Asian Paints Ltd</span></p>
+
+    <h1>Asian Paints Ltd — financial dashboard, FY2015–FY2026</h1>
+    <p class="sub">Consolidated, financial years ending March. Every metric on its own panel — the series span ₹ crore and percentages across a 100× range, so one shared axis would be meaningless.</p>
+    <p class="note">Hover any panel to read that year across all ten metrics, with the change from the previous year. Absolute series report % change; ratio series report <strong>percentage points</strong>. Colour groups the metric family — three hues, because only three clear the colour-blind separation gate for small multiples; the panel title is the exact identity.</p>
+
+    <div class="families">
+      <span class="fam"><span class="key" style="background: var(--scale)"></span>Scale — sales, earnings &amp; cash</span>
+      <span class="fam"><span class="key" style="background: var(--leverage)"></span>Leverage — debt</span>
+      <span class="fam"><span class="key" style="background: var(--capital)"></span>Capital &amp; returns</span>
+    </div>
+
+    <div class="controls">
+      <span class="label">Axis</span>
+      <span class="segmented" id="modes" role="group" aria-label="Axis mode">
+        <button type="button" data-mode="absolute" aria-pressed="true">Absolute</button>
+        <button type="button" data-mode="yoy" aria-pressed="false">YoY change</button>
+        <button type="button" data-mode="indexed" aria-pressed="false">Indexed</button>
+      </span>
+      <span class="mode-hint" id="modeHint"></span>
+    </div>
+
+    <div class="stickyscope">
+      <div class="board-sentinel" id="boardSentinel" aria-hidden="true"></div>
+      <div class="board" id="board" role="status" aria-live="polite" aria-label="Hovered year readout"></div>
+      <div class="board-spacer" id="boardSpacer" aria-hidden="true"></div>
+
+      <div class="chart-wrap">
+        <svg id="chart" role="img" aria-label="Twelve small-multiple line charts for Asian Paints FY2015 to FY2026: sales, net profit, cash from operations, free cash flow, investing cash flow, financing cash flow, borrowings, debt as percent of sales, reserves, dividend payout, ROCE and ROE."></svg>
+      </div>
+    </div>
+
+    <details>
+      <summary>View as table</summary>
+      <div class="tbl-scroll"><table id="table"></table></div>
+    </details>
+
+    <section class="calls">
+      <div class="calls-head">
+        <h2>Recent earnings calls</h2>
+        <span class="more"><a href="concalls">Full pointer list, all three calls →</a></span>
+      </div>
+      <p class="lede">One row per call, newest first. <strong>Headlines</strong> are what management led with; <strong>analyst Q&amp;A</strong> is what they were pushed on and what they would not answer — often the more informative half. The <a href="concalls">detailed page</a> carries every pointer, filterable by call, theme and type.</p>
+      <div class="call-rows" id="callCols"></div>
+    </section>
+
+    <section class="points">
+      <h2>Critical points — working notes toward a SWOT</h2>
+      <p class="lede">Each point carries its evidence and a source tag. <strong>Solid = read from a primary source</strong> — the company's own reported financials, or a rating agency's published rationale. <strong>Dashed = second-hand or unresolved.</strong></p>
+      <div class="quads" id="quads"></div>
+      <div class="refs" id="refs"></div>
+    </section>
+
+    <p class="src">Source: Tapetide (Screener-derived consolidated financials), fetched 22 Aug 2026. As reported: Sales, Net Profit, Dividend Payout % (P&amp;L); Borrowings, Reserves (balance sheet); Cash from Operating/Investing/Financing Activity, Free Cash Flow (cash flow); ROCE (ratios). <strong>Computed: ROE</strong> (net profit ÷ year-end equity capital + reserves, not average equity), <strong>debt/sales</strong>, <strong>net margin</strong>, <strong>retained ₹</strong>. Dividend payout is dividend as a share of <em>profit</em> — not dividend yield, which is against price. Borrowings are <strong>gross</strong>, not net of the ₹7,062cr investment book. <strong>Every plotted value comes from one Tapetide dataset</strong> — one consistent basis across all 12 years, all derivations documented. External sources such as the Ind-Ra rationale are used to <em>cross-check and annotate only</em>; no panel value is ever swapped for a figure from another source, because a basis break mid-series is worse than either source alone. Point-in-time data — not investment advice.</p>
+  </div>
+</div>
+
+<script>
+const DATA = [
+  {
+    "period": "Mar 2015",
+    "fy": "FY15",
+    "sales": 13615,
+    "profit": 1427,
+    "debt": 418,
+    "reserves": 4646,
+    "payout": 42,
+    "roce": 42,
+    "roe": 30.1,
+    "debtToSales": 3.1,
+    "netMargin": 10.5,
+    "paidOut": 599,
+    "retained": 828,
+    "cfo": 1188,
+    "fcf": 750,
+    "capex_derived": 438,
+    "cfoToPat": 0.83,
+    "cfi": -465,
+    "cff": -576,
+    "netCF": 147
+  },
+  {
+    "period": "Mar 2016",
+    "fy": "FY16",
+    "sales": 14271,
+    "profit": 1803,
+    "debt": 323,
+    "reserves": 6429,
+    "payout": 41,
+    "roce": 42,
+    "roe": 27.6,
+    "debtToSales": 2.3,
+    "netMargin": 12.6,
+    "paidOut": 739,
+    "retained": 1064,
+    "cfo": 2243,
+    "fcf": 1441,
+    "capex_derived": 802,
+    "cfoToPat": 1.24,
+    "cfi": -866,
+    "cff": -849,
+    "netCF": 528
+  },
+  {
+    "period": "Mar 2017",
+    "fy": "FY17",
+    "sales": 15062,
+    "profit": 2016,
+    "debt": 560,
+    "reserves": 7508,
+    "payout": 51,
+    "roce": 38,
+    "roe": 26.5,
+    "debtToSales": 3.7,
+    "netMargin": 13.4,
+    "paidOut": 1028,
+    "retained": 988,
+    "cfo": 1527,
+    "fcf": 860,
+    "capex_derived": 667,
+    "cfoToPat": 0.76,
+    "cfi": -681,
+    "cff": -756,
+    "netCF": 90
+  },
+  {
+    "period": "Mar 2018",
+    "fy": "FY18",
+    "sales": 16825,
+    "profit": 2098,
+    "debt": 533,
+    "reserves": 8314,
+    "payout": 41,
+    "roce": 36,
+    "roe": 24.9,
+    "debtToSales": 3.2,
+    "netMargin": 12.5,
+    "paidOut": 860,
+    "retained": 1238,
+    "cfo": 2113,
+    "fcf": 705,
+    "capex_derived": 1408,
+    "cfoToPat": 1.01,
+    "cfi": -1556,
+    "cff": -1379,
+    "netCF": -822
+  },
+  {
+    "period": "Mar 2019",
+    "fy": "FY19",
+    "sales": 19240,
+    "profit": 2208,
+    "debt": 1320,
+    "reserves": 9375,
+    "payout": 47,
+    "roce": 33,
+    "roe": 23.3,
+    "debtToSales": 6.9,
+    "netMargin": 11.5,
+    "paidOut": 1038,
+    "retained": 1170,
+    "cfo": 2470,
+    "fcf": 1336,
+    "capex_derived": 1134,
+    "cfoToPat": 1.12,
+    "cfi": -918,
+    "cff": -1117,
+    "netCF": 434
+  },
+  {
+    "period": "Mar 2020",
+    "fy": "FY20",
+    "sales": 20211,
+    "profit": 2774,
+    "debt": 1118,
+    "reserves": 10034,
+    "payout": 43,
+    "roce": 33,
+    "roe": 27.4,
+    "debtToSales": 5.5,
+    "netMargin": 13.7,
+    "paidOut": 1193,
+    "retained": 1581,
+    "cfo": 3038,
+    "fcf": 2661,
+    "capex_derived": 377,
+    "cfoToPat": 1.1,
+    "cfi": -518,
+    "cff": -2871,
+    "netCF": -351
+  },
+  {
+    "period": "Mar 2021",
+    "fy": "FY21",
+    "sales": 21713,
+    "profit": 3207,
+    "debt": 1093,
+    "reserves": 12710,
+    "payout": 55,
+    "roce": 34,
+    "roe": 25.0,
+    "debtToSales": 5.0,
+    "netMargin": 14.8,
+    "paidOut": 1764,
+    "retained": 1443,
+    "cfo": 3683,
+    "fcf": 3422,
+    "capex_derived": 261,
+    "cfoToPat": 1.15,
+    "cfi": -541,
+    "cff": -650,
+    "netCF": 2492
+  },
+  {
+    "period": "Mar 2022",
+    "fy": "FY22",
+    "sales": 29101,
+    "profit": 3085,
+    "debt": 1587,
+    "reserves": 13716,
+    "payout": 61,
+    "roce": 29,
+    "roe": 22.3,
+    "debtToSales": 5.5,
+    "netMargin": 10.6,
+    "paidOut": 1882,
+    "retained": 1203,
+    "cfo": 986,
+    "fcf": 475,
+    "capex_derived": 511,
+    "cfoToPat": 0.32,
+    "cfi": -317,
+    "cff": -1808,
+    "netCF": -1138
+  },
+  {
+    "period": "Mar 2023",
+    "fy": "FY23",
+    "sales": 34489,
+    "profit": 4195,
+    "debt": 1933,
+    "reserves": 15896,
+    "payout": 60,
+    "roce": 34,
+    "roe": 26.2,
+    "debtToSales": 5.6,
+    "netMargin": 12.2,
+    "paidOut": 2517,
+    "retained": 1678,
+    "cfo": 4193,
+    "fcf": 2774,
+    "capex_derived": 1419,
+    "cfoToPat": 1.0,
+    "cfi": -1282,
+    "cff": -2140,
+    "netCF": 771
+  },
+  {
+    "period": "Mar 2024",
+    "fy": "FY24",
+    "sales": 35495,
+    "profit": 5558,
+    "debt": 2474,
+    "reserves": 18632,
+    "payout": 58,
+    "roce": 38,
+    "roe": 29.7,
+    "debtToSales": 7.0,
+    "netMargin": 15.7,
+    "paidOut": 3224,
+    "retained": 2334,
+    "cfo": 6104,
+    "fcf": 3613,
+    "capex_derived": 2491,
+    "cfoToPat": 1.1,
+    "cfi": -2548,
+    "cff": -2982,
+    "netCF": 573
+  },
+  {
+    "period": "Mar 2025",
+    "fy": "FY25",
+    "sales": 33906,
+    "profit": 3710,
+    "debt": 2290,
+    "reserves": 19304,
+    "payout": 65,
+    "roce": 26,
+    "roe": 19.1,
+    "debtToSales": 6.8,
+    "netMargin": 10.9,
+    "paidOut": 2412,
+    "retained": 1298,
+    "cfo": 4424,
+    "fcf": 2604,
+    "capex_derived": 1820,
+    "cfoToPat": 1.19,
+    "cfi": -941,
+    "cff": -3753,
+    "netCF": -270
+  },
+  {
+    "period": "Mar 2026",
+    "fy": "FY26",
+    "sales": 35584,
+    "profit": 4395,
+    "debt": 3929,
+    "reserves": 21276,
+    "payout": 61,
+    "roce": 26,
+    "roe": 20.6,
+    "debtToSales": 11.0,
+    "netMargin": 12.4,
+    "paidOut": 2681,
+    "retained": 1714,
+    "cfo": 7088,
+    "fcf": 5604,
+    "capex_derived": 1484,
+    "cfoToPat": 1.61,
+    "cfi": -1328,
+    "cff": -2377,
+    "netCF": 3383
+  }
+];
+// derived — computed here, never restated as if reported
+// Derived fields, computed only where the inputs exist — a company without
+// dividend or cash-flow data simply won't get those metrics rather than NaN.
+const has = (d, ...keys) => keys.every(k => typeof d[k] === "number");
+DATA.forEach(d => {
+  if (has(d, "debt", "sales"))    d.debtToSales = +(100 * d.debt / d.sales).toFixed(1);
+  if (has(d, "profit", "sales"))  d.netMargin   = +(100 * d.profit / d.sales).toFixed(1);
+  if (has(d, "profit", "payout")) d.paidOut     = Math.round(d.profit * d.payout / 100);
+  if (has(d, "profit") && typeof d.paidOut === "number") d.retained = d.profit - d.paidOut;
+  if (has(d, "cfo", "profit"))    d.cfoToPat    = +(d.cfo / d.profit).toFixed(2);
+});
+
+// Only three hues clear the all-pairs CVD gate for small multiples (violet, magenta
+// and yellow were all tested as a 4th and FAIL in dark mode), so colour carries the
+// metric FAMILY and the panel title carries identity.
+const PANELS = [
+  {
+    "key": "sales",
+    "title": "Sales",
+    "fam": "--scale",
+    "unit": "₹ crore",
+    "upIsGood": true,
+    "mergeWith": "profit"
+  },
+  {
+    "key": "profit",
+    "title": "Net profit",
+    "fam": "--scale",
+    "unit": "₹ crore",
+    "upIsGood": true
+  },
+  {
+    "key": "cfo",
+    "title": "Cash from ops",
+    "fam": "--scale",
+    "unit": "₹ crore",
+    "upIsGood": true,
+    "mergeWith": "fcf"
+  },
+  {
+    "key": "fcf",
+    "title": "Free cash flow",
+    "fam": "--scale",
+    "unit": "₹ crore",
+    "upIsGood": true
+  },
+  {
+    "key": "cfi",
+    "title": "Investing cash flow",
+    "fam": "--scale",
+    "unit": "₹ crore, negative = outflow",
+    "upIsGood": null,
+    "mergeWith": "cff"
+  },
+  {
+    "key": "cff",
+    "title": "Financing cash flow",
+    "fam": "--scale",
+    "unit": "₹ crore, negative = returned",
+    "upIsGood": null
+  },
+  {
+    "key": "debt",
+    "title": "Borrowings",
+    "fam": "--leverage",
+    "unit": "₹ crore, gross",
+    "upIsGood": false
+  },
+  {
+    "key": "debtToSales",
+    "title": "Debt / sales",
+    "fam": "--leverage",
+    "unit": "percent",
+    "isRatio": true,
+    "upIsGood": false
+  },
+  {
+    "key": "reserves",
+    "title": "Reserves",
+    "fam": "--capital",
+    "unit": "₹ crore",
+    "upIsGood": true
+  },
+  {
+    "key": "payout",
+    "title": "Dividend payout",
+    "fam": "--capital",
+    "unit": "% of net profit",
+    "isRatio": true,
+    "upIsGood": null
+  },
+  {
+    "key": "roce",
+    "title": "ROCE",
+    "fam": "--capital",
+    "unit": "percent",
+    "isRatio": true,
+    "upIsGood": true,
+    "mergeWith": "roe"
+  },
+  {
+    "key": "roe",
+    "title": "ROE",
+    "fam": "--capital",
+    "unit": "percent, computed",
+    "isRatio": true,
+    "upIsGood": true
+  }
+];
+
+const MODE_HINTS = {
+  absolute: "Each panel on its own native scale.",
+  yoy: "Year-on-year change; ratio panels in percentage points. FY15 has no prior year.",
+  indexed: "FY15 = 100 — puts every series on one comparable growth scale.",
+};
+
+// --- Responsive geometry. The viewBox width tracks the container's real pixel
+// width so one SVG unit == one CSS pixel: that keeps axis/label type at its
+// intended size instead of scaling up with the card. Column count and height are
+// derived, so the grid reflows from 1 column on a phone to 3 on a wide laptop.
+const M = { top: 26, left: 56, right: 18 };   // top/left are DERIVED in layout()
+const COL_GAP_BASE = 74;
+// Breathing room around every panel on laptop, on top of whatever the labels and
+// headers structurally need. Phone gets none — width there is the scarce thing.
+const PANEL_PAD_WIDE = 16;
+let PANEL_PAD = 0;
+let COL_GAP = COL_GAP_BASE;
+let PANEL_H = 104;   // doubled on laptop; phone keeps the compact height
+// All four are measured from the live type in layout(). Hardcoding them is what
+// made the x-axis labels collide with the next row's titles every time the font
+// scale moved — the numbers were tuned for one size and silently wrong at another.
+let TICK_H = 13;     // tick-label box height
+let TITLE_H = 16;    // panel-title box height
+let HEAD_LH = 19;    // line height when a dual panel's header stacks onto two lines
+const HEAD_BASE = 11;   // baseline of the LAST header line, above the panel top
+let ROW_GAP = 64;
+
+let W = 840, VH = 400, COLS = 2, ROWS = 1, colW = 300;
+let VIEWS = [];
+
+// A "view" is one panel in the grid. On a phone (1 column) declared pairs merge
+// into a single view carrying two series, so there is far less to scroll.
+// Pairs merge ONLY when the unit type matches — never rupees against percent.
+function buildViews() {
+  if (COLS > 1) return PANELS.map(p => ({ ...p, series: [{ ...p }] }));
+  const used = new Set(), out = [];
+  for (const p of PANELS) {
+    if (used.has(p.key)) continue;
+    used.add(p.key);
+    const partner = p.mergeWith
+      ? PANELS.find(q => q.key === p.mergeWith && !used.has(q.key)
+                         && !!q.isRatio === !!p.isRatio)
+      : null;
+    if (partner) {
+      used.add(partner.key);
+      out.push({ ...p, title: `${p.title} & ${partner.title}`, dual: true,
+                 series: [{ ...p }, { ...partner }] });
+    } else {
+      out.push({ ...p, series: [{ ...p }] });
+    }
+  }
+  return out;
+}
+
+function layout() {
+  const avail = svg.parentElement ? svg.parentElement.clientWidth : 840;
+  W = Math.max(300, Math.round(avail));
+  // 2 across on laptop/tablet, 1 on phone (where pairs merge instead)
+  COLS = W < 640 ? 1 : 2;
+  COLS = Math.min(COLS, PANELS.length);
+  // taller panels where there is room — a 104px-high line chart over 12 years
+  // reads as almost flat, and the extra height is what makes the shape legible
+  PANEL_H = COLS === 1 ? 104 : 208;
+  PANEL_PAD = COLS > 1 ? PANEL_PAD_WIDE : 0;
+  COL_GAP = COL_GAP_BASE + PANEL_PAD * 2;
+  VIEWS = buildViews();
+
+  // ---- measure the live type, once, before deciding any spacing
+  const probe = document.createElementNS(NS, "text");
+  svg.appendChild(probe);
+  probe.setAttribute("class", "tick-text");
+  probe.textContent = "0,000";
+  TICK_H = Math.max(11, probe.getBBox().height);
+  // widest y-axis tick label, so the left margin can never clip a figure. The
+  // extremes bound the label width: a "nice" tick is at most one step past them
+  // and rounds to the same digit count.
+  let widestTick = 0;
+  for (const p of PANELS) {
+    const vals = DATA.map(d => d[p.key]).filter(v => typeof v === "number");
+    if (!vals.length) continue;
+    for (const v of [Math.min(...vals), Math.max(...vals)]) {
+      probe.textContent = axisFmt(p, Math.round(v));
+      widestTick = Math.max(widestTick, probe.getComputedTextLength());
+    }
+  }
+  probe.setAttribute("class", "panel-title");
+  probe.textContent = "Ag";                  // ascender + descender
+  TITLE_H = Math.max(11, probe.getBBox().height);
+  probe.remove();
+  HEAD_LH = Math.round(TITLE_H * 1.25);
+  M.left = Math.round(Math.max(40, widestTick + 12));
+
+  // ---- derive the vertical gaps. SVG text is placed by BASELINE, so a label's
+  // box runs ~0.8x its height above the baseline and ~0.25x below it. The row gap
+  // has to fit, in order: the x-axis labels, the two-scale caveat on a dual panel,
+  // and the next panel's header — two lines tall when a dual header stacks.
+  const hasDual = VIEWS.some(v => v.series.length > 1);
+  const stacked = COLS === 1 && hasDual;
+  const labelsBottom = 10 + TICK_H * 1.25;
+  const caveatBottom = hasDual ? 14 + TICK_H * 2.25 : labelsBottom;
+  const headerTop = HEAD_BASE + (stacked ? HEAD_LH : 0) + TITLE_H * 0.8;
+  ROW_GAP = Math.round(Math.max(labelsBottom, caveatBottom) + headerTop + 8 + PANEL_PAD * 2);
+  M.top = Math.round(headerTop + 6 + PANEL_PAD);
+  // a merged view needs room for a right-hand axis too
+  const rightPad = hasDual ? M.left : M.right;
+  colW = (W - M.left - rightPad - PANEL_PAD * 2 - COL_GAP * (COLS - 1)) / COLS;
+  ROWS = Math.ceil(VIEWS.length / COLS);
+  // the last row still needs its x-labels (and caveat) plus the panel padding
+  VH = M.top + ROWS * (PANEL_H + ROW_GAP) - ROW_GAP
+     + Math.round(Math.max(labelsBottom, caveatBottom) + PANEL_PAD + 6);
+  svg.setAttribute("viewBox", `0 0 ${W} ${VH}`);
+}
+
+const colX = c => M.left + PANEL_PAD + c * (colW + COL_GAP);
+const rowY = r => M.top + r * (PANEL_H + ROW_GAP);
+
+const nf = v => v.toLocaleString("en-IN");
+const money = v => "₹" + nf(v) + "cr";
+const pctFmt = v => v.toFixed(1) + "%";
+
+let mode = "absolute";
+
+function valueAt(p, i) {
+  const cur = DATA[i][p.key];
+  if (mode === "absolute") return cur;
+  if (mode === "indexed") return (100 * cur) / DATA[0][p.key];
+  if (i === 0) return null;
+  const prev = DATA[i - 1][p.key];
+  return p.isRatio ? cur - prev : (100 * (cur - prev)) / prev;
+}
+
+const axisUnit = p =>
+  mode === "absolute" ? p.unit
+  : mode === "indexed" ? "FY15 = 100"
+  : p.isRatio ? "YoY, pp" : "YoY, %";
+
+const axisFmt = (p, v) =>
+  mode === "absolute" ? (p.isRatio ? v + "%" : nf(v))
+  : mode === "indexed" ? nf(Math.round(v))
+  : (v > 0 ? "+" : "") + v;
+
+const latestFmt = (p, v) =>
+  mode === "absolute" ? (p.isRatio ? pctFmt(v) : nf(v))
+  : mode === "indexed" ? nf(Math.round(v))
+  : (v > 0 ? "+" : "−") + Math.abs(v).toFixed(1) + (p.isRatio ? "pp" : "%");
+
+// "Nice" steps so an axis reads 0 / 2,000 / 4,000, never 0 / 1,733 / 3,466.
+function niceScale(min, max, target) {
+  if (min === max) { min -= 1; max += 1; }
+  const raw = (max - min) / target;
+  const mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const step = [1, 2, 2.5, 5, 10].map(m => m * mag).find(s => s >= raw) || 10 * mag;
+  const lo = Math.floor(min / step) * step;
+  const hi = Math.ceil(max / step) * step;
+  const ticks = [];
+  for (let v = lo; v <= hi + step / 1e6; v += step) ticks.push(+v.toFixed(6));
+  return { lo, hi, ticks };
+}
+
+function scaleFor(p) {
+  const vals = DATA.map((_, i) => valueAt(p, i)).filter(v => v !== null);
+  let min = Math.min(...vals), max = Math.max(...vals);
+  if (mode === "yoy") { const m = Math.max(Math.abs(min), Math.abs(max)); min = -m; max = m; }
+  // magnitudes anchor at zero, but a series that genuinely goes negative
+  // (investing/financing cash flow) must show below the zero line, not be clipped
+  else min = Math.min(0, min);
+  return niceScale(min, max, PANEL_H > 150 ? 4 : 3);
+}
+
+// YoY change vs the previous year — shown on the board in every mode.
+// upIsGood null => direction is genuinely ambiguous (payout), so stay neutral.
+function delta(p, i) {
+  if (i === 0) return { text: "—", cls: "flat" };
+  const cur = DATA[i][p.key], prev = DATA[i - 1][p.key];
+  const raw = p.isRatio ? cur - prev : (100 * (cur - prev)) / prev;
+  if (Math.abs(raw) < 0.05) return { text: "flat", cls: "flat" };
+  const text = `${raw > 0 ? "↑" : "↓"} ${Math.abs(raw).toFixed(1)}${p.isRatio ? "pp" : "%"}`;
+  if (p.upIsGood === null) return { text, cls: "flat" };
+  return { text, cls: (raw > 0) === p.upIsGood ? "good" : "bad" };
+}
+
+const svg = document.getElementById("chart");
+const board = document.getElementById("board");
+const NS = "http://www.w3.org/2000/svg";
+const el = (n, a) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); return e; };
+
+const geom = n => ({ col: n % COLS, row: Math.floor(n / COLS) });
+const xIn = (col, i) => colX(col) + (colW * i) / (DATA.length - 1);
+
+let scales = [], crosshairs = [], dots = [];
+
+// scales[n] is an ARRAY — one scale per series in that view. A merged view gets
+// two, which is what puts a second axis on the right.
+function yOf(n, v, s = 0) {
+  const sc = scales[n][s];
+  return rowY(geom(n).row) + PANEL_H - (PANEL_H * (v - sc.lo)) / (sc.hi - sc.lo);
+}
+
+function render() {
+  layout();          // measure before drawing
+  svg.textContent = "";
+  scales = VIEWS.map(v => v.series.map(scaleFor));
+  crosshairs = [];
+  dots = [];
+
+  VIEWS.forEach((v, n) => {
+    const { col, row } = geom(n);
+    const x0 = colX(col), y0 = rowY(row);
+    const dual = v.series.length > 1;
+
+    // ---- header. Each series gets a line-style key, its name, and its latest
+    // value. On a dual panel the name is tagged (L) or (R) so identifying which
+    // axis it belongs to never depends on colour. If the two entries don't fit
+    // side by side (narrow phone panel) they stack onto two lines.
+    const entries = v.series.map((s, si) => {
+      const label = dual ? `${s.title} (${si ? "R" : "L"})` : s.title;
+      const value = latestFmt(s, valueAt(s, DATA.length - 1));
+      const probe = el("text", { class: "panel-title", visibility: "hidden" });
+      probe.textContent = label;
+      svg.appendChild(probe);
+      const lw = probe.getComputedTextLength();
+      probe.textContent = value;
+      probe.setAttribute("class", "panel-latest");
+      const vw = probe.getComputedTextLength();
+      probe.remove();
+      return { s, si, label, value, width: 22 + lw + 6 + vw };
+    });
+
+    const totalW = entries.reduce((a, e) => a + e.width + 14, 0);
+    const stack = entries.length > 1 && totalW > colW;
+
+    entries.forEach((e, k) => {
+      // last line sits HEAD_BASE above the panel; earlier lines stack upward
+      const ty = y0 - HEAD_BASE - (stack ? (entries.length - 1 - k) * HEAD_LH : 0);
+      let hx = x0;
+      const key = el("line", {
+        x1: hx, x2: hx + 16, y1: ty - 4, y2: ty - 4,
+        stroke: `var(${e.s.fam})`, "stroke-width": 2, "stroke-linecap": "round",
+      });
+      if (e.si > 0) key.setAttribute("stroke-dasharray", "5 4");
+      svg.appendChild(key);
+      hx += 22;
+      const lbl = el("text", { x: hx, y: ty, class: "panel-title" });
+      lbl.textContent = e.label;
+      svg.appendChild(lbl);
+      hx += lbl.getComputedTextLength() + 6;
+      const val = el("text", { x: hx, y: ty, class: "panel-latest" });
+      val.textContent = e.value;
+      svg.appendChild(val);
+
+      // unit label only on a single-series panel, and only if it still fits
+      if (!dual) {
+        hx += val.getComputedTextLength() + 12;
+        const u = el("text", { x: hx, y: ty, class: "panel-unit" });
+        u.textContent = axisUnit(e.s);
+        svg.appendChild(u);
+        if (hx + u.getComputedTextLength() > x0 + colW) u.remove();
+      }
+    });
+
+    // ---- gridlines from the LEFT scale only; a second set would be noise
+    for (const tk of scales[n][0].ticks) {
+      const isZero = Math.abs(tk) < 1e-9;
+      svg.appendChild(el("line", {
+        x1: x0, x2: x0 + colW, y1: yOf(n, tk, 0), y2: yOf(n, tk, 0),
+        stroke: isZero ? "var(--baseline)" : "var(--grid)", "stroke-width": 1,
+      }));
+      const at = el("text", {
+        x: x0 - 8, y: yOf(n, tk, 0) + 4, "text-anchor": "end",
+        class: "tick-text" + (dual ? " axis-l" : ""),
+      });
+      at.textContent = axisFmt(v.series[0], tk);
+      svg.appendChild(at);
+    }
+
+    // ---- right-hand axis for the second series
+    if (dual) {
+      for (const tk of scales[n][1].ticks) {
+        const at = el("text", {
+          x: x0 + colW + 8, y: yOf(n, tk, 1) + 4, "text-anchor": "start",
+          class: "tick-text axis-r",
+        });
+        at.textContent = axisFmt(v.series[1], tk);
+        svg.appendChild(at);
+      }
+    }
+
+    // ---- the lines
+    v.series.forEach((s, si) => {
+      let d = "", started = false;
+      DATA.forEach((_, i) => {
+        const val = valueAt(s, i);
+        if (val === null) return;
+        d += `${started ? "L" : "M"}${xIn(col, i)},${yOf(n, val, si)}`;
+        started = true;
+      });
+      const path = el("path", {
+        d, fill: "none", stroke: `var(${s.fam})`, "stroke-width": 2,
+        "stroke-linejoin": "round", "stroke-linecap": "round",
+      });
+      if (si > 0) path.setAttribute("stroke-dasharray", "5 4");
+      svg.appendChild(path);
+
+      const last = DATA.length - 1, lv = valueAt(s, last);
+      svg.appendChild(el("circle", {
+        cx: xIn(col, last), cy: yOf(n, lv, si), r: 4.5,
+        fill: `var(${s.fam})`, stroke: "var(--surface-1)", "stroke-width": 2,
+      }));
+    });
+
+    // ---- x labels under every row; the grid is tall
+    DATA.forEach((dd, i) => {
+      if (i % 3 !== 0 && i !== DATA.length - 1) return;
+      const xt = el("text", { x: xIn(col, i), y: y0 + PANEL_H + 10 + TICK_H, "text-anchor": "middle", class: "tick-text" });
+      xt.textContent = dd.fy;
+      svg.appendChild(xt);
+    });
+
+    // ---- the honest caveat: two scales mean the crossing point is arbitrary
+    if (dual) {
+      const w = el("text", { x: x0, y: y0 + PANEL_H + 14 + TICK_H * 2, class: "dual-warn" });
+      w.textContent = "two scales — compare shape, not position";
+      svg.appendChild(w);
+      if (w.getComputedTextLength() > colW) w.textContent = "two scales";
+    }
+
+    const ch = el("line", { y1: y0, y2: y0 + PANEL_H, stroke: "var(--baseline)", "stroke-width": 1, opacity: 0 });
+    svg.appendChild(ch);
+    crosshairs.push(ch);
+
+    dots.push(v.series.map(s => {
+      const dot = el("circle", {
+        r: 4.5, fill: `var(${s.fam})`, stroke: "var(--surface-1)", "stroke-width": 2, opacity: 0,
+      });
+      svg.appendChild(dot);
+      return dot;
+    }));
+  });
+
+  // one hit area per panel; each maps the pointer to a year via its own column scale
+  VIEWS.forEach((v, n) => {
+    const { col, row } = geom(n);
+    const hit = el("rect", {
+      x: colX(col) - 10, y: rowY(row) - 6, width: colW + 20, height: PANEL_H + 12,
+      fill: "transparent", style: "cursor: crosshair",
+    });
+    svg.appendChild(hit);
+    hit.addEventListener("pointermove", ev => {
+      const box = svg.getBoundingClientRect();
+      const vx = ((ev.clientX - box.left) / box.width) * W;
+      let best = 0, bestD = Infinity;
+      DATA.forEach((_, i) => { const dd = Math.abs(xIn(col, i) - vx); if (dd < bestD) { bestD = dd; best = i; } });
+      showAt(best, n);
+    });
+    hit.addEventListener("pointerleave", hide);
+  });
+
+  document.getElementById("modeHint").textContent = MODE_HINTS[mode];
+  hide();   // seed the board with the latest year
+}
+
+// The board is the single readout for whichever year is hovered. With no hover it
+// falls back to the latest year, so it is never empty.
+// only show the summary metrics this company actually has
+function boardExtra(d) {
+  const bits = [];
+  if (typeof d.netMargin === "number") bits.push(`Net margin ${pctFmt(d.netMargin)}`);
+  if (typeof d.cfoToPat === "number")  bits.push(`CFO/PAT ${d.cfoToPat.toFixed(2)}`);
+  if (typeof d.paidOut === "number")   bits.push(`paid out ₹${nf(d.paidOut)}cr / retained ₹${nf(d.retained)}cr`);
+  return bits.join(" · ");
+}
+
+// `active` is the set of metric keys belonging to the panel under the cursor, so
+// the board says WHICH row you are reading, not just which year. On a phone a
+// merged panel carries two series, hence a set rather than a single key.
+function paintBoard(i, isLatest, active) {
+  const d = DATA[i];
+  const vs = i ? `vs ${DATA[i - 1].fy}` : "first year — no prior";
+  const hint = isLatest ? " · latest — hover any panel for another year" : "";
+
+  board.innerHTML =
+    `<div class="board-head">
+       <span class="board-year">${d.period}</span>
+       <span class="board-vs">${vs}${hint}</span>
+       <span class="board-extra">${boardExtra(d)}</span>
+     </div>
+     <div class="tiles">` +
+    PANELS.map(p => {
+      const dl = delta(p, i);
+      const val = p.isRatio ? pctFmt(d[p.key]) : money(d[p.key]);
+      return `<div class="tile${active && active.has(p.key) ? " active" : ""}">
+        <div class="tile-label"><span class="key" style="background: var(${p.fam})"></span>${p.title}</div>
+        <div class="tile-value">${val}</div>
+        <div class="tile-delta ${dl.cls}">${dl.text}</div>
+      </div>`;
+    }).join("") +
+    `</div>`;
+}
+
+// A small readout drawn inside the touched panel. Used on phone, where a sticky
+// global bar wastes screen and the numbers are better placed under the finger.
+let chipG = null;
+function clearChip() { if (chipG) { chipG.remove(); chipG = null; } }
+
+function drawChip(n, i) {
+  clearChip();
+  const view = VIEWS[n], d = DATA[i];
+  const { col, row } = geom(n);
+  const x0 = colX(col), y0 = rowY(row);
+
+  const g = el("g", { "pointer-events": "none" });
+  const bg = el("rect", { class: "chip-bg", rx: 6, ry: 6 });
+  g.appendChild(bg);
+  const hd = el("text", { class: "chip-hd" });
+  hd.textContent = d.period;
+  g.appendChild(hd);
+
+  const lines = view.series.map(s => {
+    const dl = delta(s, i);
+    const name = el("text", { class: "chip-tx" });
+    name.textContent = s.title;
+    const val = el("text", { class: "chip-vl" });
+    val.textContent = (s.isRatio ? pctFmt(d[s.key]) : money(d[s.key]))
+                    + (dl.text !== "—" ? "  " + dl.text : "");
+    g.appendChild(name); g.appendChild(val);
+    return { name, val };
+  });
+  svg.appendChild(g);          // must be in the DOM before it can be measured
+
+  const PAD = 8, LH = 17;
+  let wide = hd.getComputedTextLength();
+  lines.forEach(l => { wide = Math.max(wide, l.name.getComputedTextLength() + 10 + l.val.getComputedTextLength()); });
+  const cw = wide + PAD * 2;
+  const chh = PAD * 2 + 14 + lines.length * LH;
+
+  // beside the finger, clamped inside the panel
+  let cx = xIn(col, i) + 12;
+  if (cx + cw > x0 + colW) cx = xIn(col, i) - 12 - cw;
+  cx = Math.max(x0, Math.min(cx, x0 + colW - cw));
+  const cy = y0 + 4;
+
+  bg.setAttribute("x", cx); bg.setAttribute("y", cy);
+  bg.setAttribute("width", cw); bg.setAttribute("height", chh);
+  hd.setAttribute("x", cx + PAD); hd.setAttribute("y", cy + PAD + 11);
+  lines.forEach((l, k) => {
+    const ly = cy + PAD + 11 + (k + 1) * LH;
+    l.name.setAttribute("x", cx + PAD); l.name.setAttribute("y", ly);
+    l.val.setAttribute("x", cx + cw - PAD); l.val.setAttribute("y", ly);
+    l.val.setAttribute("text-anchor", "end");
+  });
+  chipG = g;
+}
+
+function showAt(i, touched) {
+  VIEWS.forEach((view, vi) => {
+    const { col } = geom(vi);
+    crosshairs[vi].setAttribute("x1", xIn(col, i));
+    crosshairs[vi].setAttribute("x2", xIn(col, i));
+    crosshairs[vi].setAttribute("opacity", 1);
+    view.series.forEach((s, si) => {
+      const val = valueAt(s, i);
+      const dot = dots[vi][si];
+      if (val === null) { dot.setAttribute("opacity", 0); return; }
+      dot.setAttribute("cx", xIn(col, i));
+      dot.setAttribute("cy", yOf(vi, val, si));
+      dot.setAttribute("opacity", 1);
+    });
+  });
+  const active = typeof touched === "number"
+    ? new Set(VIEWS[touched].series.map(s => s.key))
+    : null;
+  paintBoard(i, false, active);
+  // phone: put the numbers at the finger instead of relying on the top bar
+  if (COLS === 1 && typeof touched === "number") drawChip(touched, i);
+}
+
+function hide() {
+  clearChip();
+  crosshairs.forEach(c => c.setAttribute("opacity", 0));
+  dots.forEach(g => g.forEach(c => c.setAttribute("opacity", 0)));
+  paintBoard(DATA.length - 1, true);
+}
+
+// Relayout when the CHART CONTAINER changes width — not just the window. A
+// ResizeObserver catches container-only changes (panel opening, zoom, device
+// emulation) that a window resize listener misses entirely. Guarded on width so
+// mobile scroll, which reflows height as the URL bar hides, doesn't rebuild.
+let lastW = 0, resizeTimer = null;
+function onWidthChange() {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    const now = svg.parentElement ? svg.parentElement.clientWidth : 0;
+    if (!now || Math.abs(now - lastW) < 12) return;
+    lastW = now;
+    hide();
+    render();
+    measureBoardDelta();   // the expanded height changes with the column count
+  }, 140);
+}
+// NOTE: the observer must be held in a variable. An unreferenced ResizeObserver
+// is eligible for garbage collection, which silently stops observation.
+let chartObserver = null;
+if (typeof ResizeObserver === "function" && svg.parentElement) {
+  chartObserver = new ResizeObserver(onWidthChange);
+  chartObserver.observe(svg.parentElement);
+}
+addEventListener("resize", onWidthChange);   // belt and braces, and covers older engines
+
+// --- Stuck state. WHERE the board stops sticking is pure CSS (it is scoped to
+// .stickyscope, which ends with the chart). This only detects that it IS stuck,
+// so it can shrink to a reference strip instead of covering the panels.
+const boardSpacer = document.getElementById("boardSpacer");
+
+// The compact board is shorter, and its flow height is what positions the chart
+// below it — so without this the chart would jump upward at the sticky threshold.
+// A spacer absorbs the difference; it animates alongside the board so nothing
+// below moves at any point during the transition either.
+let boardDelta = 0;
+
+// Measured ONCE per layout rather than on each toggle: reading offsetHeight during
+// a transition returns a half-animated height, and suppressing the transition to
+// read it would also cancel the animation (the "before" style would already be the
+// target). So both target heights are taken here, with animation off, up front.
+function measureBoardDelta() {
+  if (!boardSpacer) return;
+  const wasStuck = board.classList.contains("stuck");
+  board.classList.add("measuring");
+  board.classList.remove("stuck");
+  const full = board.offsetHeight;
+  board.classList.add("stuck");
+  const compact = board.offsetHeight;
+  board.classList.toggle("stuck", wasStuck);
+  void board.offsetHeight;      // flush the restored state BEFORE re-enabling
+  board.classList.remove("measuring");
+  boardDelta = Math.max(0, full - compact);
+  boardSpacer.style.height = (wasStuck ? boardDelta : 0) + "px";
+}
+
+function syncBoardSpacer() {
+  if (!boardSpacer) return;
+  boardSpacer.style.height = (board.classList.contains("stuck") ? boardDelta : 0) + "px";
+}
+
+// Stuck == the board has been DISPLACED downward from its natural position. The
+// sentinel marks that natural position (absolute at the scope's top, so it never
+// moves when the board resizes), which makes this a direct comparison rather than
+// a guess about scroll offsets. Deliberately not IntersectionObserver: "sentinel
+// is off-screen" also reads true once the board has slid away with the chart, and
+// a plain measurement is the same cost here and testable in a headless browser.
+const sentinel = document.getElementById("boardSentinel");
+let stuckTick = 0;
+function updateStuck() {
+  if (!sentinel) return;
+  const displaced = board.getBoundingClientRect().top - sentinel.getBoundingClientRect().top;
+  const stuck = displaced > 1;
+  if (stuck === board.classList.contains("stuck")) return;
+  board.classList.toggle("stuck", stuck);
+  syncBoardSpacer();
+}
+function onScroll() {
+  if (stuckTick) return;                       // coalesce to one check per frame
+  stuckTick = requestAnimationFrame(() => { stuckTick = 0; updateStuck(); });
+}
+addEventListener("scroll", onScroll, { passive: true });
+addEventListener("resize", onScroll);
+
+document.getElementById("modes").addEventListener("click", ev => {
+  const btn = ev.target.closest("button[data-mode]");
+  if (!btn) return;
+  mode = btn.dataset.mode;
+  for (const b of document.querySelectorAll("#modes button")) b.setAttribute("aria-pressed", String(b === btn));
+  hide();
+  render();
+  measureBoardDelta();
+});
+
+// extra table columns, included only when the underlying field exists
+const TRAILER = [
+  { label: "Net margin",    key: "netMargin", fmt: d => typeof d.netMargin === "number" ? pctFmt(d.netMargin) : "" },
+  { label: "CFO/PAT",       key: "cfoToPat",  fmt: d => typeof d.cfoToPat === "number" ? d.cfoToPat.toFixed(2) : "" },
+  { label: "Paid out (₹cr)", key: "paidOut",  fmt: d => typeof d.paidOut === "number" ? nf(d.paidOut) : "" },
+  { label: "Retained (₹cr)", key: "retained", fmt: d => typeof d.retained === "number" ? nf(d.retained) : "" },
+].filter(c => DATA.some(d => typeof d[c.key] === "number"));
+
+document.getElementById("table").innerHTML =
+  `<thead><tr><th>Year</th>` +
+  PANELS.map(p => `<th>${p.title}</th><th>YoY</th>`).join("") +
+  TRAILER.map(c => `<th>${c.label}</th>`).join("") + `</tr></thead><tbody>` +
+  DATA.map((d, i) =>
+    `<tr><td>${d.period}</td>` +
+    PANELS.map(p => `<td>${p.isRatio ? pctFmt(d[p.key]) : nf(d[p.key])}</td><td>${delta(p, i).text}</td>`).join("") +
+    TRAILER.map(c => `<td>${c.fmt(d)}</td>`).join("") + `</tr>`
+  ).join("") +
+  `</tbody>`;
+
+// ---------------------------------------------------------------------------
+// CRITICAL POINTS — append here as the analysis grows.
+//   verified: true  => traceable to a primary source
+//   verified: false => external or second-hand; confirm before relying on it
+// ---------------------------------------------------------------------------
+const POINTS = {
+  "s": [
+    {
+      "claim": "Highest domestic credit rating, newly assigned",
+      "ev": "Ind-Ra IND AAA/Stable + IND A1+ on ₹2,300cr bank facilities (24 Jun 2026). Positive sensitivity: “Not applicable” — already at the ceiling",
+      "src": "Ind-Ra 24Jun26",
+      "verified": true
+    },
+    {
+      "claim": "Dominant market share, not merely leadership",
+      "ev": "~50% of India's organised paint market — almost 3× the closest competitor; higher still in decorative (~¾ of the market)",
+      "src": "Ind-Ra 24Jun26 (their estimate)",
+      "verified": true
+    },
+    {
+      "claim": "Distribution is the moat",
+      "ev": "~170,000 retail touchpoints, over 2× the nearest competitor's reach, plus extensive tinting-machine coverage",
+      "src": "Ind-Ra 24Jun26",
+      "verified": true
+    },
+    {
+      "claim": "NET CASH for over a decade — not levered",
+      "ev": "FY26 net cash ₹5,000cr (FY25 ₹3,100cr); net leverage −0.8× (FY25 −0.5×); gross leverage 0.1–0.3× for ten years",
+      "src": "Ind-Ra 24Jun26",
+      "verified": true
+    },
+    {
+      "claim": "Margins are stable, not just high",
+      "ev": "Gross margin >40% through cycle (FY26 44%, FY25 42%); EBITDA margin ~20%; coefficient of variation of EBITDA margin in the TOP QUARTILE of the rating category",
+      "src": "Ind-Ra 24Jun26",
+      "verified": true
+    },
+    {
+      "claim": "Earnings are cash-backed",
+      "ev": "12y CFO/PAT 1.07; FY26 CFO ₹7,088cr a record. Ind-Ra concurs: CFO ₹7,010cr post-interest, CFO covered capex every year for a decade",
+      "src": "cash flow + Ind-Ra",
+      "verified": true
+    },
+    {
+      "claim": "Interest cover is effectively unconstrained",
+      "ev": "34.3× consolidated FY26 (FY25 26.5×); 49× standalone. Scheduled term-debt repayment only ₹90cr across FY27–FY28",
+      "src": "Ind-Ra 24Jun26",
+      "verified": true
+    },
+    {
+      "claim": "Zero dilution in 11 years",
+      "ev": "Equity capital flat at ₹96cr FY15–FY26; EPS tracks profit ~3.1× exactly",
+      "src": "balance sheet",
+      "verified": true
+    },
+    {
+      "claim": "Innovation is contributing",
+      "ev": "New products were ~17% of FY26 revenue, up from ~10% in FY23",
+      "src": "Ind-Ra 24Jun26",
+      "verified": true
+    },
+    {
+      "claim": "Volume growth beat the industry even into the downturn",
+      "ev": "Paint volume CAGR 13.5% over FY20–FY25, above industry average",
+      "src": "Ind-Ra 24Jun26",
+      "verified": true
+    },
+    {
+      "claim": "The cash-flow statement reconciles cleanly every year",
+      "ev": "CFO + investing + financing equals reported net cash flow in all 12 years (±1cr). No unexplained cash anywhere: FY24's apparent surplus was a record ₹6,104cr CFO almost entirely redeployed — ₹2,548cr investing plus ₹2,982cr financing, netting just ₹574cr",
+      "src": "cash flow",
+      "verified": true
+    }
+  ],
+  "w": [
+    {
+      "claim": "Topline has stalled for four years",
+      "ev": "Sales ₹34,489cr (FY23) → ₹35,584cr (FY26), ~1%/yr vs 9.1% 11y CAGR; FY25 shrank. Ind-Ra: FY26 standalone revenue +4% to ₹30,770cr",
+      "src": "P&L + Ind-Ra",
+      "verified": true
+    },
+    {
+      "claim": "Returns reset to a structurally lower level",
+      "ev": "ROCE 42% → 26%; ROE 30.1% → 20.6%. Ind-Ra cites a 5-year average of 30–35%, so FY25–26 sit below their own stated range",
+      "src": "reported ratios + Ind-Ra",
+      "verified": true
+    },
+    {
+      "claim": "Pricing pressure is Ind-Ra's own #1 listed weakness",
+      "ev": "“High competitive intensity to exert pricing pressure” — expected to persist for a couple of years, worst in the price-sensitive non-luxury segment",
+      "src": "Ind-Ra 24Jun26",
+      "verified": true
+    },
+    {
+      "claim": "Project execution risk on VAM/VAE is the other listed weakness",
+      "ev": "No VAM/VAE producer exists in India; global plants run at far larger scale. Risks of time/cost overrun and ramp-up",
+      "src": "Ind-Ra 24Jun26",
+      "verified": true
+    },
+    {
+      "claim": "Equity compounds faster than the business earning on it",
+      "ev": "Reserves 14.8% CAGR vs sales 9.1% — mechanical drag on ROE",
+      "src": "balance sheet",
+      "verified": true
+    },
+    {
+      "claim": "Working capital proved fragile under stress",
+      "ev": "FY22 CFO/PAT 0.32, cash cycle out to 94 days; FY25 peak 107 days. Ind-Ra: working capital 18% of sales FY26 vs 20–21% FY22–FY25",
+      "src": "cash flow + Ind-Ra",
+      "verified": true
+    },
+    {
+      "claim": "High payout constrains free cash flow",
+      "ev": "Ind-Ra states the 60% three-year payout is “affecting free cash flow”. Ours: 42% (FY15) → 65% (FY25) → 61% (FY26)",
+      "src": "P&L + Ind-Ra",
+      "verified": true
+    },
+    {
+      "claim": "Management will not quantify the things that matter most",
+      "ev": "Across all three calls it refused a market-share figure (three times — 'all of you can calculate the shares'), refused to size the VAM/VAE benefit, refused to value the cheap-inventory cushion in bps, declined every crude-price scenario, and gave no first-half/second-half profitability split. The VAM/VAE benefit then quietly widened from 400-500bps to 300-500bps, and margin confidence narrowed from the full year to 'the first six months'",
+      "src": "3 concalls — pattern across Q3 FY26 / Q4 FY26 / Q1 FY27",
+      "verified": true
+    },
+    {
+      "claim": "A cost spike hits cash far harder than profit — FY22 is the precedent",
+      "ev": "In FY22 sales rose 34% while operating profit was flat (4,856 → 4,804) and CFO collapsed to ₹986cr (CFO/PAT 0.32). ₹4,188cr went into working capital, with days payable falling 119 → 96 — paying suppliers 23 days faster while holding more stock. With FY27 material inflation ~25% against ~7% recovered in price, this is the pattern to watch",
+      "src": "cash flow + reported ratios + P&L",
+      "verified": true
+    }
+  ],
+  "o": [
+    {
+      "claim": "VAM/VAE backward integration is the strategic bet",
+      "ev": "150,000 mtpa VAE plant on KBR (US) licensed technology, VAE onstream 1HFY27, VAM in 1.5–2 years. Replaces volatile imports; enables low-VOC differentiated product",
+      "src": "Ind-Ra 24Jun26",
+      "verified": true
+    },
+    {
+      "claim": "Structural demand tailwind, per Ind-Ra",
+      "ev": "High single-digit paint demand CAGR expected over the medium term — shorter repaint cycles, rising incomes, urbanisation/nuclearisation, younger buyers driving premiumisation",
+      "src": "Ind-Ra 24Jun26",
+      "verified": true
+    },
+    {
+      "claim": "Adjacency expansion beyond paint",
+      "ev": "Waterproofing and home décor products/services; B2B/B2G push diversifying the user base",
+      "src": "Ind-Ra 24Jun26",
+      "verified": true
+    },
+    {
+      "claim": "Working-capital normalisation already converting to cash",
+      "ev": "Cash cycle 107 → 84 days; FY26 CFO +60% YoY on +18% profit",
+      "src": "cash flow + reported ratios",
+      "verified": true
+    },
+    {
+      "claim": "Pricing power is being exercised right now",
+      "ev": "10–11% of price hikes taken, plus a further 2–4% announced from mid-June 2026",
+      "src": "Ind-Ra 24Jun26",
+      "verified": true
+    },
+    {
+      "claim": "Ethylene logistics secured",
+      "ev": "MoU with Gujarat Chemical Port Ltd for an ethylene storage and handling facility at Dahej",
+      "src": "Ind-Ra 24Jun26",
+      "verified": true
+    }
+  ],
+  "t": [
+    {
+      "claim": "A large new entrant arrived in FY25 — the returns break is real",
+      "ev": "Ind-Ra explicitly notes “the entry of new players, particularly a large one in FY25”; FY25 ROCE −12pp / ROE −10.6pp",
+      "src": "Ind-Ra 24Jun26 + reported ratios",
+      "verified": true
+    },
+    {
+      "claim": "Competitor is funded and loss-tolerant",
+      "ev": "Grasim/Birla Opus: ~₹10,000cr decorative-paints capex completed FY26, paints break-even only expected by end-FY28, itself rated IND AAA",
+      "src": "Ind-Ra Grasim PR — via search summary, NOT read directly",
+      "verified": false
+    },
+    {
+      "claim": "Raw-material inflation is live and steep",
+      "ev": "Overall costs +20% since March 2026 — crude-derived VAM, monomers, solvents, driven by West Asia conflict supply-chain disruption",
+      "src": "Ind-Ra 24Jun26",
+      "verified": true
+    },
+    {
+      "claim": "The one numeric downgrade trigger",
+      "ev": "Consolidated net leverage sustained above 1.5× — from weaker market position/profitability OR higher-than-expected capex. Currently −0.8×, so very wide headroom",
+      "src": "Ind-Ra 24Jun26",
+      "verified": true
+    },
+    {
+      "claim": "FY19 precedent: a capex cycle held returns down for four years",
+      "ev": "FY19 borrowings +147.7%, fixed assets 3,732 → 6,497; ROCE 36% → 33% and flat to FY22. FY27–FY28 capex is “sizeable”",
+      "src": "balance sheet + Ind-Ra",
+      "verified": true
+    },
+    {
+      "claim": "Concentration in decorative/India",
+      "ev": "Decorative is ~¾ of the market and the majority of revenue; international only ~10% of FY26 revenue — limited diversification if Indian decorative stays competitive",
+      "src": "Ind-Ra 24Jun26",
+      "verified": true
+    }
+  ]
+};
+
+const QUADS = [
+  { k: "s", title: "Strengths" },
+  { k: "w", title: "Weaknesses" },
+  { k: "o", title: "Opportunities" },
+  { k: "t", title: "Threats" },
+];
+
+const quadsEl = document.getElementById("quads");
+if (quadsEl) quadsEl.innerHTML = QUADS.filter(q => (POINTS[q.k] || []).length).map(q => `
+  <div class="quad ${q.k}">
+    <h3>${q.title} <span class="cnt">${(POINTS[q.k] || []).length}</span></h3>
+    <ul>${(POINTS[q.k] || []).map(p => `
+      <li><span class="pt-claim">${p.claim}</span> —
+        <span class="pt-ev">${p.ev}</span>
+        <span class="pt-src ${p.verified ? "" : "unver"}">${p.src}</span></li>`).join("")}
+    </ul>
+  </div>`).join("");
+
+// Sources. Anything unread stays flagged rather than silently dropped.
+const REFS = [
+  {
+    "t": "India Ratings &amp; Research — <em>India Ratings Assigns Asian Paints’ Bank Facilities ‘IND AAA’/Stable</em>, 24 Jun 2026. IND AAA/Stable + IND A1+ on ₹2,300cr of bank facilities; fully consolidated analytical approach. <a href=\"https://www.indiaratings.co.in/pressrelease/83887\" target=\"_blank\" rel=\"noopener\">source page</a>"
+  },
+  {
+    "t": "Tapetide financials, fetched 22 Aug 2026, FY15–FY26 consolidated. Screener-derived."
+  },
+  {
+    "t": "Ind-Ra press release on Grasim Industries (competitor context)",
+    "note": "Second-hand via search summary only — the Grasim capex and break-even figures have NOT been read from the release itself."
+  },
+  {
+    "t": "Asian Paints annual report — Statement of Changes in Equity",
+    "note": "Still needed for the reserves reconciliation (OCI / non-controlling interests). The lease-vs-debt question is now resolved by Ind-Ra."
+  },
+  {
+    "t": "Not yet obtained: peer financials (Berger, Kansai Nerolac, Indigo), shareholding trend, valuation multiples."
+  }
+];
+
+// Headline concall pointers. The exhaustive render is the call-pointers page;
+// this carries only the headline items.
+const CALL_HEADLINES = [
+  {
+    "quarter": "Q1 FY27",
+    "call_date": "2026-08-03",
+    "count": 65,
+    "headline": [
+      "Decorative volume ~9%, spread across all three months; management says it 'could have looked at touching a double-digit'. Rural/T3-T4 outgrew urban/T1-T2",
+      "THE KEY RISK: price increases in Apr/May/Jun gave a weighted average of only ~7%, against material inflation still 'very high to the extent of about 25%'",
+      "The cheap-inventory cushion is now gone — CFO: 'most of the low-cost inventory benefit on finished goods has seeped through in 1Q, and here onwards, we will see the pricing inflation coming in'",
+      "Competitive intensity described as 'at an all-time high' with 'no leeway' — and management explicitly refused to blame any single entrant, saying it is 'across all players'",
+      "VAM/VAE guidance SOFTENED: the earlier 400-500bps gross-margin benefit became a wider '300-500 basis points band'; 150,000 MT capacity now framed over ~2-2.5 years",
+      "Guidance reaffirmed at 8-10% volume and 18-20% PBDIT margin; management would prefer NOT to raise prices further 'unless the situation really becomes alarming'"
+    ],
+    "qna_headline": [
+      "Asked to reaffirm the benefit from the new ingredient plant, management would not — it quietly became a wider '300-500 basis points' range instead of the 400-500 promised when the project was announced.",
+      "Dealers told analysts prices actually went up 13-14%; management claims a 7% average and would neither confirm nor deny the higher figure, saying only that the effect would be 'in the range of about 8-9%'.",
+      "Refused to say how much the cheap leftover materials were worth to profit — 'difficult to put a number to it' — but did admit roughly half the quarter was sold using old stock.",
+      "Pressed on costs up 25% against price rises of 9-11%, management would not concede margins will shrink, but did admit 'a large part of this inflation effect definitely will come in as we go ahead in quarter two'.",
+      "Asked for their market share, gave no number at all — only that 'possibly we would have grown slightly higher than the industry average'.",
+      "A question about whether West Bengal elections hurt sales (painters going home to vote) was never answered."
+    ]
+  },
+  {
+    "quarter": "Q4 FY26",
+    "call_date": "2026-06-03",
+    "count": 71,
+    "headline": [
+      "Volume growth back to double digits — 12.4% with value +10.2%, narrowing the volume-value gap to just 2.2% (FY26 full year: vol ~9%, val 4.3%)",
+      "REVERSAL: ~11% cumulative price increases taken against an estimated ~20% total cost impact — management deliberately not passing it all through",
+      "Q4 gross margin an almost all-time high 45.6% on 1.4% deflation — but management warns the larger inflation impact lands in Q1 and Q2 as cheap inventory runs out",
+      "Discounting intensity has NOT let up despite industry-wide price hikes; discount differentials between players are unchanged",
+      "FY26 dividend ₹27.5/share total at a 60% payout ratio",
+      "Only the VAE portion of VAM-VAE commissions in H1; full project benefits must be phased over one and a half to two years, and management refused to quantify the gross-margin benefit"
+    ],
+    "qna_headline": [
+      "Asked point-blank whether their market share had gone up or down, management refused to say and told analysts to work it out themselves — 'all of you can calculate the shares'.",
+      "An analyst pointed out that in 2022 an even bigger price rise still crushed margins badly. Management did not defend the full year, narrowing its confidence to just 'the first six months'.",
+      "Would not put a number on the new plant's profit benefit — too early, and only knowable 'by the last quarter'.",
+      "Asked what happens to margins if oil stays at $90-100, management declined the scenario entirely: 'very difficult to really predict for over three to four quarters'.",
+      "Reminded that past oil spikes cost the industry 500-800 basis points of margin, management offered no number for how much its own plant would offset that.",
+      "Asked to strip out the dealer stocking effect and give January-February growth alone, management gave neither — only that March was inflated 3-4%."
+    ]
+  },
+  {
+    "quarter": "Q3 FY26",
+    "call_date": "2026-02-02",
+    "count": 61,
+    "headline": [
+      "Decorative volume grew 7.9% but value only 2.8% — a ~5% volume-value gap management attributes to mix, not price cuts",
+      "Standalone gross margin 44.9% (+200bps), one of the highest in recent quarters, helped by raw-material DEFLATION of ~1.1%",
+      "No price change planned; management dismissed the new entrant's hike as an 'artificial strategy' with no market impact",
+      "Management concedes the expected demand recovery has NOT happened and nothing material changes for one or two quarters",
+      "Despite printing 21.4% PBDIT margin, the 18-20% guidance band was explicitly retained",
+      "Two exceptional items: labour-code provision plus a further White Teak impairment"
+    ],
+    "qna_headline": [
+      "Asked to put a confidence percentage on winning meaningful market share over the next 12-18 months, management refused a number, saying only that it was 'reasonably confident'.",
+      "An analyst asked whether the improvement was real or 'more of a hope at this point of time'. Management redirected to other figures and never addressed the market-share question.",
+      "Asked when growth would reach double digits — months or quarters — management gave no timeline at all.",
+      "Rejected the suggestion that year-end sales are boosted by pushing stock onto dealers, calling that practice 'always artificial'.",
+      "Looking at nine months rather than one quarter, which cancels out festive-timing noise, an analyst argued the industry was still struggling. Management conceded 'not too much is going to change for the immediate quarter or the immediate two quarters'.",
+      "Asked directly for its share-of-voice figure and a TV-versus-digital spend split, management provided neither."
+    ]
+  }
+];
+
+const callColsEl = document.getElementById("callCols");
+if (callColsEl) callColsEl.innerHTML = CALL_HEADLINES.map((c, i) => `
+  <div class="call-row${i === 0 ? " latest" : ""}">
+    <div class="call-row-head">
+      <span class="q">${c.quarter}${i === 0 ? " · latest" : ""}</span>
+      <span class="when">call ${c.call_date}</span>
+      <span class="deep"><a href="concalls">all ${c.count} pointers →</a></span>
+    </div>
+    <div class="call-subs">
+      <div class="sub">
+        <h4>Headlines</h4>
+        <ul>${c.headline.map(h => `<li>${h}</li>`).join("")}</ul>
+      </div>
+      ${(c.qna_headline || []).length ? `
+      <div class="sub qna">
+        <h4>Analyst Q&A — and the non-answers</h4>
+        <ul>${c.qna_headline.map(h => `<li>${h}</li>`).join("")}</ul>
+      </div>` : ""}
+    </div>
+  </div>`).join("");
+
+const refsEl = document.getElementById("refs");
+if (refsEl) refsEl.innerHTML =
+  `<h3>References</h3><ol>` +
+  REFS.map(r => `<li>${r.t}${r.note ? ` <span class="pending">${r.note}</span>` : ""}</li>`).join("") +
+  `</ol>`;
+
+render();
+measureBoardDelta();   // needs the board painted, so after the first render
+updateStuck();         // correct on load if the page is restored mid-scroll
+</script>
+</body>
+</html>

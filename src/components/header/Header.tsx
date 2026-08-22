@@ -6,18 +6,22 @@ import { Menu, X } from 'lucide-react'
 import { greeting } from '../../data/portfolio'
 import { cn } from '../../lib/utils'
 
-const NAV_LINKS = [
+// `external` links leave the homepage, so they never participate in
+// active-section tracking. /research is a static passthrough published by
+// scripts/sync-research.mjs, not a Next route — plain <a>, never next/link.
+const NAV_LINKS: { label: string; href: string; external?: boolean }[] = [
   { label: 'Resume',     href: '#resume' },
   { label: 'Skills & Education', href: '#skills' },
   { label: 'Experience', href: '#experience' },
   { label: 'Contact',    href: '#contact' },
+  { label: 'Research',   href: '/research', external: true },
 ]
 
 function useActiveSection() {
   const [active, setActive] = useState('')
 
   useEffect(() => {
-    const ids = NAV_LINKS.map(l => l.href.replace('#', ''))
+    const ids = NAV_LINKS.filter(l => !l.external).map(l => l.href.replace('#', ''))
 
     const update = () => {
       // Trigger point: 40% down from the top of the viewport
@@ -71,8 +75,8 @@ export default function Header() {
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-6">
-          {NAV_LINKS.map(({ label, href }) => {
-            const isActive = activeSection === href.replace('#', '')
+          {NAV_LINKS.map(({ label, href, external }) => {
+            const isActive = !external && activeSection === href.replace('#', '')
             return (
               <a key={href} href={href}
                 className={cn(
@@ -104,8 +108,8 @@ export default function Header() {
             className="md:hidden border-t border-white/[0.04] bg-black/90 backdrop-blur-md"
           >
             <nav className="flex flex-col py-3 px-6 gap-1">
-              {NAV_LINKS.map(({ label, href }) => {
-                const isActive = activeSection === href.replace('#', '')
+              {NAV_LINKS.map(({ label, href, external }) => {
+                const isActive = !external && activeSection === href.replace('#', '')
                 return (
                   <a key={href} href={href} onClick={() => setMenuOpen(false)}
                     className={cn(

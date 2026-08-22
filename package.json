@@ -5,6 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "sync:research": "node scripts/sync-research.mjs",
+    "prebuild": "npm run sync:research",
     "build": "next build",
     "start": "next start",
     "deploy": "npm run build && npx firebase-tools deploy"

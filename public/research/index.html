@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Company analysis — library</title>
+<style>
+  .viz-root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --grid:           #e1e0d9;
+    --border:         rgba(11,11,11,0.10);
+    --hover:          rgba(11,11,11,0.05);
+    --scale:          #2a78d6;
+    --leverage:       #eb6834;
+    --capital:        #1baf7a;
+    --delta-good:     #006300;
+    --delta-bad:      #d03b3b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .viz-root {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page:           #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --grid:           #2c2c2a;
+      --border:         rgba(255,255,255,0.10);
+      --hover:          rgba(255,255,255,0.07);
+      --scale:          #3987e5;
+      --leverage:       #d95926;
+      --capital:        #199e70;
+      --delta-good:     #0ca30c;
+      --delta-bad:      #d03b3b;
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --page:           #0d0d0d;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --grid:           #2c2c2a;
+    --border:         rgba(255,255,255,0.10);
+    --hover:          rgba(255,255,255,0.07);
+    --scale:          #3987e5;
+    --leverage:       #d95926;
+    --capital:        #199e70;
+    --delta-good:     #0ca30c;
+    --delta-bad:      #d03b3b;
+  }
+
+  html, body { margin: 0; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--page, #f9f9f7); }
+  .viz-root { background: var(--page); color: var(--text-primary); min-height: 100vh; padding: 40px 20px 64px; box-sizing: border-box; }
+  .wrap { max-width: min(1560px, 95vw); margin: 0 auto; }
+  @media (max-width: 640px) {
+    .viz-root { padding: 20px 10px 40px; }
+    .wrap { max-width: 100%; }
+    h1 { font-size: 19px; }
+    .stats { gap: 14px; }
+    .cards { grid-template-columns: 1fr; }
+  }
+
+  h1 { font-size: 22px; font-weight: 600; margin: 0 0 5px; letter-spacing: -0.015em; }
+  .sub { font-size: 13.5px; color: var(--text-secondary); margin: 0 0 4px; line-height: 1.55; }
+  .note { font-size: 12px; color: var(--text-muted); margin: 8px 0 0; line-height: 1.55; }
+  .stats { display: flex; gap: 20px; flex-wrap: wrap; margin: 20px 0 0; padding: 14px 0; border-top: 1px solid var(--grid); border-bottom: 1px solid var(--grid); }
+  .stat .k { font-size: 11px; color: var(--text-muted); }
+  .stat .v { font-size: 18px; font-weight: 600; margin-top: 2px; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin: 22px 0 0; }
+  .card {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px 18px 15px; border-left: 3px solid var(--scale);
+  }
+  .card h2 { font-size: 15px; font-weight: 600; margin: 0; }
+  .card h2 a { color: inherit; text-decoration: none; }
+  .card h2 a:hover { color: var(--scale); }
+  .sym { font-size: 11px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .period { font-size: 11.5px; color: var(--text-muted); margin-top: 3px; }
+
+  .kpis { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px 12px; margin: 12px 0 0; }
+  .kpi .k { font-size: 10.5px; color: var(--text-muted); }
+  .kpi .v { font-size: 13.5px; font-weight: 600; font-variant-numeric: tabular-nums; margin-top: 1px; }
+  .kpi .d { font-size: 10.5px; font-variant-numeric: tabular-nums; }
+  .kpi .d.good { color: var(--delta-good); }
+  .kpi .d.bad  { color: var(--delta-bad); }
+
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; margin: 13px 0 0; }
+  .tag {
+    font-size: 10px; padding: 2px 6px; border-radius: 4px;
+    border: 1px solid var(--border); color: var(--text-muted); white-space: nowrap;
+  }
+  .tag.has { border-color: var(--capital); color: var(--capital); }
+
+  .links { display: flex; gap: 12px; flex-wrap: wrap; margin: 13px 0 0; font-size: 12px; }
+  .links a { color: var(--scale); text-decoration: none; }
+  .links a:hover { text-decoration: underline; }
+  .fresh { font-size: 10.5px; color: var(--text-muted); margin: 11px 0 0; }
+  .stale { color: var(--delta-bad); font-weight: 600; }
+
+  .empty { font-size: 13px; color: var(--text-muted); padding: 40px 0; text-align: center; }
+  .foot { font-size: 11.5px; color: var(--text-muted); margin: 28px 0 0; padding-top: 16px; border-top: 1px solid var(--grid); line-height: 1.65; }
+  code { font-size: 11px; background: var(--hover); padding: 1px 4px; border-radius: 3px; }
+</style>
+</head>
+<body>
+<div class="viz-root">
+  <div class="wrap">
+    <h1>Company analysis — library</h1>
+    <p class="sub">Every company analysed here, with its charts and written findings. Each dashboard covers a decade or more on one consistent basis, so the trend is comparable across years rather than assembled per chart.</p>
+    <p class="note">Data is <strong>point-in-time</strong>, stamped with the date it was taken. The figures are correct as of that date, which may no longer be the latest reported period. Research and interpretation only; nothing here is investment advice.</p>
+
+    <div class="stats" id="stats"></div>
+    <div class="cards" id="cards"></div>
+
+    <p class="foot">Every figure is read from the company's own reported financials and carries the date it was taken. Derived measures are labelled as computed wherever they appear. Research and interpretation only — nothing here is investment advice.</p>
+  </div>
+</div>
+
+<script>
+const COMPANIES = [
+  {
+    "slug": "asian-paints",
+    "company": "Asian Paints Ltd",
+    "symbol": "ASIANPAINT",
+    "period_long": "FY2015–FY2026",
+    "periods": 12,
+    "latest_fy": "FY26",
+    "latest": {
+      "sales": 35584,
+      "profit": 4395,
+      "roce": 26,
+      "roe": 20.6
+    },
+    "prev": {
+      "sales": 33906,
+      "profit": 3710,
+      "roce": 26,
+      "roe": 19.1
+    },
+    "panels": 12,
+    "swot_points": 32,
+    "calls": 3,
+    "call_pointers": 197,
+    "fetched_at": "2026-08-22"
+  }
+];
+const TODAY = "2026-08-22";
+
+const nf = v => typeof v === "number" ? v.toLocaleString("en-IN") : "—";
+const money = v => typeof v === "number" ? "₹" + nf(v) + "cr" : "—";
+const pct = v => typeof v === "number" ? v.toFixed(1) + "%" : "—";
+
+function delta(cur, prev, isRatio, upIsGood = true) {
+  if (typeof cur !== "number" || typeof prev !== "number") return "";
+  const raw = isRatio ? cur - prev : (100 * (cur - prev)) / prev;
+  if (Math.abs(raw) < 0.05) return `<span class="d">flat</span>`;
+  const cls = (raw > 0) === upIsGood ? "good" : "bad";
+  return `<span class="d ${cls}">${raw > 0 ? "↑" : "↓"} ${Math.abs(raw).toFixed(1)}${isRatio ? "pp" : "%"}</span>`;
+}
+
+document.getElementById("stats").innerHTML = [
+  ["Companies", COMPANIES.length],
+  ["Call pointers", COMPANIES.reduce((a, c) => a + c.call_pointers, 0)],
+].map(([k, v]) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("");
+
+document.getElementById("cards").innerHTML = COMPANIES.length ? COMPANIES.map(c => {
+  const l = c.latest || {}, p = c.prev || {};
+  const kpis = [
+    { k: `Sales (${c.latest_fy})`, v: money(l.sales), d: delta(l.sales, p.sales) },
+    { k: "Net profit",             v: money(l.profit), d: delta(l.profit, p.profit) },
+    { k: "ROCE",                   v: pct(l.roce),   d: delta(l.roce, p.roce, true) },
+    { k: "ROE",                    v: pct(l.roe),    d: delta(l.roe, p.roe, true) },
+  ].filter(x => x.v !== "—");
+
+  return `<div class="card">
+    <h2><a href="${c.slug}/charts/financials">${c.company}</a></h2>
+    <div class="sym">${c.symbol || ""}</div>
+    <div class="period">${c.periods} periods · ${c.period_long || ""}</div>
+    <div class="kpis">${kpis.map(x => `
+      <div class="kpi"><div class="k">${x.k}</div><div class="v">${x.v}</div>${x.d}</div>`).join("")}</div>
+    <div class="tags">
+      <span class="tag ${c.panels ? "has" : ""}">${c.panels} metrics</span>
+      ${c.swot_points ? `<span class="tag has">${c.swot_points} SWOT points</span>` : `<span class="tag">no SWOT yet</span>`}
+      ${c.call_pointers ? `<span class="tag has">${c.calls} calls</span>` : `<span class="tag">no calls yet</span>`}
+    </div>
+    <div class="links">
+      <a href="${c.slug}/charts/financials">Dashboard</a>
+      ${c.call_pointers ? `<a href="${c.slug}/charts/concalls">Call pointers</a>` : ""}
+    </div>
+    <div class="fresh">Data as of ${c.fetched_at || "—"}</div>
+  </div>`;
+}).join("") : `<p class="empty">No companies analysed yet.</p>`;
+</script>
+</body>
+</html>

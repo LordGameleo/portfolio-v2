@@ -1,0 +1,1885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asian Paints Ltd — earnings-call pointers (detailed)</title>
+<style>
+  .viz-root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --grid:           #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --hover:          rgba(11,11,11,0.05);
+    --scale:          #2a78d6;
+    --leverage:       #eb6834;
+    --capital:        #1baf7a;
+    --delta-good:     #006300;
+    --delta-bad:      #d03b3b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .viz-root {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page:           #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --grid:           #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --hover:          rgba(255,255,255,0.07);
+      --scale:          #3987e5;
+      --leverage:       #d95926;
+      --capital:        #199e70;
+      --delta-good:     #0ca30c;
+      --delta-bad:      #d03b3b;
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --page:           #0d0d0d;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --grid:           #2c2c2a;
+    --baseline:       #383835;
+    --border:         rgba(255,255,255,0.10);
+    --hover:          rgba(255,255,255,0.07);
+    --scale:          #3987e5;
+    --leverage:       #d95926;
+    --capital:        #199e70;
+    --delta-good:     #0ca30c;
+    --delta-bad:      #d03b3b;
+  }
+
+  html, body { margin: 0; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--page, #f9f9f7); }
+  .viz-root { background: var(--page); color: var(--text-primary); min-height: 100vh; padding: 32px 20px 64px; box-sizing: border-box; }
+  /* capped deliberately: this page is prose, and a very long line hurts reading */
+  .card {
+    max-width: min(1180px, 94vw); margin: 0 auto; background: var(--surface-1);
+    border: 1px solid var(--border); border-radius: 10px; padding: 24px 24px 20px;
+  }
+  @media (max-width: 640px) {
+    .viz-root { padding: 14px 8px 40px; }
+    .card { max-width: 100%; padding: 14px 12px 14px; border-radius: 8px; }
+    h1 { font-size: 17px; }
+    .controls { gap: 6px; }
+    .count { margin-left: 0; flex-basis: 100%; }
+    select { max-width: 100%; }
+    li.pt { grid-template-columns: 1fr; }        /* figure drops below the text */
+    .pt-fig { white-space: normal; }
+    .call-src { margin-left: 0; flex-basis: 100%; }
+  }
+
+  .crumb { font-size: 12px; margin: 0 0 10px; }
+  .crumb a { color: var(--scale); text-decoration: none; }
+  .crumb a:hover { text-decoration: underline; }
+  .crumb span { color: var(--text-muted); }
+
+  h1 { font-size: 19px; font-weight: 600; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 2px; line-height: 1.5; }
+  .note { font-size: 12px; color: var(--text-muted); margin: 6px 0 0; line-height: 1.5; }
+
+  /* filters: one row above the content */
+  .controls { display: flex; align-items: center; gap: 8px; margin: 18px 0 4px; flex-wrap: wrap; }
+  .controls .label { font-size: 11.5px; color: var(--text-muted); margin-right: 2px; }
+  .segmented { display: inline-flex; border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+  .segmented button {
+    font: inherit; font-size: 12px; padding: 5px 10px; border: 0; cursor: pointer;
+    background: transparent; color: var(--text-secondary); border-right: 1px solid var(--border);
+  }
+  .segmented button:last-child { border-right: 0; }
+  .segmented button:hover { background: var(--hover); }
+  .segmented button[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); font-weight: 600; }
+  select {
+    font: inherit; font-size: 12px; padding: 5px 8px; border: 1px solid var(--border);
+    border-radius: 7px; background: var(--surface-1); color: var(--text-secondary);
+  }
+  .count { font-size: 11.5px; color: var(--text-muted); margin-left: auto; font-variant-numeric: tabular-nums; }
+
+  /* one block per call */
+  .call { margin: 26px 0 0; }
+  .call-head {
+    position: sticky; top: 0; z-index: 3; background: var(--surface-1);
+    padding: 9px 0 8px; border-bottom: 1px solid var(--grid);
+    display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap;
+  }
+  .call-q { font-size: 14px; font-weight: 600; }
+  .call-date { font-size: 11.5px; color: var(--text-muted); }
+  .call-src { font-size: 11px; margin-left: auto; }
+  .call-src a { color: var(--scale); }
+
+  .theme-group { margin: 15px 0 0; }
+  .theme-name {
+    font-size: 11.5px; font-weight: 600; color: var(--text-secondary);
+    text-transform: uppercase; letter-spacing: .04em; margin: 0 0 7px;
+  }
+  .theme-summary {
+    font-size: 12.5px; color: var(--text-secondary); line-height: 1.6;
+    margin: 0 0 10px; padding: 9px 12px 10px 13px;
+    background: var(--hover); border-left: 2px solid var(--capital); border-radius: 0 6px 6px 0;
+  }
+  .theme-summary .lbl {
+    display: block; font-size: 9.5px; font-weight: 600; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--text-muted); margin-bottom: 3px;
+  }
+  ul.pts { margin: 0; padding: 0; list-style: none; }
+  li.pt {
+    font-size: 12.5px; color: var(--text-secondary); line-height: 1.55;
+    padding: 8px 0 9px; border-bottom: 1px solid var(--grid);
+    display: grid; grid-template-columns: 1fr auto; gap: 3px 10px;
+  }
+  li.pt:last-child { border-bottom: 0; }
+  .pt-body { min-width: 0; }
+  .pt-fig {
+    font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums;
+    white-space: nowrap; font-size: 12px;
+  }
+  .pt-meta { grid-column: 1 / -1; display: flex; gap: 7px; align-items: center; flex-wrap: wrap; margin-top: 3px; }
+  .badge {
+    font-size: 10px; padding: 1px 6px; border-radius: 4px; border: 1px solid var(--border);
+    color: var(--text-muted); white-space: nowrap;
+  }
+  .badge.fact     { border-color: var(--capital); color: var(--capital); }
+  .badge.guidance { border-color: var(--scale);   color: var(--scale); }
+  .badge.qna      { border-color: var(--leverage); color: var(--leverage); }
+  .badge.opinion  { border-style: dashed; }
+  .who { font-size: 10.5px; color: var(--text-muted); }
+  blockquote {
+    margin: 5px 0 0; padding: 4px 0 4px 10px; border-left: 2px solid var(--border);
+    font-size: 11.5px; color: var(--text-muted); font-style: italic;
+  }
+  .empty { font-size: 12.5px; color: var(--text-muted); padding: 24px 0; text-align: center; }
+  .src { font-size: 11.5px; color: var(--text-muted); margin: 24px 0 0; padding-top: 14px; border-top: 1px solid var(--grid); line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="viz-root">
+  <div class="card">
+    <p class="crumb"><a href="../../">← All analyses</a> <span>/</span>
+      <a href="financials">Asian Paints Ltd dashboard</a> <span>/ earnings-call pointers</span></p>
+
+    <h1>Asian Paints Ltd — earnings-call pointers, detailed</h1>
+    <p class="sub">Every substantive pointer from the last 3 calls, Q3 FY26 (2026-02-02) through Q1 FY27 (2026-08-03). The dashboard carries only the headline items — this is the full set.</p>
+    <p class="note">Badges separate <span class="badge fact">fact</span> reported results from <span class="badge guidance">guidance</span> forward-looking statements, <span class="badge opinion">opinion</span> management views, and <span class="badge qna">Q&amp;A</span> analyst pushback or non-answers. Treat guidance as a claim, not a result. Figures are quoted as stated on the call — nothing rounded or inferred. Each theme opens with a <strong>plain-language summary</strong> of that theme for that call — jargon expanded, figures kept. The pointers beneath it are the precise layer, in the company’s own terms. A summary covers the whole theme and does not narrow when you filter.</p>
+
+    <div class="controls">
+      <span class="label">Call</span>
+      <span class="segmented" id="fCall" role="group" aria-label="Filter by call"></span>
+      <span class="label" style="margin-left:6px">Type</span>
+      <span class="segmented" id="fKind" role="group" aria-label="Filter by kind"></span>
+      <select id="fTheme" aria-label="Filter by theme"></select>
+      <span class="count" id="count"></span>
+    </div>
+
+    <div id="out"></div>
+
+    <p class="src">Source: company earnings-call transcripts filed with BSE/NSE. Figures are quoted as management stated them and were transcribed by machine, so treat anything that reads like a table as indicative. Commentary is management's own; inclusion here is not endorsement. Not investment advice.</p>
+  </div>
+</div>
+
+<script>
+const CALLS = [
+  {
+    "quarter": "Q1 FY27",
+    "call_date": "2026-08-03",
+    "detailed": [
+      {
+        "theme": "Demand & volumes",
+        "point": "Overall volume growth ~9% for Q1 FY27, spread across all months of the quarter",
+        "figure": "~9%",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "Overall, we are at about a strong 9% volume growth. The growth has been across the months in this entire quarter."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Combined decorative plus industrial growth, with industrial growing at roughly the same pitch",
+        "figure": "16.5%",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "If you take that 16.5% growth, which includes decorative and industrial, both businesses have done very well."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Rural growth much better than urban — a trend from Q4 that 'continues to strengthen' — while B2B is driven by good urban growth",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "On preponement, management conceded pricing action likely created some extra pipeline inventory but did not quantify it; wanted T1/T2 demand more vibrant, and said 'possibly we could have looked at touching a double-digit'",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "because of the pricing action, there could be some bit of extra pipeline inventory which would have come in"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "On whether stronger rural sales drag mix, management argued the reverse: within 'rural' it classifies T3/T4 cities where premium can be pushed, and 'urban markets from here would only grow higher'",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "we feel that possibly urban markets from here would only grow higher"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Price increases taken in April, May and June with an overall weighted average of ~7%, while material inflation was still very high at ~25% — a gap management explicitly flagged",
+        "figure": "hikes ~7%; inflation ~25%",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "While we took price increases in April, May and June, the overall weighted average price increase was around 7%. The material inflation was still very high to the extent of about 25%."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Decorative value growth of ~16.6% on a lower base, aided by price increases; weighted price increase in that number put at 'about 6.8% or so'",
+        "figure": "value +16.6%; price ~6.8%",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "the decorative value has grown at a very good pitch of about 16.6%, albeit on a lower base"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Standalone: top line ~+17%, with PBDIT, PBT and PAT growth all above 30%, and PBDIT margin ~22%",
+        "figure": "top line ~17%; PBDIT margin ~22%",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Consolidated: top line ~+18%, PBDIT margin ~20.6%, almost 240bps higher YoY",
+        "figure": "top line ~18%; PBDIT margin 20.6% (+240bps)",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "CFO's office stated explicitly that most of the low-cost finished-goods inventory benefit has already flowed through in 1Q and pricing inflation shows up from here. Pushed that hikes are already taken, Rane deflected to mix",
+        "figure": "",
+        "speaker": "Parag Rane",
+        "kind": "qna",
+        "quote": "most of the low-cost inventory benefit on finished goods has seeped through in 1Q, and here onwards, we will see the pricing inflation coming in"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "On further price increases, management said any move depends purely on market volatility and it would prefer not to take any",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "Ideally, we would not like to take any increases going forward unless the situation really becomes alarming"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Standalone gross margin commentary is ambiguous in the extracted transcript as to period attribution — management said 'we were at about 45.6% in the last quarter' and that margin is still higher YoY",
+        "figure": "45.6% (period attribution ambiguous)",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "There was some pressure on gross margin; we were at about 45.6% in the last quarter. However, we are still higher if you look at it on a YoY basis."
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Raw-material inventory has come in at higher cost, the source of the reported inventory blip, and 'will partly be affecting some margins as we go into quarter two'",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "raw material inventory, which has come in, it has come in at possibly a higher cost, which is where you are seeing a blip in the overall inventory"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Management's stated top worry is 'the renewed conflict' — continued raw-material volatility plus supply-chain logistics pressure. The transcript does not specify which conflict",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "I think our top worry is the renewed conflict. The volatility in raw material prices continues, and it puts pressure on supply chain logistics"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "TiO2 is not linked to crude at all and is 'the largest value consumption in the paint industry'; a range of additives are also not crude-linked",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "TiO2 is something which is not linked to crude at all. It's the largest value consumption in the paint industry."
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Directional moves: TiO2 had been stable but started going up at the end of June; monomer prices have started to come down. What matters is the overall material index, not any single input",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "the TiO2 prices were fairly stable, but it has started going up... Some of the prices of Monomers have started to come down"
+      },
+      {
+        "theme": "Competition",
+        "point": "Competitive intensity characterised as at an all-time high with no leeway; response is consumer connect, emotional marketing and technological disruption",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "The competitive intensity seems to be at an all-time high. I don't think there is any leeway there."
+      },
+      {
+        "theme": "Competition",
+        "point": "Management explicitly declined to attribute intensity to any single new entrant: it spans economy, premium and luxury and comes 'not only from one player or two players, but across all players'. Economy stays slightly more intense because contractors can be converted with higher discounting",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "not only from one player or two players, but across all players"
+      },
+      {
+        "theme": "Competition",
+        "point": "Manoj Menon (ICICI) put it that difficult periods favour larger formal players; management agreed it definitely got some advantage from smaller players because supply chains were volatile and its own was more robust, and that this 'will seep in both for quarter one and quarter two'",
+        "figure": "",
+        "speaker": "Manoj Menon / Amit Syngle",
+        "kind": "qna",
+        "quote": "we would have definitely got some advantage of some of the smaller players, because the supply chains were pretty volatile"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "The VAM-VAE ecosystem described as a first in India with only four or five players worldwide; highly automated. Phase 1 'will commence by August'",
+        "figure": "4-5 players worldwide; Phase 1 by August",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "The first phase of this initiative will commence by August."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "In the outlook section management said VAE would be kicked off in Q2, alongside sourcing and formulation cost initiatives",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "In Q2, we will kick off our VAE also."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "On the 150,000 MT VAE capacity versus current requirement, management said ramp-up takes time and it expects to approach that capacity over ~2-2.5 years",
+        "figure": "150,000 MT over ~2-2.5 years",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "possibly over a period of about 2-2.5 years, we should be able to reach basically a capacity which is higher and closer to about 150,000 MT"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Asked whether VAE would be used only in premium/luxury, management said no — the technology is future-generation and low-VOC, usable across any category including economy, plus adhesives and powders",
+        "figure": "",
+        "speaker": "Jaykumar Doshi / Amit Syngle",
+        "kind": "qna",
+        "quote": "the usage can be across any category of products, not limited to only premium"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "The white cement plant in Fujairah, UAE is complete, fully operational and running at 'very good capacities'",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "New products contribute 17% of overall revenues, expected to gain further credence once VAM-VAE Phase 1 commences",
+        "figure": "17%",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Launched Anti-Damp Technology in Eco-Emulsions, claimed as a global first at this price point, addressing watermarks for interiors and exteriors",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Extended the warranty platform to a colour warranty for the first time, positioning anti-fading colour as a differentiator",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "This is also the first time we have extended the warranty platform to colour warranty"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "New waterproofing innovation combines water protection with heat reduction, sold with a 10-year warranty",
+        "figure": "10-year warranty",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Launched 'Emporio Orano', a top-end luxury product from an Italian collaboration",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Home Decor 'a mixed bag': Kitchen and Weatherseal strong double digits, White Teak and Bath on the lower side, and 'there is some tension which is still continuing to exist' at the bottom line. No decor revenue or loss figures disclosed",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "even the bottom line, there is some tension which is still continuing to exist"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Automotive OE (PPGAP): top line ~+13%, PBT +~5%, PBT margin ~15.7% (-119bps); auto, marine and packaging doing well, refinishes 'a little bit slow'",
+        "figure": "top line ~13%; PBT margin 15.7% (-119bps)",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "The PBT margins have been a little bit stressed here, about 15.7%, lower by 119 bps."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "General Industrial: overall growth 21%, but the company 'has not been able to take so many price increases'; PBT margin ~6.9%, lower YoY, PBT growth ~4%",
+        "figure": "growth 21%; PBT margin ~6.9%",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "we have not been able to take so many price increases in the market. It has been also very competitive."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "The 'AP Juggernaut' key-account programme serving both decorative and industrial needs of one customer now has more than 100 key accounts",
+        "figure": ">100 key accounts",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "B2B has broadened beyond builders into factories, hospitality, government, airports, ports and bullet-train projects, called a major growth vehicle",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "We believe this is a major growth vehicle, capitalizing on the infrastructure growth that is taking place"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Services articulated as four platforms: Beautiful Homes Painting Service, Total Assure, Smart Assure and MetaCare (where Asian Paints takes warranty responsibility for almost an entire factory)",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Home Decor claims number one integrated position with ~74 Beautiful Homes Stores, differentiating on customization against the unorganized sector",
+        "figure": "~74 stores",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "The company continues to open new counters and selling points; no counter count or addition number was given",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "International grew ~27% in Q1, broad-based, with Egypt, UAE, Nepal and Bangladesh among units doing well; PBT growth 'almost doubled', PBT margin ~7.9% (+275bps). Ethiopia the exception on currency devaluation",
+        "figure": "+27%; PBT margin 7.9% (+275bps)",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "every country performed well, except in Africa, where Ethiopia faced currency devaluation-related challenges"
+      },
+      {
+        "theme": "International",
+        "point": "All Middle East geographies have been 'a little bit stretched', both from inflation and overall demand",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "International launches: Royal Stellar in UAE/Bahrain/Oman, Acrycoat Novi in Egypt, the Nilaya brand for luxury, and Indian waterproofing/premium strengths extended into Nepal",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "FY27 framed around six thrusts, with backward integration positioned as the 'treasure chest' enabler for reinvestment",
+        "figure": "six areas",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "at our scale, we think that backward integration is a big piece of what we need to invoke, which will give us a treasure chest to keep on investing in the market"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Regionalization executed through culturally tailored pack design (Rajasthan, then Andhra and Telangana), including a first-ever wood-finishes pack drawing on the craft of Chittoor, with QR codes",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "A strong cost initiative spanning sourcing and formulation efficiencies benefited Q1 and is expected to keep offsetting inflation; no quantum disclosed",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "No dividend, buyback, debt, net cash or capex quantum was discussed anywhere on the call; the only capital-deployment commentary was qualitative",
+        "figure": "",
+        "kind": "fact"
+      },
+      {
+        "theme": "Guidance",
+        "point": "The quarter was consistent with the 8-10% volume band predicted last quarter, and management reiterated satisfaction on that basis",
+        "figure": "8-10%",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "We seem to be quite happy of what we had predicted last quarter, that we should be in that band of about 8% to 10%."
+      },
+      {
+        "theme": "Guidance",
+        "point": "On FY27 volume with an adverse base later in the year, management pointed to a festive Q2 and reiterated 8-10%, while explicitly saying it does not know how H2 plays out on price volatility",
+        "figure": "8-10% for FY27",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "we do not know at this stage how the second half of the year would augur from overall price volatility"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Management noted price changes in H2 'could trigger demand even further' — implying possible downstream price corrections — but committed to none",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "possibly some of those indications will also look at whether price changes would happen in the second half, which could trigger demand even further"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Q2 is traditionally a lower-margin quarter on mix, but the 18-20% PBDIT guidance still holds, supported by premiumization, backward integration and cost efficiencies",
+        "figure": "18-20%",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "We are still garnering around the guidance of 18-20% of our PBDIT margins holds."
+      },
+      {
+        "theme": "Guidance",
+        "point": "Asked whether the previously guided -4% mix should be revisited, management said that until pricing corrections are taken the value-volume gap stays positive, with value continuing to exceed volume",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "Till the time we get into pricing corrections, the value would continue to be higher than the volume."
+      },
+      {
+        "theme": "Guidance",
+        "point": "Industrial expected to keep growing at a higher pitch than decorative",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "my belief is that industrial will continue to grow at a higher pitch than decorative as we look ahead"
+      },
+      {
+        "theme": "Guidance",
+        "point": "When an analyst paraphrased the full-year volume outlook as '10%', management corrected it back to the band",
+        "figure": "8-10%",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "I've spoken of that 8-10% as an overall volume band for the entire year."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Jaykumar Doshi (Kotak) asked whether the 400-500bps gross-margin benefit guided at project announcement still holds. Management would NOT reaffirm it, re-casting the benefit as a '300-500 basis points' band — effectively widened and lowered",
+        "figure": "400-500bps → 300-500bps",
+        "speaker": "Jaykumar Doshi / Amit Syngle",
+        "kind": "qna",
+        "quote": "Very difficult to say that it will maintain at 400 or 500 basis points... Generally, overall, for the category of products it would translate into that 300-500 basis points band."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Mihir Shah (Nomura) put it that dealer checks indicate a 13-14% price increase put through till June, versus the 7% weighted average realised. Management neither confirmed nor denied 13-14%, restating ~7% weighted and saying the impact would 'possibly be in the range of about 8-9%'",
+        "figure": "13-14% list (analyst) vs ~7% realised; impact 8-9%",
+        "speaker": "Mihir Shah / Amit Syngle",
+        "kind": "qna",
+        "quote": "Therefore, the product mix will govern what is the total impact of the pricing which will come. Possibly it would be in the range of about 8-9%."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Aditya Bhartia (Investec) pressed directly: with costs up almost 25% and hikes of 9-11%, is the company bracing for gross-margin compression? Management did not concede compression outright but did admit 'a large part of this inflation effect definitely will come in as we go ahead in quarter two'",
+        "figure": "costs ~25% vs hikes 9-11% (analyst)",
+        "speaker": "Aditya Bhartia / Amit Syngle",
+        "kind": "qna",
+        "quote": "obviously, to some extent, a large part of this inflation effect definitely will come in as we go ahead in quarter two"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Asked to quantify the low-cost inventory benefit in basis points, management declined — 'difficult to put a number to it' — but disclosed newer inventory of ~30-45 days came in and roughly half the quarter was sold off older raw materials and finished goods",
+        "figure": "~30-45 days newer inventory; ~half the quarter on old stock",
+        "speaker": "Percy Panthaki / Amit Syngle",
+        "kind": "qna",
+        "quote": "Again, difficult to put a number to it"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Aditya Bhartia asked for the profitability split between the first and second half of the quarter given cheap inventory covered roughly half of it; management gave no split, pivoting to Q2 seasonality",
+        "figure": "",
+        "speaker": "Aditya Bhartia / Amit Syngle",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Asked at what crude level the hikes taken would keep margins mid-band, management declined any crude benchmark, arguing raw materials are too dispersed and purchasing is weighted-average over time",
+        "figure": "",
+        "speaker": "Percy Panthaki / Amit Syngle",
+        "kind": "qna",
+        "quote": "It is very difficult to say that at $90 this will happen and $100 this will happen. That correlation becomes very difficult to justify"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Asked whether, if input costs simply held at today's levels, any price change would be needed to stay in the band, management refused to answer on a constant-cost basis",
+        "figure": "",
+        "speaker": "Percy Panthaki / Amit Syngle",
+        "kind": "qna",
+        "quote": "you can't take anything at a constant... We'll have to live with this fluctuation."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Percy Panthaki asked for the ~7% volume-value gap to be split between pure price and mix; management said 'almost about 3% impact' comes from better mix",
+        "figure": "mix contribution ~3%",
+        "speaker": "Percy Panthaki / Amit Syngle",
+        "kind": "qna",
+        "quote": "There is almost about 3% impact, which is coming higher because of the better mix of what we have been able to sell."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Mihir Shah challenged the gross-margin surprise, noting mix appears ~+1% this quarter versus the -4% indicated last quarter, and asked whether that implies negligible putty sales. Management did not address the putty inference",
+        "figure": "mix +1% vs -4% guided (analyst)",
+        "speaker": "Mihir Shah / Amit Syngle",
+        "kind": "qna",
+        "quote": "there is obviously some benefit of the inventory what we had, which is a low-cost inventory to start within the quarter"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Abneesh Roy (Nuvama) challenged the 17% innovation revenue share as 'very high' and asked for the definition and its margin profile. Management defined new products as launched within three years and said they 'corroborate our overall margins' — but gave no innovation-specific margin number",
+        "figure": "three-year definition",
+        "speaker": "Abneesh Roy / Amit Syngle",
+        "kind": "qna",
+        "quote": "they possibly corroborate our overall margins"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Abneesh Roy also asked whether the Bengal election hurt (painters returning home to vote). Management never addressed the Bengal election or painter migration at all",
+        "figure": "",
+        "speaker": "Abneesh Roy",
+        "kind": "qna",
+        "quote": "Was there an adverse impact of Bengal election? Because every Bengali painter went back to Bengal for his SIR and vote"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Asked when industrial margins normalise (~120bps drop in both segments) and to quantify industrial pricing growth, management attributed pressure to deferred price increases — B2B and key accounts take time, unlike decorative — and gave no pricing number",
+        "figure": "~120bps drop (analyst)",
+        "speaker": "Abneesh Roy / Amit Syngle",
+        "kind": "qna",
+        "quote": "It's not like in the decorative market that you can announce a price increase and from the next day it is implemented."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Amit Purohit (Elara) asked for industry growth and the company's market-share trend. Management gave no industry growth number and no market-share figure, saying only 'possibly we would have grown slightly higher than the industry average'",
+        "figure": "",
+        "speaker": "Amit Purohit / Amit Syngle",
+        "kind": "qna",
+        "quote": "possibly we would have grown slightly higher than the industry average"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Asked whether aggression on putty and low-value emulsions will give way to a premium focus, management said it wants decent growth in every segment — putty is the consumer's first paint purchase and the strategy is to upgrade from unorganized to organized",
+        "figure": "",
+        "speaker": "Aditya Bhartia / Amit Syngle",
+        "kind": "qna",
+        "quote": "Putty is a starting point of paints... its the first purchase a consumer is doing as far as painting is concerned."
+      }
+    ],
+    "theme_summaries": {
+      "Demand & volumes": "They sold about 9% more paint than a year earlier, steadily across all three months. Small towns and villages bought more than big cities. Some of that buying was people stocking up before prices rose, so the number flatters things slightly. Management admitted it had hoped to reach double digits.",
+      "Pricing & margins": "Money earned jumped 16.6% — far faster than the 9% more paint sold — because they raised prices about 7%. Profits looked healthy, but only because they were still using cheaper materials bought earlier. That cushion has now run out, and they would rather not raise prices again.",
+      "Competition": "Management says competition is the toughest it has ever been, with 'no leeway'. Tellingly, they refused to blame the new rival specifically — they said every competitor is being aggressive, in cheap paint and expensive paint alike. They did claim their own supply chain coped better than smaller rivals'.",
+      "Raw materials": "The ingredients they make paint from cost about 25% more than a year ago, and the expensive batches are only now reaching the factory — so the pain lands next quarter. One useful detail: their single biggest ingredient by cost is the white pigment, which has nothing to do with oil prices, and it started getting dearer in late June.",
+      "Segments & products": "Recently launched products bring in 17% of all sales, which is a lot. Several claim to be world-firsts — paint that resists damp, a guarantee the colour won't fade, a luxury Italian range. The paint they sell to car makers and factories earned less profit, because those customers can't be charged more as quickly as shops can. The home-decor side (kitchens, bathrooms, lighting) still isn't making decent money.",
+      "International": "The bright spot of the quarter — overseas sales up 27% and overseas profit almost doubled. Egypt, UAE, Nepal and Bangladesh all did well. Only Ethiopia struggled, because its currency collapsed. Middle East demand was called 'stretched'.",
+      "Capex & projects": "Their big factory project — making a key paint ingredient themselves instead of importing it — starts its first stage in August, and will take roughly two to two and a half years to reach full size. Usefully, that ingredient can go into cheap paint too, not just premium, and even into glue and powder coatings.",
+      "Balance sheet & capital allocation": "Nothing was said at all about dividends, borrowing, cash, or how much they are spending on new plants. It simply never came up on this call.",
+      "Distribution & network": "Barely any detail. About 74 Beautiful Homes stores and a mention of adding more shops, but they gave no actual numbers.",
+      "Strategy & outlook": "Six priorities, with making their own raw materials described as the 'treasure chest' that pays for everything else. They are also designing paint tins around local culture, state by state. A cost-cutting programme helped this quarter, but they never said by how much.",
+      "Guidance": "Their promises for the year: sell 8-10% more paint, and keep profit at 18-20% of sales. They warned that the July-September quarter is normally weaker. And they were candid that they have no idea how the second half of the year goes, because ingredient prices are unpredictable.",
+      "Analyst Q&A concerns": "The most revealing part of the call, because of what management would not say. The expected benefit from the new factory was quietly reduced. They would not confirm dealers' reports that prices actually rose 13-14% when they claim 7%. They would not say what the cheap-materials cushion was worth, would not give a market-share number, and completely ignored a question about whether West Bengal elections hurt sales."
+    }
+  },
+  {
+    "quarter": "Q4 FY26",
+    "call_date": "2026-06-03",
+    "detailed": [
+      {
+        "theme": "Demand & volumes",
+        "point": "Q4 decorative volume and value growth, with management highlighting the narrow gap as evidence of a healthy mix",
+        "figure": "vol +12.4%, val +10.2%, gap 2.2%",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "the difference between the volume and the value is just about 2.2%, indicating a fairly healthy mix"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Full-year FY26 decorative growth, with the annual volume-value gap still wide",
+        "figure": "FY26 vol ~9%, val ~4.3%, gap ~4%",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Full coatings growth was higher than decorative alone in Q4 on both volume and value",
+        "figure": "vol 12.7%, val ~11%",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Full coatings at country level for the year, claimed strongly above market growth rates",
+        "figure": "vol ~9%, val ~5.3%",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "they are strongly above the market growth rates"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Demand improved across all three months of Q4, with all three growing double digits",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "the good thing is that all the three months have grown by double-digits"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Both rural and urban grew, with rural slightly ahead",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "Rural was a little bit ahead of urban growth"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Management quantified the March upstocking benefit only when pressed: it inflated March growth, while January and February were strong on underlying demand",
+        "figure": "March growth higher by 3-4%",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "the March growth rates would be higher by 3-4% mark, which would be the impact of the upstocking"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Management sees early green shoots in April and May (Q1 FY27 to date)",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "we have been seeing some early shoots in the months of April and May"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Elasticity defence: paint material is only ~35-40% of the consumer's landed cost per square foot, with labour the larger share, so percentage material inflation dilutes at consumer level",
+        "figure": "material 35-40% of per-sq-ft cost",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "The material component in terms of the per square feet of what lands to the customer, is only about 35-40%. The larger area is of labour."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Management explicitly acknowledges elasticity DOES exist, since paint spend is discretionary and occasion/maintenance-led, so the quantum of price increase must be calibrated",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "given the fact that one the spend on paint is discretionary... From that point of view, the elasticity is definitely there."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Some increased dealer stocking occurred at the fag end of Q4 on price-increase announcements, with pipeline stocks expected to rise further in Q1; the market can only stock to a limit",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "the market can really stock up to only a certain limit"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Cumulative price increase taken, with more signalled but explicitly not the full cost pass-through, to protect demand",
+        "figure": "10.5-11% taken vs ~20% impact",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "We feel that the impact is much higher, maybe closer to about 20% or so. We have passed on around 11%."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "The ~20% cost impact is measured against inflation affecting the quarter, not spot prices or spot rupee — clarified only after analyst follow-up",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "Largely, we look at the inflation, which is affecting the quarter"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Standalone Q4: net sales +10.3%, PBDIT +26%, PBDIT margin ~21.2% (+260bps YoY); reported PAT +67% but ~32.7% excluding exceptional items in the base",
+        "figure": "PBDIT margin 21.2% (+260bps)",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Standalone FY26: top line ~+4.3%, PBDIT +11.2%, PBDIT margin 20.1% (+130bps), PAT ~+10.8% excluding exceptionals",
+        "figure": "FY26 PBDIT margin 20.1%",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Consolidated Q4: top line ~+11%, gross margin +100bps YoY, PBDIT +24.4%, PBDIT margin ~19.4% (+210bps), PAT before MI ex-exceptionals +34.1%",
+        "figure": "consol PBDIT margin 19.4%",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Consolidated FY26: net sales +5.1%, gross margin 43.7% (+140bps), PBDIT margin ~18.9% (+~110bps), PAT before MI ex-exceptionals +11.8%",
+        "figure": "FY26 consol GM 43.7%, PBDIT 18.9%",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Price hikes did not materially hit Q4 margins because existing inventory absorbed the inflation; Q4's higher margins were partly a deflation benefit that must now be recovered",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "in the last quarter, we also had the benefit of a deflation... that is why we are also seeing higher PBDIT margins"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Other expenses grew only ~2% in Q4 (analyst's figure); management attributed it to full-year cost initiatives plus better overhead absorption on higher revenue scale",
+        "figure": "other expenses +2% (analyst)",
+        "speaker": "Parag Rane",
+        "kind": "fact",
+        "quote": "it helps that we have a higher revenue scale this year in this quarter, which has also helped the overhead absorptions"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Cost excellence, material sourcing and manufacturing efficiencies are the plan to absorb the portion of inflation not passed through",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "That part of the inflation which we are not passing out is something which we can work around"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "FY26 saw raw-material deflation across all four quarters, including Q4, lifting gross margin to a near all-time high",
+        "figure": "Q4 deflation ~1.4%; GM 45.6%",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "it has been a good year where we have seen deflation in the market across the four quarters and even in Q4 we saw a deflation of about 1.4%"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Inflation levels are not expected to come down easily over the next two quarters; trajectory depends on the war situation",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "the inflation levels are not going to come down so easily"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Price increases already taken will be sticky as long as inflation persists; softening will take time",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "some of those will be sticky till the time the situation carries on, there is no going back on it"
+      },
+      {
+        "theme": "Competition",
+        "point": "Discounting intensity has NOT let up despite inflation and industry-wide price hikes; differentials between players are unchanged",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "the differentials in terms of the discounting between the various players are the same as they were earlier. There is no change at all"
+      },
+      {
+        "theme": "Competition",
+        "point": "Competitive intensity expected to stay strong and grow through the year, driven by consolidated players pursuing a unified strategy plus newer entrants",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "We have the consolidated players now who have been trying to align and come out with a unified strategy"
+      },
+      {
+        "theme": "Competition",
+        "point": "Management concedes there may be some rationalization of A&P spends, but says its competitive-intensity comment refers specifically to DISCOUNTING",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "when I mentioned competitive intensity, I meant about the whole area of discounting, which, according to us, will continue"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "VAM-VAE positioned as a signature project with few global players; first phase commissioning expected in H1 FY27",
+        "figure": "first phase H1",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "we expect to commission first phase in the first half of this year"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "CFO's team clarified a critical scoping detail: only the VAE part commissions in H1; the full VAM-VAE project and its benefits must be phased over one and a half to two years",
+        "figure": "1.5-2 years",
+        "speaker": "Parag Rane",
+        "kind": "guidance",
+        "quote": "what we are commissioning in this first half is only the VAE part... We will have to phase it out over the next one and a half to two years."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Backward-integration benefits will accrue over the year rather than immediately in Q1",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "we will definitely get benefits, but we'll have to observe these benefits over a year, rather than getting those benefits immediately in Q1"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "VAM-VAE framed as an innovation and green-paints enabler, not just a cost lever",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "The VAM-VAE project will bring to us very strong innovation capabilities... from the area of looking at green paints"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "FY26 dividend declared at a 60% payout ratio, comprising final plus the already-declared interim",
+        "figure": "₹23 final + ₹4.5 interim = ₹27.5; ~60% payout",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "this year we have declared about 60% payout"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "New products contributed 17% of FY26 revenues",
+        "figure": "17%",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "new products... have now contributed to a substantial 17% of the revenues"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Innovation portfolio: more than 160 patents; Q4 launches included Damp Secure, PU Gold (claimed world-first anti-termite finish) and elevated finishes for steel structures",
+        "figure": ">160 patents",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "We have launched for the first time in the world an anti-termite finish called \"PU Gold\""
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Damp Proof amplified to the point management claims it is now generic to the waterproofing category and singularly the largest product",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "now Damp Proof has become generic to the category"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Premiumization is working and improved the mix, with PreLux categories moving well",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "the premiumization strategy has been working very well"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Economy's contribution remains significant and premiumization is not a trade-off against it",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "It is not a trade-off where growth comes only from the premium or PreLux segment at the expense of the economy range."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "B2B described as stellar and now a strong growth vehicle across builder, factory and government segments including airports, ports and tunnels; the 'Juggernaut' initiative marries decorative and industrial",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "And we think this is a very high-growth segment."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Home Decor mixed: kitchen grew in quarter and year; bath grew ~4% in the quarter but full year just below base; Weatherseal strong at ~42% for the year while White Teak was down",
+        "figure": "Weatherseal ~42%; bath ~4% in Q",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "Weatherseal for the yearly level has also really done well at about 42%, whereas White Teak has been a little bit down."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Management openly admits Home Decor has been a struggle over time, shifting positioning from surface decor to space decor",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "We have been struggling a little bit in this area over a period of time, and this is one strong zone which we are not leaving so easily."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "PPGAP (auto OE) delivered strong double-digit revenue growth and PBT growth upward of ~20% in both quarter and year, PBT margin ~12.2% for the quarter",
+        "figure": "PBT +~20%; margin 12.2%",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "APPPG (general industrial) had strong double-digit revenue growth but PBT margin contracted to ~7.3% (-100bps), attributed to competitive intensity",
+        "figure": "PBT margin 7.3% (-100bps)",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "the margin has been a little bit affected, given the fact that there has been a little bit of competitive intensity"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Retail touchpoints added during FY26",
+        "figure": ">6,000 touchpoints added",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Beautiful Homes Stores network for the home-decor convergence proposition",
+        "figure": "74 stores across 20 states",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Services portfolio positioned as key differentiator: Beautiful Homes Painting Service, Total Assure, Metacare and Smart Assure",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "International grew double digits in Q4 and 9% for the year, led by Asia, with Middle East and Africa strong and gains in Sri Lanka, Egypt and UAE despite geopolitics",
+        "figure": "Q4 double-digit; FY26 +9%",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "despite the current geopolitical situation continuing, the Middle East has still stretched and delivered a strong, resilient performance"
+      },
+      {
+        "theme": "International",
+        "point": "AP Global PBT margin for the quarter with a large YoY expansion",
+        "figure": "PBT margin ~8.5% (+370bps)",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "The company exports from some international markets to 60 other countries",
+        "figure": "60 countries",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Industrial coatings expected to grow much faster than decorative on infrastructure and government spending; both industrial and international named as the strong growth contributors",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "Industrial coatings will continue to grow much higher than decorative, given the investment happening in the infrastructure and Government spending"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Management describes the macro as highly volatile with a dicey geopolitical situation that must be watched day in day out",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "We have seen obviously very high volatile macro conditions in the market, the geopolitical situation is very dicey"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Six strategic pillars restated, with a huge amount of investment going into backward integration",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "the whole space of backward integration has also been very significant for us and a huge amount of investments are taking place in this area"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Marketing: BCCI colour sponsorship, a national anthem property, ColourNext (colour of the year Moonlit Silk), season 9 of 'Where the Heart Is', and a shift of spend into digital",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "St+art Foundation public-art partnership scale after ~10 years",
+        "figure": ">500 murals, ~29 cities, 7 art districts",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Sustainability tracking ahead of 2030 targets across water, hazards, effluent, Scope 1 & 2 emissions and recycled packaging",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "somewhere we are getting closer to our targets for 2030 much earlier"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Beautiful Homes Academy training scale",
+        "figure": ">9 lakh people trained",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Margin guidance band and volume band both reaffirmed for FY27, to be delivered via calibrated price hikes, cost excellence, mix and backward integration",
+        "figure": "margin 18-20%; volume 8-10%",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "We are maintaining our margin guidance, which is there."
+      },
+      {
+        "theme": "Guidance",
+        "point": "Volume guidance is at least high single digit despite expected pipeline stocking distortion from price hikes",
+        "figure": "8-10%",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "we are still confident that demand conditions should continue giving us closer to high single-digit volume growth in the band of about 8 -10%"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Q2 and Q3 FY27 have a favourable calendar — a longer Diwali/festive period than the prior year, and monsoons expected fairly okay per IMD",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "in Q2, we have a longer Diwali"
+      },
+      {
+        "theme": "Guidance",
+        "point": "The stated single biggest risk to FY27 demand is the geopolitical situation; if prolonged, inflation calibrations change and demand is hit",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "The only worry in the segment is the geopolitical scenario, which is going on."
+      },
+      {
+        "theme": "Guidance",
+        "point": "Guided to a structurally NARROWER volume-value gap of 3-4% going forward, versus 5-6% previously — attributed to confidence in premium and PreLux",
+        "figure": "3-4% vs 5-6% earlier",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "we think that this trajectory of 3-4% will remain as we go ahead"
+      },
+      {
+        "theme": "Guidance",
+        "point": "The three levers named for defending the margin band are further price increases, premiumization/mix, and backward integration plus cost efficiencies; management concedes it will be tough",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "It is not going to be an easy one, it is going to be tough"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Asked directly by Investec to quantify the VAM/VAE gross-margin benefit, management declined — too early, depends on usage across products and ramp-up, knowable only by the last quarter",
+        "figure": "",
+        "speaker": "Aditya Bhartia / Amit Syngle",
+        "kind": "qna",
+        "quote": "at this point, it will be very difficult to really give a quantum to that"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "UBS pushed back on whether competitive intensity now means discounting or has shifted to innovation/A&P. Management rejected the premise: discounting has not let up at all",
+        "figure": "",
+        "speaker": "Amit Sachdeva / Amit Syngle",
+        "kind": "qna",
+        "quote": "I must make it straight that today the discounting intensity stays whether it is retailers, whether it is contractors, whether it is other stakeholders"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "J.P. Morgan asked whether the new entrant's pricing is still below Asian Paints. Management side-stepped, saying list pricing converges and only discounts matter, and differentials are unchanged",
+        "figure": "",
+        "speaker": "Latika Chopra / Amit Syngle",
+        "kind": "qna",
+        "quote": "today, what matters is what discounts you are giving to various stakeholders"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Asked directly how to read FY26 market share versus last year, management refused to characterise it and deflected to analysts' own calculations",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "qna",
+        "quote": "All the results are out in the market, all of you can calculate the shares in terms of where we have moved from where we were."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "IIFL challenged the 18-20% margin guidance with the FY22 precedent: ~14% average price increase then still produced ~400bps contraction. Management did not defend the full year, narrowing its confidence to the first six months only",
+        "figure": "FY22: ~14% hike, ~400bps contraction (analyst)",
+        "speaker": "Percy Panthaki / Amit Syngle",
+        "kind": "qna",
+        "quote": "we are looking at the first six months at this stage because it is very difficult to really predict for the full year"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Asked whether margin guidance holds with crude in a $90-100 band, management did not answer the scenario, saying it is very difficult to predict three to four quarters out",
+        "figure": "crude $90-100 (analyst scenario)",
+        "speaker": "Percy Panthaki / Amit Syngle",
+        "kind": "qna",
+        "quote": "it is very difficult to really predict for over three to four quarters"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "IIFL argued price elasticity is genuinely untested this cycle: the only prior double-digit pricing years were FY22 (lockdown-distorted) and FY12 (buoyant demand), so the FY22 no-impact precedent does not apply",
+        "figure": "",
+        "speaker": "Percy Panthaki",
+        "kind": "qna",
+        "quote": "In a way, we are at a position today where this question is difficult to answer, empirically speaking."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Nomura flagged the double risk of a higher base from Q2 FY27 plus pull-forward upstocking in Q4/Q1; management acknowledged the stocking but held the 8-10% band",
+        "figure": "",
+        "speaker": "Mihir Shah",
+        "kind": "qna",
+        "quote": "Can this upstocking that we are seeing in 4Q and 1Q maybe, and a higher base from 2Q, impact volume growth trajectory for the year?"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Nomura noted past crude upcycles saw margins fall 500-800bps and asked for a quantified backward-integration offset; management gave no percentage, only qualitative levers",
+        "figure": "500-800bps historic (analyst)",
+        "speaker": "Mihir Shah / Amit Syngle",
+        "kind": "qna",
+        "quote": "in the past upcycle of crude, we had seen margins going down by 500 to 800 bps also"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "IIFL asked for the quantified upstocking impact or Jan-Feb-only growth; management gave neither, offering only that March was inflated 3-4% and Jan/Feb were 'very strong'",
+        "figure": "",
+        "speaker": "Percy Panthaki / Amit Syngle",
+        "kind": "qna",
+        "quote": "what is the growth in Jan and Feb, only these two months, and we will go with that as the substitute"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Investec probed whether the unusually low mix impact in Q4 was an artefact of price-hike-driven upstocking in high-value products rather than genuine premiumization. Management partly conceded the upstocking point",
+        "figure": "mix impact -2.5% (analyst) vs 2.2% gap stated — ambiguous",
+        "speaker": "Aditya Bhartia / Amit Syngle",
+        "kind": "qna",
+        "quote": "yes, because of the price increase, there is definitely an upstocking which happens in high-value products"
+      }
+    ],
+    "theme_summaries": {
+      "Demand & volumes": "A strong quarter — 12.4% more paint sold, money earned up 10.2%, and all three months grew well. Villages did slightly better than cities. But management admitted March was flattered by 3-4% because dealers stocked up ahead of a price rise. They accept that if paint gets too dear people delay painting, though they argue it is cushioned because paint is only about a third of what you actually pay — most of the bill is the painter's labour.",
+      "Pricing & margins": "Ingredients had become about 20% more expensive, but they only raised prices about 11% — deliberately absorbing some of the cost rather than scaring customers off. Margins still looked excellent, but management was upfront that this was because ingredient prices had been falling all year and they were working through cheap old stock. The real hit arrives in the following two quarters.",
+      "Competition": "Discounting has not eased at all — the gaps between what each company discounts are 'the same as they were earlier. There is no change at all.' Management was precise about wording: when they say competition is intense they mean discounting, not advertising. Ad budgets might get trimmed; discounts will not.",
+      "Raw materials": "Ingredient costs actually fell in all four quarters of the year, including 1.4% in this one — that is the real reason margins hit a record. That tailwind is now over, and they expect no relief for at least two quarters. Prices they have already raised will stay raised.",
+      "Segments & products": "New products are 17% of sales and they hold more than 160 patents. Nudging customers towards pricier paint is working, without hurting cheap-paint sales. The business selling to builders and factories was called 'stellar'. Home decor stayed patchy — the windows and doors brand grew 42% for the year while the lighting brand shrank — and management openly admits this area has been a struggle.",
+      "International": "Double-digit growth this quarter and 9% for the full year, led by Asia, with the Middle East holding up despite the conflict there. They also export into 60 other countries.",
+      "Capex & projects": "The most important detail came from the finance team rather than the prepared script: only half of the big new factory starts up in the first half of the year. The full benefit is spread over the next one and a half to two years — nothing lands immediately.",
+      "Balance sheet & capital allocation": "A dividend for the year of ₹27.5 per share (₹23 now, plus ₹4.5 already paid earlier) — about 60% of profit handed back to shareholders.",
+      "Distribution & network": "Over 6,000 new shops added during the year, 74 Beautiful Homes stores across 20 states, and four service offerings they position as what sets them apart.",
+      "Strategy & outlook": "Paint sold to factories and infrastructure projects should grow faster than paint for homes, riding government spending. They called the wider economy 'very dicey' and needing daily watching. Large sums keep going into making their own ingredients. Environmental targets are running ahead of their 2030 goals, and they have trained over 900,000 people.",
+      "Guidance": "They stuck to their promises: 8-10% more paint sold, and profit at 18-20% of sales. They expect the gap between paint sold and money earned to narrow to 3-4%, from 5-6% before. A longer festive season helps later in the year. The single biggest risk they named is geopolitics. And they conceded that holding the margin will be 'tough'.",
+      "Analyst Q&A concerns": "Management refused to put a number on the new factory's benefit, and refused to say whether their market share had risen or fallen — 'all of you can calculate the shares'. When an analyst pointed out that back in 2022 an even bigger price rise still crushed margins, they quietly narrowed their confidence to just 'the first six months' rather than the full year."
+    }
+  },
+  {
+    "quarter": "Q3 FY26",
+    "call_date": "2026-02-02",
+    "detailed": [
+      {
+        "theme": "Demand & volumes",
+        "point": "Q3 decorative volume growth of 7.9% described as strong and resilient, the third consecutive quarter of a strong trajectory",
+        "figure": "7.9%",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "we have been able to drive a strong high single-digit volume growth of 7.9%"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Value growth was only 2.8%, leaving a gap of roughly 5% to volume",
+        "figure": "value +2.8%; gap ~5%",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "The value growth was about 2.8%, so you can see the difference between the value and the volume was approximately about 5%"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Festive season was compressed — earlier Diwali left only ~15 days of festive period in October, plus a prolonged monsoon; November and December propped up the quarter",
+        "figure": "~15 days of October festive",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "we had earlier Diwali, and therefore we got only about 15 odd days in October which was festive"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "October gave very little growth; November and December much higher, with exit growth rates higher still",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "the exit growth rates were even higher than what possibly we saw in November. October gave very little growth."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "9M decorative volume growth 7.5% versus value growth 2.4%",
+        "figure": "9M vol +7.5%, val +2.4%",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Overall coatings (decorative + industrial), the basis used for industry comparison, grew better than decorative alone",
+        "figure": "Q3 vol +8.3%, val +4.4%",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "the volume growth jumps to about 8.3% from the 7.9% in decorative and the value growth for all coatings jumps to 4.4%"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "9M overall coatings growth",
+        "figure": "9M vol +7.7%, val +3.5%",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Rural markets outperformed urban centres, aided by good rainfall, clearly visible in November and December",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "rural parts batted better than the urban centres, possibly a good rainfall which has augured well"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Management's explanation for muted industry growth: painting frequency has come down, occasion-led painting has declined (destination weddings deferring home painting), and paint competes with travel and hospitality for discretionary spend",
+        "figure": "B2B uptick at high-teen double-digit",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "the frequency of painting has come down a little bit. I think the occasion-led painting has also come down."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Luxury and premium housing is on an uptick with growth far higher than repainting retail, driving waterproofing and construction chemicals",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "the luxury and the premium housing is something which is on an uptick"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Paint market has seen DEFLATION as worldwide consumption is down; monomer and TiO2 prices low, producing material deflation of ~1.1% which helped gross margins",
+        "figure": "deflation ~1.1%",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "we have seen a material deflation of about 1.1% as well, which is also really helping us in the gross margins"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Two forward risks flagged: crude impact can arrive very fast given geopolitics, and there is 'some possibility' of regulating imported TiO2",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "there is obviously some possibility in terms of regulating the key raw material of TiO2 which comes in from outside"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Standalone Q3: net sales +2.9%, gross margin 44.9% (+200bps), PBDIT +~8%, PBDIT margin 21.4% (+100bps), PAT before exceptionals +6.6%. Gain attributed to deflation plus cost efficiencies",
+        "figure": "GM 44.9%; PBDIT margin 21.4%",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "one of the highest Gross Margins I would say over the quarters"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Standalone 9M: net sales +2.3%, gross margin 43.9% (+~170bps), PBDIT +6.6%, PBDIT margin ~19.8% (+~80bps), PAT before exceptionals +4.6%",
+        "figure": "9M GM 43.9%",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Consolidated Q3: top line ~+4%, gross margin 44.3% (+~200bps), PBDIT +~9%, PBDIT margin 20.1% (+~90bps), PAT before MI and exceptionals +7.7%",
+        "figure": "consol GM 44.3%",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Consolidated 9M: top line +3.2%, gross margin 43.3%, PBDIT +7.4%, PBDIT margin ~18.7%, PAT ~+5.6%",
+        "figure": "9M consol GM 43.3%",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "No price change planned; as leader the company can command a premium and will not tinker with prices, but will review if inflation emerges",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "we can command a certain premium in the market and that is something which we are really looking at going forward and not tinkering with the prices there"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "On the persistent volume-value gap: narrowed from a historical 6-8% to a level management calls a realistic 4-5%, because growing the economy/primer/upgradation segment alongside premium keeps some gap structurally in place",
+        "figure": "historical 6-8%; now 4-5%",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "Earlier, the volume and the value gap used to be about 6% to 8%. So, the gap has come down... this 4%-5% is a more realistic thing which would remain"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Despite printing 20%+ PBDIT margin, management explicitly retained the 18-20% guidance band, citing volatility, competitive intensity and planned brand/technology/AI investment",
+        "figure": "18-20% band",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "we would keep the guidance between that 18 and 20% band as we go ahead and that is something which we will endeavour to maintain"
+      },
+      {
+        "theme": "Competition",
+        "point": "Management dismissed the new entrant's price hike as an 'artificial strategy' with no market impact, and confirmed no price change of its own",
+        "figure": "2-3% hike = no impact",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "some of this pricing increase is something which is just an artificial strategy... anything which is in the zone of about 2 to 3% will not have any impact"
+      },
+      {
+        "theme": "Competition",
+        "point": "Competitive intensity expected to remain, driven by newer competition plus an amalgamation of two players entering the market",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "we have obviously newer competition; we have also amalgamation of two players which is kind of coming in the market"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "New products contribute ~16% of overall revenues; launches include PU Gold (premium polyurethane with anti-termite element, claimed a world first), Aquadur, and a VFM polyester paint",
+        "figure": "16% of revenues",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "today, new product contributes to about 16% of our overall revenues"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Home decor progress has been 'limiting' relative to prior quarters and contributes ~4% of decorative revenue",
+        "figure": "~4% of decorative revenue",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "The progress here has been a little bit limiting in terms of what you have been seeing in the previous quarters as well"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Within home decor: White Teak and Weatherseal did well on top line but White Teak's bottom line was stretched; bath remained weak; kitchen grew 3%",
+        "figure": "kitchen +3%",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "The area of bath was something which continued to be weak."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "B2B outgrew overall retail, led by factories and government; both industrial and B2B have done well for four consecutive quarters",
+        "figure": "four quarters",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "PPGAP JV (auto and general industrial) grew almost 17% in Q3 and 14% at 9M, with an all-time-high PBT margin up almost 300bps YoY",
+        "figure": "Q3 +17%; PBT margin +300bps",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "It is an all-time high with almost 300 bps growth year on year"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "APPPG (protective, powder coatings) ~16% value growth in Q3, PBT +11% in Q3 and ~7% at 9M, though PBT margin contracted ~40bps",
+        "figure": "value +16%; PBT margin -40bps",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Regionalization now covers almost 8-9 states with differentiated products; named states include J&K, Kerala, West Bengal, Karnataka and Haryana. No state-level growth figure given",
+        "figure": "8-9 states",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "The proof of the concept comes in from an acceleration in terms of the growth which happens"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "NeoBharat latex paint seeded in select states rather than a mega national launch, aimed at upgrading unorganized-market customers. No sales figures disclosed",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "we have not made it a mega launch across the country, but we have seeded it in certain states"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Added ~3,500-4,000 retailers this year; total reach now more than 1.6 lakh retail outlets",
+        "figure": "3,500-4,000 added; >1.6 lakh outlets",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Beautiful Home store network expanded to ~74 stores",
+        "figure": "~74 stores",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "International grew 6.3% by value in Q3, or ~4.2% in constant currency, the difference attributed to INR depreciation",
+        "figure": "+6.3% value; +4.2% cc",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "Sri Lanka, UAE and Ethiopia delivered very strong growth; all units grew except the Pacific units",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "largely, all the units have grown, except for the Pacific units"
+      },
+      {
+        "theme": "International",
+        "point": "AP Global PBT grew 26% in Q3, higher still at 9M; 9M international value growth 8%",
+        "figure": "PBT +26%; 9M value +8%",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Labour-code impact (gratuity and leave accumulation) taken as an exceptional item",
+        "figure": "₹63.74cr consol; ₹60.56cr standalone",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Further impairment taken on White Teak (Obgenix Software) because October top line and bottom line were affected",
+        "figure": "~₹94cr consol; ~₹106cr standalone",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "we have to take another impairment here"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "White cement plant has been started; the next level of backward integration begins in the coming year",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "we have started our white cement plant, and we are now really looking at the next level in terms of what basically starts in the coming year"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Six strategic pillars for the year: brand propelling, innovation, services, regionalization, B2B, and backward integration",
+        "figure": "six areas",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "these are the six big areas, very different, very disruptive"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Management concedes the expected industry demand recovery has not happened and says nothing material changes for one or two quarters",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "I think the expectation was now, which has not happened... we need to wait for another one or two quarters, before we really see some things changing"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Became colour partner to Team India via a BCCI partnership; also KBC 25-years property, Bigg Boss, and a Spotify tie-up for Gen Z/Gen Alpha",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Services portfolio expanded — Beautiful Home Painting Service now AI-led for hyper-segmentation and NPS; Total Assure for factories, Smart Assure for waterproofing, Metacare asset management",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact",
+        "quote": "we are the only ones possibly offering so many services as a differentiator in the market"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Launched AP Assure, a unified digital platform consolidating industrial and B2B service offerings",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "fact"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Interest rates coming down and investment shifting to other asset classes named as factors that could eventually bring the painting cycle back — framed as hope, not a call",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "opinion",
+        "quote": "So, we are really hoping that this whole cycle comes back."
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Sustainability: ~6.7 lakh people trained under skilling at 9M, targeting almost 10 lakh this year",
+        "figure": "6.7 lakh trained; target ~10 lakh",
+        "speaker": "Amit Syngle",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Guidance framework: 8-10% volume growth band with a persistent 4-5% volume-value gap, implying ~5-6% value growth",
+        "figure": "vol 8-10%; gap 4-5%; value 5-6%",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "that band of 8-10% for volume and gap between the volume and the value is a good indicator"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Management accepted the analyst's inference that ~5-6% value growth is realistic for the next few quarters",
+        "figure": "9-10% vol; 5-6% value",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "I think that is a reasonable take in terms of what we can look at."
+      },
+      {
+        "theme": "Guidance",
+        "point": "December's trajectory continued into January; with Q2 at ~10.9% and Q3 high single-digit, this band is what management targets for Q4",
+        "figure": "Q2 volume 10.9%",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "I think as we go ahead, this band would remain, in terms of what we would be able to target for the Q4 as well."
+      },
+      {
+        "theme": "Guidance",
+        "point": "Industrial and B2B expected to keep growing faster than retail",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "these two, as I said earlier would kind of continue to grow possibly higher than retail, going forward"
+      },
+      {
+        "theme": "Guidance",
+        "point": "International: all countries should do well and maintain momentum, with the explicit exception of Bangladesh",
+        "figure": "",
+        "speaker": "Amit Syngle",
+        "kind": "guidance",
+        "quote": "with the exception of Bangladesh, I think all other countries should do well overall"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Abneesh Roy (Nuvama) pressed on whether the real-estate upcycle is at its fag end and what that means for the 15% of demand from new homes (85% repainting). Management did not address the premise or quantify the segment, redirecting to luxury/premium housing",
+        "figure": "15% new homes / 85% repaint (analyst framing)",
+        "speaker": "Abneesh Roy / Amit Syngle",
+        "kind": "qna",
+        "quote": "It seems we are at the fag end of the real estate upcycle."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Asked for its share-of-voice number and a traditional-vs-digital media spend break-up, management gave no figures — only that digital spends 'have gone fairly high' and it is 'leading the game'",
+        "figure": "",
+        "speaker": "Abneesh Roy / Amit Syngle",
+        "kind": "qna",
+        "quote": "Possibly from a share of voice point of view, we are leading the game today"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Manoj Menon (ICICI) challenged why industry growth is so muted despite the historical two-good-two-muted-years pattern implying recovery should have arrived, and despite heavy media spend from the new player",
+        "figure": "",
+        "speaker": "Manoj Menon",
+        "kind": "qna",
+        "quote": "What's your prognosis on why industry growth really not happening the way it should have?"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Asked point blank for a confidence percentage (60/70/80/90/100%) on delivering material market-share gains over 12-18 months, management declined to give a number, saying only it is 'reasonably confident' of growing somewhat higher than the market",
+        "figure": "",
+        "speaker": "Manoj Menon / Amit Syngle",
+        "kind": "qna",
+        "quote": "we would like to possibly grow to some extent higher than the market... So, we are reasonably confident"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Asked by when volume growth moves to double digits and whether it is months or quarters, management gave no timeline — only that 'that regime should continue'",
+        "figure": "",
+        "speaker": "Avi Mehta / Amit Syngle",
+        "kind": "qna",
+        "quote": "last quarter we had a double-digit, this quarter we had a high-single-digit growth. So, I think that regime should continue"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Asked directly whether there is a case for a price CUT given deflationary raw materials and top-of-band margins, management said it is not looking at any price change and redirected to brand building and premiumization",
+        "figure": "",
+        "speaker": "Mihir Shah / Amit Syngle",
+        "kind": "qna",
+        "quote": "At the moment, I dont think so we are looking at any price change, but we will keep a close watch"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Percy Panthaki (IIFL) pushed on why domestic sales growth was only ~3% on a base of ~-7%, asking whether it was market-share loss or genuinely weak industry, and whether improvement is real or 'more of a hope'. Management redirected to coatings numbers without addressing market share",
+        "figure": "~3% growth on ~-7% base (analyst)",
+        "speaker": "Percy Panthaki / Amit Syngle",
+        "kind": "qna",
+        "quote": "is it that the industry growth itself is that weak?... the improvement is more of a hope at this point of time?"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Amit Sachdeva (UBS) asked whether Q4 could see very strong volume growth from year-end channel filling. Management rejected the premise, calling channel filling artificial and unproductive",
+        "figure": "",
+        "speaker": "Amit Sachdeva / Amit Syngle",
+        "kind": "qna",
+        "quote": "this whole thing of channel filling is something which is always artificial"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Pressed on whether the 5% volume-value gap embeds competitive signalling and when the base catches up, management gave no timeframe beyond 'a certain point of time', attributing the gap to market structure rather than competition",
+        "figure": "",
+        "speaker": "Amit Sachdeva / Amit Syngle",
+        "kind": "qna",
+        "quote": "This structure cant change strongly, very easily in a very short time."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Tejas Shah (Avendus Spark) argued that on a 9M-over-9M basis, neutralizing festive timing, both company and industry still appear to be struggling. Management conceded not much changes for the immediate quarter or two",
+        "figure": "",
+        "speaker": "Tejas Shah / Amit Syngle",
+        "kind": "qna",
+        "quote": "not too much is going to change for the immediate quarter or the immediate two quarters"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Tejas Shah challenged the divergence between muted growth plus elevated competition and top-of-band margins. Management denied the industry had concluded price cuts won't revive demand, crediting a structural cost model and 'war chest' rather than reliance on external deflation",
+        "figure": "",
+        "speaker": "Tejas Shah / Amit Syngle",
+        "kind": "qna",
+        "quote": "we are not relying on just the external deflation or the prices. We are working on a very strong cost model"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "On home decor profitability, management would not confirm the analyst's 'consolidation phase impacting sales growth' framing, saying only that it spends sensibly in a fragmented market",
+        "figure": "",
+        "speaker": "Avi Mehta / Amit Syngle",
+        "kind": "qna",
+        "quote": "the approach is we spend sensibly here"
+      }
+    ],
+    "theme_summaries": {
+      "Demand & volumes": "They sold 7.9% more paint but earned only 2.8% more money — a wide gap, meaning customers were buying cheaper paint. October was weak, with a short festive season and a monsoon that dragged on; November and December rescued the quarter. The more interesting part is management's explanation for why the whole industry is sluggish: people repaint less often than they used to, and fewer people paint for occasions like weddings. Painting the house now competes with holidays for the same spare money.",
+      "Pricing & margins": "One of their best-ever profit margins, helped by ingredients getting about 1.1% cheaper plus their own cost-cutting. Even so they refused to raise their profit forecast, keeping it at 18-20%. No price changes were planned.",
+      "Competition": "Management brushed off the new rival's price increase as 'just an artificial strategy', saying anything in the 2-3% range 'will not have any impact'. They expected competition to stay tough, with new entrants plus two existing companies merging.",
+      "Raw materials": "Ingredient costs fell about 1.1%, because paint demand was weak worldwide. Two risks they flagged: oil prices can spike very quickly, and the government might restrict imports of the white pigment they depend on.",
+      "Segments & products": "New products were about 16% of sales, including one they claim is a world-first — a paint finish that also resists termites. Selling to builders and factories beat retail for a fourth quarter running. Home decor was the weak spot, described as 'a little bit limiting', with bathrooms weak and the lighting brand losing money.",
+      "International": "Overseas sales up 6.3%, though only about 4.2% once you strip out the weaker rupee. Sri Lanka, UAE and Ethiopia were strong, and every region grew except the Pacific islands. Overseas profit rose 26%.",
+      "Capex & projects": "Only one item mentioned: the white cement plant has started up, with the next stage of making their own ingredients due to begin the following year.",
+      "Balance sheet & capital allocation": "Two one-off charges hit the quarter — about ₹64 crore for a new labour law, and roughly ₹94 crore written off on the lighting business they had bought, after a poor October.",
+      "Distribution & network": "They added 3,500-4,000 shops over the year, taking them past 160,000 outlets, plus about 74 Beautiful Homes stores.",
+      "Strategy & outlook": "Six priorities — but the notable admission is that the recovery they had expected simply had not arrived, and 'nothing material changes' for another quarter or two. Meanwhile they spent heavily on brand-building, including becoming official colour partner to the Indian cricket team. They are 'really hoping' that falling interest rates get people painting again.",
+      "Guidance": "Sell 8-10% more paint, with a 4-5% gap to money earned — which works out to roughly 5-6% revenue growth, an inference they explicitly agreed with. December's momentum carried into January. Factory and builder sales to keep beating retail. All overseas markets fine except Bangladesh.",
+      "Analyst Q&A concerns": "Analysts pressed hard on whether things were genuinely improving or whether it was 'more of a hope'. Management would not give a confidence level on winning market share, would not say when growth reaches double digits, dismissed the idea they had stuffed dealers with stock, gave no advertising-share figure, and — looking at nine months rather than one quarter, which cancels out festive timing — conceded the industry was still struggling."
+    }
+  }
+];
+
+const THEME_ORDER = [
+  "Demand & volumes", "Pricing & margins", "Competition", "Raw materials",
+  "Segments & products", "International", "Capex & projects",
+  "Balance sheet & capital allocation", "Distribution & network",
+  "Strategy & outlook", "Guidance", "Analyst Q&A concerns",
+];
+
+const KINDS = [
+  { k: "all", label: "All" },
+  { k: "fact", label: "Facts" },
+  { k: "guidance", label: "Guidance" },
+  { k: "opinion", label: "Views" },
+  { k: "qna", label: "Q&A" },
+];
+
+let fCall = "all", fKind = "all", fTheme = "all";
+
+const esc = s => String(s ?? "").replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+
+function segmented(el, items, current, onPick) {
+  el.innerHTML = items.map(i =>
+    `<button type="button" data-v="${esc(i.k)}" aria-pressed="${i.k === current}">${esc(i.label)}</button>`).join("");
+  el.onclick = ev => {
+    const b = ev.target.closest("button[data-v]");
+    if (b) onPick(b.dataset.v);
+  };
+}
+
+function themesPresent() {
+  const seen = new Set();
+  CALLS.forEach(c => c.detailed.forEach(p => seen.add(p.theme)));
+  const ordered = THEME_ORDER.filter(t => seen.has(t));
+  const extra = [...seen].filter(t => !THEME_ORDER.includes(t)).sort();
+  return [...ordered, ...extra];
+}
+
+function render() {
+  segmented(document.getElementById("fCall"),
+    [{ k: "all", label: "All" }, ...CALLS.map(c => ({ k: c.quarter, label: c.quarter }))],
+    fCall, v => { fCall = v; render(); });
+  segmented(document.getElementById("fKind"), KINDS, fKind, v => { fKind = v; render(); });
+
+  const themeSel = document.getElementById("fTheme");
+  if (themeSel.options.length === 0) {
+    themeSel.innerHTML = `<option value="all">All themes</option>` +
+      themesPresent().map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join("");
+    themeSel.onchange = () => { fTheme = themeSel.value; render(); };
+  }
+
+  let shown = 0, total = 0;
+  const out = [];
+
+  for (const call of CALLS) {
+    total += call.detailed.length;
+    if (fCall !== "all" && call.quarter !== fCall) continue;
+
+    const pts = call.detailed.filter(p =>
+      (fKind === "all" || p.kind === fKind) && (fTheme === "all" || p.theme === fTheme));
+    if (!pts.length) continue;
+    shown += pts.length;
+
+    // group by theme, in canonical order
+    const byTheme = new Map();
+    for (const p of pts) {
+      if (!byTheme.has(p.theme)) byTheme.set(p.theme, []);
+      byTheme.get(p.theme).push(p);
+    }
+    const themes = [...byTheme.keys()].sort(
+      (a, b) => (THEME_ORDER.indexOf(a) + 1 || 99) - (THEME_ORDER.indexOf(b) + 1 || 99));
+
+    out.push(`<section class="call">
+      <div class="call-head">
+        <span class="call-q">${esc(call.quarter)}</span>
+        <span class="call-date">call ${esc(call.call_date)} · ${pts.length} of ${call.detailed.length} pointers</span>
+      </div>
+      ${themes.map(th => `
+        <div class="theme-group">
+          <p class="theme-name">${esc(th)}</p>
+          ${(call.theme_summaries || {})[th]
+            ? `<p class="theme-summary"><span class="lbl">Summary</span>${esc(call.theme_summaries[th])}</p>`
+            : ""}
+          <ul class="pts">${byTheme.get(th).map(p => `
+            <li class="pt">
+              <span class="pt-body">${esc(p.point)}
+                ${p.quote ? `<blockquote>“${esc(p.quote)}”</blockquote>` : ""}
+              </span>
+              ${p.figure ? `<span class="pt-fig">${esc(p.figure)}</span>` : "<span></span>"}
+              <span class="pt-meta">
+                <span class="badge ${esc(p.kind)}">${esc(p.kind === "qna" ? "Q&A" : p.kind)}</span>
+                ${p.speaker ? `<span class="who">${esc(p.speaker)}</span>` : ""}
+              </span>
+            </li>`).join("")}
+          </ul>
+        </div>`).join("")}
+    </section>`);
+  }
+
+  document.getElementById("out").innerHTML =
+    out.length ? out.join("") : `<p class="empty">No pointers match these filters.</p>`;
+  document.getElementById("count").textContent = `${shown} of ${total} pointers`;
+}
+
+render();
+</script>
+</body>
+</html>
