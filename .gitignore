@@ -9,6 +9,17 @@
 /coverage
 /build
 
+# next.js build output
+/.next
+/out
+*.tsbuildinfo
+
+# leftover CRA/vite build output
+/dist
+
+# firebase deploy cache
+/.firebase
+
 
 # misc
 .DS_Store
