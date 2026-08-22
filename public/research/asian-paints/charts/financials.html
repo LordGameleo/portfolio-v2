@@ -271,6 +271,57 @@
      break point and overflow a phone viewport; `anywhere` also shrinks min-content
      so it cannot push the page wide in a grid or flex context either */
   code { overflow-wrap: anywhere; }
+
+  /* ---- Valuation / DCF section ------------------------------------------
+     Colour discipline: the DCF is not a metric family, so it borrows
+     --capital (returns) for the headline figure and never introduces a
+     fourth hue. Deltas reuse --delta-good/--delta-bad. */
+  .dcf { margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--grid); }
+  .dcf h2 { font-size: 15px; margin: 0 0 6px; }
+  .dcf .knobs {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 20px; margin: 14px 0 4px;
+  }
+  .knob { min-width: 0; }
+  .knob .kh { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .knob label { font-size: 12px; color: var(--text-secondary); font-weight: 600; }
+  .knob output {
+    font-size: 13.5px; color: var(--text-primary); font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .knob input[type=range] { width: 100%; margin: 5px 0 0; accent-color: var(--capital); }
+  .knob .kn { font-size: 11px; color: var(--text-muted); line-height: 1.45; }
+  .dcf .reset {
+    font-size: 11.5px; background: none; border: 1px solid var(--border);
+    color: var(--text-secondary); border-radius: 5px; padding: 4px 9px;
+    cursor: pointer;
+  }
+  .dcf .reset:hover { background: var(--hover); }
+
+  .dcf-out {
+    margin: 16px 0 0; padding: 14px 15px; border: 1px solid var(--border);
+    border-radius: 8px; background: var(--page);
+  }
+  .dcf-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; }
+  .dcf-val { font-size: 26px; font-weight: 700; color: var(--capital); font-variant-numeric: tabular-nums; }
+  .dcf-band { font-size: 12px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .dcf-gap { font-size: 13.5px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .dcf-ret { font-size: 12.5px; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+  .dcf-bd {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3px 18px; margin: 12px 0 0;
+    font-size: 12px; font-variant-numeric: tabular-nums;
+  }
+  .dcf-bd div { display: flex; justify-content: space-between; gap: 10px; border-bottom: 1px solid var(--grid); padding: 3px 0; }
+  .dcf-bd span:first-child { color: var(--text-secondary); }
+  .dcf-bd span:last-child { color: var(--text-primary); font-weight: 600; }
+  .dcf-bd .em span:last-child { color: var(--capital); }
+  .dcf-warn { font-size: 11.5px; color: var(--text-muted); margin: 11px 0 0; line-height: 1.55; }
+  .dcf-scn { margin-top: 16px; }
+  .dcf-scn .cap { font-size: 12px; color: var(--text-secondary); margin: 0 0 7px; }
+  /* Table cells touch by design; excluded from any collision audit. */
+  @media (max-width: 660px) { .dcf .knobs, .dcf-bd { grid-template-columns: 1fr; } }
+
   @media (max-width: 640px) {
     /* a sticky bar eats too much of a phone screen, and touch readouts are
        better placed at the finger — see the per-panel chip in the SVG */
@@ -352,13 +403,29 @@
     .board.stuck .tile-label { font-size: 13px; }
     .board.stuck .tile-value { font-size: 17px; margin-top: 4px; }
     .board.stuck .tile-delta { font-size: 12.5px; margin-top: 3px; }
+
+    /* Valuation section — stepped clear of body text, same as the other
+       headings. Kept in this block (not the base rules) so the phone sizes
+       stay authoritative there. */
+    .dcf h2 { font-size: 19px; }
+    .knob label { font-size: 13.5px; }
+    .knob output { font-size: 15.5px; }
+    .knob .kn { font-size: 12.5px; }
+    .dcf-val { font-size: 32px; }
+    .dcf-band { font-size: 13px; }
+    .dcf-gap { font-size: 15.5px; }
+    .dcf-ret { font-size: 14px; }
+    .dcf-bd { font-size: 13.5px; }
+    .dcf-warn { font-size: 12.5px; }
+    .dcf-scn .cap { font-size: 13.5px; }
+    .dcf .reset { font-size: 12.5px; }
   }
 </style>
 </head>
 <body>
 <div class="viz-root">
   <div class="card">
-    <p class="crumb"><a href="../../">← All analyses</a> <span>/ Asian Paints Ltd</span></p>
+    <p class="crumb"><a href="/research/">← All analyses</a> <span>/ Asian Paints Ltd</span></p>
 
     <h1>Asian Paints Ltd — financial dashboard, FY2015–FY2026</h1>
     <p class="sub">Consolidated, financial years ending March. Every metric on its own panel — the series span ₹ crore and percentages across a 100× range, so one shared axis would be meaningless.</p>
@@ -394,6 +461,31 @@
       <summary>View as table</summary>
       <div class="tbl-scroll"><table id="table"></table></div>
     </details>
+
+    <section class="dcf">
+      <h2>Valuation — discounted cash flow</h2>
+      <p class="lede" id="dcfLede"></p>
+      <div class="knobs" id="dcfKnobs"></div>
+      <p><button type="button" class="reset" id="dcfReset">Reset to base case</button></p>
+      <div class="dcf-out">
+        <div class="dcf-head">
+          <span class="dcf-val" id="dcfVal">—</span>
+          <span class="dcf-band" id="dcfBand"></span>
+          <span class="dcf-gap" id="dcfGap"></span>
+        </div>
+        <p class="dcf-ret" id="dcfRet"></p>
+        <div class="dcf-bd" id="dcfBd"></div>
+        <p class="dcf-warn" id="dcfWarn"></p>
+      </div>
+      <details class="dcf-scn">
+        <summary>View the 11-year projection</summary>
+        <div class="tbl-scroll"><table id="dcfTable"></table></div>
+      </details>
+      <div class="dcf-scn">
+        <p class="cap" id="dcfScnCap"></p>
+        <div class="tbl-scroll"><table id="dcfScnTable"></table></div>
+      </div>
+    </section>
 
     <section class="calls">
       <div class="calls-head">
@@ -1612,6 +1704,375 @@ if (quadsEl) quadsEl.innerHTML = QUADS.filter(q => (POINTS[q.k] || []).length).m
         <span class="pt-src ${p.verified ? "" : "unver"}">${p.src}</span></li>`).join("")}
     </ul>
   </div>`).join("");
+
+// ---------------------------------------------------------------------------
+// VALUATION — discounted cash flow, 10 explicit years + terminal value at
+// year 11. Driven by the DCF panel data (absent => section is dropped at
+// build time, so the guard below is belt-and-braces).
+//
+// The calculator is deliberately FLAT-RATE: one growth number and one margin
+// number held constant for 11 years. It therefore does NOT reproduce the
+// scenario rows, which fade growth and margin — the page says so rather than
+// quietly presenting two different models as one.
+//
+// Terminal value is struck on year-11 operating profit but is money standing
+// at the END OF YEAR 10, so it is discounted by DF(10). Using DF(11) would
+// double-count a year of discounting.
+// ---------------------------------------------------------------------------
+const DCF = {
+  "as_of": "2026-08-22",
+  "price": 2640.0,
+  "price_asof": "2026-08-21",
+  "week52_low": 2115.0,
+  "week52_high": 2985.7,
+  "risk_free": 0.0685,
+  "sales0": 37187,
+  "ebitda0": 7240,
+  "ebitda_margin0": 0.19469169333369188,
+  "eps_ttm": 49.68,
+  "tax": 0.26,
+  "shares_cr": 95.92,
+  "net_cash": 5000.0,
+  "sales_to_capital": 4.961382113821138,
+  "dep_pct": 0.036,
+  "wc_pct": 0.18,
+  "explicit_years": 10,
+  "terminal_year": 11,
+  "base_fy": 2026,
+  "current_ev_ebitda": 34.28574585635359,
+  "current_pe": 53.14009661835749,
+  "defaults": {
+    "exit_multiple": 30.0,
+    "wacc": 0.115,
+    "growth": 0.07,
+    "margin": 0.19
+  },
+  "limits": {
+    "exit_multiple": [
+      8,
+      45
+    ],
+    "wacc": [
+      0.07,
+      0.16
+    ],
+    "growth": [
+      0.0,
+      0.16
+    ],
+    "margin": [
+      0.1,
+      0.26
+    ]
+  },
+  "scenarios": [
+    {
+      "key": "bear",
+      "label": "Bear - FY22 repeat, franchise erodes",
+      "wacc": 0.125,
+      "growth_5y": [
+        0.08,
+        0.07,
+        0.07,
+        0.07,
+        0.07
+      ],
+      "g_floor": 0.03,
+      "margin_5y": [
+        0.155,
+        0.165,
+        0.17,
+        0.175,
+        0.175
+      ],
+      "margin_floor": 0.17,
+      "fade_end": 15,
+      "at_30x": 1479.7154398874966,
+      "at_current_multiple": 1653.032574958908,
+      "required_exit_multiple": 58.78667251468271,
+      "return_at_30x": 0.055965739201964904,
+      "tv_share_at_30x": 0.8470152095728154
+    },
+    {
+      "key": "base",
+      "label": "Base - squeeze, partial recovery, then fade",
+      "wacc": 0.115,
+      "growth_5y": [
+        0.11,
+        0.09,
+        0.09,
+        0.08,
+        0.08
+      ],
+      "g_floor": 0.05,
+      "margin_5y": [
+        0.175,
+        0.185,
+        0.19,
+        0.19,
+        0.19
+      ],
+      "margin_floor": 0.19,
+      "fade_end": 20,
+      "at_30x": 2080.5160242165853,
+      "at_current_multiple": 2330.8754641250475,
+      "required_exit_multiple": 39.60930850759331,
+      "return_at_30x": 0.08650275049993328,
+      "tv_share_at_30x": 0.86112355661599
+    },
+    {
+      "key": "bull",
+      "label": "Bull - pricing holds, VAM/VAE delivers",
+      "wacc": 0.108,
+      "growth_5y": [
+        0.13,
+        0.11,
+        0.1,
+        0.1,
+        0.09
+      ],
+      "g_floor": 0.06,
+      "margin_5y": [
+        0.19,
+        0.205,
+        0.215,
+        0.22,
+        0.22
+      ],
+      "margin_floor": 0.22,
+      "fade_end": 25,
+      "at_30x": 2907.1503419786973,
+      "at_current_multiple": 3261.604016670555,
+      "required_exit_multiple": 26.759106894555245,
+      "return_at_30x": 0.11964377926311809,
+      "tv_share_at_30x": 0.866168896257633
+    }
+  ],
+  "note": "Flat-rate calculator: growth and margin held constant for all 11 years. The scenario rows below use fading paths and will not match it. Terminal value is struck on year-11 operating profit and discounted by DF(10), since it is money received at the end of year 10."
+};
+
+(function () {
+  const knobsEl = document.getElementById("dcfKnobs");
+  if (!knobsEl || !DCF || !DCF.price) return;
+
+  const inr = n => Math.round(n).toLocaleString("en-IN");
+  const pct = (v, d = 2) => (v * 100).toFixed(d) + "%";
+  const rs = n => "₹" + Math.round(n).toLocaleString("en-IN");
+  const TY = DCF.terminal_year, EY = DCF.explicit_years;
+  const fy = t => "FY" + String((DCF.base_fy + t) % 100).padStart(2, "0");
+
+  const KNOBS = [
+    { k: "exit_multiple", label: "Exit multiple at year " + TY, step: 0.5,
+      fmt: v => v.toFixed(1) + "×",
+      note: "What a buyer pays in " + fy(TY) + ", as a multiple of that year's "
+          + "operating profit. Today the market pays "
+          + DCF.current_ev_ebitda.toFixed(1) + "×." },
+    { k: "wacc", label: "Discount rate", step: 0.0025, fmt: v => pct(v),
+      note: "The annual return you demand for the risk. The 10-year "
+          + "government bond pays " + pct(DCF.risk_free) + "." },
+    { k: "growth", label: "Sales growth", step: 0.0025, fmt: v => pct(v),
+      note: "Held constant for all " + TY + " years." },
+    { k: "margin", label: "Operating profit margin", step: 0.0025,
+      fmt: v => pct(v),
+      note: "Operating profit as a share of sales, held constant. It was "
+          + pct(DCF.ebitda_margin0, 1) + " in the base year." },
+  ];
+
+  const state = Object.assign({}, DCF.defaults);
+
+  function project(st) {
+    const rows = [];
+    let prev = DCF.sales0;
+    for (let t = 1; t <= TY; t++) {
+      const sales = prev * (1 + st.growth);
+      const d = sales - prev;
+      const ebitda = sales * st.margin;
+      const dep = sales * DCF.dep_pct;
+      const ebit = ebitda - dep;
+      const nopat = ebit * (1 - DCF.tax);
+      // maintenance capex == depreciation; growth capex from sales-to-capital
+      const capex = dep + d / DCF.sales_to_capital;
+      const dwc = d * DCF.wc_pct;
+      const fcff = nopat + dep - capex - dwc;
+      const df = 1 / Math.pow(1 + st.wacc, t);
+      rows.push({ t, fy: fy(t), sales, ebitda, dep, ebit, nopat, capex, dwc,
+                  fcff, df, pv: fcff * df });
+      prev = sales;
+    }
+    return rows;
+  }
+
+  function valueOf(st) {
+    const rows = project(st);
+    const ex = rows.slice(0, EY);
+    const y11 = rows[EY];
+    const pvEx = ex.reduce((a, r) => a + r.pv, 0);
+    const df10 = ex[ex.length - 1].df;      // terminal sits at end of year 10
+    const tv = st.exit_multiple * y11.ebitda;
+    const pvTv = tv * df10;
+    const ev = pvEx + pvTv;
+    const eq = ev + DCF.net_cash;
+    return { rows, ex, y11, pvEx, df10, tv, pvTv, ev, eq,
+             ps: eq / DCF.shares_cr, tvShare: ev ? pvTv / ev : 0 };
+  }
+
+  // Value falls monotonically in the discount rate, so bisect. Returns null
+  // when the price is unreachable even at ~0% — a real outcome, not a solver
+  // failure, and it must not be shown as a spuriously tiny positive rate.
+  function impliedReturn(st) {
+    const at = w => valueOf(Object.assign({}, st, { wacc: w })).ps;
+    let lo = 1e-6, hi = 0.60;
+    if (at(lo) < DCF.price) return null;
+    for (let i = 0; i < 200; i++) {
+      const mid = (lo + hi) / 2;
+      if (at(mid) > DCF.price) lo = mid; else hi = mid;
+    }
+    return (lo + hi) / 2;
+  }
+
+  function requiredExitMultiple(st) {
+    let lo = 0.1, hi = 500;
+    for (let i = 0; i < 200; i++) {
+      const mid = (lo + hi) / 2;
+      if (valueOf(Object.assign({}, st, { exit_multiple: mid })).ps < DCF.price)
+        lo = mid; else hi = mid;
+    }
+    return (lo + hi) / 2;
+  }
+
+  knobsEl.innerHTML = KNOBS.map(kn => {
+    const [lo, hi] = DCF.limits[kn.k];
+    return `<div class="knob">
+      <div class="kh"><label for="k_${kn.k}">${kn.label}</label>
+        <output id="o_${kn.k}"></output></div>
+      <input type="range" id="k_${kn.k}" min="${lo}" max="${hi}"
+             step="${kn.step}" value="${state[kn.k]}"
+             aria-describedby="n_${kn.k}">
+      <div class="kn" id="n_${kn.k}">${kn.note}</div>
+    </div>`;
+  }).join("");
+
+  document.getElementById("dcfLede").innerHTML =
+    `Free cash flow is projected for <strong>${EY} explicit years</strong> `
+    + `(${fy(1)}–${fy(EY)}), then a <strong>terminal value struck at year `
+    + `${TY}</strong> (${fy(TY)}) as an exit multiple of that year's operating `
+    + `profit — <strong>no perpetual-growth assumption anywhere</strong>. `
+    + `Base year is the twelve months to Jun ${DCF.base_fy}: sales ₹`
+    + `${inr(DCF.sales0)}cr, operating profit ₹${inr(DCF.ebitda0)}cr `
+    + `(${pct(DCF.ebitda_margin0, 1)}). Market price <strong>`
+    + `${rs(DCF.price)}</strong> as of ${DCF.price_asof}. `
+    + `Move the four dials — they are the only inputs that materially change `
+    + `the answer.`;
+
+  const tblEl = document.getElementById("dcfTable");
+  const bdEl = document.getElementById("dcfBd");
+
+  function render() {
+    KNOBS.forEach(kn => {
+      document.getElementById("o_" + kn.k).textContent = kn.fmt(state[kn.k]);
+    });
+
+    const v = valueOf(state);
+    const gap = v.ps / DCF.price - 1;
+    const ret = impliedReturn(state);
+    const need = requiredExitMultiple(state);
+
+    document.getElementById("dcfVal").textContent = rs(v.ps) + " / share";
+    document.getElementById("dcfBand").textContent =
+      "±10% modelling band: " + rs(v.ps * 0.9) + " – " + rs(v.ps * 1.1);
+    const gapEl = document.getElementById("dcfGap");
+    gapEl.textContent = (gap >= 0 ? "+" : "") + (gap * 100).toFixed(0)
+      + "% vs " + rs(DCF.price);
+    gapEl.style.color = gap >= 0 ? "var(--delta-good)" : "var(--delta-bad)";
+
+    document.getElementById("dcfRet").innerHTML = ret === null
+      ? `At ${rs(DCF.price)} the price is <strong>unreachable</strong> — even `
+        + `with no discounting at all, ${EY} years of cash plus the terminal `
+        + `value fall short.`
+      : `Buying at ${rs(DCF.price)} earns <strong>${pct(ret)} a year</strong> `
+        + `on these assumptions, against ${pct(DCF.risk_free)} risk-free `
+        + `— <strong style="color:${ret > DCF.risk_free
+            ? "var(--delta-good)" : "var(--delta-bad)"}">`
+        + `${ret > DCF.risk_free ? "+" : ""}`
+        + `${((ret - DCF.risk_free) * 100).toFixed(2)}pp</strong>. `
+        + `To justify today's price the year-${TY} exit multiple would have to `
+        + `be <strong>${need.toFixed(1)}×</strong>.`;
+
+    bdEl.innerHTML = [
+      ["Present value, " + EY + " years of cash", "₹" + inr(v.pvEx) + "cr", ""],
+      ["Terminal value at year " + TY, "₹" + inr(v.tv) + "cr", ""],
+      ["…discounted to today (×" + v.df10.toFixed(4) + ")", "₹" + inr(v.pvTv) + "cr", ""],
+      ["Terminal share of enterprise value", (v.tvShare * 100).toFixed(0) + "%", ""],
+      ["Enterprise value", "₹" + inr(v.ev) + "cr", ""],
+      ["Plus net cash", "₹" + inr(DCF.net_cash) + "cr", ""],
+      ["Equity value", "₹" + inr(v.eq) + "cr", ""],
+      ["÷ " + DCF.shares_cr + "cr shares", rs(v.ps), "em"],
+    ].map(([a, b, c]) => `<div class="${c}"><span>${a}</span><span>${b}</span></div>`).join("");
+
+    document.getElementById("dcfWarn").innerHTML =
+      `<strong>${(v.tvShare * 100).toFixed(0)}% of the value is the terminal `
+      + `assumption</strong>, not the ${EY} years of forecast. An exit multiple `
+      + `does not reduce that concentration — it only makes the assumption `
+      + `<em>checkable</em> against the ${DCF.current_ev_ebitda.toFixed(1)}× the `
+      + `market pays today. Note also that a low discount rate and a high exit `
+      + `multiple express the same belief, so moving both toward optimism `
+      + `counts it twice. Operating profit here excludes other income, which is `
+      + `treasury return on the investment book and is already inside net cash.`;
+
+    tblEl.innerHTML =
+      `<thead><tr><th>Year</th><th>Sales</th><th>Op profit</th><th>Margin</th>`
+      + `<th>NOPAT</th><th>Capex</th><th>ΔWC</th><th>Free cash flow</th>`
+      + `<th>Discount</th><th>Present value</th></tr></thead><tbody>`
+      + v.rows.map(r => `<tr${r.t > EY ? ' style="color:var(--text-muted)"' : ""}>`
+          + `<td>${r.fy}${r.t > EY ? " (terminal)" : ""}</td>`
+          + `<td>${inr(r.sales)}</td><td>${inr(r.ebitda)}</td>`
+          + `<td>${pct(r.ebitda / r.sales, 1)}</td><td>${inr(r.nopat)}</td>`
+          + `<td>${inr(r.capex)}</td><td>${inr(r.dwc)}</td>`
+          + `<td>${inr(r.fcff)}</td><td>${r.df.toFixed(4)}</td>`
+          + `<td>${r.t > EY ? "—" : inr(r.pv)}</td></tr>`).join("")
+      + `</tbody>`;
+  }
+
+  KNOBS.forEach(kn => {
+    document.getElementById("k_" + kn.k).addEventListener("input", e => {
+      state[kn.k] = parseFloat(e.target.value);
+      render();
+    });
+  });
+  document.getElementById("dcfReset").addEventListener("click", () => {
+    Object.assign(state, DCF.defaults);
+    KNOBS.forEach(kn => {
+      document.getElementById("k_" + kn.k).value = state[kn.k];
+    });
+    render();
+  });
+
+  // Python-computed scenarios, WITH fading growth and margin — deliberately a
+  // different model from the flat calculator above.
+  const scn = DCF.scenarios || [];
+  document.getElementById("dcfScnCap").innerHTML =
+    `<strong>Reference scenarios</strong>, computed separately with growth and `
+    + `margin <em>fading</em> over time rather than held flat — so they will not `
+    + `match the dial above even at the same headline rates. Each starts from a `
+    + `five-year path then fades to a floor.`;
+  document.getElementById("dcfScnTable").innerHTML =
+    `<thead><tr><th>Scenario</th><th>Discount</th><th>Growth, yrs 1–5</th>`
+    + `<th>Margin, yrs 1–5</th><th>At 30×</th>`
+    + `<th>At ${DCF.current_ev_ebitda.toFixed(1)}× (today's)</th>`
+    + `<th>Multiple needed</th><th>Return at 30×</th></tr></thead><tbody>`
+    + scn.map(s => `<tr><td>${s.label}</td><td>${pct(s.wacc, 1)}</td>`
+        + `<td>${s.growth_5y.map(g => (g * 100).toFixed(0)).join("/")}% → `
+        + `${pct(s.g_floor, 0)}</td>`
+        + `<td>${s.margin_5y.map(m => (m * 100).toFixed(1)).join("/")}% → `
+        + `${pct(s.margin_floor, 1)}</td>`
+        + `<td>${rs(s.at_30x)}</td><td>${rs(s.at_current_multiple)}</td>`
+        + `<td>${s.required_exit_multiple.toFixed(1)}×</td>`
+        + `<td>${s.return_at_30x === null ? "—" : pct(s.return_at_30x)}</td>`
+        + `</tr>`).join("")
+    + `</tbody>`;
+
+  render();
+})();
 
 // Sources. Anything unread stays flagged rather than silently dropped.
 const REFS = [

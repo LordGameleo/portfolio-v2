@@ -29,7 +29,10 @@ const ROOT      = path.resolve(__dirname, '..')
 const SRC       = process.env.RESEARCH_SRC
   ? path.resolve(process.env.RESEARCH_SRC)
   : path.resolve(ROOT, '../personal-claude/company-analysis')
-const DEST      = path.join(ROOT, 'public/research')
+// Where the library is mounted on the site. Drives both the output directory and
+// the absolute links written into the published pages, so they cannot drift.
+const MOUNT     = '/research'
+const DEST      = path.join(ROOT, 'public', MOUNT)
 
 // ── The gate ─────────────────────────────────────────────────────────────────
 // Any of these appearing in a published page means the store was built with
@@ -49,15 +52,22 @@ const FORBIDDEN = [
 // links to be extensionless keeps every in-site hop direct. Each rule must match
 // at least once — a miss means the templates moved and the output would ship
 // links that redirect or break, so it fails loudly.
+//
+// The index page's links MUST be root-absolute. cleanUrls serves the library at
+// /research with no trailing slash, so the browser treats "research" as a file
+// and resolves a relative "asian-paints/..." against / — landing on
+// /asian-paints/charts/financials, which 404s. The chart pages are fine either
+// way (their URLs have enough path segments), but absolute is stated once here
+// so the mount point isn't spread across the file.
 const CHART_COMMON = [
   { why: 'breadcrumb to the library index',
-    find: 'href="../../index.html"', to: 'href="../../"' },
+    find: 'href="../../index.html"', to: `href="${MOUNT}/"` },
 ]
 
 const REWRITES = {
   'index.html': [
-    { why: 'dashboard URL',      find: '${c.slug}/charts/financials.html', to: '${c.slug}/charts/financials' },
-    { why: 'call-pointers URL',  find: '${c.slug}/charts/concalls.html',   to: '${c.slug}/charts/concalls' },
+    { why: 'dashboard URL',      find: '${c.slug}/charts/financials.html', to: `${MOUNT}/\${c.slug}/charts/financials` },
+    { why: 'call-pointers URL',  find: '${c.slug}/charts/concalls.html',   to: `${MOUNT}/\${c.slug}/charts/concalls` },
   ],
   'financials.html': [
     ...CHART_COMMON,
@@ -125,11 +135,17 @@ function stage(srcFile, destFile) {
 stage(path.join(SRC, 'index.html'), path.join(DEST, 'index.html'))
 
 // A company is any directory carrying a report.json — the same rule the analysis
-// index builder uses to decide what lands on the library page.
-const slugs = fs.readdirSync(SRC, { withFileTypes: true })
+// index builder uses to decide what lands on the library page. A leading
+// underscore marks a fixture or work in progress and is never published.
+const all = fs.readdirSync(SRC, { withFileTypes: true })
   .filter(d => d.isDirectory() && fs.existsSync(path.join(SRC, d.name, 'report.json')))
   .map(d => d.name)
   .sort()
+
+const slugs = all.filter(s => !s.startsWith('_'))
+for (const s of all.filter(s => s.startsWith('_'))) {
+  console.log(`[research] skipping ${s} (underscore-prefixed, not for publication)`)
+}
 
 if (!slugs.length) {
   console.error('[research] no companies found (no directory contains report.json)')
