@@ -93,7 +93,13 @@
   .segmented button[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); font-weight: 600; }
   .mode-hint { font-size: 11.5px; color: var(--text-muted); }
 
-  .chart-wrap { position: relative; }
+  /* Touch: let the browser keep vertical panning so the page still scrolls, but
+     hand us horizontal movement — that is the axis the chart is read along, and
+     without this the browser claims the whole gesture and fires pointercancel
+     after the first move, freezing the readout. It must sit on this HTML wrapper:
+     touch-action is ignored on SVG child elements, so declaring it on the hit
+     rect does nothing. */
+  .chart-wrap { position: relative; touch-action: pan-y; }
   svg { display: block; width: 100%; height: auto; overflow: visible; }
   /* SVG type. The viewBox is 1:1 with pixels, so these are real sizes and can
      be stepped up on a larger screen instead of scaling with the container. */
@@ -1074,6 +1080,8 @@ const geom = n => ({ col: n % COLS, row: Math.floor(n / COLS) });
 const xIn = (col, i) => colX(col) + (colW * i) / (DATA.length - 1);
 
 let scales = [], crosshairs = [], dots = [];
+// the panel hit rects of the current render, so a tap can be judged inside or out
+let hitAreas = new WeakSet();
 
 // scales[n] is an ARRAY — one scale per series in that view. A merged view gets
 // two, which is what puts a second axis on the right.
@@ -1232,7 +1240,23 @@ function render() {
     }));
   });
 
-  // one hit area per panel; each maps the pointer to a year via its own column scale
+  // One hit area per panel; each maps the pointer to a year via its own column
+  // scale. Mouse and touch run through the same path, with three differences
+  // that touch forces:
+  //
+  //   `touch-action: pan-y` on .chart-wrap — without it the browser claims every
+  //   gesture as a scroll and cancels ours after the first move. It lives on the
+  //   HTML wrapper because touch-action is ignored on SVG child elements.
+  //
+  //   pointer capture — a finger tracking a line will wander outside the panel
+  //   rect. Capturing keeps the events coming so the readout follows it instead
+  //   of sticking at the edge.
+  //
+  //   no hide on lift — a finger leaves nothing hovering behind it, so hiding on
+  //   pointerup would make a tap flash the numbers and drop them. Touch readouts
+  //   persist until the next tap somewhere that is not a panel. A mouse keeps
+  //   ordinary hover semantics and clears on pointerleave.
+  hitAreas = new WeakSet();
   VIEWS.forEach((v, n) => {
     const { col, row } = geom(n);
     const hit = el("rect", {
@@ -1240,14 +1264,33 @@ function render() {
       fill: "transparent", style: "cursor: crosshair",
     });
     svg.appendChild(hit);
-    hit.addEventListener("pointermove", ev => {
+    hitAreas.add(hit);
+
+    let tracking = false;
+
+    const read = ev => {
       const box = svg.getBoundingClientRect();
       const vx = ((ev.clientX - box.left) / box.width) * W;
       let best = 0, bestD = Infinity;
       DATA.forEach((_, i) => { const dd = Math.abs(xIn(col, i) - vx); if (dd < bestD) { bestD = dd; best = i; } });
       showAt(best, n);
+    };
+
+    hit.addEventListener("pointerdown", ev => {
+      tracking = true;
+      try { hit.setPointerCapture(ev.pointerId); } catch (e) { /* capture is best-effort */ }
+      read(ev);
     });
-    hit.addEventListener("pointerleave", hide);
+    hit.addEventListener("pointermove", ev => {
+      if (tracking || ev.pointerType === "mouse") read(ev);
+    });
+    const endTrack = ev => {
+      tracking = false;
+      try { hit.releasePointerCapture(ev.pointerId); } catch (e) { /* already released */ }
+    };
+    hit.addEventListener("pointerup", endTrack);
+    hit.addEventListener("pointercancel", endTrack);
+    hit.addEventListener("pointerleave", ev => { if (ev.pointerType === "mouse") hide(); });
   });
 
   document.getElementById("modeHint").textContent = MODE_HINTS[mode];
@@ -1400,6 +1443,13 @@ if (typeof ResizeObserver === "function" && svg.parentElement) {
   chartObserver.observe(svg.parentElement);
 }
 addEventListener("resize", onWidthChange);   // belt and braces, and covers older engines
+
+// A touch readout has no pointerleave to end it, so it is dismissed by the next
+// tap that lands outside a panel. Capture phase, so it runs before the panel's
+// own pointerdown and cannot clear a readout that tap is about to draw.
+addEventListener("pointerdown", ev => {
+  if (ev.pointerType !== "mouse" && !hitAreas.has(ev.target)) hide();
+}, true);
 
 // --- Stuck state. WHERE the board stops sticking is pure CSS (it is scoped to
 // .stickyscope, which ends with the chart). This only detects that it IS stuck,
