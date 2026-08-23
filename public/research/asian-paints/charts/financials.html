@@ -503,7 +503,7 @@
       <div class="refs" id="refs"></div>
     </section>
 
-    <p class="src">Source: Tapetide (Screener-derived consolidated financials), fetched 22 Aug 2026. As reported: Sales, Net Profit, Dividend Payout % (P&amp;L); Borrowings, Reserves (balance sheet); Cash from Operating/Investing/Financing Activity, Free Cash Flow (cash flow); ROCE (ratios). <strong>Computed: ROE</strong> (net profit ÷ year-end equity capital + reserves, not average equity), <strong>debt/sales</strong>, <strong>net margin</strong>, <strong>retained ₹</strong>. Dividend payout is dividend as a share of <em>profit</em> — not dividend yield, which is against price. Borrowings are <strong>gross</strong>, not net of the ₹7,062cr investment book. <strong>Every plotted value comes from one Tapetide dataset</strong> — one consistent basis across all 12 years, all derivations documented. External sources such as the Ind-Ra rationale are used to <em>cross-check and annotate only</em>; no panel value is ever swapped for a figure from another source, because a basis break mid-series is worse than either source alone. Point-in-time data — not investment advice.</p>
+    <p class="src">Source: Tapetide (Screener-derived consolidated financials), fetched 22 Aug 2026. As reported: Sales, Net Profit, Dividend Payout % (P&amp;L); Borrowings, Reserves (balance sheet); Cash from Operating/Investing/Financing Activity, Free Cash Flow (cash flow); ROCE (ratios). <strong>Computed: ROE</strong> (net profit ÷ year-end equity capital + reserves, not average equity), <strong>debt/sales</strong>, <strong>net margin</strong>, <strong>retained ₹</strong>. Dividend payout is dividend as a share of <em>profit</em> — not dividend yield, which is against price. Borrowings are <strong>gross</strong>, not net of the ₹7,062cr investment book. <strong>Every plotted value comes from one Tapetide dataset</strong> — one consistent basis across all 12 years, all derivations documented. External sources such as the Ind-Ra rationale are used to <em>cross-check and annotate only</em>; no panel value is ever swapped for a figure from another source, because a basis break mid-series is worse than either source alone. Point-in-time data — not investment advice. <strong>The valuation section is a MODEL, not reported data</strong> — a 10-year free-cash-flow projection with the terminal value struck at year 11 as an exit multiple. Its base year is the TTM column (12 months to Jun 2026), which the 12-year panels above deliberately exclude because TTM is not a fiscal year. Share price and the risk-free rate are the only figures on this page not drawn from the cache; beta and the equity risk premium are assumptions, not measurements.</p>
   </div>
 </div>
 
@@ -1115,10 +1115,16 @@ function render() {
     const totalW = entries.reduce((a, e) => a + e.width + 14, 0);
     const stack = entries.length > 1 && totalW > colW;
 
+    // When the entries share a line they must also share the width: each one
+    // starts where the last finished. Resetting to x0 every time would draw them
+    // on top of each other, which is only invisible while `stack` happens to be
+    // true — i.e. on a narrow panel.
+    let lineX = x0;
+
     entries.forEach((e, k) => {
       // last line sits HEAD_BASE above the panel; earlier lines stack upward
       const ty = y0 - HEAD_BASE - (stack ? (entries.length - 1 - k) * HEAD_LH : 0);
-      let hx = x0;
+      let hx = stack ? x0 : lineX;
       const key = el("line", {
         x1: hx, x2: hx + 16, y1: ty - 4, y2: ty - 4,
         stroke: `var(${e.s.fam})`, "stroke-width": 2, "stroke-linecap": "round",
@@ -1133,6 +1139,9 @@ function render() {
       const val = el("text", { x: hx, y: ty, class: "panel-latest" });
       val.textContent = e.value;
       svg.appendChild(val);
+
+      // advance past this entry; 14 matches the per-entry gap `totalW` budgets for
+      lineX = hx + val.getComputedTextLength() + 14;
 
       // unit label only on a single-series panel, and only if it still fits
       if (!dual) {
@@ -1951,6 +1960,15 @@ const DCF = {
       <div class="kn" id="n_${kn.k}">${kn.note}</div>
     </div>`;
   }).join("");
+
+  // Read the state back OUT of the inputs rather than trusting the defaults.
+  // Browsers restore range-input positions across a soft reload, so a `state`
+  // initialised only from DCF.defaults can silently disagree with the sliders
+  // the reader is looking at — the readout would describe a projection the
+  // dials do not show.
+  KNOBS.forEach(kn => {
+    state[kn.k] = parseFloat(document.getElementById("k_" + kn.k).value);
+  });
 
   document.getElementById("dcfLede").innerHTML =
     `Free cash flow is projected for <strong>${EY} explicit years</strong> `
