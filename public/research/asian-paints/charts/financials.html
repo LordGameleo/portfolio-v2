@@ -134,7 +134,9 @@
 
   /* readout board — sticky, so it stays put while scrolling the lower panels */
   .board {
-    position: sticky; top: 0; z-index: 4;
+    /* --tabs-h is the sticky tab bar's measured height (0 when it is absent
+       or static, e.g. on phone). Set in JS; see syncTabOffset(). */
+    position: sticky; top: var(--tabs-h, 0px); z-index: 4;
     box-sizing: border-box; width: 100%;
     background: var(--surface-1);
     border: 1px solid var(--border); border-radius: 9px;
@@ -328,10 +330,89 @@
   /* Table cells touch by design; excluded from any collision audit. */
   @media (max-width: 660px) { .dcf .knobs, .dcf-bd { grid-template-columns: 1fr; } }
 
+  /* ---- Tabs ---------------------------------------------------------------
+     Placed AFTER .calls/.points/.dcf so the panel reset below wins at equal
+     specificity — those sections carry their own top border and margin for the
+     old stacked layout, which would draw a stray rule under the tab bar. */
+  /* Sticky, and ABOVE the readout board (z 6 vs 4), so the board docks beneath
+     it rather than sliding under it. An opaque background is required because
+     the panels scroll behind — and it only needs to span the content column,
+     since the panels live in the same padding box and never extend into the
+     card's side padding.
+     The board's own `top` is driven by --tabs-h, measured live in JS: this bar
+     wraps to two rows at narrow widths, so a hardcoded offset would be wrong at
+     exactly the sizes where it matters most. */
+  .tabs {
+    display: flex; flex-wrap: wrap; gap: 2px; margin: 18px 0 0;
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 6;
+    background: var(--surface-1);
+  }
+  .tabs button {
+    font: inherit; font-size: 12.5px; padding: 8px 14px; cursor: pointer;
+    background: transparent; color: var(--text-secondary);
+    border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px;
+    border-radius: 6px 6px 0 0;
+  }
+  .tabs button:hover { background: var(--hover); color: var(--text-primary); }
+  .tabs button[aria-selected="true"] {
+    color: var(--text-primary); font-weight: 600;
+    border-bottom-color: var(--capital);
+  }
+  /* visible keyboard focus — the tab bar is arrow-key driven */
+  .tabs button:focus-visible { outline: 2px solid var(--scale); outline-offset: -2px; }
+  /* One reset for every panel: the stacked-layout separators are the tab bar's
+     job now. `hidden` does the hiding (UA default display:none) — no !important
+     needed because nothing here sets `display`. */
+  .tabpanel { margin: 16px 0 0; padding-top: 0; border-top: 0; }
+  .tabpanel > h2:first-child { margin-top: 0; }
+
+  /* ---- Relative valuation ------------------------------------------------
+     No new hue: the percentile marker borrows --capital, and deltas reuse
+     --delta-good / --delta-bad, so the three-family colour discipline holds. */
+  .rv-h { font-size: 13.5px; margin: 22px 0 5px; }
+  .rv-note { font-size: 11.5px; color: var(--text-muted); margin: 0 0 10px; line-height: 1.55; }
+  .rv-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  /* percentile strips: where the multiple sits inside its own historical range */
+  .rv-bars { margin: 14px 0 0; display: grid; gap: 9px; }
+  .rv-bar { display: grid; grid-template-columns: 132px 1fr auto; align-items: center; gap: 10px; font-size: 11.5px; }
+  .rv-bar .nm { color: var(--text-secondary); }
+  .rv-bar .tr {
+    position: relative; height: 16px; border-radius: 4px;
+    background: var(--grid); overflow: hidden;
+  }
+  /* the p25–p75 interquartile block, so "low" is judged against the bulk of
+     the distribution rather than against a single bubble print */
+  .rv-bar .iqr { position: absolute; top: 0; bottom: 0; background: var(--hover); }
+  .rv-bar .med { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--baseline); }
+  .rv-bar .now { position: absolute; top: -2px; bottom: -2px; width: 3px; background: var(--capital); border-radius: 2px; }
+  .rv-bar .vl { color: var(--text-primary); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .rv-callout {
+    margin: 12px 0 0; padding: 12px 14px; border-radius: 8px;
+    background: var(--page); border: 1px solid var(--border);
+    font-size: 12.5px; line-height: 1.6;
+  }
+  .rv-callout.alt { border-left: 3px solid var(--capital); }
+  .rv-callout strong { color: var(--text-primary); }
+  .rv-excl { margin: 12px 0 0; }
+  .rv-excl ul { margin: 8px 0 0; padding-left: 18px; }
+  .rv-excl li { font-size: 11.5px; color: var(--text-secondary); margin: 0 0 5px; line-height: 1.5; }
+  .rv-excl li b { color: var(--text-primary); }
+  tr.rv-subject td { background: var(--hover); font-weight: 600; }
+  .rv-up { color: var(--delta-good); }
+  .rv-dn { color: var(--delta-bad); }
+  @media (max-width: 660px) {
+    .rv-two { grid-template-columns: 1fr; }
+    .rv-bar { grid-template-columns: 104px 1fr auto; gap: 7px; }
+  }
+
   @media (max-width: 640px) {
     /* a sticky bar eats too much of a phone screen, and touch readouts are
        better placed at the finger — see the per-panel chip in the SVG */
     .board { position: static; box-shadow: none; }
+    /* Same reasoning for the tab bar: it wraps to two rows at this width, which
+       is far too much of a phone viewport to surrender permanently. */
+    .tabs { position: static; }
     .viz-root { padding: 14px 8px 32px; }
     .card { max-width: 100%; padding: 14px 12px 12px; border-radius: 8px; }
     h1 { font-size: 17px; }
@@ -393,22 +474,36 @@
        uncovers the right-hand column of panels entirely, which a full-width strip
        never does however short it gets. */
     .board.stuck {
-      width: 780px; padding: 14px 22px 16px;
+      width: 780px; padding: 8px 18px 9px;
       /* flush with the top of the viewport, rounded below — reads as a card that
          has descended from the top edge. Centred by the auto margins on .board. */
       border-radius: 0 0 12px 12px; border-top: 0;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.13);
     }
-    .board.stuck .board-head { margin-bottom: 12px; }
-    .board.stuck .board-year { font-size: 17px; }
+    .board.stuck .board-head { margin-bottom: 5px; }
+    .board.stuck .board-year { font-size: 12.5px; }
     .board.stuck .board-extra { display: none; }   /* no room, and it is in the table */
-    /* Narrow rather than short is what uncovers the panels — at 780px of 1410 the
-       whole right-hand column stays visible, so the tiles can keep generous
-       spacing instead of being squeezed to buy height. */
-    .board.stuck .tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 15px 22px; }
-    .board.stuck .tile-label { font-size: 13px; }
-    .board.stuck .tile-value { font-size: 17px; margin-top: 4px; }
-    .board.stuck .tile-delta { font-size: 12.5px; margin-top: 3px; }
+    /* Stuck, the board is an OVERLAY sitting on top of the panels it describes,
+       so type steps well down from the resting sizes (18/13.5/20/13.5).
+       Narrowing to 780px is what uncovers the right-hand column; shrinking the
+       type is what stops the remaining strip eating the vertical space the
+       reader is trying to look at.
+       The height change is absorbed by .board-spacer, measured live in
+       measureBoardDelta() — no constant here needs updating to match. */
+    .board.stuck .tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px 18px; }
+    .board.stuck .tile-label { font-size: 10.5px; }
+    .board.stuck .tile-value { font-size: 12.5px; margin-top: 1px; }
+    /* Keep a REAL gap here, never 1px. An earlier pass had the value and its
+       delta measured 1px apart — no collision, but the kind of near-miss the
+       next font-size change turns into one. */
+    .board.stuck .tile-delta { font-size: 10px; margin-top: 2px; }
+    /* ⚠️ TYPE FLOOR REACHED — do not shrink these further.
+       10px tabular figures are the smallest that stay scannable at a glance,
+       and the 10.5px label is already below the 11px minimum used anywhere else
+       in this template. If more vertical space is wanted, drop a ROW rather
+       than a point of type: hiding .tile-delta when stuck (the change is in the
+       table view regardless) buys roughly 3x what another font step does, and
+       costs legibility nothing. */
 
     /* Valuation section — stepped clear of body text, same as the other
        headings. Kept in this block (not the base rules) so the phone sizes
@@ -425,6 +520,14 @@
     .dcf-warn { font-size: 12.5px; }
     .dcf-scn .cap { font-size: 13.5px; }
     .dcf .reset { font-size: 12.5px; }
+
+    /* Relative valuation — stepped clear of body text like the other sections.
+       rv-h is a sub-heading, so it sits BELOW the h2 and above the notes. */
+    .rv-h { font-size: 16px; }
+    .rv-note { font-size: 12.5px; }
+    .rv-callout { font-size: 13.5px; }
+    .rv-bar { font-size: 12.5px; grid-template-columns: 168px 1fr auto; }
+    .rv-excl li { font-size: 12.5px; }
   }
 </style>
 </head>
@@ -435,6 +538,9 @@
 
     <h1>Asian Paints Ltd — financial dashboard, FY2015–FY2026</h1>
     <p class="sub">Consolidated, financial years ending March. Every metric on its own panel — the series span ₹ crore and percentages across a 100× range, so one shared axis would be meaningless.</p>
+    <div class="tabs" id="tabs" role="tablist" aria-label="Report sections"></div>
+
+    <section class="metrics tabpanel" data-section="metrics" id="tab-metrics" role="tabpanel" aria-labelledby="tabbtn-metrics">
     <p class="note">Hover any panel to read that year across all ten metrics, with the change from the previous year. Absolute series report % change; ratio series report <strong>percentage points</strong>. Colour groups the metric family — three hues, because only three clear the colour-blind separation gate for small multiples; the panel title is the exact identity.</p>
 
     <div class="families">
@@ -467,8 +573,9 @@
       <summary>View as table</summary>
       <div class="tbl-scroll"><table id="table"></table></div>
     </details>
+    </section>
 
-    <section class="dcf">
+    <section class="dcf tabpanel" data-section="dcf" id="tab-dcf" role="tabpanel" aria-labelledby="tabbtn-dcf" hidden>
       <h2>Valuation — discounted cash flow</h2>
       <p class="lede" id="dcfLede"></p>
       <div class="knobs" id="dcfKnobs"></div>
@@ -493,7 +600,37 @@
       </div>
     </section>
 
-    <section class="calls">
+    <section class="relval tabpanel" data-section="relval" id="tab-relval" role="tabpanel" aria-labelledby="tabbtn-relval" hidden>
+      <h2>Relative valuation — against its own past, and against peers</h2>
+      <p class="lede" id="rvLede"></p>
+
+      <h3 class="rv-h">Its own history</h3>
+      <p class="rv-note" id="rvHistNote"></p>
+      <div class="tbl-scroll"><table id="rvBandTable"></table></div>
+      <div class="rv-bars" id="rvBars"></div>
+
+      <h3 class="rv-h">What changed — the de-rating, decomposed</h3>
+      <p class="rv-note" id="rvDeratingNote"></p>
+      <div class="rv-two">
+        <div><div class="tbl-scroll"><table id="rvDerateMult"></table></div></div>
+        <div><div class="tbl-scroll"><table id="rvDerateDriver"></table></div></div>
+      </div>
+      <div class="rv-callout" id="rvDecomp"></div>
+
+      <h3 class="rv-h">Peers</h3>
+      <p class="rv-note" id="rvPeerNote"></p>
+      <div class="tbl-scroll"><table id="rvPeerTable"></table></div>
+      <details class="rv-excl">
+        <summary>Which companies were excluded from the median, and why</summary>
+        <ul id="rvExcluded"></ul>
+      </details>
+
+      <h3 class="rv-h">Set against the cash-flow model</h3>
+      <div class="rv-callout alt" id="rvRecon"></div>
+      <p class="rv-note" id="rvLimits"></p>
+    </section>
+
+    <section class="calls tabpanel" data-section="calls" id="tab-calls" role="tabpanel" aria-labelledby="tabbtn-calls" hidden>
       <div class="calls-head">
         <h2>Recent earnings calls</h2>
         <span class="more"><a href="concalls">Full pointer list, all three calls →</a></span>
@@ -502,7 +639,7 @@
       <div class="call-rows" id="callCols"></div>
     </section>
 
-    <section class="points">
+    <section class="points tabpanel" data-section="points" id="tab-points" role="tabpanel" aria-labelledby="tabbtn-points" hidden>
       <h2>Critical points — working notes toward a SWOT</h2>
       <p class="lede">Each point carries its evidence and a source tag. <strong>Solid = read from a primary source</strong> — the company's own reported financials, or a rating agency's published rationale. <strong>Dashed = second-hand or unresolved.</strong></p>
       <div class="quads" id="quads"></div>
@@ -2142,6 +2279,634 @@ const DCF = {
   render();
 })();
 
+// ---------------------------------------------------------------------------
+// RELATIVE VALUATION — own-history multiple bands, the de-rating decomposition,
+// and the peer table. Absent data contract => the whole
+// tab is dropped at build time, so the guard below is belt-and-braces).
+//
+// Presentation rule carried over from the method: a multiple is a QUESTION.
+// Every band is shown with its own driver alongside, and the peer table pairs
+// each multiple with the returns that should justify it — so "cheap" is never
+// stated without what changed.
+// ---------------------------------------------------------------------------
+const RELVAL = {
+  "as_of": "2026-08-23",
+  "price_asof": "2026-08-21",
+  "price": 2640,
+  "subject": "ASIANPAINT",
+  "subject_name": "Asian Paints",
+  "history": {
+    "window": {
+      "from": "2015-06-01",
+      "to": "2026-08-17",
+      "bars": 586
+    },
+    "bands": [
+      {
+        "key": "pe",
+        "label": "PE",
+        "min": 38.29497540407589,
+        "p25": 58.56786656286651,
+        "median": 65.36592648988682,
+        "p75": 79.81650355871886,
+        "max": 110.24216524216524,
+        "now": 58.54956753160346,
+        "percentile": 0.24744027303754265,
+        "vs_median": -0.10428000220172762
+      },
+      {
+        "key": "pe3",
+        "label": "PE on 3-yr avg EPS",
+        "min": 47.16584517251377,
+        "p25": 60.69979367262724,
+        "median": 70.13375933981675,
+        "p75": 89.82733463035021,
+        "max": 128.6284618151301,
+        "now": 56.47461494580718,
+        "percentile": 0.1348122866894198,
+        "vs_median": -0.1947584804035296
+      },
+      {
+        "key": "ev_ebitda",
+        "label": "EV/EBITDA",
+        "min": 27.286436387607118,
+        "p25": 36.79450840690556,
+        "median": 40.481269742981596,
+        "p75": 49.98114684387728,
+        "max": 69.891823723229,
+        "now": 37.32773134328359,
+        "percentile": 0.31399317406143346,
+        "vs_median": -0.07790117305410726
+      },
+      {
+        "key": "ev_sales",
+        "label": "EV/Sales",
+        "min": 4.885490121189864,
+        "p25": 6.967701898818218,
+        "median": 7.820975670122428,
+        "p75": 9.182157108003162,
+        "max": 15.630944411182242,
+        "now": 7.0283217176259,
+        "percentile": 0.2764505119453925,
+        "vs_median": -0.10134975301414273
+      },
+      {
+        "key": "pb",
+        "label": "PB",
+        "min": 10.724251546391752,
+        "p25": 14.548833771699105,
+        "median": 16.67539279202238,
+        "p75": 19.431482532589058,
+        "max": 27.845206712734452,
+        "now": 11.848624368332398,
+        "percentile": 0.05802047781569966,
+        "vs_median": -0.2894545564167543
+      }
+    ],
+    "fy_snapshots": [
+      {
+        "fy": "FY16",
+        "as_of": "2016-03-28",
+        "close": 870,
+        "valued_on": "FY15",
+        "pe": 59.834938101788175,
+        "ev_ebitda": 36.68319215336603,
+        "pb": 17.59814424293547,
+        "ev_sales": 6.043363936834375,
+        "roce": 42,
+        "sales": 14271,
+        "opm": 19,
+        "eps": 18.19
+      },
+      {
+        "fy": "FY17",
+        "as_of": "2017-03-27",
+        "close": 1073.5,
+        "valued_on": "FY16",
+        "pe": 59.015942825728416,
+        "ev_ebitda": 36.910502752293574,
+        "pb": 15.780861302681991,
+        "ev_sales": 7.047937775909186,
+        "roce": 38,
+        "sales": 15062,
+        "opm": 20,
+        "eps": 20.22
+      },
+      {
+        "fy": "FY18",
+        "as_of": "2018-03-26",
+        "close": 1120.4,
+        "valued_on": "FY17",
+        "pe": 55.41048466864491,
+        "ev_ebitda": 35.195981295925186,
+        "pb": 14.13318884797475,
+        "ev_sales": 6.996200239012084,
+        "roce": 36,
+        "sales": 16825,
+        "opm": 19,
+        "eps": 21.26
+      },
+      {
+        "fy": "FY19",
+        "as_of": "2019-03-25",
+        "close": 1492.7,
+        "valued_on": "FY18",
+        "pe": 70.21166509877705,
+        "ev_ebitda": 44.18595006242197,
+        "pb": 17.02494458977408,
+        "ev_sales": 8.414370520059435,
+        "roce": 33,
+        "sales": 19240,
+        "opm": 20,
+        "eps": 22.48
+      },
+      {
+        "fy": "FY20",
+        "as_of": "2020-03-30",
+        "close": 1520.9,
+        "valued_on": "FY19",
+        "pe": 67.65569395017793,
+        "ev_ebitda": 38.41586401062417,
+        "pb": 15.403307781649247,
+        "ev_sales": 7.51744948024948,
+        "roce": 33,
+        "sales": 20211,
+        "opm": 21,
+        "eps": 28.2
+      },
+      {
+        "fy": "FY21",
+        "as_of": "2021-03-29",
+        "close": 2551.75,
+        "valued_on": "FY20",
+        "pe": 90.48758865248227,
+        "ev_ebitda": 58.59271023546372,
+        "pb": 24.162276406712735,
+        "ev_sales": 12.06584830043046,
+        "roce": 34,
+        "sales": 21713,
+        "opm": 22,
+        "eps": 32.73
+      },
+      {
+        "fy": "FY22",
+        "as_of": "2022-03-28",
+        "close": 3114.15,
+        "valued_on": "FY21",
+        "pe": 95.14665444546289,
+        "ev_ebitda": 60.763028830313026,
+        "pb": 23.32572762767453,
+        "ev_sales": 13.589336710726295,
+        "roce": 29,
+        "sales": 29101,
+        "opm": 17,
+        "eps": 31.59
+      },
+      {
+        "fy": "FY23",
+        "as_of": "2023-03-27",
+        "close": 2761.65,
+        "valued_on": "FY22",
+        "pe": 87.42165242165242,
+        "ev_ebitda": 54.795268109908406,
+        "pb": 19.17879148566464,
+        "ev_sales": 9.045615889488333,
+        "roce": 34,
+        "sales": 34489,
+        "opm": 18,
+        "eps": 42.81
+      },
+      {
+        "fy": "FY24",
+        "as_of": "2024-03-25",
+        "close": 2846.75,
+        "valued_on": "FY23",
+        "pe": 66.49731371174958,
+        "ev_ebitda": 43.24780511182109,
+        "pb": 17.074803651825913,
+        "ev_sales": 7.8497857287830906,
+        "roce": 38,
+        "sales": 35495,
+        "opm": 21,
+        "eps": 56.92
+      },
+      {
+        "fy": "FY25",
+        "as_of": "2025-03-31",
+        "close": 2356.05,
+        "valued_on": "FY24",
+        "pe": 41.39230498945889,
+        "ev_ebitda": 29.515928279499015,
+        "pb": 12.067082229816318,
+        "ev_sales": 6.307319791519933,
+        "roce": 26,
+        "sales": 33906,
+        "opm": 18,
+        "eps": 38.23
+      },
+      {
+        "fy": "FY26",
+        "as_of": "2026-03-30",
+        "close": 2169,
+        "valued_on": "FY25",
+        "pe": 56.735547998953706,
+        "ev_ebitda": 34.235011655011654,
+        "pb": 10.724251546391752,
+        "ev_sales": 6.064280068424468,
+        "roce": 26,
+        "sales": 35584,
+        "opm": 19,
+        "eps": 45.09
+      }
+    ],
+    "ev_note": "Enterprise value is market value plus borrowings less the investment book, on one consistent definition for every year. It is gross of lease liabilities, so the level is not a statement about leverage — the company is net cash on the rating agency's definition.",
+    "method_note": "Every multiple uses the annual result that had actually been PUBLISHED as of that week, so there is no look-ahead and no dividing an old price by today's earnings. Prices are adjusted for splits and bonuses; the share count has been flat throughout, so no adjustment distortion exists to correct for."
+  },
+  "derating": {
+    "peak_label": "FY22-FY24, before/early competitor entry",
+    "peak_from": "2021-04-01",
+    "peak_to": "2024-03-31",
+    "now_label": "last ~12 months",
+    "multiples": [
+      {
+        "key": "pe",
+        "label": "PE",
+        "peak": 89.83634438188176,
+        "now": 64.90433076631977,
+        "change": -0.27752702747542213
+      },
+      {
+        "key": "pe3",
+        "label": "PE on 3-yr avg EPS",
+        "peak": 101.28738011709856,
+        "now": 55.832415170918864,
+        "change": -0.4487722448110427
+      },
+      {
+        "key": "ev_ebitda",
+        "label": "EV/EBITDA",
+        "peak": 57.300036882223665,
+        "now": 39.70017828587177,
+        "change": -0.30715265738008524
+      },
+      {
+        "key": "ev_sales",
+        "label": "EV/Sales",
+        "peak": 11.022435942056367,
+        "now": 7.132463268817582,
+        "change": -0.3529140648843784
+      },
+      {
+        "key": "pb",
+        "label": "PB",
+        "peak": 21.540706731788248,
+        "now": 12.45623161650951,
+        "change": -0.4217352396276076
+      }
+    ],
+    "drivers": [
+      {
+        "key": "roce",
+        "label": "Return on capital",
+        "peak": 33.666666666666664,
+        "now": 26.0,
+        "change": -0.2277227722772277
+      },
+      {
+        "key": "opm",
+        "label": "Operating margin",
+        "peak": 18.666666666666668,
+        "now": 18.5,
+        "change": -0.008928571428571508
+      },
+      {
+        "key": "eps",
+        "label": "Earnings per share",
+        "peak": 43.77333333333333,
+        "now": 41.66,
+        "change": -0.04827901309777649
+      },
+      {
+        "key": "sales",
+        "label": "Sales",
+        "peak": 33028.333333333336,
+        "now": 34745.0,
+        "change": 0.05197557652520546
+      }
+    ],
+    "price_decomposition": {
+      "price_avg_peak": 3087.023717948718,
+      "price_avg_now": 2577.866666666667,
+      "eps_used_avg_peak": 34.896153846153844,
+      "eps_used_avg_now": 39.84411764705882,
+      "pe_consistent_peak": 88.46315074029172,
+      "pe_consistent_now": 64.69880170271401,
+      "price_change_actual": -0.16493460944977079,
+      "price_change_implied": -0.1649346094497709,
+      "earnings_contribution": 0.1417910931594064,
+      "multiple_contribution": -0.2686355712939119,
+      "note": "EPS is the then-published figure actually used in each bar's PE, averaged over the same bars, so price = EPS x PE holds exactly. The multiple contribution is the part NOT explained by earnings."
+    },
+    "residual": {
+      "multiple_change_ev_ebitda": -0.30715265738008524,
+      "roce_change": -0.2277227722772277,
+      "sales_growth_then_pct_cagr": 9.1,
+      "sales_growth_now_pct": 0.05197557652520546,
+      "residual_vs_roce": -0.07942988510285753,
+      "interpretation": "EV/EBITDA fell 31% while ROCE fell 23% and the topline went from a 9.1% CAGR to roughly flat. A business earning 26% on capital with a stalled topline SHOULD trade below one earning 34% and compounding, so most of the de-rating is explained. The residual is single-digit percent — not an obvious mispricing in either direction. NO 1:1 law maps ROCE to a multiple; this brackets the residual, it does not measure it."
+    }
+  },
+  "peers": {
+    "rows": [
+      {
+        "symbol": "ASIANPAINT",
+        "name": "Asian Paints",
+        "cmp": 2640,
+        "market_cap_cr": 253228.22,
+        "pe": 51.92,
+        "div_yield": 1.04,
+        "roce": 26.34,
+        "roe": 21.79,
+        "opm": 19.47,
+        "np_qtr": 1559.45,
+        "sales_qtr": 10541.94,
+        "qtr_sales_var": 17.94,
+        "qtr_profit_var": 39.96,
+        "is_subject": true,
+        "pe_per_roce": 1.971146545178436,
+        "pe_rank": 1,
+        "roce_rank": 1
+      },
+      {
+        "symbol": "BERGEPAINT",
+        "name": "Berger Paints",
+        "cmp": 524.4,
+        "market_cap_cr": 61145.19,
+        "pe": 49.78,
+        "div_yield": 0.76,
+        "roce": 21.55,
+        "roe": 17.31,
+        "opm": 15.59,
+        "np_qtr": 405.01,
+        "sales_qtr": 3583.75,
+        "qtr_sales_var": 11.97,
+        "qtr_profit_var": 18.22,
+        "is_subject": false,
+        "pe_per_roce": 2.3099767981438517,
+        "pe_rank": 2,
+        "roce_rank": 3
+      },
+      {
+        "symbol": "KANSAINER",
+        "name": "Kansai Nerolac",
+        "cmp": 205.85,
+        "market_cap_cr": 16648.71,
+        "pe": 25.82,
+        "div_yield": 1.21,
+        "roce": 11.99,
+        "roe": 8.82,
+        "opm": 12.1,
+        "np_qtr": 228.41,
+        "sales_qtr": 2373.59,
+        "qtr_sales_var": 9.79,
+        "qtr_profit_var": 4.83,
+        "is_subject": false,
+        "pe_per_roce": 2.153461217681401,
+        "pe_rank": 5,
+        "roce_rank": 5
+      },
+      {
+        "symbol": "JSWDULUX",
+        "name": "JSW Dulux",
+        "cmp": 3118.8,
+        "market_cap_cr": 14203.11,
+        "pe": 36.99,
+        "div_yield": 1.6,
+        "roce": 22.73,
+        "roe": 19.1,
+        "opm": 13.67,
+        "np_qtr": 79.7,
+        "sales_qtr": 965,
+        "qtr_sales_var": -3.02,
+        "qtr_profit_var": -12.42,
+        "is_subject": false,
+        "pe_per_roce": 1.6273647162340519,
+        "pe_rank": 3,
+        "roce_rank": 2
+      },
+      {
+        "symbol": "INDIGOPNTS",
+        "name": "Indigo Paints",
+        "cmp": 1151.8,
+        "market_cap_cr": 5497.85,
+        "pe": 33.21,
+        "div_yield": 0.43,
+        "roce": 17.94,
+        "roe": 13.43,
+        "opm": 19.13,
+        "np_qtr": 42.37,
+        "sales_qtr": 350.05,
+        "qtr_sales_var": 18.72,
+        "qtr_profit_var": 60.74,
+        "is_subject": false,
+        "pe_per_roce": 1.851170568561873,
+        "pe_rank": 4,
+        "roce_rank": 4
+      }
+    ],
+    "median": {
+      "pe": 35.1,
+      "roce": 19.745,
+      "roe": 15.37,
+      "opm": 14.629999999999999,
+      "div_yield": 0.985
+    },
+    "vs_median": {
+      "pe": 0.4792022792022792,
+      "roce": 0.33400860977462643,
+      "roe": 0.41769681197137287,
+      "opm": 0.3308270676691729,
+      "div_yield": 0.055837563451776706
+    },
+    "excluded": [
+      {
+        "symbol": "GRASIM",
+        "why": "owns Birla Opus but is a cement/viscose/chemicals/financials conglomerate — competitive context only, never in the median"
+      },
+      {
+        "symbol": "PIDILITIND",
+        "why": "adhesives & specialty chemicals, not paint"
+      },
+      {
+        "symbol": "SHALPAINTS",
+        "why": "sub-Rs 1,000cr micro-cap, loss-making history"
+      },
+      {
+        "symbol": "SIRCA",
+        "why": "~Rs 2,000cr wood-coatings niche — scale and mix mismatch"
+      },
+      {
+        "symbol": "KAMOPAINTS",
+        "why": "micro-cap, Rs 4.45 share price, different business mix"
+      }
+    ],
+    "scale_range": [
+      5497.85,
+      253228.22
+    ],
+    "basis_note": "Every row comes from a single screening endpoint, one call per company, so the table is internally consistent. This matters: a different endpoint at the same vendor reports Asian Paints' return on capital as 24.4% rather than 26.3%, and mixing the two would put the subject on a different basis from its peers.",
+    "limitation": "Enterprise-value multiples and price-to-book are not available for the peers from this endpoint, so the peer table is price-to-earnings only — which ignores the balance sheet entirely. Asian Paints holds net cash, which flatters debt-carrying peers in a P/E comparison. Read it alongside the enterprise-value band above."
+  },
+  "reconciliation": {
+    "dcf_expected_return": 0.0865,
+    "dcf_exit_multiple": 30,
+    "dcf_required_exit_multiple": 39.6,
+    "current_ev_ebitda": 34.3,
+    "risk_free": 0.0685,
+    "text": "The two answers disagree, and that is the finding — they are not averaged. The cash-flow model says that at today's price the expected return is about 8.7% a year against a 6.85% risk-free rate, and that justifying the price needs the business to be sold in 2037 at a RICHER multiple than it carries today. The relative view says the shares are near the bottom of their own eleven-year range and that the premium over paint peers is fully earned by best-in-set returns. Both can hold at once, and the reconciliation is that this is a SECTOR-level valuation question rather than a company-specific mispricing. A relative valuation inherits the market's own errors by construction, so when the relative answer is the friendlier one, that caveat carries weight."
+  }
+};
+
+(function () {
+  const root = document.getElementById("tab-relval");
+  if (!root || !RELVAL || !RELVAL.history) return;
+
+  const n1 = v => (v === null || v === undefined) ? "—" : v.toFixed(1);
+  const n2 = v => (v === null || v === undefined) ? "—" : v.toFixed(2);
+  const pc = (v, d = 0) => (v === null || v === undefined)
+    ? "—" : (v * 100).toFixed(d) + "%";
+  const sgn = (v, d = 0) => (v === null || v === undefined) ? "—"
+    : (v >= 0 ? "+" : "") + (v * 100).toFixed(d) + "%";
+  const cls = v => v === null || v === undefined ? "" : (v >= 0 ? "rv-up" : "rv-dn");
+  const inr = v => "₹" + Math.round(v).toLocaleString("en-IN");
+  const ord = p => {                       // 25 -> "25th"
+    const k = Math.round(p * 100);
+    const s = (k % 100 >= 11 && k % 100 <= 13) ? "th"
+      : ["th", "st", "nd", "rd"][k % 10] || "th";
+    return k + s;
+  };
+
+  const H = RELVAL.history, D = RELVAL.derating, P = RELVAL.peers;
+
+  document.getElementById("rvLede").innerHTML =
+    `Two comparisons, neither of which is a cash-flow model: what the market has `
+    + `paid for this company <strong>in the past</strong>, and what it pays for `
+    + `<strong>its peers</strong> today. Price ${inr(RELVAL.price)} as of `
+    + `${RELVAL.price_asof}. A multiple that has fallen is evidence that `
+    + `something changed — so every band below is shown next to the driver that `
+    + `should move it.`;
+
+  document.getElementById("rvHistNote").innerHTML =
+    `${H.window.bars} weekly observations, ${H.window.from} to ${H.window.to}. `
+    + H.method_note + " " + H.ev_note;
+
+  // ---- band table
+  document.getElementById("rvBandTable").innerHTML =
+    `<thead><tr><th>Multiple</th><th>Min</th><th>25th</th><th>Median</th>`
+    + `<th>75th</th><th>Max</th><th>Now</th><th>Percentile</th>`
+    + `<th>vs median</th></tr></thead><tbody>`
+    + H.bands.map(b => `<tr><td>${b.label}</td><td>${n1(b.min)}</td>`
+        + `<td>${n1(b.p25)}</td><td>${n1(b.median)}</td><td>${n1(b.p75)}</td>`
+        + `<td>${n1(b.max)}</td><td><b>${n1(b.now)}</b></td>`
+        + `<td>${ord(b.percentile)}</td>`
+        + `<td class="${cls(b.vs_median)}">${sgn(b.vs_median)}</td></tr>`).join("")
+    + `</tbody>`;
+
+  // ---- percentile strips. Positions are on a min..max scale, which is the
+  // honest geometry: it shows how much of the range a single extreme print
+  // occupies, which a percentile number alone hides.
+  document.getElementById("rvBars").innerHTML = H.bands.map(b => {
+    const span = b.max - b.min || 1;
+    const at = v => ((v - b.min) / span) * 100;
+    const l = at(b.p25), r = at(b.p75);
+    return `<div class="rv-bar">
+      <span class="nm">${b.label}</span>
+      <span class="tr" role="img"
+            aria-label="${b.label} now ${n1(b.now)}, ${ord(b.percentile)} percentile of its range ${n1(b.min)} to ${n1(b.max)}">
+        <i class="iqr" style="left:${l}%;width:${Math.max(r - l, 0.5)}%"></i>
+        <i class="med" style="left:${at(b.median)}%"></i>
+        <i class="now" style="left:${at(b.now)}%"></i>
+      </span>
+      <span class="vl">${n1(b.now)} · ${ord(b.percentile)}</span>
+    </div>`;
+  }).join("");
+
+  // ---- de-rating
+  document.getElementById("rvDeratingNote").innerHTML =
+    `Average multiple over <strong>${D.peak_label}</strong> `
+    + `(${D.peak_from} to ${D.peak_to}) against the <strong>${D.now_label}</strong>, `
+    + `next to what the fundamentals did over the same two windows. The point of `
+    + `putting them side by side is that a lower return on capital justifies a `
+    + `lower multiple permanently.`;
+
+  const twoCol = (id, title, rows, fmt) => {
+    document.getElementById(id).innerHTML =
+      `<thead><tr><th>${title}</th><th>Then</th><th>Now</th><th>Change</th>`
+      + `</tr></thead><tbody>`
+      + rows.map(r => `<tr><td>${r.label}</td><td>${fmt(r.peak)}</td>`
+          + `<td>${fmt(r.now)}</td>`
+          + `<td class="${cls(r.change)}">${sgn(r.change)}</td></tr>`).join("")
+      + `</tbody>`;
+  };
+  twoCol("rvDerateMult", "Multiple", D.multiples, n1);
+  twoCol("rvDerateDriver", "Driver", D.drivers,
+         v => v >= 1000 ? Math.round(v).toLocaleString("en-IN") : n1(v));
+
+  const pd = D.price_decomposition, rs = D.residual;
+  document.getElementById("rvDecomp").innerHTML =
+    `<strong>Price is earnings times the multiple, and it reconciles exactly.</strong> `
+    + `Over these two windows the earnings the market could actually see moved `
+    + `<b class="${cls(pd.earnings_contribution)}">${sgn(pd.earnings_contribution)}</b> `
+    + `while the multiple moved `
+    + `<b class="${cls(pd.multiple_contribution)}">${sgn(pd.multiple_contribution)}</b>, `
+    + `which multiply to <b>${sgn(pd.price_change_implied)}</b> — matching the `
+    + `actual <b>${sgn(pd.price_change_actual)}</b> move in the share price. `
+    + `So none of the decline came from earnings; all of it was the multiple.`
+    + `<br><br><strong>Explained, or left over?</strong> The enterprise-value `
+    + `multiple moved <b>${sgn(rs.multiple_change_ev_ebitda)}</b> while return on `
+    + `capital moved <b>${sgn(rs.roce_change)}</b>, with the topline going from `
+    + `compounding to roughly flat. That leaves a residual of about `
+    + `<b>${Math.abs(Math.round(rs.residual_vs_roce * 100))} percentage points</b> `
+    + `— the only part that could be sentiment rather than fundamentals. `
+    + `There is no law mapping return on capital to a multiple, so this brackets `
+    + `the residual; it does not measure it.`;
+
+  // ---- peers
+  document.getElementById("rvPeerNote").innerHTML =
+    P.basis_note + ` Market values span ${inr(P.scale_range[0])}cr to `
+    + `${inr(P.scale_range[1])}cr — a `
+    + `${Math.round(P.scale_range[1] / P.scale_range[0])}× range, so the median `
+    + `is a reference point, not a fair value.`;
+
+  const med = P.median, vs = P.vs_median;
+  document.getElementById("rvPeerTable").innerHTML =
+    `<thead><tr><th>Company</th><th>Market value ₹cr</th><th>P/E</th>`
+    + `<th>Return on capital</th><th>Return on equity</th><th>Operating margin</th>`
+    + `<th>Dividend yield</th><th>P/E per unit of return</th></tr></thead><tbody>`
+    + P.rows.map(r => `<tr class="${r.is_subject ? "rv-subject" : ""}">`
+        + `<td>${r.name}</td>`
+        + `<td>${Math.round(r.market_cap_cr).toLocaleString("en-IN")}</td>`
+        + `<td>${n1(r.pe)}</td><td>${n1(r.roce)}%</td><td>${n1(r.roe)}%</td>`
+        + `<td>${n1(r.opm)}%</td><td>${n2(r.div_yield)}%</td>`
+        + `<td>${n2(r.pe_per_roce)}</td></tr>`).join("")
+    + `<tr><td><i>Peer median, excluding the subject</i></td><td>—</td>`
+    + `<td><i>${n1(med.pe)}</i></td><td><i>${n1(med.roce)}%</i></td>`
+    + `<td><i>${n1(med.roe)}%</i></td><td><i>${n1(med.opm)}%</i></td>`
+    + `<td><i>${n2(med.div_yield)}%</i></td><td>—</td></tr>`
+    + `<tr><td><i>Subject versus that median</i></td><td>—</td>`
+    + [vs.pe, vs.roce, vs.roe, vs.opm, vs.div_yield]
+        .map(v => `<td class="${cls(v)}"><i>${sgn(v)}</i></td>`).join("")
+    + `<td>—</td></tr>`
+    + `</tbody>`;
+
+  document.getElementById("rvExcluded").innerHTML =
+    P.excluded.map(e => `<li><b>${e.symbol}</b> — ${e.why}</li>`).join("");
+
+  const R = RELVAL.reconciliation;
+  document.getElementById("rvRecon").innerHTML = R.text;
+  document.getElementById("rvLimits").innerHTML = P.limitation;
+})();
+
 // Sources. Anything unread stays flagged rather than silently dropped.
 const REFS = [
   {
@@ -2260,6 +3025,102 @@ if (refsEl) refsEl.innerHTML =
 
 render();
 measureBoardDelta();   // needs the board painted, so after the first render
+
+// ---------------------------------------------------------------------------
+// TABS. The bar is built from the panels that are actually IN THE DOM, so
+// section degradation stays automatic: the report builder drops a <section> when
+// its data file is missing, and the corresponding tab simply never appears. No
+// second list to keep in sync.
+//
+// Hiding uses the `hidden` attribute. That sets display:none, so the chart
+// container reports clientWidth 0 while the Metrics tab is away — which is
+// exactly why onWidthChange() guards on a falsy width instead of trusting every
+// ResizeObserver callback. Hiding leaves `lastW` untouched, so returning to the
+// tab is a no-op rather than a spurious rebuild.
+// ---------------------------------------------------------------------------
+const TAB_SPEC = [
+  { id: "metrics", label: "Metrics" },
+  { id: "dcf",     label: "DCF" },
+  { id: "relval",  label: "Relative valuation" },
+  { id: "calls",   label: "Concalls summary" },
+  { id: "points",  label: "SWOT analysis" },
+];
+
+(function () {
+  const bar = document.getElementById("tabs");
+  if (!bar) return;
+
+  const tabs = TAB_SPEC
+    .map(t => ({ ...t, panel: document.getElementById("tab-" + t.id) }))
+    .filter(t => t.panel);
+
+  // One tab is not a tab bar — it is a heading. Hide the chrome rather than
+  // render a single dead button.
+  if (tabs.length < 2) { bar.remove(); tabs.forEach(t => t.panel.hidden = false); return; }
+
+  bar.innerHTML = tabs.map(t =>
+    `<button type="button" role="tab" id="tabbtn-${t.id}"
+             aria-controls="tab-${t.id}" aria-selected="false"
+             tabindex="-1">${t.label}</button>`).join("");
+
+  const btns = tabs.map(t => document.getElementById("tabbtn-" + t.id));
+
+  // The readout board sticks BELOW this bar, so it needs the bar's height as a
+  // top offset. Measured rather than hardcoded: the bar wraps to two rows at
+  // narrow widths, and it is `static` on phone (where a permanent bar costs too
+  // much viewport) in which case the offset must be 0.
+  const vizRoot = document.querySelector(".viz-root");
+  function syncTabOffset() {
+    if (!vizRoot) return;
+    const sticky = getComputedStyle(bar).position === "sticky";
+    vizRoot.style.setProperty("--tabs-h", (sticky ? bar.offsetHeight : 0) + "px");
+  }
+  syncTabOffset();
+  addEventListener("resize", syncTabOffset);
+
+  function activate(i, { focus = false, setHash = true } = {}) {
+    tabs.forEach((t, j) => {
+      const on = i === j;
+      t.panel.hidden = !on;
+      btns[j].setAttribute("aria-selected", on ? "true" : "false");
+      // roving tabindex: only the selected tab is in the tab order, so Tab
+      // moves past the bar rather than through every button
+      btns[j].tabIndex = on ? 0 : -1;
+    });
+    if (focus) btns[i].focus();
+    if (setHash) history.replaceState(null, "", "#" + tabs[i].id);
+
+    // If the chart was laid out while hidden it has a zero-width geometry to
+    // recover from — force the guarded relayout path by clearing the cache.
+    if (tabs[i].id === "metrics" && typeof onWidthChange === "function") {
+      if (!lastW) { onWidthChange(); }
+    }
+  }
+
+  btns.forEach((b, i) => b.addEventListener("click", () => activate(i)));
+
+  bar.addEventListener("keydown", ev => {
+    const cur = btns.findIndex(b => b.getAttribute("aria-selected") === "true");
+    const last = tabs.length - 1;
+    let next = null;
+    if (ev.key === "ArrowRight") next = cur >= last ? 0 : cur + 1;
+    else if (ev.key === "ArrowLeft") next = cur <= 0 ? last : cur - 1;
+    else if (ev.key === "Home") next = 0;
+    else if (ev.key === "End") next = last;
+    if (next === null) return;
+    ev.preventDefault();
+    activate(next, { focus: true });
+  });
+
+  // Deep link: #dcf opens the DCF tab. Unknown or absent hash -> first tab.
+  const wanted = tabs.findIndex(t => t.id === location.hash.slice(1));
+  activate(wanted >= 0 ? wanted : 0, { setHash: false });
+
+  addEventListener("hashchange", () => {
+    const i = tabs.findIndex(t => t.id === location.hash.slice(1));
+    if (i >= 0) activate(i, { setHash: false });
+  });
+})();
 updateStuck();         // correct on load if the page is restored mid-scroll
 </script>
 </body>
