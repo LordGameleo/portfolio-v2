@@ -367,6 +367,74 @@
   .tabpanel { margin: 16px 0 0; padding-top: 0; border-top: 0; }
   .tabpanel > h2:first-child { margin-top: 0; }
 
+  /* ---- Overall scorecard -------------------------------------------------
+     One series across four named axes, so per the form rules there is no
+     legend (the title names it) and no new hue: the shape uses --scale, the
+     band rings are recessive greys, and the band NAME is always printed beside
+     the score so meaning never rests on colour. */
+  .ov-wrap { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 20px; align-items: start; }
+  .ov-figure { min-width: 0; }
+  #ovRadar { width: 100%; height: auto; overflow: visible; }
+  .ov-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .ov-axis-label { font-size: 11.5px; font-weight: 600; fill: var(--text-primary); }
+  .ov-axis-score { font-size: 11px; fill: var(--text-secondary); font-variant-numeric: tabular-nums; }
+  .ov-ring { fill: none; stroke: var(--grid); stroke-width: 1; }
+  .ov-ring-band { fill: none; stroke: var(--baseline); stroke-width: 1; stroke-dasharray: 3 3; }
+  .ov-spoke { stroke: var(--grid); stroke-width: 1; }
+  .ov-shape { fill: var(--scale); fill-opacity: 0.14; stroke: var(--scale); stroke-width: 2; }
+  .ov-dot { fill: var(--scale); stroke: var(--surface-1); stroke-width: 2; }
+  .ov-dot-unset { fill: none; stroke: var(--text-muted); stroke-width: 1.5; stroke-dasharray: 2 2; }
+  .ov-ringlab { font-size: 9.5px; fill: var(--text-muted); }
+
+  /* bar view — the form this data actually wants: magnitude on one scale */
+  .ov-bars { display: grid; gap: 10px; margin: 4px 0 0; }
+  .ov-bar { display: grid; grid-template-columns: 150px 1fr auto; gap: 10px; align-items: center; font-size: 12px; }
+  .ov-bar .nm { color: var(--text-secondary); }
+  .ov-bar .tr { position: relative; height: 18px; border-radius: 4px; background: var(--grid); overflow: hidden; }
+  /* 2px surface gaps between band segments, per the mark spec */
+  .ov-bar .seg { position: absolute; top: 0; bottom: 0; border-right: 2px solid var(--surface-1); }
+  .ov-bar .fill { position: absolute; top: 0; bottom: 0; left: 0; background: var(--scale); border-radius: 4px 0 0 4px; }
+  .ov-bar .vl { font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; }
+  .ov-bar.unset .tr { opacity: 0.5; }
+  .ov-legend { display: flex; flex-wrap: wrap; gap: 12px; margin: 12px 0 0; font-size: 11px; color: var(--text-muted); }
+  .ov-legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .ov-legend i { width: 10px; height: 10px; border-radius: 2px; background: var(--grid); display: inline-block; }
+
+  .ov-mean { font-size: 12px; color: var(--text-secondary); margin: 0 0 12px; }
+  .ov-mean b { font-size: 20px; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+  .ov-cards { display: grid; gap: 10px; }
+  .ov-card { border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; background: var(--page); }
+  .ov-card h4 { margin: 0 0 3px; font-size: 12.5px; display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+  .ov-card .sc { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .ov-card p { margin: 5px 0 0; font-size: 11.5px; color: var(--text-secondary); line-height: 1.55; }
+  .ov-card p b { color: var(--text-primary); }
+  .ov-card.unset { border-style: dashed; }
+  .ov-caveat { font-size: 11.5px; color: var(--text-muted); margin: 14px 0 0; line-height: 1.6; }
+
+  /* ---- My notes ---------------------------------------------------------- */
+  .mn-filters { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 14px; }
+  .mn-filters button {
+    font: inherit; font-size: 11.5px; padding: 4px 10px; cursor: pointer;
+    background: transparent; color: var(--text-secondary);
+    border: 1px solid var(--border); border-radius: 999px;
+  }
+  .mn-filters button:hover { background: var(--hover); }
+  .mn-filters button[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); font-weight: 600; border-color: var(--text-primary); }
+  .mn-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .mn-item { border-left: 2px solid var(--grid); padding: 0 0 0 14px; }
+  .mn-item.first { border-left-color: var(--scale); }
+  .mn-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+  .mn-date { font-size: 11px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .mn-item h4 { margin: 0; font-size: 13px; }
+  .mn-body { margin: 5px 0 0; font-size: 12.5px; color: var(--text-secondary); line-height: 1.65; }
+  .mn-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+  .mn-tag { font-size: 10px; color: var(--text-muted); border: 1px solid var(--border); border-radius: 999px; padding: 1px 7px; }
+  .mn-priv { font-size: 10px; color: var(--delta-bad); border: 1px dashed var(--delta-bad); border-radius: 999px; padding: 1px 7px; }
+  .mn-empty { font-size: 12px; color: var(--text-muted); }
+
+  @media (max-width: 860px) { .ov-wrap { grid-template-columns: 1fr; } }
+  @media (max-width: 660px) { .ov-bar { grid-template-columns: 112px 1fr auto; gap: 7px; } }
+
   /* ---- Relative valuation ------------------------------------------------
      No new hue: the percentile marker borrows --capital, and deltas reuse
      --delta-good / --delta-bad, so the three-family colour discipline holds. */
@@ -540,6 +608,33 @@
     <p class="sub">Consolidated, financial years ending March. Every metric on its own panel — the series span ₹ crore and percentages across a 100× range, so one shared axis would be meaningless.</p>
     <div class="tabs" id="tabs" role="tablist" aria-label="Report sections"></div>
 
+    <section class="overall tabpanel" data-section="overall" id="tab-overall" role="tabpanel" aria-labelledby="tabbtn-overall">
+      <h2>Overall — four views, scored</h2>
+      <p class="lede" id="ovLede"></p>
+      <div class="controls">
+        <span class="label">View</span>
+        <span class="segmented" id="ovModes" role="group" aria-label="Scorecard view">
+          <button type="button" data-view="radar" aria-pressed="true">Radar</button>
+          <button type="button" data-view="bars" aria-pressed="false">Bars</button>
+        </span>
+        <span class="mode-hint" id="ovHint"></span>
+      </div>
+      <div class="ov-wrap">
+        <div class="ov-figure">
+          <svg id="ovRadar" role="img" aria-labelledby="ovRadarDesc"></svg>
+          <p id="ovRadarDesc" class="ov-sr"></p>
+          <div class="ov-bars" id="ovBars" hidden></div>
+          <div class="ov-legend" id="ovBandKey"></div>
+        </div>
+        <div class="ov-side">
+          <div class="ov-mean" id="ovMean"></div>
+          <div class="ov-cards" id="ovCards"></div>
+        </div>
+      </div>
+      <p class="ov-caveat" id="ovCaveat"></p>
+      <p class="ov-caveat" id="ovInterp"></p>
+    </section>
+
     <section class="metrics tabpanel" data-section="metrics" id="tab-metrics" role="tabpanel" aria-labelledby="tabbtn-metrics">
     <p class="note">Hover any panel to read that year across all ten metrics, with the change from the previous year. Absolute series report % change; ratio series report <strong>percentage points</strong>. Colour groups the metric family — three hues, because only three clear the colour-blind separation gate for small multiples; the panel title is the exact identity.</p>
 
@@ -644,6 +739,13 @@
       <p class="lede">Each point carries its evidence and a source tag. <strong>Solid = read from a primary source</strong> — the company's own reported financials, or a rating agency's published rationale. <strong>Dashed = second-hand or unresolved.</strong></p>
       <div class="quads" id="quads"></div>
       <div class="refs" id="refs"></div>
+    </section>
+
+    <section class="mynotes tabpanel" data-section="mynotes" id="tab-mynotes" role="tabpanel" aria-labelledby="tabbtn-mynotes" hidden>
+      <h2 id="mnTitle">My notes</h2>
+      <p class="lede" id="mnLede"></p>
+      <div class="mn-filters" id="mnTags"></div>
+      <ol class="mn-list" id="mnList"></ol>
     </section>
 
     <p class="src">Source: Tapetide (Screener-derived consolidated financials), fetched 22 Aug 2026. As reported: Sales, Net Profit, Dividend Payout % (P&amp;L); Borrowings, Reserves (balance sheet); Cash from Operating/Investing/Financing Activity, Free Cash Flow (cash flow); ROCE (ratios). <strong>Computed: ROE</strong> (net profit ÷ year-end equity capital + reserves, not average equity), <strong>debt/sales</strong>, <strong>net margin</strong>, <strong>retained ₹</strong>. Dividend payout is dividend as a share of <em>profit</em> — not dividend yield, which is against price. Borrowings are <strong>gross</strong>, not net of the ₹7,062cr investment book. <strong>Every plotted value comes from one Tapetide dataset</strong> — one consistent basis across all 12 years, all derivations documented. External sources such as the Ind-Ra rationale are used to <em>cross-check and annotate only</em>; no panel value is ever swapped for a figure from another source, because a basis break mid-series is worse than either source alone. Point-in-time data — not investment advice. <strong>The valuation section is a MODEL, not reported data</strong> — a 10-year free-cash-flow projection with the terminal value struck at year 11 as an exit multiple. Its base year is the TTM column (12 months to Jun 2026), which the 12-year panels above deliberately exclude because TTM is not a fiscal year. Share price and the risk-free rate are the only figures on this page not drawn from the cache; beta and the equity risk premium are assumptions, not measurements.</p>
@@ -2907,6 +3009,394 @@ const RELVAL = {
   document.getElementById("rvLimits").innerHTML = P.limitation;
 })();
 
+// ---------------------------------------------------------------------------
+// OVERALL SCORECARD. Four axes, 0-10, banded.
+//
+// A radar was asked for and is the default, but it is NOT the form this data
+// wants: radius encoding makes the enclosed area grow with the SQUARE of the
+// scores, and with four axes the area also depends on the arbitrary order the
+// axes are drawn in. Both artefacts are quantified in the data and printed
+// under the chart, and a Bars view — magnitude on one shared scale, which is
+// the honest form — is one click away.
+//
+// One series, so no legend: the heading names it. No new hue either; the shape
+// borrows the scale family and the band NAME is always printed next to the
+// score, so nothing rests on colour alone.
+// ---------------------------------------------------------------------------
+const OVERALL = {
+  "as_of": "2026-08-23",
+  "price": 2640.0,
+  "price_asof": "2026-08-21",
+  "scale": {
+    "min": 0,
+    "max": 10
+  },
+  "bands": [
+    {
+      "lo": 0,
+      "hi": 3,
+      "label": "Worst",
+      "note": "below 3"
+    },
+    {
+      "lo": 3,
+      "hi": 6,
+      "label": "Bad",
+      "note": "3 to under 6"
+    },
+    {
+      "lo": 6,
+      "hi": 8,
+      "label": "Decent",
+      "note": "6 to under 8"
+    },
+    {
+      "lo": 8,
+      "hi": 10,
+      "label": "Best",
+      "note": "8 and above"
+    }
+  ],
+  "band_note": "The bands were specified as 'under 3 worst, 3-5 bad, 6-8 decent, 8-10 best', which left 5 to 6 unassigned and gave 8 to two bands. Closed here as: under 3 worst, 3 to under 6 bad, 6 to under 8 decent, 8 and above best.",
+  "axes": [
+    {
+      "key": "dcf",
+      "label": "Cash-flow model",
+      "short": "DCF",
+      "score": 3,
+      "why": "At today's price the expected return is about 8.7% a year on base assumptions with a 30x exit, against a 6.85% risk-free rate — roughly 1.8 percentage points for equity risk. Justifying the price needs a 39.6x exit multiple in 2037 versus 34.3x today, i.e. the multiple has to go UP after a decade of maturing. With no terminal value at all the floor is far below the price.",
+      "not_lower_because": "The price is reachable on defensible, if deliberately generous, assumptions — the steelman case lands within a few percent of it. This is 'poorly compensated', not 'absurd'.",
+      "would_move_it": "A genuinely lower cost of equity, or margins durably above 22%.",
+      "band": "Bad"
+    },
+    {
+      "key": "rel_past",
+      "label": "Relative to its own past",
+      "short": "Rel. past",
+      "score": 7,
+      "why": "Every multiple sits in the bottom third of its own eleven-year range — price-to-earnings at the 25th percentile, and price-to-book at the 6th, the measure least distorted by the earnings cycle. Earnings-smoothed and sales-based measures agree, so the cheapness is not an artefact of a collapsed denominator.",
+      "not_higher_because": "The de-rating is largely EXPLAINED: return on capital fell about 23% over the same window and the topline went from compounding to roughly flat. A business earning less on capital with a stalled topline should trade lower. The unexplained residual is only single-digit percentage points.",
+      "would_move_it": "Evidence the return on capital is recovering rather than resetting.",
+      "band": "Decent"
+    },
+    {
+      "key": "rel_peers",
+      "label": "Relative to peers",
+      "short": "Rel. peers",
+      "score": 6,
+      "why": "The premium is earned rather than anomalous: it ranks first on price-to-earnings and simultaneously first on return on capital, return on equity and operating margin. On earnings paid per unit of return on capital it is the second cheapest in the set.",
+      "not_higher_because": "The comparison is price-to-earnings only, which ignores the balance sheet, and the peer set spans a 46x range in size. More fundamentally, a relative valuation inherits the market's own errors — being fairly priced against paint companies says nothing if paint companies are collectively expensive, which is exactly what the cash-flow model argues.",
+      "would_move_it": "Enterprise-value multiples for the peers, and a sector-wide comparison against the broad market.",
+      "band": "Decent"
+    },
+    {
+      "key": "opinion",
+      "label": "Personal opinion",
+      "short": "Opinion",
+      "score": null,
+      "why": "Not set. This axis is deliberately left empty — it is the reader's own judgement and is not inferred from the analysis. Supply a score from 0 to 10 to complete the shape.",
+      "band": null
+    }
+  ],
+  "mean_of_scored": 5.333333333333333,
+  "radar_caveat": {
+    "order_as_drawn": [
+      "DCF",
+      "Rel. past",
+      "Rel. peers",
+      "Opinion (illustrative 6)"
+    ],
+    "area_as_drawn": 58.5,
+    "distinct_areas": [
+      58.5,
+      60.0
+    ],
+    "area_min": 58.5,
+    "area_max": 60.0,
+    "area_spread_pct": 0.02564102564102555,
+    "text": "Two things to know before reading the shape. First, a radar encodes each score as a distance from the centre, so the enclosed AREA grows with the square of the scores — a score twice as good looks four times as big. Second, the area depends on the ORDER the axes are drawn in, which carries no information: these four scores admit only 2 distinct shapes, whose areas run from 58.5 to 60.0 — a spread of 3% with every score identical. So read the spokes, not the blob. The bar view below has neither problem and is the form this data actually wants."
+  },
+  "interpretation": "These are interpretations of the evidence, not measurements, and not a recommendation. The two valuation axes disagree by design: the cash-flow model says the price is poorly compensated at an 11.5% required return, while both relative measures say it is reasonably or cheaply priced against its own past and its peers. That disagreement is the actual finding — it points at a sector-level valuation question rather than a company-specific mispricing.",
+  "default_view": "radar"
+};
+
+(function () {
+  const svg = document.getElementById("ovRadar");
+  if (!svg || !OVERALL || !OVERALL.axes) return;
+
+  const A = OVERALL.axes, MAX = OVERALL.scale.max, NS2 = "http://www.w3.org/2000/svg";
+  const scored = A.filter(a => a.score !== null && a.score !== undefined);
+  const el = (n, at) => { const e = document.createElementNS(NS2, n);
+    for (const k in at) e.setAttribute(k, at[k]); return e; };
+
+  document.getElementById("ovLede").innerHTML =
+    `Four ways of looking at the same company, each scored 0–10. `
+    + `<strong>These are interpretations of the evidence, not measurements</strong>, `
+    + `and not a recommendation. Price ₹${Math.round(OVERALL.price).toLocaleString("en-IN")} `
+    + `as of ${OVERALL.price_asof}. ${OVERALL.band_note}`;
+
+  document.getElementById("ovBandKey").innerHTML =
+    OVERALL.bands.map(b => `<span><i></i>${b.label} — ${b.note}</span>`).join("")
+    + `<span><i style="background:var(--scale)"></i>this company</span>`;
+
+  // ---- radar
+  function drawRadar() {
+    const W = 420, C = W / 2, R = 140;
+    svg.setAttribute("viewBox", `0 0 ${W} ${W}`);
+    svg.textContent = "";
+    const n = A.length;
+    const ang = i => -Math.PI / 2 + i * 2 * Math.PI / n;
+    const pt = (i, v) => [C + (v / MAX) * R * Math.cos(ang(i)),
+                          C + (v / MAX) * R * Math.sin(ang(i))];
+
+    // band rings, outermost first so labels sit clear
+    OVERALL.bands.forEach(b => {
+      const r = (b.hi / MAX) * R;
+      const poly = A.map((_, i) => {
+        const x = C + r * Math.cos(ang(i)), y = C + r * Math.sin(ang(i));
+        return `${x.toFixed(1)},${y.toFixed(1)}`;
+      }).join(" ");
+      svg.appendChild(el("polygon", { points: poly, class: "ov-ring-band" }));
+      const t = el("text", { x: C + 3, y: C - r + 11, class: "ov-ringlab" });
+      t.textContent = b.hi;
+      svg.appendChild(t);
+    });
+    // spokes
+    A.forEach((_, i) => {
+      const [x, y] = pt(i, MAX);
+      svg.appendChild(el("line", { x1: C, y1: C, x2: x, y2: y, class: "ov-spoke" }));
+    });
+    // the shape — only over scored axes; an unset axis is drawn as a hollow
+    // marker at the rim and EXCLUDED from the polygon, so a missing view is
+    // never silently rendered as a zero.
+    const usable = A.map((a, i) => ({ a, i })).filter(o => o.a.score !== null);
+    if (usable.length >= 3) {
+      const poly = usable.map(o => pt(o.i, o.a.score).map(v => v.toFixed(1)).join(",")).join(" ");
+      svg.appendChild(el("polygon", { points: poly, class: "ov-shape" }));
+    }
+    A.forEach((a, i) => {
+      if (a.score === null) {
+        const [x, y] = pt(i, MAX * 0.5);
+        svg.appendChild(el("circle", { cx: x, cy: y, r: 5, class: "ov-dot-unset" }));
+      } else {
+        const [x, y] = pt(i, a.score);
+        svg.appendChild(el("circle", { cx: x, cy: y, r: 5, class: "ov-dot" }));
+      }
+      // Axis label, nudged outward and aligned by quadrant so it never sits on
+      // the rim it labels. The label is then CLAMPED back inside the viewBox by
+      // measuring it: a side label like "7/10 · Decent" is wider than the gap
+      // between the rim and the edge, and at a phone width it clipped by ~18px.
+      // Measuring beats picking a radius, because the text is data-dependent.
+      const [lx, ly] = pt(i, MAX * 1.15);
+      const anchor = Math.abs(lx - C) < 6 ? "middle" : (lx > C ? "start" : "end");
+      const place = (txt, dy, cls) => {
+        const t = el("text", { x: lx, y: ly + dy, class: cls, "text-anchor": anchor });
+        t.textContent = txt;
+        svg.appendChild(t);
+        const b = t.getBBox();
+        const PAD = 2;
+        let shift = 0;
+        if (b.x + b.width > W - PAD) shift = (W - PAD) - (b.x + b.width);
+        else if (b.x < PAD) shift = PAD - b.x;
+        if (shift) t.setAttribute("x", lx + shift);
+        return t;
+      };
+      place(a.short, 0, "ov-axis-label");
+      place(a.score === null ? "not set" : `${a.score}/10 · ${a.band}`, 13,
+            "ov-axis-score");
+    });
+    document.getElementById("ovRadarDesc").textContent =
+      "Radar chart of four scores out of ten: "
+      + A.map(a => `${a.label} ${a.score === null ? "not set" : a.score + ", " + a.band}`).join("; ");
+  }
+
+  // ---- bars (the honest form)
+  function drawBars() {
+    const host = document.getElementById("ovBars");
+    host.innerHTML = A.map(a => {
+      const segs = OVERALL.bands.map(b => {
+        const l = (b.lo / MAX) * 100, w = ((b.hi - b.lo) / MAX) * 100;
+        return `<i class="seg" style="left:${l}%;width:${w}%"></i>`;
+      }).join("");
+      const unset = a.score === null;
+      return `<div class="ov-bar${unset ? " unset" : ""}">
+        <span class="nm">${a.label}</span>
+        <span class="tr" role="img" aria-label="${a.label}: ${unset ? "not set" : a.score + " out of 10, " + a.band}">
+          ${segs}${unset ? "" : `<i class="fill" style="width:${(a.score / MAX) * 100}%"></i>`}
+        </span>
+        <span class="vl">${unset ? "not set" : `${a.score}/10 · ${a.band}`}</span>
+      </div>`;
+    }).join("");
+  }
+
+  // ---- side cards
+  document.getElementById("ovMean").innerHTML = OVERALL.mean_of_scored === null ? ""
+    : `Mean of the ${scored.length} scored axes: <b>${OVERALL.mean_of_scored.toFixed(1)}</b> / 10`
+      + ` <span style="color:var(--text-muted)">— shown because it was asked for, but`
+      + ` averaging four different questions is exactly what hides the disagreement`
+      + ` between them.</span>`;
+
+  document.getElementById("ovCards").innerHTML = A.map(a => {
+    const unset = a.score === null;
+    const extra = [
+      a.not_lower_because ? `<p><b>Not lower because:</b> ${a.not_lower_because}</p>` : "",
+      a.not_higher_because ? `<p><b>Not higher because:</b> ${a.not_higher_because}</p>` : "",
+      a.would_move_it ? `<p><b>What would move it:</b> ${a.would_move_it}</p>` : "",
+    ].join("");
+    return `<div class="ov-card${unset ? " unset" : ""}">
+      <h4><span>${a.label}</span>
+        <span class="sc">${unset ? "not set" : `${a.score}/10 · ${a.band}`}</span></h4>
+      <p>${a.why}</p>${extra}</div>`;
+  }).join("");
+
+  document.getElementById("ovCaveat").innerHTML =
+    `<strong>About the radar.</strong> ${OVERALL.radar_caveat.text}`;
+  document.getElementById("ovInterp").innerHTML =
+    `<strong>How to read this.</strong> ${OVERALL.interpretation}`;
+
+  // ---- view toggle
+  const hint = {
+    radar: "Radar: area grows with the square of the scores, and depends on axis order.",
+    bars: "Bars: one shared scale, no area artefact — the form this data wants.",
+  };
+  function setView(v) {
+    const isBars = v === "bars";
+    svg.hidden = isBars;
+    document.getElementById("ovBars").hidden = !isBars;
+    document.getElementById("ovHint").textContent = hint[v];
+    document.querySelectorAll("#ovModes button").forEach(b =>
+      b.setAttribute("aria-pressed", b.dataset.view === v ? "true" : "false"));
+    if (isBars) drawBars(); else drawRadar();
+  }
+  document.querySelectorAll("#ovModes button").forEach(b =>
+    b.addEventListener("click", () => setView(b.dataset.view)));
+  setView(OVERALL.default_view || "radar");
+})();
+
+// ---------------------------------------------------------------------------
+// MY NOTES — a dated log, newest first, filterable by tag.
+// Entries marked private are removed by the BUILDER, not hidden here: gating in
+// JS would still ship the text in page source.
+// ---------------------------------------------------------------------------
+const MYNOTES = {
+  "title": "My notes",
+  "lede": "A dated log of observations and open questions on this company. Newest first. Each entry records what was actually established on that date, so a later reading can tell what was known when.",
+  "publication_note": "⚠️ This tab is PUBLISHED to a public site. Any entry carrying \"private\": true is dropped from the public build and stays visible only in a local private build — use it for anything that should not be read by strangers, including position sizing, price targets you are acting on, or personal circumstances.",
+  "entries": [
+    {
+      "date": "2026-08-23",
+      "title": "Relative valuation added — and it disagrees with the cash-flow model",
+      "author": "analysis",
+      "tags": [
+        "valuation",
+        "peers"
+      ],
+      "body": "Built the multiple bands against eleven years of history and a paint-peer table. Both say the shares are unremarkable-to-cheap: bottom third of their own range on every measure, and a peer premium that is fully earned by best-in-set returns on capital. The cash-flow model says the opposite — poorly compensated at an 11.5% required return. The disagreement is the finding, not a problem to average away: it points at a sector-level valuation question rather than a company-specific mispricing."
+    },
+    {
+      "date": "2026-08-23",
+      "title": "The entire price decline is the multiple, not earnings",
+      "author": "analysis",
+      "tags": [
+        "valuation"
+      ],
+      "body": "Decomposed the de-rating and it reconciles exactly. Between the FY22–FY24 window and the last twelve months, the earnings the market could actually see ROSE about 14% while the multiple fell about 27% — which multiply to the actual 16% fall in the share price. So none of the decline came from earnings. Against that, return on capital fell about 23% and the topline went from compounding to flat, which explains most but not all of the de-rating."
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Cash-flow model rebuilt without a perpetuity",
+      "author": "analysis",
+      "tags": [
+        "valuation",
+        "method"
+      ],
+      "body": "Dropped the perpetual-growth terminal value, which had been carrying 76–82% of the answer and could report a nonsensical implied growth rate. Rebuilt as ten explicit years with the terminal value struck at year eleven as an exit multiple. That single change moved the base case from roughly 74% below the price to 12–43% below it depending on the exit multiple — the assumption, not the forecast, was doing the work."
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Capex rule was wrong; leases explain it",
+      "author": "analysis",
+      "tags": [
+        "method",
+        "accounting"
+      ],
+      "body": "Growth capex was being modelled off balance-sheet fixed-asset growth, which overstated it by about two times. The identity capex minus depreciation equals the change in net fixed assets fails by 34% of capex over eleven years, because right-of-use lease assets are capitalised with no cash ever spent. Same accounting standard that had already made the borrowings line overstate debt. A cash-flow model needs cash capex, so the rule now derives from eleven years of actual cash spending — it predicts the latest year within 6%."
+    },
+    {
+      "date": "2026-08-22",
+      "title": "The company is net cash, not levered — earlier reading corrected",
+      "author": "analysis",
+      "tags": [
+        "accounting",
+        "balance-sheet"
+      ],
+      "body": "A rating agency's rationale settled a discrepancy: the borrowings line overstates debt because it includes lease liabilities. On the agency's definition the company holds net cash of about ₹5,000 crore and has done for over a decade, with interest cover around 34 times. The earlier reading of 'debt tripled, debt-funded capex' was wrong and is struck through in the working notes. This is purely a returns problem, not a solvency one."
+    },
+    {
+      "date": "2026-08-22",
+      "title": "The cost cycle reversed inside six months",
+      "author": "analysis",
+      "tags": [
+        "margins",
+        "earnings-calls"
+      ],
+      "body": "Across three earnings calls, raw-material costs went from 1.1% cheaper year-on-year to roughly 25% more expensive. The most recent full financial year therefore sits entirely on the favourable side of that turn — its 44–45% gross margins are the top of a cost cycle, not a baseline. Management said the cheap-inventory cushion is now exhausted, priced increases are running about 7% against roughly 25% cost inflation, and narrowed its margin confidence from the full year to the first six months."
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Open question that everything now hangs on",
+      "author": "analysis",
+      "tags": [
+        "open-question"
+      ],
+      "body": "The next quarterly result is the first with the cheap-inventory cushion gone and the cost inflation fully landed. It is the cleanest available test of whether the 18–20% margin band survives, and therefore of whether the unexplained part of the de-rating is the market under-pricing a recovery or correctly pricing further share loss. Nothing in the multiples can settle that."
+    }
+  ]
+};
+
+(function () {
+  const list = document.getElementById("mnList");
+  if (!list || !MYNOTES || !(MYNOTES.entries || []).length) return;
+
+  const entries = [...MYNOTES.entries].sort((a, b) =>
+    a.date < b.date ? 1 : a.date > b.date ? -1 : 0);
+
+  if (MYNOTES.title) document.getElementById("mnTitle").textContent = MYNOTES.title;
+  document.getElementById("mnLede").textContent = MYNOTES.lede || "";
+
+  const tags = [...new Set(entries.flatMap(e => e.tags || []))].sort();
+  let active = null;
+
+  document.getElementById("mnTags").innerHTML = tags.length
+    ? `<button type="button" data-tag="" aria-pressed="true">All ${entries.length}</button>`
+      + tags.map(t => `<button type="button" data-tag="${t}" aria-pressed="false">${t}</button>`).join("")
+    : "";
+
+  function render() {
+    const shown = entries.filter(e => !active || (e.tags || []).includes(active));
+    list.innerHTML = shown.length ? shown.map((e, i) => `
+      <li class="mn-item${i === 0 ? " first" : ""}">
+        <div class="mn-head">
+          <span class="mn-date">${e.date}</span>
+          <h4>${e.title}</h4>
+          <span class="mn-tags">${(e.tags || []).map(t => `<span class="mn-tag">${t}</span>`).join("")}
+            ${e.private ? '<span class="mn-priv">private</span>' : ""}</span>
+        </div>
+        <p class="mn-body">${e.body}</p>
+      </li>`).join("")
+      : `<li class="mn-empty">No entries tagged “${active}”.</li>`;
+  }
+
+  document.querySelectorAll("#mnTags button").forEach(b =>
+    b.addEventListener("click", () => {
+      active = b.dataset.tag || null;
+      document.querySelectorAll("#mnTags button").forEach(o =>
+        o.setAttribute("aria-pressed", o === b ? "true" : "false"));
+      render();
+    }));
+  render();
+})();
+
 // Sources. Anything unread stays flagged rather than silently dropped.
 const REFS = [
   {
@@ -3039,11 +3529,13 @@ measureBoardDelta();   // needs the board painted, so after the first render
 // tab is a no-op rather than a spurious rebuild.
 // ---------------------------------------------------------------------------
 const TAB_SPEC = [
+  { id: "overall", label: "Overall" },
   { id: "metrics", label: "Metrics" },
   { id: "dcf",     label: "DCF" },
   { id: "relval",  label: "Relative valuation" },
   { id: "calls",   label: "Concalls summary" },
   { id: "points",  label: "SWOT analysis" },
+  { id: "mynotes", label: "My notes" },
 ];
 
 (function () {
