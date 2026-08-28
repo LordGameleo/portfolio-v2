@@ -619,7 +619,7 @@
     <p class="crumb"><a href="/research/">← All analyses</a> <span>/ Paras Defence and Space Technologies Ltd</span></p>
 
     <h1>Paras Defence and Space Technologies Ltd — financial dashboard, FY2019–FY2026</h1>
-    <p class="sub">Consolidated, financial years ending March. Every metric on its own panel — the series span ₹ crore and percentages across a 100× range, so one shared axis would be meaningless.</p>
+    <p class="sub">Consolidated. Eight annual periods only — the company listed in October 2021, so there is no full cycle in this data and the earliest years describe a smaller, pre-listing business. ⚠️ <strong>The cash-flow statement begins a year later than the rest</strong>: Mar 2019 has no operating, investing or financing cash flow and no return on capital employed in the source, so those four lines START at Mar 2020 rather than being drawn back to a year that has no figure. Nothing has been interpolated — a gap is drawn as a gap. Every metric on its own panel — the series span ₹ crore and percentages across a 100× range, so one shared axis would be meaningless.</p>
     <div class="tabs" id="tabs" role="tablist" aria-label="Report sections"></div>
 
     <section class="overall tabpanel" data-section="overall" id="tab-overall" role="tabpanel" aria-labelledby="tabbtn-overall">
@@ -1301,18 +1301,42 @@ const pctFmt = v => (typeof v === "number" && isFinite(v)) ? v.toFixed(1) + "%" 
 
 let mode = "absolute";
 
+// A series may have HOLES. The scaffolder omits a key entirely rather than
+// writing null, so a missing period reads as `undefined`, not `null` — and
+// `undefined` survives a `!== null` filter, poisons Math.min/max to NaN, and
+// silently blanks the whole panel. Eicher Motors lost SIX panels that way
+// (sales, profit, debt/sales, payout, ROE, margin) because its Dec->Mar year-end
+// change left Mar 2016 out of the income statement while the balance sheet kept
+// it. So: every read goes through here, and anything not finite becomes null.
+const fin = v => (typeof v === "number" && isFinite(v)) ? v : null;
+
+// Indexing must be based on the first period that HAS a value, not on DATA[0] —
+// otherwise one missing first period turns the entire indexed view into NaN.
+function indexBase(key) {
+  for (let i = 0; i < DATA.length; i++) {
+    const v = fin(DATA[i][key]);
+    if (v !== null && v !== 0) return { v, i };
+  }
+  return null;
+}
+
 function valueAt(p, i) {
-  const cur = DATA[i][p.key];
+  const cur = fin(DATA[i][p.key]);
   if (mode === "absolute") return cur;
-  if (mode === "indexed") return (100 * cur) / DATA[0][p.key];
+  if (cur === null) return null;
+  if (mode === "indexed") {
+    const b = indexBase(p.key);
+    return b ? (100 * cur) / b.v : null;
+  }
   if (i === 0) return null;
-  const prev = DATA[i - 1][p.key];
-  return p.isRatio ? cur - prev : (100 * (cur - prev)) / prev;
+  const prev = fin(DATA[i - 1][p.key]);
+  if (prev === null) return null;              // no prior year => no change
+  return p.isRatio ? cur - prev : (prev === 0 ? null : (100 * (cur - prev)) / prev);
 }
 
 const axisUnit = p =>
   mode === "absolute" ? p.unit
-  : mode === "indexed" ? "FY15 = 100"
+  : mode === "indexed" ? ((indexBase(p.key) ? DATA[indexBase(p.key).i].fy : DATA[0].fy) + " = 100")
   : p.isRatio ? "YoY, pp" : "YoY, %";
 
 const axisFmt = (p, v) =>
@@ -1340,6 +1364,9 @@ function niceScale(min, max, target) {
 
 function scaleFor(p) {
   const vals = DATA.map((_, i) => valueAt(p, i)).filter(v => v !== null);
+  // A panel whose series is entirely missing would give Math.min() === Infinity,
+  // so give it a harmless 0-1 axis rather than an invisible NaN one.
+  if (!vals.length) return niceScale(0, 1, 3);
   let min = Math.min(...vals), max = Math.max(...vals);
   if (mode === "yoy") { const m = Math.max(Math.abs(min), Math.abs(max)); min = -m; max = m; }
   // magnitudes anchor at zero, but a series that genuinely goes negative
@@ -1352,7 +1379,9 @@ function scaleFor(p) {
 // upIsGood null => direction is genuinely ambiguous (payout), so stay neutral.
 function delta(p, i) {
   if (i === 0) return { text: "—", cls: "flat" };
-  const cur = DATA[i][p.key], prev = DATA[i - 1][p.key];
+  const cur = fin(DATA[i][p.key]), prev = fin(DATA[i - 1][p.key]);
+  if (cur === null || prev === null || (!p.isRatio && prev === 0))
+    return { text: "—", cls: "flat" };
   const raw = p.isRatio ? cur - prev : (100 * (cur - prev)) / prev;
   if (Math.abs(raw) < 0.05) return { text: "flat", cls: "flat" };
   const text = `${raw > 0 ? "↑" : "↓"} ${Math.abs(raw).toFixed(1)}${p.isRatio ? "pp" : "%"}`;
@@ -1482,7 +1511,10 @@ function render() {
       let d = "", started = false;
       DATA.forEach((_, i) => {
         const val = valueAt(s, i);
-        if (val === null) return;
+        // A hole BREAKS the line rather than interpolating across it: drawing
+        // straight through a missing year would assert continuity that isn't
+        // there. `started = false` restarts the path with a fresh M.
+        if (val === null) { started = false; return; }
         d += `${started ? "L" : "M"}${xIn(col, i)},${yOf(n, val, si)}`;
         started = true;
       });
@@ -1494,7 +1526,7 @@ function render() {
       svg.appendChild(path);
 
       const last = DATA.length - 1, lv = valueAt(s, last);
-      svg.appendChild(el("circle", {
+      if (lv !== null) svg.appendChild(el("circle", {
         cx: xIn(col, last), cy: yOf(n, lv, si), r: 4.5,
         fill: `var(${s.fam})`, stroke: "var(--surface-1)", "stroke-width": 2,
       }));
