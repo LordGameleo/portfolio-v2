@@ -1,0 +1,2674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TVS Motor Company Ltd — earnings-call pointers (detailed)</title>
+<style>
+  .viz-root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --grid:           #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --hover:          rgba(11,11,11,0.05);
+    --scale:          #2a78d6;
+    --leverage:       #eb6834;
+    --capital:        #1baf7a;
+    --delta-good:     #006300;
+    --delta-bad:      #d03b3b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .viz-root {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page:           #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --grid:           #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --hover:          rgba(255,255,255,0.07);
+      --scale:          #3987e5;
+      --leverage:       #d95926;
+      --capital:        #199e70;
+      --delta-good:     #0ca30c;
+      --delta-bad:      #d03b3b;
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --page:           #0d0d0d;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --grid:           #2c2c2a;
+    --baseline:       #383835;
+    --border:         rgba(255,255,255,0.10);
+    --hover:          rgba(255,255,255,0.07);
+    --scale:          #3987e5;
+    --leverage:       #d95926;
+    --capital:        #199e70;
+    --delta-good:     #0ca30c;
+    --delta-bad:      #d03b3b;
+  }
+
+  html, body { margin: 0; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--page, #f9f9f7); }
+  .viz-root { background: var(--page); color: var(--text-primary); min-height: 100vh; padding: 32px 20px 64px; box-sizing: border-box; }
+  /* capped deliberately: this page is prose, and a very long line hurts reading */
+  .card {
+    max-width: min(1180px, 94vw); margin: 0 auto; background: var(--surface-1);
+    border: 1px solid var(--border); border-radius: 10px; padding: 24px 24px 20px;
+  }
+  @media (max-width: 640px) {
+    .viz-root { padding: 14px 8px 40px; }
+    .card { max-width: 100%; padding: 14px 12px 14px; border-radius: 8px; }
+    h1 { font-size: 17px; }
+    .controls { gap: 6px; }
+    .count { margin-left: 0; flex-basis: 100%; }
+    select { max-width: 100%; }
+    li.pt { grid-template-columns: 1fr; }        /* figure drops below the text */
+    .pt-fig { white-space: normal; }
+    .call-src { margin-left: 0; flex-basis: 100%; }
+  }
+
+  .crumb { font-size: 12px; margin: 0 0 10px; }
+  .crumb a { color: var(--scale); text-decoration: none; }
+  .crumb a:hover { text-decoration: underline; }
+  .crumb span { color: var(--text-muted); }
+
+  h1 { font-size: 19px; font-weight: 600; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 2px; line-height: 1.5; }
+  .note { font-size: 12px; color: var(--text-muted); margin: 6px 0 0; line-height: 1.5; }
+
+  /* filters: one row above the content */
+  .controls { display: flex; align-items: center; gap: 8px; margin: 18px 0 4px; flex-wrap: wrap; }
+  .controls .label { font-size: 11.5px; color: var(--text-muted); margin-right: 2px; }
+  .segmented { display: inline-flex; border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+  .segmented button {
+    font: inherit; font-size: 12px; padding: 5px 10px; border: 0; cursor: pointer;
+    background: transparent; color: var(--text-secondary); border-right: 1px solid var(--border);
+  }
+  .segmented button:last-child { border-right: 0; }
+  .segmented button:hover { background: var(--hover); }
+  .segmented button[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); font-weight: 600; }
+  select {
+    font: inherit; font-size: 12px; padding: 5px 8px; border: 1px solid var(--border);
+    border-radius: 7px; background: var(--surface-1); color: var(--text-secondary);
+  }
+  .count { font-size: 11.5px; color: var(--text-muted); margin-left: auto; font-variant-numeric: tabular-nums; }
+
+  /* one block per call */
+  .call { margin: 26px 0 0; }
+  .call-head {
+    position: sticky; top: 0; z-index: 3; background: var(--surface-1);
+    padding: 9px 0 8px; border-bottom: 1px solid var(--grid);
+    display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap;
+  }
+  .call-q { font-size: 14px; font-weight: 600; }
+  .call-date { font-size: 11.5px; color: var(--text-muted); }
+  .call-src { font-size: 11px; margin-left: auto; }
+  .call-src a { color: var(--scale); }
+
+  .theme-group { margin: 15px 0 0; }
+  .theme-name {
+    font-size: 11.5px; font-weight: 600; color: var(--text-secondary);
+    text-transform: uppercase; letter-spacing: .04em; margin: 0 0 7px;
+  }
+  .theme-summary {
+    font-size: 12.5px; color: var(--text-secondary); line-height: 1.6;
+    margin: 0 0 10px; padding: 9px 12px 10px 13px;
+    background: var(--hover); border-left: 2px solid var(--capital); border-radius: 0 6px 6px 0;
+  }
+  .theme-summary .lbl {
+    display: block; font-size: 9.5px; font-weight: 600; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--text-muted); margin-bottom: 3px;
+  }
+  ul.pts { margin: 0; padding: 0; list-style: none; }
+  li.pt {
+    font-size: 12.5px; color: var(--text-secondary); line-height: 1.55;
+    padding: 8px 0 9px; border-bottom: 1px solid var(--grid);
+    display: grid; grid-template-columns: 1fr auto; gap: 3px 10px;
+  }
+  li.pt:last-child { border-bottom: 0; }
+  .pt-body { min-width: 0; }
+  .pt-fig {
+    font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums;
+    white-space: nowrap; font-size: 12px;
+  }
+  .pt-meta { grid-column: 1 / -1; display: flex; gap: 7px; align-items: center; flex-wrap: wrap; margin-top: 3px; }
+  .badge {
+    font-size: 10px; padding: 1px 6px; border-radius: 4px; border: 1px solid var(--border);
+    color: var(--text-muted); white-space: nowrap;
+  }
+  .badge.fact     { border-color: var(--capital); color: var(--capital); }
+  .badge.guidance { border-color: var(--scale);   color: var(--scale); }
+  .badge.qna      { border-color: var(--leverage); color: var(--leverage); }
+  .badge.opinion  { border-style: dashed; }
+  .who { font-size: 10.5px; color: var(--text-muted); }
+  blockquote {
+    margin: 5px 0 0; padding: 4px 0 4px 10px; border-left: 2px solid var(--border);
+    font-size: 11.5px; color: var(--text-muted); font-style: italic;
+  }
+  .empty { font-size: 12.5px; color: var(--text-muted); padding: 24px 0; text-align: center; }
+  .src { font-size: 11.5px; color: var(--text-muted); margin: 24px 0 0; padding-top: 14px; border-top: 1px solid var(--grid); line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="viz-root">
+  <div class="card">
+    <p class="crumb"><a href="/research/">← All analyses</a> <span>/</span>
+      <a href="financials">TVS Motor Company Ltd dashboard</a> <span>/ earnings-call pointers</span></p>
+
+    <h1>TVS Motor Company Ltd — earnings-call pointers, detailed</h1>
+    <p class="sub">Every substantive pointer from the last 3 calls, Q3 FY26 (2026-01-28) through Q1 FY27 (2026-07-21). The dashboard carries only the headline items — this is the full set.</p>
+    <p class="note">Badges separate <span class="badge fact">fact</span> reported results from <span class="badge guidance">guidance</span> forward-looking statements, <span class="badge opinion">opinion</span> management views, and <span class="badge qna">Q&amp;A</span> pushback from questioners or non-answers. Treat guidance as a claim, not a result. Figures are quoted as stated — nothing rounded or inferred. Each theme opens with a <strong>plain-language summary</strong> of that theme for that call — jargon expanded, figures kept. The pointers beneath it are the precise layer, in the company’s own terms. A summary covers the whole theme and does not narrow when you filter.</p>
+
+    <div class="controls">
+      <span class="label">Call</span>
+      <span class="segmented" id="fCall" role="group" aria-label="Filter by call"></span>
+      <span class="label" style="margin-left:6px">Type</span>
+      <span class="segmented" id="fKind" role="group" aria-label="Filter by kind"></span>
+      <select id="fTheme" aria-label="Filter by theme"></select>
+      <span class="count" id="count"></span>
+    </div>
+
+    <div id="out"></div>
+
+    <p class="src">Source: company earnings-call transcripts filed with BSE/NSE. Figures are quoted as management stated them and were transcribed by machine, so treat anything that reads like a table as indicative. Commentary is management's own; inclusion here is not endorsement. Not investment advice.</p>
+  </div>
+</div>
+
+<script>
+const CALLS = [
+  {
+    "quarter": "Q1 FY27",
+    "call_date": "2026-07-21",
+    "detailed": [
+      {
+        "theme": "Demand & volumes",
+        "point": "June-quarter volume grew 28% to 1.63 million units from 1.28 million",
+        "figure": "1.63mn vs 1.28mn (+28%)",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Revenue grew 38% to INR13,896cr from INR10,081cr - ten percentage points faster than volume, so money earned per vehicle rose roughly 8%",
+        "figure": "INR13,896cr vs INR10,081cr (+38%)",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Operating profit grew 41% to INR1,779cr from INR1,260cr; operating profit before tax grew 41% to INR1,439cr; profit after tax grew 51% to INR1,174cr from INR776cr",
+        "figure": "operating profit INR1,779cr; operating PBT INR1,439cr; PAT INR1,174cr",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Domestic petrol two-wheeler sales grew 21% against industry growth of 13% - the outperformance gap widened back out to 8 percentage points from 2 in the March quarter",
+        "figure": "TVS +21% vs industry +13%",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "But on total petrol two-wheelers the gap is only 2 points - TVS 23% against an industry 21% - because the industry's own export line grew fast too",
+        "figure": "TVS +23% vs industry +21%",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "International petrol two-wheeler sales grew 31%",
+        "figure": "+31%",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Electric two-wheeler sales grew 86% to 1,30,000 units from 70,000 - the fastest growth of any line on any of the three calls",
+        "figure": "1,30,000 vs 70,000 (+86%)",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Later in the same call management described first-quarter electric growth as 'about 67%', against the 86% given in the prepared remarks; the 67% is most likely the industry figure but was not labelled as such",
+        "figure": "86% vs 'about 67%' unreconciled",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact",
+        "quote": "And the EV growth, we saw about 67% in the first quarter. I'm expecting the growth to continue in Q2."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Three-wheeler sales grew 48% to 67,000 units from 45,000",
+        "figure": "67,000 vs 45,000 (+48%)",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "April output was hit again by the same combination as last quarter - sharp material cost increases plus intermittent supply disruption affecting availability; May recovered and June was 'much better'",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact",
+        "quote": "intermittent supply chain disruptions affected availability, especially in the month of April, the supply were affected for us. We have recovered in May, June was much better"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Electric share of two-wheeler sales reached 10.6% in June alone, against 7.8% for the whole March quarter and 6.6% for FY26 - a step change, not a drift",
+        "figure": "June 10.6%; Q4 FY26 7.8%; FY26 6.6%",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Electric share of the three-wheeler market crossed 40% for the first time",
+        "figure": ">40%",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Management named the December quarter as the one to watch, for two separate reasons at once: the El Nino weather pattern, and the tax-cut comparison base, since the cut only landed at the end of September last year",
+        "speaker": "Gunjan Prithyani (BoA) / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "The only important thing we have to all watch is the Q3 because the El Nino plus the base effect, GST, the benefits started coming end of September."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "The festive selling season shifts to October and November this year, with product launches planned into it",
+        "figure": "season Oct-Nov",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Named headwinds that have NOT dented demand: uneven monsoon progression, and elevated food and energy prices. Management says cooking-gas availability has improved and prices are not rising as feared",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Demand support cited beyond the tax cut: income-tax relief putting money in hands, replacement demand, and continued electric adoption",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Operating profit margin was 12.8% against 12.5%, a 30 basis point improvement - the smallest of the three calls, and DOWN from 13.1% in each of the two preceding quarters",
+        "figure": "12.8% vs 12.5%; was 13.1% in Q3 and Q4 FY26",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Reported profit before tax of INR1,589cr (+51%) includes a INR150cr fair-valuation gain on investments against INR28cr a year earlier - so about INR122cr of the increase, roughly a quarter of the growth, is a mark-to-market gain rather than trading profit. Operating profit before tax, which excludes it, is INR1,439cr",
+        "figure": "PBT INR1,589cr incl. INR150cr fair-value gain vs INR28cr; operating PBT INR1,439cr",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Input cost inflation came in at about 3.5% in the June quarter with maybe another 0.5% in the current quarter - so about 4%, inside but toward the middle of the 3-5% band guided in May",
+        "figure": "~3.5% + ~0.5% = ~4%",
+        "speaker": "Kapil Singh (Nomura) / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "Commodity cost, I think, is about 3.5% and maybe another 0.5% this quarter because there is a quarterly adjustments. So overall, you can take about 3.5% or 0.5%, so about 4%."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Price increases were 1.5% in the June quarter with a further 0.5% in the current quarter - five to seven times the 0.2-0.3% taken in the December quarter, and still only covering about half the roughly 4% cost increase",
+        "figure": "1.5% in Q1 + 0.5% in Q2 vs ~4% cost",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact",
+        "quote": "that's why we said we have taken about 1.5% in the first quarter. progressively, we have looked at in Q2 also 0.5%."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Management said the bulk of the cost increase has now happened, with only a marginal further move expected, but would not rule out more volatility in aluminium and oil-linked plastics",
+        "speaker": "Binay (Morgan Stanley) / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "Commodity, the significant proportion has happened in Q1, there may be another marginal one because this time also, the war situation is up and down"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "The analyst restated May's offset figure as 30% and management did not correct it - the number given in May was 35%",
+        "figure": "analyst said 30%; May figure was 35%",
+        "speaker": "Binay",
+        "kind": "qna",
+        "quote": "In the last call, we talked about 3% to 5% commodity headwind, and you highlighted that 30% of it is passed on."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Management explained why price increases cannot fix a quarter: the cost arrived all at once and price recovery is slow to feed through",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion",
+        "quote": "all this has happened in one quarter as the first day. Even if you increase prices, it will take time to come back."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "The government manufacturing incentive fell back to about 0.6-0.7% of turnover, from 0.9% in the March quarter",
+        "figure": "0.6-0.7% vs 0.9%",
+        "speaker": "Binay / K.N. Radhakrishnan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Other expenses fell noticeably - and management said it is not a saving: April's lost production plus the absence of any launch in the quarter did it, and launch costs return when the next launch does",
+        "speaker": "Arvind Sharma (Citibank) / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "We have not reduced anything... Whenever a new product launch is there, definitely, you will see the costs going up because there is a launch cost. But in this quarter, there was no launch from our side."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Asked whether electric-vehicle profitability is closing on petrol vehicles now that iQube volumes have scaled, management gave a third consecutive non-answer - contribution improving, no level, no gap, and an explicit request for patience",
+        "speaker": "Binay / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "Contribution is becoming better and better quarter after quarter. And I'm pretty confident that we'll be a little bit patient, we will reach contributions of whatever we are looking at as a company."
+      },
+      {
+        "theme": "Competition",
+        "point": "THE CENTRAL EXCHANGE: Pramod Kumar (UBS) put the competitive situation in its sharpest form - a major rival is discounting heavily in scooters, TVS sits at a substantial price premium to it, and TVS is STILL gaining share on both vehicles shipped to dealers and vehicles sold to customers, having closed the shipment gap to the category leader to single digits",
+        "figure": "shipment gap to leader now single digit (analyst)",
+        "speaker": "Pramod Kumar (UBS)",
+        "kind": "qna",
+        "quote": "We've seen one of your major rival is actually on a discounting spree in the scooter category. And which effectively puts your product at a substantial premium versus what the competitor is offering the product at."
+      },
+      {
+        "theme": "Competition",
+        "point": "Management's answer to that question ran to several hundred words and covered the scooter range history (Scooty, the discontinued Pep, Jupiter 110 and 125, Ntorq 125 and 150), constant feature upgrades, top-two JD Power quality rankings, sub-30-day dealer stock and cricket-tournament brand spending - but it never addressed the rival's discounting, never quantified the price premium, and never gave a supply-versus-demand answer beyond restating the inventory policy. JUDGEMENT: substantially a non-answer to the question actually asked",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "So I think all the brands are positioned on customer segments very, very carefully. And these customer loves this product, they're really love it, okay?"
+      },
+      {
+        "theme": "Competition",
+        "point": "The nearest management came to acknowledging the discounting was a courtesy line that concedes nothing",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "And so I have a lot of respect for all our competitors because each one has got their own strategy."
+      },
+      {
+        "theme": "Competition",
+        "point": "The one substantive claim inside that answer was independent evidence rather than assertion - top and second position in the scooter category on JD Power quality scores",
+        "figure": "JD Power rank 1 and 2 in scooters",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Competition",
+        "point": "Scooters counting petrol and electric are now almost 40% of the Indian two-wheeler market and management expects that to keep rising, helped by retail financing widening the buyer base",
+        "figure": "~40% of industry",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Competition",
+        "point": "TVS grew ahead of the industry in electric two-wheelers, electric three-wheelers and Latin America; but the total petrol two-wheeler gap is only 2 percentage points, 23% against 21%",
+        "figure": "2pp gap on total petrol 2W",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Competition",
+        "point": "The draft Delhi policy proposing to ban sales of petrol two-wheelers from calendar 2028 drew a generic answer about embracing transitions and all green technologies - electric, current emission norms and flexible-fuel engines. Neither part of the question was addressed: no offsets were named, and whether an electric motorcycle is needed to replace petrol motorcycles in that market went unanswered",
+        "speaker": "Chandramouli Muthiah (Goldman Sachs) / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "See, these are all transitions we have to embrace... So, I think the way we will look at it is how do we make sure that we give green vehicles for the future."
+      },
+      {
+        "theme": "Raw materials",
+        "point": "The June quarter absorbed about 3.5% of revenue in input-cost increases, with maybe another 0.5% in the current quarter - so about 4% in total against the 3-5% band guided in May",
+        "figure": "~3.5% + 0.5% = ~4%",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "The named movers are steel and aluminium, plus plastics and other oil-linked parts which are still moving both ways with the conflict",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Management's view is that the bulk of the increase is now in the base with only a marginal further move to come - the closest thing to a peak call on this cycle",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "The supply-side effect repeated: April availability was disrupted and production was lost, recovering through May and June - the same April pattern as the previous year",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Nobody asked about rare-earth magnets, labour at second-tier suppliers, or gas supply - the three constraints named on the May call. Management did not volunteer an update on any of them",
+        "kind": "qna"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "iQube crossed 1 million cumulative customers - up from over 9,00,000 reported at the May call",
+        "figure": "1 million iQube customers",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "The HLX export motorcycle series crossed 5 million cumulative units, and the most recent 1 million came in a single year against 13 years for the first four",
+        "figure": "5mn cumulative; last 1mn in 1 year",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Electric-vehicle revenue was about INR1,780cr in the quarter - annualising to roughly INR7,100cr against the INR5,000cr recorded for all of FY26",
+        "figure": "INR1,780cr in Q1 vs INR5,000cr for FY26",
+        "speaker": "Gunjan Prithyani / K.N. Radhakrishnan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Spare parts revenue was INR1,173cr - essentially flat on the INR1,183cr of the December quarter and INR1,122cr of the March quarter, while total revenue grew 38%. So spares are shrinking as a share of the business, and no analyst asked why",
+        "figure": "INR1,173cr vs INR1,183cr in Q3 FY26",
+        "speaker": "Chandramouli Muthiah / K.N. Radhakrishnan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Norton is finally in production: Manx at Solihull in the UK, and the first Atlas models rolled out at Hosur in India in June and are moving into Europe. Launch markets are the UK, France, Italy, Germany, Spain and India, with the US later in the year",
+        "figure": "4 models; 6 launch markets + US later",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Norton has cost about INR2,000cr to INR2,500cr over the last four to five years - the first cumulative figure given across the three calls, and it arrived only because an analyst asked",
+        "figure": "INR2,000-2,500cr cumulative",
+        "speaker": "Arvind Sharma / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "So far, we have invested about INR 2,000 crores, about INR 2,500 crores in the last 4, 5 years."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Asked at what volume Norton breaks even at the operating level, management declined on the grounds that the plan is internal - while confirming a numeric plan exists",
+        "speaker": "Chandramouli Muthiah / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "there is a very clear plan number, how do we achieve number by number. But this is an internal completely and internal strategy."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Asked what Norton's historical peak volume was under previous ownership, management did not answer the question at all - it described the four models and their segments instead",
+        "speaker": "Arvind Sharma",
+        "kind": "qna",
+        "quote": "If it is comparable, what was the peak volume for Norton historically?"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Asked what makes Norton differentiated, management referred the analyst to published material rather than naming a single feature on the call",
+        "speaker": "Arvind Sharma / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "if I take answering what are the unique features and technology, what we are offering, it will take another 10 minutes to explain to you. It's already published documents that are available."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "TVS Paddock, a bespoke premium retail experience channel, was announced and is coming to India - the retail counterpart to the Norton positioning",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Export product launches in the quarter: Apache 160 4V into more markets, Ronin Monotone and Agonda variants, RTR 180/200/310 being introduced, Raider entering Egypt, and King EV MAX launched in Nepal",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "A partnership with Indian Oil Corporation was announced to use TVS cargo three-wheelers for last-mile cooking-gas cylinder distribution",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "The electric buyer has changed character: the early adopters were technology enthusiasts, the buyer now is the ordinary commuter, and some are switching from motorcycles to scooters altogether because they are indifferent to the powertrain",
+        "speaker": "Nitin Arora (Axis Mutual Fund) / K.N. Radhakrishnan",
+        "kind": "opinion",
+        "quote": "it is a scooter and customers are agnostic to the technology. They love iQube... today, common man has started buying"
+      },
+      {
+        "theme": "International",
+        "point": "International sales were the highest ever for a quarter at 4.68 lakh units, up 33%",
+        "figure": "4.68 lakh units (+33%)",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "International business revenue was INR3,634cr - up from INR2,999cr in the March quarter and INR2,909cr in the December quarter, a 25% rise in two quarters",
+        "figure": "INR3,634cr vs INR2,999cr and INR2,909cr",
+        "speaker": "Pramod Kumar / K.N. Radhakrishnan",
+        "kind": "qna"
+      },
+      {
+        "theme": "International",
+        "point": "Exports are about 26% of total turnover, a figure management gave from memory and did not confirm from a document, and it wants that share materially higher",
+        "figure": "~26% of turnover",
+        "speaker": "Amit Hiranandani (PhillipCapital) / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "Today, as we speak, the contribution from exports is about 26%. I am saying just from my memory overall turnover"
+      },
+      {
+        "theme": "International",
+        "point": "Export demand exceeds supply outright, and capacity is being added specifically to meet it",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact",
+        "quote": "In fact, the demand is much more. We are enhancing the capacity to meet the demand. It is a very, very positive news."
+      },
+      {
+        "theme": "International",
+        "point": "The African recovery is explained as a base effect that has run its course plus a specific end-market - motorcycle taxis - with general commuting following as roads improve",
+        "speaker": "Gunjan Prithyani / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "Africa, you remember I said last year, the bad is over, the worst is over, the base effect is over. So definitely, there is predominantly is the taxi market."
+      },
+      {
+        "theme": "International",
+        "point": "Asked why export demand holds up when petrol prices in some of those markets have risen 50-60%, management answered on product pull, distributor coverage and road infrastructure, and gave no market-level demand or affordability data",
+        "figure": "50-60% petrol price rises (analyst)",
+        "speaker": "Gunjan Prithyani / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "some of these markets have actually seen 50%, 60% increase in petrol prices, right? So, it doesn't seem to have impacted the sentiment in those markets."
+      },
+      {
+        "theme": "International",
+        "point": "Asked how free-trade agreements change the five-year export outlook, management answered on product range, market presence and the sales-service-spares model and never mentioned trade agreements or tariffs at all",
+        "speaker": "Amit Hiranandani / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "how do you see exports evolving for the company over the next 5 years in light of the free trade agreements"
+      },
+      {
+        "theme": "International",
+        "point": "Latin America is now working - TVS is present in most countries with a distributor, is growing ahead of the industry, and marketing spending is about to start",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "The stated export moat is sales, service and spare parts capability from day one, alongside product durability - not price",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion",
+        "quote": "we focus on three S as a capability. Sales, services, spare parts."
+      },
+      {
+        "theme": "International",
+        "point": "Electric exports have begun with iQube and Orbiter, and electric three-wheelers are promised 'soon'; Indonesian capacity is being expanded to feed export markets",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "International",
+        "point": "Priority order named: Africa and Asia are strong and now the entire focus shifts to the Middle East and Latin America",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Two-wheeler capacity is being taken from about 6.8 million to 8.3 million units, reaching the full 8.3 million by the March quarter of FY27 - the first time the base number 6.8 million has been disclosed",
+        "figure": "6.8mn to 8.3mn, complete by Q4 FY27",
+        "speaker": "Kapil Singh / K.N. Radhakrishnan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Three-wheeler capacity is going from 0.25 million to about 0.42 million units - a 68% increase, proportionally the largest expansion in the company",
+        "figure": "0.25mn to 0.42mn",
+        "speaker": "Kapil Singh / K.N. Radhakrishnan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Electric two-wheeler capacity is moving from about 40,000 to over 50,000 units a month, and electric three-wheeler capacity from about 20,000 to about 30,000",
+        "figure": "EV 2W 40k to 50k+/month; 3W 20k to 30k",
+        "speaker": "Nitin Arora / K.N. Radhakrishnan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "The INR3,500cr figure is now described as covering new products AND all the capacity expansion together - in May the same INR3,500cr was described as plant-and-product spending with subsidiary investment quoted separately, so the labelling has blurred between calls",
+        "figure": "INR3,500cr",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance",
+        "quote": "we are investing about INR 3,500 crores, new products plus all the capacity expansion, which is going to come over the last, next one quarter is over second quarter, third quarter."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "The time to add capacity has stretched: three to four months on this call against two to three months stated in January",
+        "figure": "3-4 months vs 2-3 months in January",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Management says capacity is no longer a worry because it can be added in steps",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion",
+        "quote": "capacity can be taken step by step because it takes about 3 to 4 months to increase the capacity. So, we are not so much worried about expansion."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Indonesian capacity is also being expanded, to feed the growing export book from that base",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "The long-term credit rating was upgraded from CARE AA+ to AAA, the agency's highest grade - management links it directly to its ability to keep investing and expanding overseas",
+        "figure": "CARE AA+ to AAA",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "TVS Credit's loan book grew 19% to INR32,053cr from INR26,898cr - the third consecutive acceleration, from 9% to 15% to 19%",
+        "figure": "INR32,053cr (+19%); was +9% then +15%",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "But TVS Credit's quarterly profit before tax was INR283cr, up only 16%, and DOWN sequentially from INR348cr in the March quarter and INR390cr in the December quarter. So the loan book is growing faster and faster while the profit it earns is falling in absolute terms",
+        "figure": "PBT INR283cr vs INR348cr (Q4) and INR390cr (Q3)",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "TVS Credit lent to over 14 lakh new customers in the quarter, taking its base to nearly 2.6 crore, across nearly 62,000 touchpoints",
+        "figure": "14 lakh new; base ~2.6 crore; 62,000 touchpoints",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "An analyst read INR1,100cr of government incentives out of the annual report against about INR700cr still shown as receivable - roughly seven to eight months of accrual sitting uncollected",
+        "figure": "INR1,100cr incentive; ~INR700cr receivable (analyst)",
+        "speaker": "Pramod Amthe (InCred Capital)",
+        "kind": "qna",
+        "quote": "you indicated that you have got a government incentive of almost INR 1,100 crores... against that, you are showing almost pending receivable of around INR 700 crores"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Pressed to split the INR1,100cr between the manufacturing incentive and export incentives, management refused the arithmetic outright, then conceded that INR600cr of the receivable is the manufacturing incentive and said collection is certain",
+        "figure": "INR600cr of receivable is the manufacturing incentive",
+        "speaker": "Pramod Amthe / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "No, I don't want to get into mathematics here. There is no concern in that area. Some are quarterly, some are annually."
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Asked whether collection is assured, management answered with a single word",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "100%. Government has always supported. There's absolutely nothing to worry about it."
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "A QUESTION THAT GOT NO ANSWER AT ALL: Deep Vakil asked for guidance on gearing, referenced a recent INR500cr raise and the preference-share redemption due on 1 September. Management said the line was noisy, the analyst said he would rejoin the queue - and he was never called back before the call closed",
+        "figure": "INR500cr raise; preference redemption 1 September",
+        "speaker": "Deep Vakil",
+        "kind": "qna",
+        "quote": "can you just give some guidance on the gearing? I think you've raised INR 500 crores lately... you have a preference share redemption on 1st of September."
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "The INR150cr fair-valuation gain on investments inside reported profit before tax drew no questions, despite being more than five times the prior year's INR28cr and roughly a quarter of the reported profit growth",
+        "figure": "INR150cr vs INR28cr",
+        "kind": "qna"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "The dealer stock target has been restated slightly tighter and with a festive exception: 25 to 30 days normally, up to about 35 in the Dhanteras peak",
+        "figure": "25-30 days; ~35 in festive peak",
+        "speaker": "Pramod Kumar / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "The inventory target maximum 25 to 30 days with the dealers, that is the number we always keep. Maybe during season 30 days... maybe another four, five days more."
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "The analyst's own observation, which management did not dispute: dispatches have been rising month after month yet stock at dealers is not building, because sales to customers are strong enough to absorb it",
+        "speaker": "Pramod Kumar",
+        "kind": "qna",
+        "quote": "you've been upping production and dispatches month after month, but your inventory numbers are not kind of ramping up reasonably because of the strong retail"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Asked for the actual current stock at dealers including goods in transit, management gave the target range instead - the second consecutive call on which the current number was requested and not supplied",
+        "speaker": "Pramod Kumar / K.N. Radhakrishnan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Stock is managed model by model and colour by colour, with the explicit objective of not losing a sale rather than of minimising working capital",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion",
+        "quote": "The optimum is we should not lose the retail. So, this has to be calibrated model-wise, colour wise."
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "The electric network is being extended down the urban gradient in sequence - it started with main city dealers, now covers semi-urban, and rural is next",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "The financing arm now reaches nearly 62,000 touchpoints across the country, deliberately weighted to semi-urban and rural India",
+        "figure": "62,000 touchpoints",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Norton will go to market through a mix of independent dealers and multi-brand premium outlets rather than an owned network, with TVS Paddock as the bespoke premium experience layer",
+        "speaker": "Chandramouli Muthiah / K.N. Radhakrishnan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Brand spending on scooters ran through the cricket tournament, cited as part of the reason buyers accept a price premium",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "GUIDANCE RAISED: full-year industry growth is now guided at double digits, against the 'good single-digit' / 'strong single digit' given in May - a clear upgrade in nine weeks",
+        "figure": "double digit vs strong single digit in May",
+        "speaker": "Gunjan Prithyani / K.N. Radhakrishnan",
+        "kind": "guidance",
+        "quote": "So overall, as a year, we should estimate an industry growth of double digit."
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "September-quarter guidance: double-digit industry growth as a minimum, with petrol vehicles slightly better than the June quarter and electric the same or slightly better",
+        "figure": "double digit minimum in Q2",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Export growth guided to hold at the same rate or slightly better - 'IB will be very, very strong. I can tell you.'",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "The ambition on exports is to take them well above 26% of turnover, leveraging the Indian and Indonesian ranges together",
+        "figure": "from ~26%",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "The Norton logic is stated in the same sequence management uses for everything else - delight the customer, then the top line, then the rest follows - which is also why no breakeven number is offered",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion",
+        "quote": "we believe in delighting the customer first. Then we grow the top line because when the top line comes every line will come"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "The regulatory posture is technology-agnostic on purpose: electric, current emission norms and flexible-fuel engines are all described as green, which is how management answers a proposed petrol ban without committing to anything",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Management expects the September quarter to build a base for the harder December quarter, and reads improving cooking-gas availability and stable prices as the key sign for consumer confidence",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Cost pressure and supply constraints are both explicitly expected to continue through the September quarter",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance",
+        "quote": "We continue to navigate cost pressures and supply chain constraints during Q2."
+      },
+      {
+        "theme": "Guidance",
+        "point": "THE MOST IMPORTANT GUIDANCE CHANGE ACROSS THE THREE CALLS: industry growth for FY27 goes from 'good single-digit' / 'strong single digit' on 13 May to 'double digit' on 21 July - raised, not cut, and raised while the cost shock was still working through",
+        "figure": "strong single digit (13 May) to double digit (21 July)",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "September quarter: double-digit industry growth as a minimum, petrol slightly better than June, electric same or slightly better, exports same or slightly better",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "The December quarter is explicitly flagged as the risk, for two reasons at once - the El Nino weather pattern and the tax-cut comparison base",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Input cost landed at about 3.5% in the June quarter with maybe 0.5% more, so about 4% against the 3-5% band guided in May - the band held",
+        "figure": "~4% vs 3-5% guided",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Price recovery: 1.5% taken in the June quarter, 0.5% in the September quarter, with more 'opportunity driven' increases promised - still roughly half the cost increase",
+        "figure": "1.5% + 0.5% vs ~4% cost",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Capacity: 8.3 million two-wheelers by the March quarter of FY27, 0.42 million three-wheelers from 0.25 million, electric two-wheelers above 50,000 a month, electric three-wheelers to about 30,000",
+        "figure": "8.3mn / 0.42mn / 50k+ / 30k",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "INR3,500cr of spending in FY27, now described as covering new products and all the capacity expansion together, landing across the September and December quarters",
+        "figure": "INR3,500cr",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Collection of the INR600cr manufacturing-incentive receivable stated as certain - '100%'",
+        "figure": "INR600cr",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Operating profit is again guided only directionally - the journey will 'further improve' - with no level and no floor, for the third consecutive call",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Refused on this call: any margin level, the volume at which the electric business or Norton breaks even, how electric profitability compares with petrol, Norton's historical peak volumes, the split of the INR1,100cr of incentives, current stock at dealers, and any answer at all on gearing and the September preference-share redemption",
+        "figure": "8 refusals or unanswered",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Nine analysts and one who never got his turn. The most valuable question of the three calls was Pramod Kumar's on scooters: a rival discounting heavily, TVS holding a substantial price premium, and TVS still gaining share on both shipments and customer sales, with the shipment gap to the category leader now in single digits",
+        "figure": "9 analysts",
+        "speaker": "Pramod Kumar (UBS)",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "That question got the longest answer on the call and still left both of its parts unaddressed - nothing on the rival's discounting beyond 'I have a lot of respect for all our competitors', no figure for the price premium, and nothing on supply versus demand except a restatement of the 30-day inventory policy",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Deep Vakil's question on gearing, the INR500cr raise and the 1 September preference-share redemption was never answered. He was cut off for line noise, said he would rejoin the queue, and the call ended without returning to him - the only wholly unanswered question across the three calls",
+        "speaker": "Deep Vakil",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Electric profitability was refused for the third consecutive call, in three different forms - breakeven volume in January, no answer in May, and the gap against petrol vehicles here. The answer is the same each time: contribution is improving, be patient",
+        "figure": "3 of 3 calls",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Norton took two analysts and gave up one number and two refusals: cumulative spending of INR2,000-2,500cr over four to five years was disclosed for the first time, the breakeven volume was declined as internal while confirming a numeric plan exists, and the question about Norton's historical peak volume was simply not answered",
+        "figure": "INR2,000-2,500cr disclosed; breakeven and peak volume withheld",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Pramod Amthe pushed the incentive arithmetic hardest and got the bluntest refusal of the three calls - 'I don't want to get into mathematics here' - before management conceded that INR600cr of the roughly INR700cr receivable is the manufacturing incentive",
+        "speaker": "Pramod Amthe (InCred Capital)",
+        "kind": "qna",
+        "quote": "No, I don't want to get into mathematics here."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "THE CLUSTERING ACROSS ALL THREE CALLS: profitability of any individual business is the topic that draws refusal every single time - margin guidance refused 3 of 3, electric breakeven refused 3 of 3, segment-level profitability refused 3 of 3, and subsidiary losses refused 2 of 2 times asked. Capacity was the one exception: refused in January with a promise to answer, and answered in May",
+        "figure": "margin 3/3, EV breakeven 3/3, segment profit 3/3",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Three things nobody asked about on a record quarter: the INR150cr fair-valuation gain that is roughly a quarter of the profit growth, spare parts revenue being flat while total revenue grew 38%, and the financing arm's quarterly profit falling in absolute terms for a second consecutive quarter while its loan book accelerated to 19% growth",
+        "kind": "qna"
+      }
+    ],
+    "theme_summaries": {
+      "Demand & volumes": "A record quarter delivered straight through the cost shock. The company sold 1.63 million vehicles against 1.28 million, up 28%, and took in INR13,896 crore against INR10,081 crore, up 38%. That ten-point gap between money and units is the interesting part: it means the average vehicle now earns about 8% more, through a richer mix of premium bikes, three-wheelers and exports plus the price increases taken. Profit after tax rose 51% to INR1,174 crore. The electric business inflected hard - sales up 86% to 1,30,000 units, electric share of two-wheeler sales at 10.6% in June alone against 6.6% for the whole of last year, and electric share of the three-wheeler market past 40% for the first time. Three-wheelers grew 48% to 67,000 units. One inconsistency: having given 86% in the prepared remarks, management later described first-quarter electric growth as 'about 67%' without labelling which figure belongs to whom. April was disrupted again, the same month as last year, by cost increases and intermittent supply problems, with May recovering and June much better. Looking forward, management named the December quarter as the one to watch for two reasons at once - the El Nino weather pattern and the fact that last year's tax cut only landed at the end of September, so the comparison gets hard. The festive season shifts to October and November this year, with launches planned into it.",
+      "Pricing & margins": "This is where the cost increase finally shows. Operating profit was 12.8% of sales against 12.5% a year earlier - an improvement of only 0.3 of a percentage point, the smallest of the three calls, and lower than the 13.1% recorded in each of the two preceding quarters. Input costs took about 3.5% of revenue in the quarter with perhaps another 0.5% to come, so about 4% in total, which sits inside the 3% to 5% band guided in May. Against that, price increases were 1.5% in the quarter plus 0.5% in the current one - five to seven times the 0.2-0.3% taken in December, and still recovering only about half the cost. Management said the bulk of the increase is now in the base with only marginal movement left, while warning that aluminium and oil-linked plastics are still moving both ways. Two things deserve flagging. Reported profit before tax of INR1,589 crore includes a INR150 crore gain from revaluing investments against INR28 crore a year earlier - roughly a quarter of the reported profit growth is a paper mark-up, not trading profit, and nobody asked about it. And the fall in other expenses is not a saving: management said plainly that April's lost production and the absence of any launch in the quarter did it, and launch costs come back with the next launch. The government manufacturing incentive slipped back to about 0.6-0.7% of turnover from 0.9%. Asked whether electric profitability is catching petrol, management refused for the third consecutive call.",
+      "Competition": "This is the theme where the call earns its keep. An analyst laid out the situation precisely: a major rival is discounting heavily in scooters, which leaves TVS selling at a substantial premium, and TVS is still gaining share on both vehicles shipped to dealers and vehicles actually sold to customers, having closed the shipment gap to the category leader to single digits. He asked what is driving that, and where TVS sits on supply versus demand. The answer was the longest on the call and answered neither part. It walked through the scooter range and its history - Scooty, the discontinued Pep, Jupiter 110 and 125, Ntorq 125 and 150 - constant feature upgrades, top-two quality rankings in JD Power's scooter survey, the sub-30-day dealer stock policy, and advertising during the cricket season. On the rival's discounting it offered only a courtesy: 'I have a lot of respect for all our competitors because each one has got their own strategy.' No premium was quantified, and supply versus demand was answered with the inventory policy rather than with a position. The independent quality ranking is the one hard piece of evidence in it. Elsewhere, scooters counting petrol and electric are now almost 40% of the Indian market and expected to rise, helped by wider loan availability. TVS grew ahead of the market in electric two-wheelers, electric three-wheelers and Latin America - but on total petrol two-wheelers the gap is only two percentage points, 23% against 21%. A draft Delhi policy banning petrol two-wheeler sales from 2028 drew a general answer about all technologies being green and no engagement with either the offsets or whether an electric motorcycle is needed.",
+      "Raw materials": "The cost shock landed roughly as guided. Input costs took about 3.5% of revenue in the June quarter with maybe another 0.5% in the current one, so about 4% against the 3% to 5% band management gave in May - the band held. Steel and aluminium are the named movers, with plastics and other oil-linked parts still moving in both directions as the West Asia conflict continues. Management's view is that the bulk of the increase is now in the base with only a marginal further move to come, which is the closest thing to a peak call it has made on this cycle. The supply-side effect repeated as well: April availability was disrupted and production was lost, recovering through May and June - the same April pattern as the previous year. What is missing is any follow-up on the three specific constraints named in May. Nobody asked about rare-earth magnets, about the second-tier suppliers who could not find workers, or about gas supply, and management volunteered no update on any of them. Given that magnet availability was the admitted electric-vehicle constraint in January and the rare-earth question was dodged in May, that silence is worth noting rather than treating as resolution.",
+      "Segments & products": "Two milestones, both cumulative: iQube passed 1 million customers, up from over 9,00,000 three months earlier, and the HLX export motorcycle series passed 5 million units, with the most recent million taking one year against 13 years for the first four. Electric-vehicle revenue was about INR1,780 crore in the quarter, which annualises to roughly INR7,100 crore against INR5,000 crore for the whole of last year. Norton is finally real: Manx is in production at Solihull in the UK, the first Atlas models rolled out of Hosur in India in June and are moving into Europe, and launch markets are the UK, France, Italy, Germany, Spain and India with the US later in the year. It has cost about INR2,000 to INR2,500 crore over four to five years - the first cumulative figure across the three calls, and it came out only because an analyst asked. Two Norton questions failed: the breakeven volume was declined as internal, while management confirmed a numeric plan exists, and the question about Norton's historical peak volume simply went unanswered. Elsewhere, a bespoke premium retail channel called TVS Paddock was announced, several models were launched into export markets including the Raider into Egypt, and a partnership with Indian Oil will use TVS cargo three-wheelers for last-mile cooking-gas delivery. One number nobody asked about: spare parts revenue of INR1,173 crore is essentially flat on INR1,183 crore two quarters ago while total revenue grew 38%, so the aftermarket is shrinking as a share of the business.",
+      "International": "The best export quarter the company has had - 4.68 lakh units, up 33%, and revenue of INR3,634 crore against INR2,999 crore in March and INR2,909 crore in December, a 25% rise in two quarters. Exports are about 26% of turnover, a figure management gave from memory rather than from a document, and it wants that materially higher. Demand exceeds supply outright, and capacity is being added specifically to meet it. The African recovery is explained as a base effect that has run its course plus a specific end market - motorcycle taxis - with ordinary commuting following as roads improve. Latin America is now working: TVS is in most countries with a distributor, is growing faster than the market, and marketing spending is about to begin. Electric exports have started with iQube and Orbiter, three-wheelers are promised 'soon', and Indonesian capacity is being expanded to feed export markets. Two questions were answered past rather than answered. Asked why demand holds up when petrol prices in some of these markets have risen 50-60%, management talked about how much customers want its products, distributor coverage and road building, and gave no market-level demand or affordability data. Asked how free-trade agreements change the five-year export picture, it answered on range, presence and its sales-service-spares model and never mentioned trade agreements or tariffs at all.",
+      "Capex & projects": "The capacity numbers are now fully on the table. Two-wheeler capacity goes from about 6.8 million units - the base figure disclosed for the first time here - to 8.3 million, complete by the March quarter. Three-wheeler capacity goes from 0.25 million to about 0.42 million, a 68% increase and proportionally the biggest expansion in the company. Electric two-wheeler capacity moves from about 40,000 units a month to over 50,000, and electric three-wheelers from about 20,000 to about 30,000. Two things have shifted subtly since May. The INR3,500 crore figure is now described as covering new products AND all the capacity expansion together, whereas in May that same INR3,500 crore was plant-and-product spending with subsidiary investment quoted separately - so the labelling has blurred and the total commitment is harder to pin down. And the time needed to add capacity has stretched to three or four months from the two to three months stated in January. Management's position is that this makes expansion unworrying because it can be done in steps. Nobody asked about subsidiary investment on this call at all, so the two incompatible figures given in May were left standing.",
+      "Balance sheet & capital allocation": "The credit rating was upgraded to CARE's top grade, AAA from AA+, which management ties directly to its capacity to keep investing. Underneath that, the financing arm is telling a less comfortable story. Its loan book grew 19% to INR32,053 crore, the third consecutive acceleration from 9% to 15% to 19%. But its quarterly profit before tax was INR283 crore - up only 16% on the year and DOWN in absolute terms from INR348 crore in March and INR390 crore in December. So the book is growing faster and faster while the profit it produces is falling quarter on quarter, and across three calls not one analyst has asked about it. It added over 14 lakh customers in the quarter, now serves nearly 2.6 crore, and reaches nearly 62,000 touchpoints. On the parent, an analyst read INR1,100 crore of government incentives out of the annual report against roughly INR700 crore still uncollected, and tried to split it. He was refused - 'I don't want to get into mathematics here' - before management conceded that INR600 crore of the receivable is the manufacturing incentive and said collection is certain. And one question was never answered at all: a request for guidance on borrowings, a recent INR500 crore raise and the preference-share redemption due 1 September was cut off for line noise and never returned to before the call closed. The INR150 crore paper gain on investments inside reported profit also drew no questions.",
+      "Distribution & network": "Dealer stock is targeted at 25 to 30 days, with an extra four or five days allowed around the Dhanteras peak - slightly tighter and more specific than the 21 to 30 days quoted on the two earlier calls. The analyst's own observation, which management did not dispute, is the useful part: dispatches to dealers have been rising month after month yet stock at dealers is not building, because sales to customers are strong enough to absorb it. Asked for the actual current stock including goods in transit, management again gave the target rather than the number - the second consecutive call on which that specific figure was requested and withheld. Stock is managed model by model and colour by colour, with the stated objective of not losing a sale rather than of minimising working capital. Three network builds are running in parallel: the electric network is being extended down the gradient from main city dealers through semi-urban towards rural; the financing arm now reaches nearly 62,000 touchpoints deliberately weighted to smaller towns and villages; and Norton will go to market through independent dealers and multi-brand premium outlets rather than an owned network, with the new TVS Paddock channel as the bespoke premium layer. Advertising during the cricket season is cited as part of why buyers accept a price premium on scooters.",
+      "Strategy & outlook": "The outlook was raised. Full-year industry growth is now guided at double digits against the 'good' or 'strong single digit' given nine weeks earlier - and it was raised while the cost increase was still working through, which is the opposite of what the May call's caution implied. For the September quarter management expects double-digit industry growth as a minimum, petrol vehicles slightly better than the June quarter, electric the same or slightly better, and exports the same or slightly better. It expects the September quarter to build a base for a harder December quarter, and reads improving cooking-gas availability and stable prices as the key sign of consumer confidence. Cost pressure and supply constraints are both expected to continue through the September quarter. On exports the ambition is to take them well above 26% of turnover using the Indian and Indonesian ranges together, with the moat stated as sales, service and spare parts capability from day one rather than price. On Norton the logic is the same sequence management applies everywhere - delight the customer, then the top line, then everything else follows - which is also precisely why it will not give a breakeven number. On regulation the posture is deliberately technology-agnostic: electric, current emission norms and flexible-fuel engines are all described as green, which lets management answer a proposed petrol ban without committing to anything.",
+      "Guidance": "The headline change is an upgrade, and it is the most important guidance movement across the three calls. On 13 May, full-year industry growth was 'good single-digit', later 'strong single digit'. On 21 July it is 'double digit'. Nine weeks, and raised rather than cut - and raised while the cost shock was still feeding through. For the September quarter: double-digit industry growth minimum, petrol slightly better than June, electric and exports the same or slightly better. The December quarter is flagged as the risk for two reasons at once, the El Nino weather pattern and the tax-cut comparison base. On costs the May band held - about 3.5% in the quarter plus maybe 0.5%, so about 4% against 3-5% guided - and price recovery is 1.5% plus 0.5%, roughly half of it, with more 'opportunity driven' increases promised. Capacity commitments are now fully specified: 8.3 million two-wheelers by the March quarter, 0.42 million three-wheelers from 0.25 million, electric two-wheelers above 50,000 a month and electric three-wheelers to about 30,000, on INR3,500 crore of spending landing across the September and December quarters. Collection of the INR600 crore incentive receivable is stated as certain. Operating profit is guided only directionally for the third call running - it will 'further improve', with no level and no floor. Eight things were refused or unanswered: any margin level, the breakeven volume for the electric business and for Norton, how electric profitability compares with petrol, Norton's historical peak volumes, the split of the INR1,100 crore of incentives, current stock at dealers, and anything at all on borrowings and the September preference-share redemption.",
+      "Analyst Q&A concerns": "Nine analysts asked questions and one never got his turn. The best question of the three calls came from UBS: a rival discounting heavily in scooters, TVS holding a substantial price premium, TVS still gaining share on both shipments and customer sales, and the shipment gap to the category leader now in single digits - what is driving it, and where is TVS on supply versus demand? It drew the longest answer on the call and addressed neither part. The only question across all three calls that got no response whatsoever was Deep Vakil's, on borrowings, a recent INR500 crore raise and the 1 September preference-share redemption; he was cut off for line noise, offered to rejoin the queue, and the call ended. The bluntest refusal was to InCred's attempt to split INR1,100 crore of government incentives: 'I don't want to get into mathematics here', followed by the partial concession that INR600 crore of the receivable is the manufacturing incentive. Norton yielded one number and two blanks - about INR2,000 to INR2,500 crore spent over four to five years, disclosed for the first time; a breakeven volume declined as internal while confirming a numeric plan exists; and the question about historical peak volumes not answered at all. The pattern across all three calls is now unmistakable: profitability of any individual business is what draws a refusal every single time. Margin guidance refused three times out of three, electric breakeven three out of three, segment-level profitability three out of three, subsidiary losses both times asked. Capacity is the one exception - refused in January with an explicit promise to answer, and answered in May. Three things nobody asked about on a record quarter: the INR150 crore paper gain that is roughly a quarter of the profit growth, spare parts revenue flat while total revenue grew 38%, and the financing arm's profit falling for a second consecutive quarter while its loan book accelerated to 19% growth."
+    }
+  },
+  {
+    "quarter": "Q4 FY26",
+    "call_date": "2026-05-13",
+    "detailed": [
+      {
+        "theme": "Demand & volumes",
+        "point": "FY26 was a record year on every line: volume from 4.7 million to 5.9 million units (+24%), revenue from INR36,251cr to INR47,270cr (+30%), operating profit before tax from INR3,563cr to INR4,975cr (+40%)",
+        "figure": "volume 4.7mn to 5.9mn; revenue INR36,251cr to INR47,270cr; operating PBT INR3,563cr to INR4,975cr",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "FY26 highest ever net profit of INR3,615cr",
+        "figure": "INR3,615cr",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "FY26 domestic petrol two-wheeler sales grew 19% against industry growth of 10%; total petrol two-wheelers grew 22% against 12%; international grew 31% against 23%",
+        "figure": "19% vs 10%; 22% vs 12%; 31% vs 23%",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "FY26 electric two-wheeler sales grew 33% to 3.7 lakh units from 2.8 lakh",
+        "figure": "3.7 lakh vs 2.8 lakh (+33%)",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "FY26 three-wheeler sales grew 63% to 2,20,000 units from 1,35,000",
+        "figure": "2,20,000 vs 1,35,000 (+63%)",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "March-quarter revenue was the highest ever at INR12,808cr, up 36%",
+        "figure": "INR12,808cr (+36%)",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "In the March quarter the domestic outperformance narrowed sharply - TVS petrol two-wheelers grew 26% against industry growth of 24%, a gap of only 2 percentage points against 5 in the December quarter",
+        "figure": "TVS +26% vs industry +24%",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "March-quarter international sales grew 23% - the slowest export quarter of the three calls, against 35% in December and 31% for the full year",
+        "figure": "+23% vs +35% in Q3",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "March-quarter electric two-wheeler sales grew 51% to 1,15,000 units from 76,000; three-wheelers grew 65% to 60,000 from 37,000",
+        "figure": "EV 1,15,000 vs 76,000; 3W 60,000 vs 37,000",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Urban demand was slightly ahead of rural in the March quarter - the same ordering as the December quarter",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "April output was lost to three separate supply problems: labour availability, gas supply, and raw material not arriving on time - the first admission of a supply constraint after January's flat denial",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact",
+        "quote": "As I said in the April press news, we had some challenges in the supply chain, with respect to labor availability, gas and also some challenges in terms of on-time availability of some raw material."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Electric share of two-wheeler sales rose to 7.8% in the March quarter from 7.1%, and for the full year from 6.2% to 6.6%; the electric market grew 38% in the March quarter",
+        "figure": "Q4 7.8% vs 7.1%; FY26 6.6% vs 6.2%; EV industry Q4 +38%",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "The weak spot named for the coming year is the cheapest category, where buyers are most exposed to inflation and fuel prices - and management notes TVS's exposure there is very small",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion",
+        "quote": "The challenge will continue in the economy category... Economy category, the challenge will be a little higher"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Reservoir water levels are 16% higher than usual as the year opens, which management calls good for the summer sowing season, but it flagged the El Nino weather risk as a live threat to the December and March quarters",
+        "figure": "reservoirs +16%",
+        "speaker": "Amit Hiranandani (PhillipCapital) / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "when we look at the reservoir water level, as of now, it is 16% higher... El Nino risk could moderate the rainfall"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "FY26 free cash flow from operations grew 47% to INR3,805cr from INR2,586cr",
+        "figure": "INR3,805cr vs INR2,586cr (+47%)",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "March-quarter operating profit was the highest ever at INR1,679cr against INR1,172cr, and 13.1% of sales - the same percentage as the December quarter",
+        "figure": "INR1,679cr vs INR1,172cr; 13.1%",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "FY26 operating profit grew 37% to INR6,079cr from INR4,450cr; margin 12.9% against 12.3%, a 60 basis point improvement for the year",
+        "figure": "INR6,079cr vs INR4,450cr; 12.9% vs 12.3%",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "March-quarter profit before tax INR1,358cr against INR851cr",
+        "figure": "INR1,358cr vs INR851cr",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "THE COST SHOCK: input inflation is now put at 3% to 5% of revenue and called unprecedented - against 0.2-0.4% described three and a half months earlier",
+        "figure": "3-5% of revenue, up from ~0.4%",
+        "speaker": "Kapil Singh (Nomura) / K.N. Radhakrishnan",
+        "kind": "guidance",
+        "quote": "See the commodity, I think this is unprecedented. I think it is around 3% to 5%"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Only 35% of that increase has been offset by price increases so far, leaving roughly two-thirds of a 3-5% hit uncovered at the time of the call",
+        "figure": "35% offset",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact",
+        "quote": "we were able to increase prices 35% of the price increases we were able to offset by increasing prices"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Management confirmed the 3-5% is measured against revenue, not against material cost - a materially bigger number on the revenue base",
+        "figure": "3-5% of revenue",
+        "speaker": "Kapil Singh / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "Revenue, revenue, revenue. Yes, yes, yes."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "The government manufacturing incentive rose to about 0.9% of turnover in the March quarter, from 0.7% in the December quarter",
+        "figure": "0.9% vs 0.7%",
+        "speaker": "Kapil Singh / K.N. Radhakrishnan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Asked how much more price increase is needed to hold FY26 margin levels, management refused for the second call running and answered on customer value instead",
+        "speaker": "Amit Hiranandani / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "Normally, I don't give you any guidance on margin, okay? Because we don't look at -- pricing is a strategy."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Management's substitute for a margin number is a multi-year trajectory: operating profit has gone from 6.5% of sales to 13.1%, and it asks to be judged on direction rather than on any single quarter",
+        "figure": "6.5% to 13.1%",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion",
+        "quote": "we were at 6.5% in EBITDA. This quarter, we are closing at 13.1%. So we always look at the direction."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "The stated mechanism for absorbing cost is money earned per vehicle rising through mix - premium bikes, three-wheelers and exports - which then spreads fixed cost over a bigger base",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion",
+        "quote": "all these are going to strengthen our realization per vehicle... you can always leverage cost. And we can also amortize our fixed cost over a larger base."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Management called the 3-5% inflation 'quite significant' and said the unusual part is that all of it arrived in a single quarter",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion",
+        "quote": "this 3% to 5%, according to me, it is quite significant... maybe just a little higher everything happening in 1 quarter this time"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Despite the cost pressure, management committed not to cut spending on technology, research, innovation or brand building - the cost discipline is directed at everything else",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance",
+        "quote": "we will continue to invest in technology, R&D, innovation and brand building. We will very closely look at every cost element"
+      },
+      {
+        "theme": "Competition",
+        "point": "TVS beat the industry on every line for the full year, and by the widest margins in exports (31% against 23%) and total petrol two-wheelers (22% against 12%)",
+        "figure": "FY26: 19 vs 10; 22 vs 12; 31 vs 23",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Competition",
+        "point": "The March-quarter domestic gap of 2 percentage points (26% against 24%) is the narrowest outperformance disclosed on any of the three calls - the industry caught up as the tax cut lifted everyone",
+        "figure": "2pp gap vs 5pp in Q3",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Competition",
+        "point": "In Latin America management frames growing faster than the industry explicitly as taking share, the only call where it uses that language",
+        "speaker": "Ashish Jain (Macquarie) / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "LatAm, we are growing ahead of the industry, which means we are gaining market share year after year."
+      },
+      {
+        "theme": "Competition",
+        "point": "Management committed to beating the industry in the June quarter on both vehicles shipped to dealers and vehicles sold to customers - it named both measures deliberately",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance",
+        "quote": "Q1, we will be very, very confidently growing ahead of the industry in totality, both in retail and in dispatches"
+      },
+      {
+        "theme": "Competition",
+        "point": "Scooters counting petrol and electric are about 38% of TVS's own category share position and management expects to push past 40%",
+        "figure": "38% moving above 40%",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Competition",
+        "point": "The electric three-wheeler registration share is described as continuously increasing, with an ambition to reach 'a very prominent place' across passenger and cargo electric within the year",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "The named inflating inputs are steel, aluminium and crude-oil derivatives, driven by the West Asia conflict and higher gas and energy costs",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "It is not only price - availability moved too. Energy and raw-material delivery delays directly cut production, because dealers hold only 21-30 days of stock on cash-and-carry terms and there is no buffer to absorb a missed week",
+        "figure": "21-30 days dealer stock",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact",
+        "quote": "because of these delays in energy and sometimes raw material, A couple of delays can also affect sometimes production"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "A second, separate problem is labour: second-tier suppliers across India have 'serious problems' finding workers, while first-tier suppliers are coping - and it is not confined to the south",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact",
+        "quote": "Tier 1 is able to manage, but many of the Tier 2, they have serious problems."
+      },
+      {
+        "theme": "Raw materials",
+        "point": "The analyst asked specifically about rare-earth magnet availability for electric vehicles, which had been the January call's admitted constraint. The answer covered gas, general commodity availability and labour and never mentioned rare earths or magnets at all",
+        "speaker": "Chandramouli Muthiah (Goldman Sachs) / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "Rare earth has been sort of up and down over the past 12 months and EVs are also picking up where rare earth might be important."
+      },
+      {
+        "theme": "Raw materials",
+        "point": "May production was already better than April and management expected to be clear of the supply problems by the end of that month",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance",
+        "quote": "for example, month of May, we are much better than April. Hopefully, this month -- end of this month, we will come out of it."
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Management framed the situation as familiar rather than new - it says it has been through similar cost cycles before, with the difference being that everything arrived in one quarter",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Orbiter now comes in two battery sizes - V1 at 1.8 kilowatt-hours and V2 at 3.1 - widening the entry point into electric scooters",
+        "figure": "1.8kWh and 3.1kWh",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Battery-as-a-service has been launched across the electric range, letting buyers subscribe to battery use instead of paying for the battery upfront - a direct attack on the sticker-price gap against petrol scooters",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "iQube S launched with a 4.7 kilowatt-hour battery and 175km range; the iQube customer base is over 9,00,000 families",
+        "figure": "4.7kWh; 175km; >9,00,000 customers",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Electric-vehicle revenue for FY26 was about INR5,000cr - the first time this number has been given, one call after management said it would come back with it",
+        "figure": "~INR5,000cr FY26",
+        "speaker": "Raghu Nandhan (Nuvama) / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "EV Revenue. You have to give me a minute. Just let me look at it. About 5,000 crores."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Electric two-wheeler output has moved from a 30,000-32,000 monthly average last year to about 40,000 now, heading for 50,000 a month",
+        "figure": "32k to 40k, then 50k/month",
+        "speaker": "Gunjan Prithyani (BoA) / K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "A compressed-natural-gas cargo three-wheeler was launched - King Kargo Heavy Duty CNG, 62 km/h top speed with leaf-spring suspension - alongside the existing electric cargo vehicle",
+        "figure": "62 km/h",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "A joint development agreement was signed with Hyundai Motor Company for an electric three-wheeler, with Hyundai leading design and TVS providing the electric platform and three-wheeler engineering",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Asked for the revenue contribution and profitability potential of the Hyundai partnership, management gave neither and redirected to the company's overall margin journey",
+        "speaker": "Yash Agrawal (Nirmal Bang) / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "I think what we have to look at is, overall how the company is moving, and we have done extremely well, how we moved from 6.5% to 13.1%."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Asked for a commercialisation timeline for the Hyundai three-wheeler, management deferred it entirely",
+        "speaker": "Yash Agrawal / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "I can give you so much now. I think closer to the launch, I can give you more details, including the lead time."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Norton's four launch models are Manx, Manx R, Atlas and Atlas GT, with the June quarter of FY27 named as the critical window; one high-end model will be built at Solihull in the UK and the rest in India, mainly at Hosur",
+        "figure": "4 models; Q2 FY27",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Ronin has crossed 8,000 units a month domestically and management expects it to cross 10,000 - but explicitly refused volume guidance for it",
+        "figure": ">8,000/month, expects >10,000",
+        "speaker": "Raghu Nandhan / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "I'm telling you shortly, we will cross 10,000... I don't want to give you any guidance on the volume because we are building it"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Ntorq 150 was recently launched with what management calls an outstanding response, and a new moped with alloy wheels is selling well - both cited as evidence that added features sell even in a weak-affordability environment",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "The electric three-wheeler registration share is rising and management wants a prominent position across electric passenger, electric cargo and the new gas cargo vehicle within the year",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Asked what new motorcycle categories to expect in the next 12 months, management listed what it had already launched and named no forthcoming category",
+        "speaker": "Amyn Pirani (JP Morgan) / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "Last year, you have seen iQube, you have seen RTX, you have seen Orbiter, now V1 version, and you have seen 3-wheeler."
+      },
+      {
+        "theme": "International",
+        "point": "FY26 international sales were the highest ever at 15.8 lakh units, up 33%",
+        "figure": "15.8 lakh units (+33%)",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "March-quarter international revenue was about INR2,999cr and spare parts about INR1,122cr",
+        "figure": "INR2,999cr; spares INR1,122cr",
+        "speaker": "Chandramouli Muthiah / K.N. Radhakrishnan",
+        "kind": "qna"
+      },
+      {
+        "theme": "International",
+        "point": "Africa has done extremely well and is the established base; Latin America is now the declared focus but management put a 2-3 year horizon on it, requiring good distributors and brand investment first",
+        "figure": "2-3 years for LatAm",
+        "speaker": "Ashish Jain / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "But you have to give 2, 3 years' time because we need good distributors. We need very good investment behind brands."
+      },
+      {
+        "theme": "International",
+        "point": "Sri Lanka is fully back on track and Nepal is doing extremely well; Bangladesh exports are to restart after changes",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "The live export problem is logistics, not demand: container availability and a roughly 15% increase in transit lead times, which management translates as another 8-10 days for a distributor to fund",
+        "figure": "+15% lead time, ~8-10 days",
+        "speaker": "Amyn Pirani / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "a delay in terms of the container availability and making sure that there is a 15% increase in the lead times now"
+      },
+      {
+        "theme": "International",
+        "point": "Demand in Africa exceeds what TVS can ship - management says outright it cannot meet demand today",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact",
+        "quote": "Actually, the demand is so high for us, we are not able to meet the demand today."
+      },
+      {
+        "theme": "International",
+        "point": "Asked whether fuel rationing, work-from-home measures and inflation in export markets are hurting demand on the ground, management answered on how much customers like its products and gave no market-level demand data",
+        "speaker": "Amyn Pirani / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "some of these geographies have announced work from home, rationing of fuel. So any worries or any concerns you are hearing from the ground here?"
+      },
+      {
+        "theme": "International",
+        "point": "The Indonesian arm is scaling quietly: about 17,000 units a month last year, now over 20,000, with the Bebek and Skubek models selling into several export markets",
+        "figure": "17,000 to 20,000+/month",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "Latin America will be attacked with the full range rather than only premium bikes, because distributor and dealer profitability needs volume models too",
+        "speaker": "Ashish Jain / K.N. Radhakrishnan",
+        "kind": "qna"
+      },
+      {
+        "theme": "International",
+        "point": "The HLX motorcycle series - 100, 125 and 155cc - is described as the most preferred brand in African markets, built over a long period",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "International",
+        "point": "Middle East is called huge headroom alongside Africa, so the priority list is: strengthen Africa and Middle East, build a foundation in Latin America",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "THE BIG COMMITMENT: two-wheeler and three-wheeler capacity to be raised by 1.5 million units to about 8.3 million within 12 months - the first time the company has had to add significant capacity, and it delivers the number deferred from the January call",
+        "figure": "+1.5mn to ~8.3mn in 12 months",
+        "speaker": "Chandramouli Muthiah / K.N. Radhakrishnan",
+        "kind": "guidance",
+        "quote": "Immediately, we are looking at increasing the capacity by another 1.5 million, to go to somewhere around 8.3 million because the demand is good and first time we have to add significant capacity"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "FY27 plant-and-product spending guided at about INR3,500cr - roughly double the INR1,700cr of FY26 - made up of about INR2,000cr on products and research, and INR1,000cr-plus on the capacity expansion",
+        "figure": "INR3,500cr (products ~INR2,000cr, capacity INR1,000cr+)",
+        "speaker": "Gunjan Prithyani / K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "FY26 subsidiary investment came in at about INR2,400cr - INR500cr BELOW the roughly INR2,900cr guided in January, an undershoot no analyst asked about",
+        "figure": "INR2,400cr actual vs ~INR2,900cr guided",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "FY27 subsidiary investment was guided two incompatible ways inside a single answer: first 'INR500 crores, INR600 crores lower' than INR2,400cr (implying INR1,800-1,900cr), then 'about 70% of the current year' (implying about INR1,680cr)",
+        "figure": "INR1,800-1,900cr vs ~INR1,680cr",
+        "speaker": "Ashish Jain / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "It will be maybe another INR500 crores, INR600 crores lower than this INR2,400... But overall, at this point of time, it will be 70% of the current year, somewhere around that."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "The FY26 subsidiary money went predominantly to Norton, plus about INR200cr to TVS Credit and about INR300cr to the Dubai international infrastructure",
+        "figure": "Norton predominant; TVS Credit INR200cr; Dubai ~INR300cr",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Ashish Jain challenged the FY27 investment number directly - he had assumed the bulk of Norton spending was behind them. Management conceded product development continues because Norton needs models in every segment, so the spend falls but does not stop",
+        "speaker": "Ashish Jain / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "No, the investments will be lower, but it will not be zero. I think please understand product development is still continuing because we can't have only a few models."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Asked whether FY27 investments could go somewhere other than Norton, Dubai and TVS Credit, management said yes without naming anything - a stated openness to unbudgeted commitments",
+        "speaker": "Ashish Jain / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "We always look at new opportunities, and we want to see these opportunities. So closer to -- when we decide, we will let you..."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Capacity work began in the March quarter of FY26 and is being reviewed quarter by quarter; FY28 and FY29 additions are already being considered",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "The stated capital-allocation rule for capacity is explicit and open-ended: capacity will not be allowed to constrain growth ahead of the industry",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion",
+        "quote": "we want to be ahead of the industry growth. And for that, we will make sure that capacity will not be a constraint"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "TVS Credit had a record year: profit before tax INR1,248cr, up 22% from INR1,027cr",
+        "figure": "INR1,248cr vs INR1,027cr (+22%)",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "The financing arm's loan book grew 15% to INR30,631cr from INR26,647cr - a marked acceleration from the 9% reported in the December quarter",
+        "figure": "INR30,631cr (+15%), vs +9% in Q3",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "But March-quarter profit growth at TVS Credit slowed to 15% (INR348cr against INR302cr) from 21% in the December quarter - so the book accelerated while profit growth decelerated",
+        "figure": "Q4 PBT INR348cr (+15%) vs Q3 +21%",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "TVS Credit lent to over 53 lakh new customers in FY26, taking its base to almost 2.4 crore",
+        "figure": "53 lakh new; base ~2.4 crore",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Portfolio quality at the financing arm improved on both measures management cited - total credit cost and bad loans - under tighter credit rules and sharper scoring",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "TVS Credit carries an external credit rating of AA+",
+        "figure": "AA+",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "FY26 free cash flow of INR3,805cr covers most, but not all, of the INR3,500cr of plant-and-product spending plus roughly INR1,700-1,900cr of subsidiary investment planned for FY27",
+        "figure": "FCF INR3,805cr vs ~INR5,200-5,400cr of planned outflow",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Gunjan Prithyani noted subsidiary losses were higher in the quarter. Management answered entirely with investment amounts and destinations, and gave no loss figure - the second call running on which this happened",
+        "speaker": "Gunjan Prithyani / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "the losses also from subsidiary were a bit higher this quarter. So any color on that?"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "No question was asked about dividend, net debt or the return being earned on the enlarged asset base, on a call that guided to roughly INR5,300cr of combined FY27 outflow",
+        "kind": "qna"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Dealer stock policy restated as 21 to 30 days maximum on cash-and-carry terms, with the explicit consequence that a production miss turns straight into a lost sale",
+        "figure": "21-30 days",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Asked for the actual current stock at dealers in India and overseas against the normal level, management gave the policy range and a recovery narrative but never the current number",
+        "speaker": "Chandramouli Muthiah / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "Channel stock has started improving this month because we were able to produce much better in the first 10 days of May."
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Stock is expected back inside the 21-30 day range by end-May or the first week of June",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Management's stated reason it cannot run thin stock is that every product is in demand, so there is no slack model to sacrifice",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion",
+        "quote": "Fortunately, for us, every product is under high pool. So we have to make sure that we deliver that"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Overseas distributors are the ones absorbing the transit delay - they fund the goods, hold dealers and sub-dealers, and a 15% longer lead time means another 8-10 days of working capital for them",
+        "figure": "+15% lead time",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Continued strengthening of the international distribution network is named as one of the three drivers of the record export year, alongside demand and range",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "FY27 industry growth guided at 'good single-digit' and later 'strong single digit' - a step DOWN from the 8-9% long-term figure and the double-digit exit rate of FY26",
+        "figure": "good/strong single digit",
+        "speaker": "Kapil Singh / K.N. Radhakrishnan",
+        "kind": "guidance",
+        "quote": "See, we are expecting a good single-digit growth on the industry this year."
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Management left the door open on the second half - if things go better, growth could exceed the single-digit call",
+        "speaker": "Raghu Nandhan / K.N. Radhakrishnan",
+        "kind": "guidance",
+        "quote": "It could even -- if things go better in the second half, you can see something becoming better also. But we have to be cautious"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "The caution is explicitly about supply and geopolitics, not demand - management said it is confident on demand and worried about materials arriving on time",
+        "speaker": "Gunjan Prithyani / K.N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "We are confident about the demand... The uncertainty is on raw material availability, timely availability"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "The FY27 segment map: electric good, scooters good, premium and super-premium good, cheapest category difficult - and TVS's exposure to the difficult part is small",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "FY27 is called a turnaround year for Norton and the next phase of growth for the group, with products built between Solihull and Hosur",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Management explicitly asked to be judged on trajectory rather than quarters, using the move from 6.5% to 13.1% operating margin as the reference",
+        "figure": "6.5% to 13.1%",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion",
+        "quote": "Again, we don't look for one quarter another quarter. Many a times, we become very anxious about what happens in Q1... We always look at trajectory."
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "The three-wheeler business is described as having started to improve in exports, having been the weak leg previously",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "The stated response to the cost shock is unchanged in structure from January - cost reduction, product mix, scale, selective price increases - with the only new element being explicit caution for two quarters",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Guidance",
+        "point": "BEFORE/AFTER on industry growth: January guided the March quarter at 'upwards of 15%' and long-term growth at 8-9%. This call guides FY27 at 'good single-digit' / 'strong single digit' - the cautious end of that range",
+        "figure": "was >15% for Q4 and 8-9% long-term; now strong single digit for FY27",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "BEFORE/AFTER on input costs: January said 0.2-0.3%, revised to 'about 0.4% at best'. This call says 3% to 5% of revenue and calls it unprecedented - a tenfold increase in the stated exposure in three and a half months",
+        "figure": "0.4% then 3-5%",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Only 35% of the cost increase has been recovered in price, so roughly 2 to 3.25 percentage points of revenue was still uncovered at the date of the call",
+        "figure": "35% offset",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "TVS committed to beating the industry in the June quarter on both vehicles shipped to dealers and vehicles sold to customers",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Capacity guided to about 8.3 million units within 12 months, up 1.5 million - the January call's deferred number, now delivered",
+        "figure": "8.3mn in 12 months",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "FY27 plant-and-product spending guided at about INR3,500cr, roughly double FY26's INR1,700cr",
+        "figure": "INR3,500cr vs INR1,700cr",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "FY27 subsidiary investment guided at 70% of FY26's INR2,400cr in one sentence and INR500-600cr lower in another - the two figures differ by roughly INR200cr",
+        "figure": "~INR1,680cr vs INR1,800-1,900cr",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Electric two-wheeler output guided from about 40,000 a month now to 50,000, with a promise to stay ahead of the electric market",
+        "figure": "40k to 50k/month",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance",
+        "quote": "We have now moved maybe around 40,000 and we will soon move to 50,000 per month... We will definitely be ahead of the industry that I can promise you."
+      },
+      {
+        "theme": "Guidance",
+        "point": "Scooter category share guided above 40% from about 38%",
+        "figure": "38% to >40%",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Norton launches guided into the June quarter of FY27, across Europe and India",
+        "figure": "Q2 FY27",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Supply problems guided to be resolved within two to three weeks of the call, having already improved through the first ten days of May",
+        "figure": "2-3 weeks",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Refused again: any margin level, how much more price increase is needed to hold FY26 margins, Ronin volumes, the Hyundai partnership's revenue or profit contribution and its launch timing, subsidiary losses, and current stock at dealers",
+        "figure": "7 refusals",
+        "speaker": "K.N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Eight analysts. The single most valuable answer of the call was volunteered rather than extracted - the 3% to 5% of revenue input-cost figure, given in response to a straight question from Nomura, against 0.4% three and a half months earlier",
+        "figure": "8 analysts",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "The rare-earth magnet question was asked precisely because January had named magnets as the electric-vehicle constraint. The reply covered gas, general availability and labour and never used the words rare earth or magnet - the clearest dodge on the call",
+        "speaker": "Chandramouli Muthiah",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Margin guidance was refused for the second consecutive call, this time in its most specific and answerable form - how much more price increase is needed to hold last year's margin level",
+        "speaker": "Amit Hiranandani",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "The FY27 investment number was given two ways in one answer, INR500-600cr lower than INR2,400cr and separately 70% of it, and nobody reconciled the two on the call",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Nobody asked why FY26 subsidiary investment came in about INR500cr below the roughly INR2,900cr guided in January - a guidance miss that passed unremarked",
+        "figure": "INR2,400cr vs INR2,900cr",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "For the second call running, TVS Credit drew no questions at all despite delivering INR1,248cr of profit before tax - roughly a quarter of the group's operating profit before tax",
+        "figure": "INR1,248cr of PBT, zero questions",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Nobody asked what Norton has cost in total or at what volume it breaks even, on the call where management said FY27 is its turnaround year - both questions arrive on the next call",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "The subsidiary-loss question was asked for the second consecutive call and answered for the second consecutive call with investment amounts instead of loss figures",
+        "speaker": "Gunjan Prithyani",
+        "kind": "qna"
+      }
+    ],
+    "theme_summaries": {
+      "Demand & volumes": "The year finished as the best the company has had. It sold 5.9 million vehicles against 4.7 million, took in INR47,270 crore against INR36,251 crore, and earned INR3,615 crore of net profit - all records. Three-wheelers grew fastest at 63% to 2,20,000 units, electric two-wheelers 33% to 3.7 lakh, and exports 33% to 15.8 lakh units. Cash generation kept pace, with free cash flow up 47% to INR3,805 crore. Two details matter more than the records. First, the industry caught up: in the March quarter TVS grew 26% in Indian petrol two-wheelers against an industry that grew 24%, a gap of two percentage points where the December quarter's gap was five, because the tax cut lifted everyone. Exports also slowed to 23% growth from 35% three months earlier. Second, April went wrong. Output was lost to three separate problems - workers not available, gas supply, and raw material arriving late - which is the first admission of a supply constraint after January's flat denial that TVS products were ever short in the market. Looking ahead, management named the cheapest bikes as the difficult category and noted its own exposure there is small, said reservoirs are 16% fuller than usual as the year opens, and flagged the El Nino weather pattern as a genuine risk to the December and March quarters.",
+      "Pricing & margins": "The single most important sentence on this call is about cost. Input inflation is now 3% to 5% of revenue and management called it unprecedented - against 0.2% to 0.4% described three and a half months earlier. It confirmed on follow-up that the 3-5% is measured against sales, not against the material bill, which makes it a much bigger number. Only 35% of it has been recovered in price so far, so roughly two to three percentage points of sales was still uncovered on the day of the call. None of that shows in the reported figures yet: March-quarter operating profit before interest, tax and asset-wear charges was the highest ever at INR1,679 crore and still 13.1% of sales, and for the full year 12.9% against 12.3%. The government manufacturing incentive rose to about 0.9% of turnover from 0.7%. Asked how much more price increase is needed to hold last year's margin, management refused for the second call running. Its substitute is a long-run trajectory - operating profit has gone from 6.5% of sales to 13.1% - and a request to be judged on direction rather than any single quarter. The mechanism it says will absorb the cost is money earned per vehicle rising through a richer mix of premium bikes, three-wheelers and exports, spreading fixed costs over a bigger base. Notably, it committed NOT to cut spending on research, technology or brand building; the squeeze is aimed everywhere else.",
+      "Competition": "TVS beat the industry on every line for the full year, most widely in exports at 31% against 23% and in total petrol two-wheelers at 22% against 12%. But the March quarter is where the pressure shows: the domestic gap narrowed to two percentage points, 26% against 24%, the narrowest outperformance disclosed on any of the three calls, because the tax cut lifted the whole market rather than the best operator. Management committed to beating the industry again in the June quarter and was careful to name both measures - vehicles shipped to dealers and vehicles actually sold to customers - which is a more falsifiable promise than shipments alone. On scooters it put its own category share at about 38% counting petrol and electric together and said it expects to push past 40%. Latin America is the one place management used the words market share, saying growing faster than the industry there means gaining share year after year. As on the previous call, no rival was named, no pricing comparison was drawn, and no share number was given for any Indian category.",
+      "Raw materials": "Two separate problems arrived at once. On price, steel, aluminium and oil-derived materials are all up on the back of the West Asia conflict and higher gas and energy costs, adding up to 3% to 5% of revenue. On availability, energy and material delivery delays cut production directly, and the reason is structural: dealers hold only 21 to 30 days of stock and buy on cash-and-carry terms, so there is no buffer anywhere in the chain to absorb a missed week. A third, quieter problem is people - second-tier suppliers across India, not only in the south, have serious trouble finding workers, while first-tier suppliers are coping. Management said May was already better than April and expected to be clear by the end of that month. The revealing moment is what did not get answered. An analyst asked directly about rare-earth magnet availability for electric vehicles, which was the constraint management itself named in January. The answer covered gas, general commodity availability and supplier labour and never mentioned rare earths or magnets at all. Management's framing throughout is that it has been through cost cycles like this before, and the only unusual thing is that everything landed inside a single quarter.",
+      "Segments & products": "The electric business finally got a revenue number: about INR5,000 crore for the year, given one call after management said it would come back with the figure. Output has moved from a 30,000-32,000 monthly average to about 40,000, heading for 50,000 a month. The product moves are all aimed at the affordability gap against petrol scooters - a second, cheaper Orbiter version at 1.8 kilowatt-hours alongside the 3.1, a bigger iQube S at 4.7 kilowatt-hours with 175km of range, and a battery subscription scheme across the range so buyers no longer pay for the battery upfront. iQube is now with over 9,00,000 families. In three-wheelers, a gas-powered cargo vehicle joined the electric one, and a joint development agreement was signed with Hyundai for an electric three-wheeler where Hyundai leads the design and TVS supplies the electric platform. Asked what that partnership is worth in revenue and profit, management gave nothing and redirected to the company's own margin history; asked when it launches, it deferred. Norton has four launch models - Manx, Manx R, Atlas and Atlas GT - due in the June quarter, one built in the UK at Solihull and the rest in India. Ronin has passed 8,000 units a month and management expects it to pass 10,000, while explicitly refusing to guide the number. Asked what new motorcycle categories are coming, it listed what has already been launched and named nothing new.",
+      "International": "Exports had their best year ever - 15.8 lakh units, up 33% - and management's problem is now supply rather than demand. It said outright that African demand is higher than it can meet. March-quarter export revenue was about INR2,999 crore with spares at INR1,122 crore. Africa is the established base, built on the HLX motorcycle range at 100, 125 and 155cc, described as the most preferred brand in those markets. Sri Lanka is fully back, Nepal is strong, and Bangladesh exports are being restarted. Latin America is the declared next focus but management put an honest 2-3 year horizon on it, because it first needs good distributors and brand spending, and said it will go in with the full range rather than only premium bikes because dealers need volume models to be profitable. The Indonesian arm is scaling quietly from about 17,000 units a month last year to over 20,000. The live constraint is logistics: container availability and roughly 15% longer transit times, which management translates into another 8 to 10 days that overseas distributors have to fund themselves. Asked whether fuel rationing and inflation in export markets are hurting demand on the ground, management answered on how much customers like its products and offered no market-level data.",
+      "Capex & projects": "This is the call where the capital cycle steps up. Capacity goes up by 1.5 million units to about 8.3 million within 12 months - the first time the company has had to add significant capacity - and it delivers precisely the number management deferred to 'the next call' in January. Spending on plants and products roughly doubles to about INR3,500 crore for the coming year from INR1,700 crore, split as about INR2,000 crore on products and research and INR1,000 crore-plus on the capacity itself. Work started in the March quarter and additions for the two years after are already being considered. The stated rule is open-ended: capacity will not be allowed to constrain growth ahead of the industry. The subsidiary investment story is messier. Last year came in at about INR2,400 crore, which is roughly INR500 crore BELOW the INR2,900 crore guided in January, and nobody asked about the undershoot. For the coming year the number was given two incompatible ways inside a single answer - INR500 to 600 crore lower than INR2,400 crore, which implies INR1,800-1,900 crore, and separately 'about 70% of the current year', which implies about INR1,680 crore. Pressed on why Norton still needs money when the products are done, management conceded the range has to be filled out across segments, so spending falls without stopping. Asked whether money could go somewhere entirely new, it said yes and named nothing.",
+      "Balance sheet & capital allocation": "The financing arm had a record year - profit before tax of INR1,248 crore, up 22% - and the shape of it is worth watching. The loan book grew 15% to INR30,631 crore, a clear acceleration from the 9% reported three months earlier, but quarterly profit growth slowed to 15% from 21%. So the book is speeding up while profit growth is slowing, which is what lending more at thinner spreads or higher provisioning looks like, even though management reports that both bad loans and total credit cost improved under tighter credit rules. It lent to over 53 lakh new customers in the year, now serves almost 2.4 crore, and carries an AA+ credit rating in its own right. On the parent's balance sheet, the arithmetic is worth spelling out: free cash flow of INR3,805 crore has to cover about INR3,500 crore of plant-and-product spending plus roughly INR1,700-1,900 crore of subsidiary investment in the coming year, so the plan is not fully self-funded. Two gaps. Subsidiary losses were raised by an analyst for the second consecutive call and answered for the second consecutive call with investment amounts instead of loss figures. And nobody asked about dividends, borrowings or the return on the enlarged asset base, on a call that guided to roughly INR5,300 crore of combined outflow.",
+      "Distribution & network": "The distribution answer on this call is really the supply answer. Dealers hold 21 to 30 days of stock at most, on cash-and-carry terms, which management presents as a discipline but which has a hard consequence it acknowledged here: a production miss converts straight into a lost sale, because there is no slack model and every product is in demand. Asked for the actual stock level at dealers in India and overseas against the normal level, management gave the policy range and a recovery narrative - production was much better in the first ten days of May, and stock should be back in range by end-May or the first week of June - but never the current number. Overseas, the distributor is the one absorbing the strain: containers are scarce and transit times are roughly 15% longer, another 8 to 10 days that the distributor has to finance while still supplying its own dealers and sub-dealers. Continued strengthening of the overseas network is one of the three reasons management gives for the record export year, alongside demand and range.",
+      "Strategy & outlook": "The outlook was cut, and cut deliberately. Industry growth for the coming year is guided at 'good single-digit', later 'strong single digit' - below the 8-9% long-run belief and far below the 24% the industry actually grew in the March quarter. Management left a door open for the second half, and was explicit that its caution is about supply and geopolitics rather than demand: it is confident on demand and worried about materials arriving on time. The segment map is unchanged from the previous call - electric good, scooters good, premium and super-premium good, the cheapest category difficult, with TVS's exposure there small. FY27 is called a turnaround year for Norton, with products split between the UK and Hosur. The strategy itself has not moved: cost reduction, richer mix, scale, selective price rises. What is new is the framing of how to be judged. Management asked repeatedly not to be read quarter by quarter, using the move in operating profit from 6.5% of sales to 13.1% as its reference, and committed not to cut research, technology or brand spending even under the cost shock. Three-wheeler exports, previously the weak leg, are described as starting to improve.",
+      "Guidance": "The two guidance changes here are the most important content on any of the three calls. On cost: January said 0.2-0.3%, revised to 'about 0.4% at best'; this call says 3% to 5% of revenue and calls it unprecedented - a tenfold increase in stated exposure in three and a half months, with only 35% recovered in price. On growth: January guided the March quarter at 'upwards of 15%' and the long run at 8-9%; this call guides the coming full year at 'good' or 'strong single digit'. Two commitments were upgraded rather than cut. Capacity goes to about 8.3 million units within 12 months, delivering the figure deferred in January, and spending on plant and products roughly doubles to INR3,500 crore. Electric output goes from about 40,000 a month to 50,000, with a promise to stay ahead of the electric market. Scooter category share is guided from about 38% above 40%. Norton launches in the June quarter across Europe and India. Supply problems were promised resolved within two to three weeks. One number is internally inconsistent: subsidiary investment for the coming year is 70% of INR2,400 crore in one sentence and INR500-600 crore lower in another. Seven things were refused: any margin level, the price increase needed to hold last year's margin, Ronin volumes, the Hyundai partnership's revenue, profit and timing, subsidiary losses, and the current stock at dealers.",
+      "Analyst Q&A concerns": "Eight analysts. The most valuable disclosure came from the plainest question - Nomura simply asked how much cost inflation was expected and got 3% to 5% of revenue, then pinned down on follow-up that it is measured against sales rather than the material bill, and that only 35% has been recovered. Macquarie pushed hardest on capital, forcing the concession that Norton still needs money because the range has to be filled out, and exposing an answer that guided the coming year's subsidiary investment two incompatible ways. The clearest dodge was on rare-earth magnets: the analyst asked precisely because January had named magnets as the electric constraint, and the reply covered gas, general availability and supplier labour without using the words rare earth or magnet. Margin guidance was refused for the second consecutive call, in its most answerable form. Subsidiary losses were asked for the second consecutive call and answered with investment amounts for the second consecutive call. Three absences stand out. Nobody asked why last year's subsidiary investment landed about INR500 crore below January's guidance. Nobody asked a single question about the financing arm, which earned INR1,248 crore before tax - roughly a quarter of the group's operating profit before tax. And nobody asked what Norton has cost in total or at what volume it breaks even, on the very call where management called it a turnaround year; both questions finally arrive on the next call."
+    }
+  },
+  {
+    "quarter": "Q3 FY26",
+    "call_date": "2026-01-28",
+    "detailed": [
+      {
+        "theme": "Demand & volumes",
+        "point": "Highest ever quarterly sales volume, revenue and profit; volume up 27% and revenue up 37% to INR12,476cr from INR9,097cr",
+        "figure": "revenue INR12,476cr vs INR9,097cr (+37%); volume +27%",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact",
+        "quote": "this quarter also, we continued to achieve new highs, delivering our highest ever quarterly sales, revenue and profits"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "The prepared remarks state revenue growth twice and inconsistently - 37% in the opening sentence, then 27% one line later; the stated absolute figures (INR12,476cr vs INR9,097cr) compute to 37.1%, so the 27% appears to be the volume number repeated",
+        "figure": "37% vs 27% on the same line item",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact",
+        "quote": "revenue grew by 37%... Overall operating revenue grew by 27% and the revenue is at INR12,476 crores as against INR9,097 crores"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Domestic petrol-engine two-wheeler sales grew 21% against industry growth of 16% - a 5-point outperformance in the core motorcycle-and-scooter business",
+        "figure": "TVS +21% vs industry +16%",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Two-wheeler international sales grew 35% against industry growth of 23%",
+        "figure": "TVS +35% vs industry +23%",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Total petrol-engine two-wheeler sales (domestic plus export) grew 25% against industry growth of 17%",
+        "figure": "TVS +25% vs industry +17%",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Electric two-wheeler sales grew 40% to 1,06,000 units in the quarter from 76,000 a year earlier",
+        "figure": "1,06,000 units vs 76,000 (+40%)",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Three-wheeler sales more than doubled to 60,000 units from 29,000 - the fastest-growing line in the company",
+        "figure": "60,000 vs 29,000 units",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Nine-month revenue INR34,463cr (+29%), profit before tax and exceptional items INR3,594cr (+43%), profit after tax INR2,625cr against INR1,858cr",
+        "figure": "9M revenue INR34,463cr vs INR26,701cr; PBT INR3,594cr vs INR2,517cr; PAT INR2,625cr vs INR1,858cr",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "The industry grew 20% in the December quarter after the goods-and-services tax cut, with rural at about 19% and urban about 21% - so the recovery is broad, not urban-only",
+        "figure": "industry +20%; rural +19%; urban +21%",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "The full-year picture is back-loaded: the first half grew only 2%, and management still expects about 9% for the year because the exit rate is so strong",
+        "figure": "H1 +2%; FY26 ~9%",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "guidance",
+        "quote": "the first half has not been so great. It was only 2% growth. And year as a whole, you will see somewhere around 9% growth. But exit is excellent."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "January-to-date vehicle-registration data was running at mid-to-high teens growth, per the analyst - slower than the December quarter's 20%",
+        "figure": "Jan-to-date mid-to-high teens (analyst)",
+        "speaker": "Chandramouli (Goldman Sachs)",
+        "kind": "qna",
+        "quote": "Jan to date also on the VAHAN retail portal seems to be around the mid-to high teens"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Entry-level bikes are the laggard; scooters, premium and super-premium are growing faster than the market",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact",
+        "quote": "the premium and the super-premium is growing faster... the entry-level segment is not growing as much"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Scooters, counting petrol and electric together, are close to 40% of the whole two-wheeler industry",
+        "figure": "~40% category share",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Macro supports cited: 125 basis points of policy-rate cuts during the year, good rainfall and higher reservoir levels feeding the winter sowing season, and an estimated 7% GDP growth",
+        "figure": "repo -125bps; GDP ~7%",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Electric two-wheeler registrations grew only 7.5% in the quarter against 14% for the nine months, and management conceded electric share of the market is 'slightly lower now'",
+        "figure": "EV industry Q3 +7.5%; 9M +14%",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Electric share of the three-wheeler market has reached almost 32% in the quarter",
+        "figure": "~32% EV share of 3W",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Operating profit before interest, tax and asset-wear charges grew 51% to INR1,634cr; margin 13.1% against 11.9%, a 120 basis point improvement",
+        "figure": "INR1,634cr vs INR1,081cr; 13.1% vs 11.9% (+120bps)",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Management itself normalised that number down: last year's whole-year manufacturing incentive was booked in Q4, so the comparable base quarter was 12.4%, making the real improvement 70 basis points year-on-year and 40 basis points sequentially",
+        "figure": "normalised base 12.4%; +70bps YoY, +40bps QoQ",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact",
+        "quote": "On a normalized basis, Q3 FY '25 EBITDA would have been at 12.4%, which means on a year-on-year basis, a margin improvement of 70 basis points"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Profit before tax and exceptional items INR1,315cr, up 57%; an INR41cr exceptional charge was taken for past service cost under the new labour codes; profit after tax INR940cr against INR618cr",
+        "figure": "PBT INR1,315cr (+57%); exceptional INR41cr; PAT INR940cr vs INR618cr",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "The government manufacturing incentive is now worth about 0.7% of turnover, up from the roughly 50 basis points indicated on earlier calls",
+        "figure": "0.7% of turnover, up from ~50bps",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Price increases taken so far are tiny - about 0.2% to 0.3%, plus a further 0.3% early in the March quarter",
+        "figure": "0.2-0.3%; +0.3% in early Q4",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Total input-cost inflation was sized at 0.2-0.3%, then revised upward within the same call to 'about 0.4% at best' when pressed on whether that was the whole basket or only precious metals",
+        "figure": "0.2-0.3% then ~0.4%",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact",
+        "quote": "Total may be about 0.4% at best."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Asked directly whether gross margin can be held in the March quarter, management refused any guidance and substituted a promise of continuity",
+        "speaker": "Raghunandhan (Nuvama) / K. N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "I don't want to give any guidance. I can only tell you that I already gave you in my opening remarks... we don't want to give any guidance on gross margin."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "The analyst built the sharpest arithmetic challenge of the call on the incentive scheme: if electric vehicles are 8-10% of revenue and attract a 13-14% incentive, the benefit should be about 1.3-1.4% of revenue, not 0.7%",
+        "figure": "implied 1.3-1.4% vs actual 0.7% (analyst)",
+        "speaker": "Sonal Gupta (HSBC Mutual Fund)",
+        "kind": "qna",
+        "quote": "if I go back previously, I think almost 8% to 10% of our revenues are coming from EVs. And if we take a 13%, 14% sort of PLI benefit, then it should be almost like 1.3%, 1.4% of revenue"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Management did not close the gap - it told the analyst the answer was in his own question, said the benefit is shared with suppliers, and asserted nothing had been missed, without quantifying the split",
+        "speaker": "K. N. Radhakrishnan / K. Gopala Desikan",
+        "kind": "qna",
+        "quote": "I think you have answer in your question itself. It's a combination of the company and some of the suppliers getting the benefit overall... We have not lost any opportunity."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "A few electric models sit above the price ceiling for the incentive and so earn nothing from it; management said the volume there is very small",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "There are a few products where above certain price there, we are not eligible and the volume is also very small."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Other expenses grew faster than volume for a second consecutive quarter; management attributed about INR60cr to extra launch marketing and about INR15cr to planned annual plant maintenance, the rest to freight and packing moving with volume",
+        "figure": "marketing ~INR60cr; maintenance ~INR15cr",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "The analyst netted the two figures and asked management to confirm price increases roughly cancel input-cost inflation; management agreed",
+        "figure": "0.2% price vs 0.2-0.3% cost",
+        "speaker": "Binay Singh (Morgan Stanley) / K. N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "the 0.2% price hike you've taken and the 0.2%, 0.3% increase that you're talking about in commodities in a way, the equation looks balanced... Yes."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Asked to size precious metals as a share of sales, management declined and answered on the total basket instead",
+        "speaker": "Binay Singh / K. N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "See, overall, we have to look at it because when the customer looks at it, they want to look at as a product."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "The stated pricing philosophy is deliberately restrictive - price rises are a last resort behind scale, cost reduction and mix",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "opinion",
+        "quote": "So we are very focused on not increasing prices. We want to give better value to the customer and wherever there is opportunity, we want to take a little bit price increase."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "The company does not hedge commodity exposure; it takes external advice and monitors instead",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact",
+        "quote": "We are not hedging at this point of time. We take advice."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Export currency realisation for the quarter was about INR88 per dollar, under a policy that covers net exposure roughly 12 weeks forward, so a weakening rupee feeds through with a lag",
+        "figure": "~INR88/USD; ~12-week cover",
+        "speaker": "K. Gopala Desikan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Management's own framing of what protects margin: bigger volume on the same platform lowers supplier cost too, so scale is presented as the primary lever rather than price",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "opinion",
+        "quote": "scale and product mix gives a huge benefit to even the supply chain. Same platform when the volume goes up, they are able to also cut down the cost"
+      },
+      {
+        "theme": "Competition",
+        "point": "TVS outgrew the industry on every line it reported this quarter - domestic petrol two-wheelers 21% versus 16%, international 35% versus 23%, total petrol two-wheelers 25% versus 17%",
+        "figure": "5pp, 12pp and 8pp gaps",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Competition",
+        "point": "Registration share in the electric three-wheeler passenger category has risen",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact",
+        "quote": "The VAHAN market share has gone up in EV L5 category."
+      },
+      {
+        "theme": "Competition",
+        "point": "The analyst read the registration data as showing that only manufacturers skewed to premium bikes and scooters are winning; management confirmed that reading rather than disputing it",
+        "speaker": "Pramod Kumar (UBS) / K. N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "when you look at the VAHAN data, predominantly suggests that players with skew towards premium portfolio and scooters are doing well"
+      },
+      {
+        "theme": "Competition",
+        "point": "Management committed to beating industry growth again in the March quarter in both domestic and export markets",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "guidance",
+        "quote": "we are confident that we will do better than the industry growth, both in domestic and international markets"
+      },
+      {
+        "theme": "Competition",
+        "point": "The competitive claim on scooters is framed as a long-held prediction now being validated, not a new gain",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "opinion",
+        "quote": "This is exactly what I used to say in the meeting that scooters will grow faster than the industry, and that is exactly what is happening in the industry today."
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Input costs are rising across aluminium, copper, zinc, platinum, palladium and rhodium, and safeguard duties on steel are being reintroduced",
+        "speaker": "Chandramouli / K. N. Radhakrishnan",
+        "kind": "fact",
+        "quote": "I think there are increases in aluminum, copper, zinc, platinum, palladium, rhodium, I think that you will see in this quarter."
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Emission-standard content is the reason precious metals matter more than they used to - catalytic content per vehicle is higher under the current norms",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact",
+        "quote": "with BS-VI, the contents are a little higher in these products"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "The cost increase straddles two quarters rather than landing in one, so the December quarter's margin does not yet carry the full effect",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact",
+        "quote": "Some are in Q3, some are in Q4, some are in Q3, some are in Q4"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "An analyst pointed out that production last quarter was lower than shipments to dealers, so part of what was sold carried older, cheaper material cost - management did not engage with that mechanism",
+        "speaker": "Kumar Rakesh (BNP) / K. N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "your production last quarter was lower than your wholesale. So some of the sales you would have done would be based on the earlier period?"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "By management's own count this was the fourth or fifth time in the call it was asked to quantify the margin hit from input costs, and it declined again, answering on strategy instead",
+        "speaker": "Himanshu Singh (BNP) / K. N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "I think this is the fourth time or fifth time, the commodity prices plus/minus are likely to happen in every quarter"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "The four stated offsets are scale from top-line growth, a supplier cost-reduction programme, a richer product mix, and small selective price increases - in that order of emphasis",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Asked whether commodity hedges could delay the impact, management said there are none in place",
+        "speaker": "Raghunandhan / K. N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "We are not hedging at this point of time."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Electric scooter output is running at 30,000-32,000 iQube units a month plus close to 10,000 Orbiter units",
+        "figure": "iQube 30-32k/month; Orbiter ~10k/month",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Orbiter is not yet on sale across all of India; management says demand is excellent and the first target is to clear 10,000 units a month",
+        "figure": "target >10,000/month",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "guidance",
+        "quote": "we have not launched it in all India. The demand is excellent, and we are ramping up now. First, we'll cross that 10,000 numbers per month"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Orbiter is deliberately a shorter-range, lower-priced electric scooter for a different buyer than iQube; management said it is too early to report real-world usage",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact",
+        "quote": "it is basically to give it to those set of customers who want a lesser range... It's too early to really come back actual usage"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Electric three-wheeler volumes were around 8,500 units in the quarter, rising every month",
+        "figure": "~8,500 units",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Asked for electric-vehicle revenue, management said it would come back with the number - and never did on this call",
+        "speaker": "Sonal Gupta / K. N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "I'll get back because I have to check."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Commercial three-wheelers: TVS King EV and King Kargo heavy-duty EV are described as getting very good market response",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Norton's new range was unveiled at the Milan show - the Manx and Atlas families, positioned in super-premium luxury motorcycles - with products reaching market during 2026 and an Indian launch planned on a 'differentiated strategy' to be detailed later",
+        "figure": "Manx and Atlas families; market entry 2026",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Norton spending is rising quarter by quarter: about INR240cr in the September quarter and about INR290cr in the December quarter",
+        "figure": "INR240cr then INR290cr",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Asked how scooter profitability compares with motorcycles and mopeds, management refused to discuss any segment separately",
+        "speaker": "Gunjan (BoA) / K. N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "We always look at the total portfolio contribution, We don't look at segment-wise, okay?"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Asked at what volume the electric business turns profitable at the operating level, management gave direction but no volume and no date - only that contribution is positive and improving",
+        "speaker": "Kapil Singh (Nomura) / K. N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "I'm very confident that this EV will also become EBITDA positive, and it will also grow forward the overall PBT level."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Asked what to expect in 2026 from the electric maxi-scooter and electric motorcycle concepts shown at Milan, management gave no timeline",
+        "speaker": "Raghunandhan / K. N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "Closer to the launch, I'll tell you the time line."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Spare parts revenue for the quarter was about INR1,183cr",
+        "figure": "INR1,183cr",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "The brand list management leans on spans every price point: Apache, Ronin, Jupiter, iQube, Orbiter, Raider, NTORQ, HLX, Radeon, TVS King and King Kargo in both petrol and electric",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "International",
+        "point": "International business revenue was about INR2,909cr in the quarter",
+        "figure": "INR2,909cr",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "Exports from India grew 23% at industry level in the quarter while TVS grew 35%",
+        "figure": "industry +23%; TVS +35%",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "Africa is growing sequentially and Latin America has grown over last year; management expects both to continue",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "Sri Lanka has come back 'in a big way' and Nepal continues to do well - the two named swing factors in the Asian export book",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "Europe is the one region not growing, and management said improvement may take several more quarters",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact",
+        "quote": "Europe continued to have challenges. It is not growing. It may take a few more quarters for the performance to improve."
+      },
+      {
+        "theme": "International",
+        "point": "On new Mexican import duties, management said the impact is not serious because volumes are low and localisation is under way, giving a rough two-month horizon but no exposure figure",
+        "speaker": "Sonal Gupta / K. N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "we are not seeing a serious impact at this point of time because the volumes are low, and we are also trying to like increase our local content"
+      },
+      {
+        "theme": "International",
+        "point": "The analyst offered 10% of export volumes as a working estimate for Mexico; management rejected it four times over without supplying an alternative number",
+        "figure": "analyst estimate ~10% of exports",
+        "speaker": "Sonal Gupta / K. N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "No, no, no, much lower. Much, much lower, much, much lower. Very small."
+      },
+      {
+        "theme": "International",
+        "point": "Asked to size the export opportunity for the Jupiter scooter against its earlier 60,000-unit base, management named the markets but explicitly refused a number",
+        "speaker": "Raghunandhan / K. N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "Overall scooters will grow in international market. I may not be able to put a number to it."
+      },
+      {
+        "theme": "International",
+        "point": "Sri Lanka is called out as a large scooter market where Jupiter is already a key player - the specific reason the Asian recovery helps the scooter franchise",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "International",
+        "point": "A strategic investment in Dubai has been made to run and grow the international business",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Full-year plant-and-product spending was revised up to about INR1,700cr from the INR1,600cr set at the start of the year, explicitly to add capacity",
+        "figure": "INR1,700cr vs INR1,600cr guided",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "guidance",
+        "quote": "The capex will be around INR1700 crores or slightly around that because we are also now looking at increasing some of the areas capacity"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Investment into subsidiaries was revised up far harder - to about INR2,900cr for the year against INR2,000cr guided at the start, a 45% increase",
+        "figure": "INR2,900cr vs INR2,000cr guided",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "First-half plant-and-product spending was about INR1,000cr and nine-month subsidiary investment about INR2,000cr, which is what prompted the analyst to ask whether the targets were being revised",
+        "figure": "H1 INR1,000cr; 9M investments ~INR2,000cr (analyst)",
+        "speaker": "Kumar Rakesh",
+        "kind": "qna"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "About INR900cr went into subsidiaries in the quarter; the incremental split given was INR200cr to TVS Credit, INR60-70cr to Norton pre-launch marketing including the Milan show, and about INR100cr to the ION project at the Indonesian arm",
+        "figure": "INR900cr total; TVS Credit INR200cr; Norton INR60-70cr; ION ~INR100cr",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Adding assembly capacity takes about two to three months, and management says it has invested ahead of need",
+        "figure": "2-3 months to add capacity",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Asked for total company capacity and electric capacity, management gave only monthly electric output and deferred the capacity plan to the next call",
+        "speaker": "Kapil Singh / K. N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "We are reviewing that for next year... Possibly in the next call, I'll be able to give you the kind of increases we are looking at."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "The named destinations for the raised investment budget are Norton, TVS Credit, the ION project inside the Indonesian arm, the electric-bicycle business and the Dubai international office",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "TVS Credit's loan book is INR29,678cr, up only 9% on the year - the slowest-growing part of the group in a quarter when vehicle volume grew 27%",
+        "figure": "book INR29,678cr, +9%",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "TVS Credit's profit before tax and exceptional items grew 21% to INR390cr - so the financing arm's profit is growing more than twice as fast as its book",
+        "figure": "INR390cr vs INR321cr (+21%)",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "TVS Credit lent to over 41 lakh new customers in nine months, taking its total customer base to nearly 2.3 crore",
+        "figure": "41 lakh new customers; base ~2.3 crore",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "The parent put a further INR200cr of equity into TVS Credit during the quarter - the largest single item in the quarter's subsidiary investment",
+        "figure": "INR200cr",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Asked for a listing date for the preference shares, the finance chief said it is out of the company's hands and gave none",
+        "speaker": "Raghunandhan / K. Gopala Desikan",
+        "kind": "qna",
+        "quote": "the listing is still taking time. We are closely following up with SEBI... It's not in my control. We are not able to give a date."
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Asked how soon subsidiary losses come off and when Norton breaks even, management answered on where it will invest and did not address the loss trajectory at all",
+        "speaker": "Gunjan / K. N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "how soon we sort of also start to see the losses come off?"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Management's framing of capital allocation is entirely strategic-priority based, with no stated return threshold for any of the subsidiaries receiving money",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "opinion",
+        "quote": "we will look at the investments most appropriately based on where the strategic focus is there for the company"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "The stated dealer stock policy is 21 to 30 days, justified on product freshness rather than on working capital",
+        "figure": "21-30 days",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact",
+        "quote": "we always believe that the dealer should keep only 21 to 30-day stock because we want products to be fresh to the customer"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Management publicly rejected the premise that TVS products are short in the market, reassigned the claim to the analyst who made it, and put the blame on dealer planning",
+        "speaker": "Pramod Kumar / K. N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "First, I never said there is shortage for products of TVS in the market... It is Pramod who asked there is a shortage in the market. I think it is for the dealers to plan"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Output was constrained by end-December maintenance shutdown plus New Year and Pongal holidays in January - a calendar effect, not a capacity one",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Retail financing availability is named as one of the reasons scooters and premium bikes are selling in rural markets, alongside better road connectivity",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "The one supply problem management did concede was magnets for electric vehicles, which hit iQube and Orbiter; it promised full supply within about a month",
+        "figure": "full EV supply in ~1 month",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "guidance",
+        "quote": "in the EV side, we had a setup setback because of the magnet availability... hopefully, by another month, you will see full supplies of EV also into the market"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "The stated growth formula is a chain: grow the top line faster than the industry, which delivers scale benefits, which fund cost reduction, supported by premium mix",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "opinion",
+        "quote": "With top line growth, we will leverage the scale benefits. We will look at more premiumization and better product mix."
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Management's long-run view of the Indian two-wheeler industry is 8% to 9% compound growth, argued from road infrastructure, weak public transport and the large self-employed customer base",
+        "figure": "8-9% long-term CAGR",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "guidance",
+        "quote": "I'm a firm believer that 8% to 9% as a CAGR, you can look at on a long-term basis"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "On FY27, management expects the first half to be strong because the tax cut only landed in late September, but explicitly declined to give projections",
+        "speaker": "Gunjan / K. N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "I don't want to give some projections as of now. But overall, this is my preliminary thinking."
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "FY27 is framed as the year Norton has to deliver, after products were unveiled in Milan",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "opinion",
+        "quote": "this is a very, very important year from the Norton point of view"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "The company declines segment-level disclosure on principle, arguing it manages a portfolio and wants to lead in each customer segment rather than optimise any one",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Asked for margin comfort, management substituted a continuity promise for a number - the same performance will continue",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "guidance",
+        "quote": "you have seen our performance in quarter after quarter. The same performance will continue"
+      },
+      {
+        "theme": "Guidance",
+        "point": "March-quarter industry growth guided at 'anything upwards of 15%', called one of the best growth quarters the company has seen",
+        "figure": ">15% in Q4",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "guidance",
+        "quote": "I'm pretty confident that Q4 also, you will see anything upwards of 15%, you can see in Q4"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Full-year FY26 industry growth guided at about 9%, with a weak 2% first half and a strong exit",
+        "figure": "FY26 ~9%",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "TVS committed to growing faster than the industry in the March quarter in both domestic and export markets",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Operating profit is guided only directionally - it will keep growing - with no level, band or floor attached, and gross margin guidance explicitly refused",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "guidance",
+        "quote": "we are confident that EBITDA will continue to grow going forward"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Plant-and-product spending guided to about INR1,700cr for FY26 and subsidiary investment to about INR2,900cr - both raised from the start-of-year INR1,600cr and INR2,000cr",
+        "figure": "capex INR1,700cr (was INR1,600cr); investments INR2,900cr (was INR2,000cr)",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Full electric-vehicle supply promised within about a month as magnet availability recovers",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Long-term industry growth guided at 8-9% compound; management called it a belief rather than a projection",
+        "figure": "8-9% CAGR",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "The electric business is guided to reach operating profitability with no volume threshold and no timeframe - only that contribution improves every quarter",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Norton products guided to reach market during calendar 2026, with India timing and strategy deferred",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Electric capacity plans for next year explicitly deferred to the following call - a promise that can be checked",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Nine analysts asked questions and the call was closed after the last one; the sharpest exchange was HSBC's arithmetic showing the manufacturing incentive earns about half what the electric revenue mix implies",
+        "figure": "9 analysts",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Eight separate quantifications were declined in one call: gross margin outlook, scooter-versus-motorcycle profitability, electric operating breakeven volume, precious metals as a share of sales, electric-vehicle revenue, total company capacity, Mexico export exposure, and a preference-share listing date",
+        "figure": "8 refusals",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Management corrected the record on shortages by naming the analyst who raised it, then handed responsibility to dealers - the only visibly defensive moment on the call",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "The commodity question was asked by five different analysts and answered with the same four-part strategy each time; management itself counted the repetitions",
+        "speaker": "K. N. Radhakrishnan",
+        "kind": "qna",
+        "quote": "I think this is the fourth time or fifth time, the commodity prices plus/minus are likely to happen in every quarter"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Not one question was asked about TVS Credit, whose loan book grew only 9% while vehicle volumes grew 27% - a divergence nobody probed",
+        "figure": "book +9% vs volume +27%",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "The subsidiary-loss question was asked once and never answered; the INR900cr of quarterly subsidiary investment was itemised, but what those subsidiaries lose was not",
+        "figure": "INR900cr invested; losses not disclosed",
+        "kind": "qna"
+      }
+    ],
+    "theme_summaries": {
+      "Demand & volumes": "This was the quarter the tax cut landed and everything went up at once. The company sold 27% more vehicles and took in 37% more money - INR12,476 crore against INR9,097 crore - and called it the best quarter it has ever had. The whole industry grew 20% after the September tax reduction, with towns at about 21% and villages at about 19%, so the recovery is broad rather than urban-only. TVS beat the market on every line it disclosed: 21% against 16% in Indian petrol-engine two-wheelers, 35% against 23% in exports, 25% against 17% for the two combined. Two lines are growing much faster than the company as a whole and get far less attention: three-wheelers more than doubled to 60,000 units, and electric two-wheelers grew 40% to 1,06,000 units. Underneath the good number the mix is shifting - the cheapest bikes are the laggard, while scooters, premium and super-premium are pulling ahead, and scooters counting petrol and electric together are now close to 40% of the whole industry. Note the shape of the year: the first six months grew only 2%, so about 9% for the full year rests entirely on this quarter and the next. One awkward detail sits in the electric market itself - registrations there grew only 7.5% in the quarter against 14% for nine months, and management admitted electric share of the market has slipped.",
+      "Pricing & margins": "Operating profit before interest, tax and asset-wear charges was 13.1% of sales against 11.9% a year earlier, which reads as a 1.2 percentage point improvement - and management itself cut that in half before anyone asked. Last year the whole year's government manufacturing incentive was booked in a single quarter, so the honest comparison base is 12.4%, making the real gain 0.7 of a percentage point on the year and 0.4 sequentially. That incentive is now worth about 0.7% of turnover, up from roughly half a percent earlier. Profit before tax rose 57% to INR1,315 crore before an INR41 crore charge for past service cost under the new labour codes, and profit after tax was INR940 crore against INR618 crore. The cost picture at this point in the cycle is almost benign: total input inflation was put at 0.2-0.3%, revised inside the same call to 'about 0.4% at best', against price increases of 0.2-0.3% plus another 0.3% taken early in the March quarter. An analyst netted those two and asked whether the equation balances; management said yes. Two things were refused. No gross-margin guidance for the coming quarter, replaced with a promise that 'the same performance will continue'. And no figure for precious metals as a share of sales, despite platinum, palladium and rhodium being the fastest-rising items. Exports were converted at about INR88 to the dollar, with cover running about twelve weeks forward, so a weaker rupee helps only with a lag. Commodities are not hedged at all.",
+      "Competition": "TVS beat the industry on every line it reported and by wide margins - 21% against 16% in Indian petrol two-wheelers, 35% against 23% in exports, 25% against 17% for the two combined - and its share of electric three-wheeler registrations rose as well. The interesting part is why. An analyst read the registration data as showing that only manufacturers weighted towards premium bikes and scooters are winning, and management agreed with that reading rather than claiming anything TVS-specific. Its own account of the scooter win is that it is a prediction coming true rather than a new gain: 'This is exactly what I used to say in the meeting that scooters will grow faster than the industry.' No rival was named, no price positioning was discussed, and no market-share figure was given for any category. Management committed to beating industry growth again in the March quarter in both India and export markets. On this call, competition is essentially a story about which segments are growing rather than about anyone taking share from anyone.",
+      "Raw materials": "Costs are turning, but at this point the turn is small. Aluminium, copper, zinc, platinum, palladium and rhodium are all rising and safeguard duties on steel are coming back. Precious metals matter more than they used to because current emission rules put more catalytic material in each vehicle. The total effect was put at 0.2-0.3% of sales and then revised, inside the same answer, to 'about 0.4% at best' - which is why five different analysts kept asking the same question and management ended up counting the repetitions itself: 'I think this is the fourth time or fifth time.' The cost lands across two quarters rather than one, so this quarter's profit does not yet carry all of it. An analyst raised the sharper mechanical point - that output last quarter was lower than shipments to dealers, so some of what was sold carried older and cheaper material - and got no engagement with that mechanism. There are no commodity hedges in place; the company takes outside advice and watches. The four stated offsets, in the order management emphasises them, are scale from a growing top line, a supplier cost-reduction programme, a richer product mix, and small selective price increases. Read against later calls, this is the last quiet quarter before the cost shock.",
+      "Segments & products": "The electric line is where the numbers are. iQube is running at 30,000-32,000 units a month and the newer, shorter-range and cheaper Orbiter is close to 10,000, with a first target of clearing 10,000 a month; Orbiter is not yet on sale across all of India and management says it is too early to judge real usage. Electric three-wheelers did about 8,500 units in the quarter and are rising every month. What is missing is the money: asked for electric-vehicle revenue, management said it would check and never came back with the figure. Two other blanks in the same theme - no volume at which the electric business turns operating-profit positive, and no timeline for the electric maxi-scooter and electric motorcycle concepts shown in Milan. Norton is the other story: the Manx and Atlas families were unveiled at the Milan show, positioned as super-premium luxury motorcycles, with products reaching market during 2026 and an Indian launch on a strategy still undisclosed. Spending on Norton is climbing quarter by quarter, from about INR240 crore in the September quarter to about INR290 crore in the December quarter. Spare parts brought in about INR1,183 crore. And when asked how scooter profitability compares with motorcycles and mopeds, management declined on principle: it discusses the portfolio, not the parts.",
+      "International": "Exports brought in about INR2,909 crore in the quarter and grew 35% against industry export growth of 23%. Africa is growing quarter after quarter, Latin America is up on last year, Sri Lanka has come back 'in a big way' and Nepal continues to do well - Sri Lanka matters specifically because it is a large scooter market where the Jupiter is already a leading brand. Europe is the exception and is not growing at all; management says improvement may take several more quarters. Two questions did not get numbers. On new Mexican import duties, the answer was that volumes are low, localisation is under way and the effect is not serious; the analyst offered 10% of export volumes as a working estimate and was told four times over that it is much lower, without ever being told what it actually is. And asked how big the Jupiter export opportunity could be against its earlier 60,000-unit base, management named the markets - Asia, the Middle East, Turkey, parts of Africa, Latin America, South East Asia - and then said plainly, 'I may not be able to put a number to it.' A strategic office has been set up in Dubai to run the international business.",
+      "Capex & projects": "Both spending budgets were raised mid-year, and the second one hard. Plant-and-product spending goes to about INR1,700 crore from the INR1,600 crore set at the start of the year, explicitly to add capacity. Money put into subsidiaries goes to about INR2,900 crore against INR2,000 crore guided - a 45% increase, and the more consequential change of the two. About INR900 crore went into subsidiaries in this quarter alone, itemised as INR200 crore into the financing arm TVS Credit, INR60-70 crore into Norton pre-launch marketing including the Milan show, and about INR100 crore into a project at the Indonesian arm. The analyst who asked whether the targets were being revised did so because half-year plant spending was already about INR1,000 crore and nine-month subsidiary investment about INR2,000 crore. Management says adding assembly capacity takes two to three months and that it has invested ahead of need. What it would not give is the total: asked outright for company-wide and electric capacity, it supplied monthly electric output and deferred the plan - 'possibly in the next call, I'll be able to give you the kind of increases'. That is a checkable promise, and the following call keeps it.",
+      "Balance sheet & capital allocation": "The financing arm is the quiet anomaly. TVS Credit's loan book is INR29,678 crore but grew only 9% on the year, in a quarter when the vehicle business sold 27% more units - and its profit before tax grew 21% to INR390 crore, more than twice the pace of the book. It lent to over 41 lakh new customers in nine months and now has nearly 2.3 crore customers in total. The parent put another INR200 crore of equity into it during the quarter, the largest single item in the quarter's subsidiary investment. Not one analyst asked about any of that. Two questions on the balance sheet went unanswered. Asked when subsidiary losses stop and when Norton breaks even, management answered entirely on where it intends to spend and never touched the loss line. Asked for a listing date for the preference shares, the finance chief said the matter sits with the regulator: 'It's not in my control. We are not able to give a date.' Management's stated basis for allocating capital is strategic priority, with no return threshold named for any subsidiary receiving money.",
+      "Distribution & network": "The whole distribution answer on this call is a dispute about whether products were actually available. An analyst reported channel checks showing short supply of scooters and new launches; management rejected the premise, named him as the source of the claim, and put responsibility on dealers to plan better. Its stated policy is that dealers hold 21 to 30 days of stock, justified on keeping product fresh for the buyer rather than on working capital. The shortfall it did admit was calendar-driven - the end-December maintenance shutdown plus New Year and Pongal holidays - and, separately and more seriously, magnets for electric vehicles, which held back iQube and Orbiter supply and were promised to be fully resolved within about a month. Retail financing availability is named alongside better rural roads as a reason scooters and premium bikes are now selling outside cities. Read against the next two calls, the flat denial here is worth remembering: by May, management was describing its own April output loss from labour, gas and late material deliveries.",
+      "Strategy & outlook": "The strategy is stated as a chain and repeated on every call: grow sales faster than the industry, which brings scale benefits, which fund cost reduction, helped along by a richer mix of dearer products. Management's long-run view of the Indian two-wheeler market is 8% to 9% compound growth, argued from road building, weak public transport and the very large self-employed customer base who use a two-wheeler to earn a living. For the coming financial year it expects a strong first half because the September tax cut only anniversaries late in the year, but it explicitly declined to give projections. FY27 is framed as the year Norton has to deliver after the Milan unveiling. Two things are worth flagging as strategy rather than accident. The company refuses segment-level disclosure on principle - it manages and reports a portfolio and will not discuss scooter economics separately. And when asked for margin comfort it substitutes a continuity promise for a number: 'you have seen our performance in quarter after quarter. The same performance will continue.'",
+      "Guidance": "What was actually promised. March-quarter industry growth 'anything upwards of 15%', which management called one of the best quarters the industry has seen; full-year growth about 9%, built on a 2% first half and a very strong exit; and long-term industry growth of 8-9% a year, offered as a belief rather than a forecast. TVS committed to beating the industry again in the March quarter in both India and exports. On profit, the guidance is direction only - operating profit 'will continue to grow' - with no level, band or floor, and gross-margin guidance explicitly refused. On spending, two numbers were raised: plant and products to about INR1,700 crore from INR1,600 crore, and money into subsidiaries to about INR2,900 crore from INR2,000 crore. Full electric-vehicle supply was promised within about a month as magnet availability recovered. Two promises have no number attached at all: the electric business reaching operating profitability, which has no volume threshold and no date, and Norton reaching market 'during 2026' with Indian timing undisclosed. One deferral is worth tracking because it is checkable - next year's electric and total capacity plan was pushed to the following call, and that call does supply it.",
+      "Analyst Q&A concerns": "Nine analysts, and eight separate quantifications declined in a single call: gross-margin outlook, scooter-versus-motorcycle profitability, the volume at which the electric business breaks even, precious metals as a share of sales, electric-vehicle revenue, total company capacity, Mexico export exposure, and a listing date for the preference shares. The sharpest question was HSBC's arithmetic on the government manufacturing incentive - if electric vehicles are 8-10% of revenue and the incentive is worth 13-14%, the benefit should be 1.3-1.4% of revenue rather than the 0.7% actually booked. Management replied that the answer was in the question, that suppliers keep part of the benefit, and that nothing had been missed; the split was never quantified. The commodity question was asked by five different analysts and answered with the same four-part strategy each time, to the point that management counted the repetitions out loud. Two absences matter as much as the refusals. Nobody asked why the financing arm's loan book grew only 9% while vehicle volumes grew 27%. And the one question about subsidiary losses was answered with a list of investments - INR900 crore in the quarter, itemised down to INR60 crore of Norton marketing - while what those subsidiaries actually lose went undisclosed."
+    }
+  }
+];
+
+const THEME_ORDER = [
+  "Demand & volumes", "Pricing & margins", "Competition", "Raw materials",
+  "Segments & products", "International", "Capex & projects",
+  "Balance sheet & capital allocation", "Distribution & network",
+  "Strategy & outlook", "Guidance", "Analyst Q&A concerns",
+];
+
+const KINDS = [
+  { k: "all", label: "All" },
+  { k: "fact", label: "Facts" },
+  { k: "guidance", label: "Guidance" },
+  { k: "opinion", label: "Views" },
+  { k: "qna", label: "Q&A" },
+];
+
+let fCall = "all", fKind = "all", fTheme = "all";
+
+const esc = s => String(s ?? "").replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+
+function segmented(el, items, current, onPick) {
+  el.innerHTML = items.map(i =>
+    `<button type="button" data-v="${esc(i.k)}" aria-pressed="${i.k === current}">${esc(i.label)}</button>`).join("");
+  el.onclick = ev => {
+    const b = ev.target.closest("button[data-v]");
+    if (b) onPick(b.dataset.v);
+  };
+}
+
+function themesPresent() {
+  const seen = new Set();
+  CALLS.forEach(c => c.detailed.forEach(p => seen.add(p.theme)));
+  const ordered = THEME_ORDER.filter(t => seen.has(t));
+  const extra = [...seen].filter(t => !THEME_ORDER.includes(t)).sort();
+  return [...ordered, ...extra];
+}
+
+function render() {
+  segmented(document.getElementById("fCall"),
+    [{ k: "all", label: "All" }, ...CALLS.map(c => ({ k: c.quarter, label: c.quarter }))],
+    fCall, v => { fCall = v; render(); });
+  segmented(document.getElementById("fKind"), KINDS, fKind, v => { fKind = v; render(); });
+
+  const themeSel = document.getElementById("fTheme");
+  if (themeSel.options.length === 0) {
+    themeSel.innerHTML = `<option value="all">All themes</option>` +
+      themesPresent().map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join("");
+    themeSel.onchange = () => { fTheme = themeSel.value; render(); };
+  }
+
+  let shown = 0, total = 0;
+  const out = [];
+
+  for (const call of CALLS) {
+    total += call.detailed.length;
+    if (fCall !== "all" && call.quarter !== fCall) continue;
+
+    const pts = call.detailed.filter(p =>
+      (fKind === "all" || p.kind === fKind) && (fTheme === "all" || p.theme === fTheme));
+    if (!pts.length) continue;
+    shown += pts.length;
+
+    // group by theme, in canonical order
+    const byTheme = new Map();
+    for (const p of pts) {
+      if (!byTheme.has(p.theme)) byTheme.set(p.theme, []);
+      byTheme.get(p.theme).push(p);
+    }
+    const themes = [...byTheme.keys()].sort(
+      (a, b) => (THEME_ORDER.indexOf(a) + 1 || 99) - (THEME_ORDER.indexOf(b) + 1 || 99));
+
+    out.push(`<section class="call">
+      <div class="call-head">
+        <span class="call-q">${esc(call.quarter)}</span>
+        <span class="call-date">call ${esc(call.call_date)} · ${pts.length} of ${call.detailed.length} pointers</span>
+      </div>
+      ${themes.map(th => `
+        <div class="theme-group">
+          <p class="theme-name">${esc(th)}</p>
+          ${(call.theme_summaries || {})[th]
+            ? `<p class="theme-summary"><span class="lbl">Summary</span>${esc(call.theme_summaries[th])}</p>`
+            : ""}
+          <ul class="pts">${byTheme.get(th).map(p => `
+            <li class="pt">
+              <span class="pt-body">${esc(p.point)}
+                ${p.quote ? `<blockquote>“${esc(p.quote)}”</blockquote>` : ""}
+              </span>
+              ${p.figure ? `<span class="pt-fig">${esc(p.figure)}</span>` : "<span></span>"}
+              <span class="pt-meta">
+                <span class="badge ${esc(p.kind)}">${esc(p.kind === "qna" ? "Q&A" : p.kind)}</span>
+                ${p.speaker ? `<span class="who">${esc(p.speaker)}</span>` : ""}
+              </span>
+            </li>`).join("")}
+          </ul>
+        </div>`).join("")}
+    </section>`);
+  }
+
+  document.getElementById("out").innerHTML =
+    out.length ? out.join("") : `<p class="empty">No pointers match these filters.</p>`;
+  document.getElementById("count").textContent = `${shown} of ${total} pointers`;
+}
+
+render();
+</script>
+</body>
+</html>

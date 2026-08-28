@@ -1,0 +1,2615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Varun Beverages Ltd — earnings-call pointers (detailed)</title>
+<style>
+  .viz-root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --grid:           #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --hover:          rgba(11,11,11,0.05);
+    --scale:          #2a78d6;
+    --leverage:       #eb6834;
+    --capital:        #1baf7a;
+    --delta-good:     #006300;
+    --delta-bad:      #d03b3b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .viz-root {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page:           #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --grid:           #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --hover:          rgba(255,255,255,0.07);
+      --scale:          #3987e5;
+      --leverage:       #d95926;
+      --capital:        #199e70;
+      --delta-good:     #0ca30c;
+      --delta-bad:      #d03b3b;
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --page:           #0d0d0d;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --grid:           #2c2c2a;
+    --baseline:       #383835;
+    --border:         rgba(255,255,255,0.10);
+    --hover:          rgba(255,255,255,0.07);
+    --scale:          #3987e5;
+    --leverage:       #d95926;
+    --capital:        #199e70;
+    --delta-good:     #0ca30c;
+    --delta-bad:      #d03b3b;
+  }
+
+  html, body { margin: 0; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--page, #f9f9f7); }
+  .viz-root { background: var(--page); color: var(--text-primary); min-height: 100vh; padding: 32px 20px 64px; box-sizing: border-box; }
+  /* capped deliberately: this page is prose, and a very long line hurts reading */
+  .card {
+    max-width: min(1180px, 94vw); margin: 0 auto; background: var(--surface-1);
+    border: 1px solid var(--border); border-radius: 10px; padding: 24px 24px 20px;
+  }
+  @media (max-width: 640px) {
+    .viz-root { padding: 14px 8px 40px; }
+    .card { max-width: 100%; padding: 14px 12px 14px; border-radius: 8px; }
+    h1 { font-size: 17px; }
+    .controls { gap: 6px; }
+    .count { margin-left: 0; flex-basis: 100%; }
+    select { max-width: 100%; }
+    li.pt { grid-template-columns: 1fr; }        /* figure drops below the text */
+    .pt-fig { white-space: normal; }
+    .call-src { margin-left: 0; flex-basis: 100%; }
+  }
+
+  .crumb { font-size: 12px; margin: 0 0 10px; }
+  .crumb a { color: var(--scale); text-decoration: none; }
+  .crumb a:hover { text-decoration: underline; }
+  .crumb span { color: var(--text-muted); }
+
+  h1 { font-size: 19px; font-weight: 600; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 2px; line-height: 1.5; }
+  .note { font-size: 12px; color: var(--text-muted); margin: 6px 0 0; line-height: 1.5; }
+
+  /* filters: one row above the content */
+  .controls { display: flex; align-items: center; gap: 8px; margin: 18px 0 4px; flex-wrap: wrap; }
+  .controls .label { font-size: 11.5px; color: var(--text-muted); margin-right: 2px; }
+  .segmented { display: inline-flex; border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+  .segmented button {
+    font: inherit; font-size: 12px; padding: 5px 10px; border: 0; cursor: pointer;
+    background: transparent; color: var(--text-secondary); border-right: 1px solid var(--border);
+  }
+  .segmented button:last-child { border-right: 0; }
+  .segmented button:hover { background: var(--hover); }
+  .segmented button[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); font-weight: 600; }
+  select {
+    font: inherit; font-size: 12px; padding: 5px 8px; border: 1px solid var(--border);
+    border-radius: 7px; background: var(--surface-1); color: var(--text-secondary);
+  }
+  .count { font-size: 11.5px; color: var(--text-muted); margin-left: auto; font-variant-numeric: tabular-nums; }
+
+  /* one block per call */
+  .call { margin: 26px 0 0; }
+  .call-head {
+    position: sticky; top: 0; z-index: 3; background: var(--surface-1);
+    padding: 9px 0 8px; border-bottom: 1px solid var(--grid);
+    display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap;
+  }
+  .call-q { font-size: 14px; font-weight: 600; }
+  .call-date { font-size: 11.5px; color: var(--text-muted); }
+  .call-src { font-size: 11px; margin-left: auto; }
+  .call-src a { color: var(--scale); }
+
+  .theme-group { margin: 15px 0 0; }
+  .theme-name {
+    font-size: 11.5px; font-weight: 600; color: var(--text-secondary);
+    text-transform: uppercase; letter-spacing: .04em; margin: 0 0 7px;
+  }
+  .theme-summary {
+    font-size: 12.5px; color: var(--text-secondary); line-height: 1.6;
+    margin: 0 0 10px; padding: 9px 12px 10px 13px;
+    background: var(--hover); border-left: 2px solid var(--capital); border-radius: 0 6px 6px 0;
+  }
+  .theme-summary .lbl {
+    display: block; font-size: 9.5px; font-weight: 600; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--text-muted); margin-bottom: 3px;
+  }
+  ul.pts { margin: 0; padding: 0; list-style: none; }
+  li.pt {
+    font-size: 12.5px; color: var(--text-secondary); line-height: 1.55;
+    padding: 8px 0 9px; border-bottom: 1px solid var(--grid);
+    display: grid; grid-template-columns: 1fr auto; gap: 3px 10px;
+  }
+  li.pt:last-child { border-bottom: 0; }
+  .pt-body { min-width: 0; }
+  .pt-fig {
+    font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums;
+    white-space: nowrap; font-size: 12px;
+  }
+  .pt-meta { grid-column: 1 / -1; display: flex; gap: 7px; align-items: center; flex-wrap: wrap; margin-top: 3px; }
+  .badge {
+    font-size: 10px; padding: 1px 6px; border-radius: 4px; border: 1px solid var(--border);
+    color: var(--text-muted); white-space: nowrap;
+  }
+  .badge.fact     { border-color: var(--capital); color: var(--capital); }
+  .badge.guidance { border-color: var(--scale);   color: var(--scale); }
+  .badge.qna      { border-color: var(--leverage); color: var(--leverage); }
+  .badge.opinion  { border-style: dashed; }
+  .who { font-size: 10.5px; color: var(--text-muted); }
+  blockquote {
+    margin: 5px 0 0; padding: 4px 0 4px 10px; border-left: 2px solid var(--border);
+    font-size: 11.5px; color: var(--text-muted); font-style: italic;
+  }
+  .empty { font-size: 12.5px; color: var(--text-muted); padding: 24px 0; text-align: center; }
+  .src { font-size: 11.5px; color: var(--text-muted); margin: 24px 0 0; padding-top: 14px; border-top: 1px solid var(--grid); line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="viz-root">
+  <div class="card">
+    <p class="crumb"><a href="/research/">← All analyses</a> <span>/</span>
+      <a href="financials">Varun Beverages Ltd dashboard</a> <span>/ earnings-call pointers</span></p>
+
+    <h1>Varun Beverages Ltd — earnings-call pointers, detailed</h1>
+    <p class="sub">Every substantive pointer from the last 3 calls, Q4 CY2025 (2026-02-03) through Q2 CY2026 (2026-07-28). The dashboard carries only the headline items — this is the full set.</p>
+    <p class="note">Badges separate <span class="badge fact">fact</span> reported results from <span class="badge guidance">guidance</span> forward-looking statements, <span class="badge opinion">opinion</span> management views, and <span class="badge qna">Q&amp;A</span> pushback from questioners or non-answers. Treat guidance as a claim, not a result. Figures are quoted as stated — nothing rounded or inferred. Each theme opens with a <strong>plain-language summary</strong> of that theme for that call — jargon expanded, figures kept. The pointers beneath it are the precise layer, in the company’s own terms. A summary covers the whole theme and does not narrow when you filter.</p>
+
+    <div class="controls">
+      <span class="label">Call</span>
+      <span class="segmented" id="fCall" role="group" aria-label="Filter by call"></span>
+      <span class="label" style="margin-left:6px">Type</span>
+      <span class="segmented" id="fKind" role="group" aria-label="Filter by kind"></span>
+      <select id="fTheme" aria-label="Filter by theme"></select>
+      <span class="count" id="count"></span>
+    </div>
+
+    <div id="out"></div>
+
+    <p class="src">Source: company earnings-call transcripts filed with BSE/NSE. Figures are quoted as management stated them and were transcribed by machine, so treat anything that reads like a table as indicative. Commentary is management's own; inclusion here is not endorsement. Not investment advice.</p>
+  </div>
+</div>
+
+<script>
+const CALLS = [
+  {
+    "quarter": "Q2 CY2026",
+    "call_date": "2026-07-28",
+    "detailed": [
+      {
+        "theme": "Demand & volumes",
+        "point": "Consolidated sales volume grew 19.8% to 466.7 million cases in Q2 CY2026",
+        "figure": "466.7mn cases, +19.8%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact",
+        "quote": "Growth during the quarter was primarily supported by 19.8% increase in consolidated sales volume to the level of 466.7 million cases."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Revenue from operations net of excise and GST rose 20.4% to ₹84,512.3mn in Q2; H1 CY2026 revenue rose 19.4% to ₹150,254.2mn",
+        "figure": "Q2 ₹84,512.3mn (+20.4%); H1 ₹150,254.2mn (+19.4%)",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "India volume grew 14.4% for the quarter, with growth 'in twenties' from March onward EXCEPT April, which was 'about flat' - so the quarter's India number is a two-speed figure, not a trend",
+        "figure": "India +14.4%; April ~flat",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "healthy volume growth in twenties since the onset of the season, i.e. from March onwards except for the month of April, which was about flat"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "International volumes grew 38.4% - but 11.8 million cases of that came from newly consolidated Twizza, so a material part of the growth is acquired rather than organic",
+        "figure": "international +38.4%; Twizza 11.8mn cases",
+        "speaker": "Raj Gandhi",
+        "kind": "fact",
+        "quote": "International markets also delivered a healthy growth with volumes increasing by 38.4% including the contribution of 11.8 million cases from Twizza in South Africa."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "April's shortfall was attributed to weather - 'the El Nino effect was there heavily' - and the only operational cause management conceded was a can shortage, which it sized at 1-2% of the business",
+        "figure": "cans 1-2% of business",
+        "speaker": "Varun Jaipuria / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "Minor issue was with cans, which is a very small portion of our business. Cans were only affected for the quarter, there was nothing else."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Percy Panthaki (IIFL) put the base problem in numbers management did not dispute: India's quarter is ~3% on a two-year compound basis and single digit on a three-year basis",
+        "figure": "2-yr ~3%; 3-yr single digit (analyst)",
+        "speaker": "Percy Panthaki",
+        "kind": "qna",
+        "quote": "If I look at the 2-year CAGR, the quarter for India has seen a 3% kind of growth even if I look at a 3-year CAGR our growth is in single digit this quarter."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Management's reply to the two-year base challenge did not engage the arithmetic - it rejected the quarterly lens entirely, the same deflection used in February",
+        "speaker": "Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "We cannot just look at the quarter... It is very difficult to base it on quarter; you have to look at a yearly basis."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "The substantive rebuttal to the soft-base challenge was explicitly month-selected: growth is 'heavy double digits' in the months without weather impact, measured against 2024 - i.e. the claim excludes the months that dragged the quarter",
+        "speaker": "Varun Jaipuria",
+        "kind": "opinion",
+        "quote": "The month we are not seeing weather impact and if you compare the last 3-year CAGR growth over from 2024, we are growing heavy double digits in those months."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Management argued the seasonal shape of the business is changing: May used to contribute almost 15% of annual business up to 2024 and no longer does, with El Nino cited as the cause",
+        "figure": "May ~15% of business pre-2025",
+        "speaker": "Varun Jaipuria",
+        "kind": "opinion",
+        "quote": "May used to contribute almost 15% of our business in year 2024 and before, Now if you see in 2025, 2026, because of El Nino effect, May is not contributing 15%."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "On the quarter now running, management offered July only: 'July seems to be continuing at the same trend' and 'July is looking very good now' - no figure",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "July seems to be continuing at the same trend. I do not see any reason why we should not be growing in double digits."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Long-run demand framing in the prepared remarks rested on demographics rather than anything observed in the quarter",
+        "speaker": "Ravi Jaipuria",
+        "kind": "opinion",
+        "quote": "we remain confident in the long-term growth potential across our markets, supported by favorable demographics, rising disposable incomes, and increasing consumption of packaged beverages"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Consolidated net realisation per case improved 1.2%, and management attributed the gain entirely to international territories - i.e. not to India",
+        "figure": "consol realisation/case +1.2%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact",
+        "quote": "Net realization per case for beverages at the consolidated level improved by 1.2% supported by better realizations in international territories."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "NO India-only realisation-per-case figure was given this call, after -4% in Q4 CY2025 and -1.5% in Q1 CY2026 were both disclosed and discussed - a datapoint that has quietly disappeared, and one no analyst asked for",
+        "figure": "India realisation not disclosed",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Gross margin improved 44bps to 55%, and management credited the higher mix of international business - not India, where the margin was only 'maintained'",
+        "figure": "GM 55% (+44bps)",
+        "speaker": "Raj Gandhi",
+        "kind": "fact",
+        "quote": "Gross margin improved by 44 basis points year-on-year to 55% supported by a higher mix of international business."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "India's gross margin was held flat, not improved, by two temporary levers - early stocking of key raw materials and lower sugar usage from the low-sugar mix - against raw-material inflation attributed to the West Asia crisis",
+        "speaker": "Raj Gandhi",
+        "kind": "fact",
+        "quote": "early stocking of key raw materials and savings in sugar consumption driven by a higher mix of low-sugar, no-sugar products helped maintain gross margins"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "EBITDA rose 17.2% to ₹23,430.4mn with margin at 27.7% - down 76bps, which management attributed primarily to consolidating Twizza, a business that 'currently operates at lower margins'",
+        "figure": "EBITDA ₹23,430.4mn (+17.2%); margin 27.7% (-76bps)",
+        "speaker": "Raj Gandhi",
+        "kind": "fact",
+        "quote": "EBITDA margin declined by 76 basis points year-on-year primarily due to consolidation of Twizza business which currently operates at lower margins."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "India's own EBITDA margin improved only 38bps, against +112bps in Q1 CY2026 - a marked slowdown in the domestic margin gain, partly offset by higher other expenses, primarily transportation and distribution",
+        "figure": "India margin +38bps (vs +112bps in Q1)",
+        "speaker": "Raj Gandhi",
+        "kind": "fact",
+        "quote": "EBITDA margins improved by 38 basis points driven by operational efficiencies arising from healthy volume growth, partially offset by higher other expenses"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "PAT grew 15.1% to ₹15,253.6mn - slower than EBITDA, which in turn grew slower than revenue and volume: the whole cascade steps down",
+        "figure": "PAT ₹15,253.6mn (+15.1%)",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Depreciation rose 33.6%, attributed to last year's new India plants which were not in the base quarter plus the Twizza acquisition - the cost of the completed capex cycle is now fully in the P&L",
+        "figure": "depreciation +33.6%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Finance costs rose 55.8%, attributed primarily to the Twizza acquisition",
+        "figure": "finance cost +55.8%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "H1 CY2026: EBITDA +18.7% to ₹38,719.6mn and PAT +16.9% to ₹24,040.7mn, both trailing the 19.4% revenue growth - the same descending pattern over six months as in the quarter",
+        "figure": "H1 EBITDA ₹38,719.6mn (+18.7%); H1 PAT ₹24,040.7mn (+16.9%)",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Asked up to what level of crude margins can be held, management gave no number, no scenario and no floor - only that the current year is already 'the worst year' and that margins can only improve once the wars end",
+        "speaker": "Percy Panthaki / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "When these wars stops and all these issues come down, our margins cannot get worse. It will only get better."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "The only reference to a margin band all call was oblique and unquantified - the 22-23% India and 21%-plus consolidated numbers restated in February were never repeated",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "we have never said our margins will be higher than x percentage, which we are maintaining and more than comfortably doing that"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Management's defence against the grammage question was that if money per 8-ounce case has not fallen, margin has not fallen, so the pack question does not matter - a framing that answers the profit question but not the consumption one",
+        "speaker": "Raj Gandhi",
+        "kind": "qna",
+        "quote": "If our realization has not come down per 8-ounce case, our EBITDA or the gross margin has not come down, so that is immaterial basically."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Upsizing is framed as a competitive weapon paid for out of trade margin rather than out of company margin",
+        "speaker": "Raj Gandhi",
+        "kind": "opinion",
+        "quote": "The idea is to give the benefit to the ultimate consumer instead of giving it to the trade or otherwise and neutralize the newcomers who are giving the product at cheaper price."
+      },
+      {
+        "theme": "Competition",
+        "point": "Abneesh Roy (Nuvama) opened with Campa Cola's own claim to have achieved 50% of its FY26 sales in this quarter, and asked whether rain hurt VBL's geographies disproportionately - the framing that VBL underperformed its rival in the peak quarter",
+        "figure": "Campa: 50% of FY26 sales in the quarter (analyst citing Campa)",
+        "speaker": "Abneesh Roy",
+        "kind": "qna",
+        "quote": "if I see Campa Cola's numbers, they claim to have achieved 50% of FY26 sales in same quarter. If you could tell us if the rain impact was more in your geographies"
+      },
+      {
+        "theme": "Competition",
+        "point": "The ₹10 price point is now explicitly rejected on profitability grounds - a hard reversal of tone from February, when a ₹10 launch was described as deliberate and capped at 5-7% of the portfolio",
+        "speaker": "Varun Jaipuria",
+        "kind": "opinion",
+        "quote": "We have not scaled up Rs. 10 significantly as it is a non-profitable category for us... And long-term sustainability is not there."
+      },
+      {
+        "theme": "Competition",
+        "point": "Management set an explicit condition for staying out of the ₹10 segment: as long as monthly India growth exceeds 20% without it, they will not enter",
+        "speaker": "Varun Jaipuria",
+        "kind": "opinion",
+        "quote": "if month-on-month our growths are exceeding 20% without a Rs. 10 category, then we are not interested to get into it because that is not a category we would like to fight"
+      },
+      {
+        "theme": "Competition",
+        "point": "Management conceded that the whole industry, VBL included, is now giving more grammage at the same price point because of Campa - so reported case volumes flatter underlying consumption",
+        "speaker": "Abneesh Roy / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "Abneesh Roy: because of Campa, the entire industry is offering more grammage at the same SKU. So even for your SKU at Rs. 20, there is more grammage. Ravi Jaipuria: Yes, that is right."
+      },
+      {
+        "theme": "Competition",
+        "point": "Management's read on Campa is that it is recruiting genuinely new drinkers at ₹10 and also cannibalising cheap local 'B-brands', which it says are a significant part of the industry base in many of its markets",
+        "speaker": "Varun Jaipuria",
+        "kind": "opinion",
+        "quote": "a lot of new people are getting recruited in the category as well at Rs. 10... They could be eating a lot of B-brands as well, which is significant in a lot of our markets"
+      },
+      {
+        "theme": "Competition",
+        "point": "Management argued Campa's growth may be geographic expansion rather than same-market share gain, and that the two cannot be separated - a caveat that also insulates VBL from any share comparison",
+        "speaker": "Ravi Jaipuria",
+        "kind": "opinion",
+        "quote": "we think Campa is expanding their territory. It is very difficult to analyze the growth that is coming from the same territory or from an expanded territory."
+      },
+      {
+        "theme": "Competition",
+        "point": "Jay Doshi (Kotak) reported Campa cutting its ₹10 pack from 200ml to 150ml while holding 500ml at ₹20, narrowing the gap against VBL's upsized 400ml, and asked whether market share had moved at ₹20. No share answer was given - only growth commentary",
+        "figure": "Campa ₹10 pack 200ml to 150ml; VBL 250ml to 400ml at ₹20 (analyst)",
+        "speaker": "Jay Doshi / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "That is why it is looking positive, and that is why we are confident of the growth to continue"
+      },
+      {
+        "theme": "Competition",
+        "point": "The chairman's answer to the ₹10 entry-price threat was that a shared ₹20 pack is economically a ₹10 serving",
+        "speaker": "Ravi Jaipuria",
+        "kind": "opinion",
+        "quote": "when 2 people are sharing a Rs. 20 pack it effectively works out to Rs. 10 per person. So we are happy both ways."
+      },
+      {
+        "theme": "Competition",
+        "point": "Management asserted all three main players are growing and there is 'enough growth' for everyone - the same non-competitive framing used in April ('there is enough market for everybody to take')",
+        "speaker": "Ravi Jaipuria",
+        "kind": "opinion",
+        "quote": "Exact numbers are not there, but we think all the 3 main players are growing. So, there is enough growth which is happening in the industry."
+      },
+      {
+        "theme": "Competition",
+        "point": "Raj Gandhi added B-brand cannibalisation as the caveat that undermines any industry-growth estimate, immediately after the chairman had built one",
+        "speaker": "Raj Gandhi",
+        "kind": "opinion",
+        "quote": "here you also have to see Anand, the cannibalization of B-brands in that category as well"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Raw-material inflation is attributed to the West Asia crisis and was absorbed rather than passed on - India's gross margin was held, not improved",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Cover extends only one quarter: material is secured for Q3, part of the cost increase was taken in Q2 and the balance lands in Q3, with prices to customers unchanged",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "We have now made sure that we have enough material for Q3... we have taken part of it in the Q2. And the balance would come in the Q3. Our pricing would remain same"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "The mechanism smoothing the cost hit is an accounting one, made explicit: inventory is on weighted-average cost, not FIFO, so dearer purchases blend into a cheaper average and reach the P&L with a lag",
+        "speaker": "Raj Gandhi",
+        "kind": "fact",
+        "quote": "the COGS, and the inventory valuation is not on FIFO, it is on average costing"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Management explicitly ruled out a cost surprise in the September quarter, arguing the carried inventory is at an average price that may be below current market",
+        "speaker": "Raj Gandhi",
+        "kind": "guidance",
+        "quote": "at average price, which may actually be lower than the today's price... There will not be any surprises on that account."
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Goods were bought at higher prices during the quarter but averaged into the Q2 cost, and buying continues - 'we are still buying so we do not dry our stock'",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "we acquired more goods at higher price but we averaged out the price of in the Q2"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Sugar was a help, not a headwind: lower sugar consumption from the higher low-sugar and no-sugar mix contributed to holding India's gross margin",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Management claims the sugar exposure is now structurally closed because the entire portfolio has been converted to low or zero sugar",
+        "speaker": "Varun Jaipuria",
+        "kind": "guidance",
+        "quote": "Largely our portfolio is low sugar or Zero Sugar as you call it. So there will be no sugar impact going forward because we have converted the entire portfolio already."
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Aluminium cans were the only supply constraint named, sized at 1-2% of the business and described as affecting only the quarter - the same shortage was flagged in April as pinching the energy-drink ramp",
+        "figure": "cans 1-2% of business",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "Cans is 1-2% of our business, nothing major."
+      },
+      {
+        "theme": "Raw materials",
+        "point": "No quantification of the input-cost increase was given anywhere on the call - not in rupees, not as a share of sales, and not as a crude price at which the arithmetic breaks",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Low-sugar and no-sugar products contributed ~73% of consolidated volume 'during the period' - up from ~63% in Q1 CY2026 and ~59% in CY2025; management did not specify whether the figure is the quarter or the half",
+        "figure": "~73% (vs ~63% in Q1, ~59% in CY2025)",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "The carbonated / water / non-carbonated volume split, disclosed in both prior calls, was NOT given this time - a third operating disclosure to lapse, alongside distribution counts and the India realisation figure",
+        "figure": "volume mix not disclosed",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Value-added dairy is growing over 40% and Nimbooz over 30% - figures the chairman volunteered only after Varun Jaipuria had declined to give specifics",
+        "figure": "dairy >40%; Nimbooz >30%",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "We can also give you some numbers for your comfort that VAD is growing at over 40% for us and Nimbooz is growing at more than 30% for us."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Hydration, dairy and juice together are growing three to four times as fast as the overall business - but the revenue base was withheld, so the growth rate cannot be sized",
+        "figure": "3x-4x the group growth rate; no base given",
+        "speaker": "Varun Jaipuria",
+        "kind": "qna",
+        "quote": "In terms of growth, we cannot give you the specifics here, but at least we are seeing 3x-4x growth compared to our overall business"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Management framed the differentiated portfolio as a 3-4 year build rather than a new initiative - Tropicana juice, value-added dairy and Nimbooz across multiple price points",
+        "figure": "3-4 years",
+        "speaker": "Varun Jaipuria",
+        "kind": "opinion",
+        "quote": "our focus has been very strong to build a differentiated portfolio over the last 3-4 years, It just did not start now"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "A strategic alliance with Asahi Group Holdings brings the CALPIS brand to India, marking entry into value-added fermented dairy beverages - the first concrete use of the removed PepsiCo exclusivity restriction",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "We also entered a strategic alliance with Asahi Group Holdings to introduce the iconic CALPIS brand in India, marking our entry into the value-added fermented dairy beverage category."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "The Asahi relationship is deliberately narrow for now: asked about adding other Asahi lines and ready-to-drink teas and coffees, management refused to commit to anything beyond CALPIS",
+        "speaker": "Nitin Shakdher / Varun Jaipuria",
+        "kind": "qna",
+        "quote": "Well, we are not sure yet. We have not decided. So it is pretty much Calpis for now, going forward, basically figuring out what categories we want to do."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Energy drinks hit a regulatory problem: 'energy' was never a registered category with the food regulator, which has now issued a clear guideline to remove the word within 90 days",
+        "figure": "90 days to remove the word 'energy'",
+        "speaker": "Ravi Jaipuria / Varun Jaipuria",
+        "kind": "fact",
+        "quote": "They have come out with a clear guideline that we should have the word energy removed within next 90 days."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "The labelling confusion cost energy-drink volume in June and July, but management says it shifted into carbonated drinks rather than being lost, and is returning as new labels reach the market",
+        "speaker": "Varun Jaipuria",
+        "kind": "fact",
+        "quote": "even though there has been a temporary dip in the mix of energy, we are seeing all of that volume has shifted to CSD... we are seeing the uptick back into energy or back into STING as a brand"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Management asserted the labelling issue is fully behind them - 'going forward, there is going to be no effect' - and that removing the word changes nothing commercially",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "But going forward, there is going to be no effect. They just want the word energy to be taken away, which does not change anything for us."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "The GST answer was minimal and internally ambiguous: the tax cut helped only dairy, water and soda and only slightly, and management said prices on some of those 'had to be taken up' for geopolitical cost reasons while also saying it is selling at the old prices",
+        "speaker": "Aditya Soman / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "The GST impact was very minimal with certain products, which were like dairy, water and soda... the pricing of some of these categories had to be taken up"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "The upsized 400ml ₹20 pack is credited with 'larger recruitment of consumers' and described as working in the majority of markets - the volume strategy is packs, not price points",
+        "figure": "400ml at ₹20",
+        "speaker": "Varun Jaipuria",
+        "kind": "opinion",
+        "quote": "the 400 ml pack what we have launched, we are obviously seeing larger recruitment of consumers coming in and that strategy for us in majority of our markets is working"
+      },
+      {
+        "theme": "International",
+        "point": "Twizza is credited with solving the South African capacity constraint that management had flagged for two consecutive calls, while adding manufacturing footprint and route-to-market",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "Twizza in South Africa helped overcome capacity constraints while strengthening our manufacturing footprint and route-to-market capabilities in South Africa."
+      },
+      {
+        "theme": "International",
+        "point": "Twizza's margin dilution is now disclosed as a group effect but still not as a figure: 'currently operates at lower margins', visible only through the 76bps drag on group margin. April's promise to 'correct the margins' was neither restated nor quantified, and no analyst asked",
+        "figure": "-76bps group margin; Twizza margin undisclosed",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "Inorganic capex of ₹11,314mn was incurred on the Twizza acquisition - consistent with the ZAR 2,053mn enterprise value disclosed in April",
+        "figure": "₹11,314mn (~₹1,131cr)",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "A further acquisition was announced: the business of Devyani Food Industries (Kenya) Limited, bought explicitly for its ready route to market, to be used as a platform for carbonated and energy drinks",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "agreement to acquire the business of Devyani Food Industries (Kenya) Limited, which will provide us with the ready GTM in Kenya for expansion into carbonated soft drinks"
+      },
+      {
+        "theme": "International",
+        "point": "Anand Shah (Axis Capital) computed international growth excluding Twizza at more than 25% - the analyst's own figure, which management did not confirm or break down by country",
+        "figure": "ex-Twizza international >25% (analyst)",
+        "speaker": "Anand Shah",
+        "kind": "qna",
+        "quote": "you are seeing quite strong growth even if I take out Twizza, it is more than 25% growth YoY"
+      },
+      {
+        "theme": "International",
+        "point": "Asked for country-level colour, management gave a blanket answer with one exception: every market except Zambia is growing at a reasonable pace, Zambia being slower and small. No country growth rates were given",
+        "speaker": "Anand Shah / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "all our countries except Zambia, which is slightly slower and a very small market for us, are growing at a reasonably fast pace and there is huge opportunity in Africa"
+      },
+      {
+        "theme": "International",
+        "point": "Zimbabwe, a stated problem last year, has recovered - management linked the turn to a sugar tax",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "Last year we had some issue with Zimbabwe, which has also started firing now because of sugar tax and all that."
+      },
+      {
+        "theme": "International",
+        "point": "The African food business is growing about 50%, but the question asked was what the TARGETS are - management supplied a growth rate instead of a target, the third consecutive call at which no size or timeline for the food business has been given",
+        "figure": "food business growth ~50%; no target",
+        "speaker": "Anand Shah / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "That is also growing well for us. That is growing at about 50%."
+      },
+      {
+        "theme": "International",
+        "point": "The international mix now cuts both ways: it lifted the group's gross margin and the group's money per case, while the acquired South African margin pulled group operating margin down",
+        "kind": "fact"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "H1 CY2026 net capitalised capex was ~₹9,500mn - down sharply from the ~₹45,000mn capitalised across CY2025, consistent with the declared end of the capex cycle",
+        "figure": "H1 ~₹9,500mn (~₹950cr)",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "The H1 capex split: ~₹2,000mn India brownfield including a value-added dairy beverages line at Supa, ~₹1,000mn on the Zimbabwe snack plant, ~₹4,000mn on market infrastructure - the named items total ~₹7,000mn, leaving ~₹2,500mn of the ₹9,500mn attributed to foreign exchange fluctuation rather than to anything built",
+        "figure": "₹2,000mn India / ₹1,000mn Zimbabwe / ₹4,000mn market infra; ~₹2,500mn balance to forex",
+        "speaker": "Raj Gandhi",
+        "kind": "fact",
+        "quote": "~Rs. 2,000 million towards brownfield expansion in India including value-added dairy beverages line at Supa, ~Rs. 1,000 million towards snack manufacturing plant in Zimbabwe"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "No new India greenfield plant was mentioned; the ₹2,000mn of H1 India brownfield spend sits well inside April's guidance of under ₹5,000-6,000mn of India capex for the year",
+        "figure": "₹2,000mn spent vs <₹5,000-6,000mn guided",
+        "kind": "fact"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Capital work-in-progress was ~₹4,900mn at 30 June 2026, primarily South African expansion and a carbonated line in Kenya - so the remaining pipeline is entirely international",
+        "figure": "CWIP ~₹4,900mn",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "The Supa dairy line is the first India capacity addition tied to a specific new category rather than to volume - it sits behind the dairy range growing over 40% and the CALPIS entry",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Capacity is now described only qualitatively as 'adequate'. No utilisation figure and no headroom figure were given, after both prior calls quantified roughly 50% more capacity than volumes used",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "With adequate capacities, a growing and diversified portfolio, strong partnerships, and an extensive distribution network, we are well-positioned to deliver sustained and profitable growth"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "No analyst asked about capex, about the CY2026 spending figure, or about April's claim of a 3-4 year payback at 30% return on capital employed on new plants - the single most testable claim management has made, now unexamined for a full quarter",
+        "kind": "qna"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "VBL India remains net debt free with surplus cash of ~₹14,941mn - up from ~₹12,250mn at December despite the acquisition spending",
+        "figure": "India surplus cash ~₹14,941mn",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Consolidated net debt was ~₹3,730mn at 30 June 2026, primarily on account of the Twizza acquisition - against ₹256mn, effectively nil, at 31 December 2025",
+        "figure": "consol net debt ~₹3,730mn (vs ₹256mn at Dec)",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "CRISIL reaffirmed the long-term bank facility rating at AAA/stable",
+        "figure": "AAA/stable",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "An interim dividend of ₹0.50 per share, 25% of face value, was approved with a cash outflow of ~₹1,691mn - the same per-share amount and cost as declared with the March-quarter results, and unchanged from the ₹0.50 final dividend that drew an analyst challenge in February",
+        "figure": "₹0.50/share; outflow ~₹1,691mn",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "The 55.8% rise in finance costs is an acquisition effect, not a leverage decision: it sits alongside an India business holding surplus cash whose return is reported outside the interest line, so the interest number overstates the group's net funding position",
+        "figure": "finance cost +55.8%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "No question was asked about the dividend, the cash position, working capital, or returns on the capital raised in CY2024 - the third consecutive call at which the return on the enlarged equity base went unexamined",
+        "kind": "qna"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Growth was attributed to the expanded manufacturing footprint, the distribution network and continued investment in chilling infrastructure - all qualitative, with no shop or cooler counts for a third consecutive call, and this time no analyst asked for them",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "Our expanded manufacturing footprint, extensive distribution network, and continued investments in chilling infrastructure continued to drive growth."
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "~₹4,000mn of H1 capex went to market infrastructure - visi-coolers, glass bottles, pallets and vehicles - the largest single line in the half's spending and larger than all India factory spend combined",
+        "figure": "~₹4,000mn market infrastructure vs ₹2,000mn India plants",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Twizza was valued partly for route-to-market capability, not only factories - the same logic as the Kenya deal, bought for a 'ready GTM'",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "The cost of distribution is now visible in the margin: India's gross-to-operating margin gain was partially offset by higher other expenses, primarily transportation and distribution",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "The PepsiCo exclusive bottling and trademark licence agreement in India has been extended to April 2049",
+        "figure": "licence extended to April 2049",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "STRUCTURAL: the restriction requiring VBL to operate solely as PepsiCo's SPV has been REMOVED, explicitly to allow the company to pursue opportunities beyond the franchise - the single biggest change to what this business is allowed to be",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "removed the earlier restrictions requiring VBL to operate solely as the SPV for PepsiCo business... creating greater operational flexibility to pursue opportunities"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "The Asahi/CALPIS alliance is the first use of that new freedom, and management tied the two together explicitly when asked about further expansion: 'We have just got the clearance from PepsiCo'",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "On alcoholic beverages in India, management denied the specific and hedged the general: no Bira bid, the Diageo hire is a group-level appointment and 'not alcohol only', and new categories are being explored but 'it is too early'",
+        "speaker": "Abneesh Roy / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "We are hiring some people to look at new ventures, new possibilities, but it is too early. We have just got the clearance from PepsiCo, and we are not looking at Bira."
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "The senior hire reported in the press is for the wider group, not for VBL - a distinction management drew unprompted when pressed",
+        "speaker": "Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "He is for the group. He will be helping us in lot of other things. It is not alcohol only."
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Dairy is the stated conviction category, framed as a long-standing capability rather than a new bet, with Asahi brought in for process, quality and manufacturing learning",
+        "speaker": "Varun Jaipuria",
+        "kind": "opinion",
+        "quote": "dairy as a category, we are very bullish on. We have been doing dairy as a category for many years now in the country, and we are seeing huge growth coming."
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "The stated priority is profitable growth over volume at any price - the explicit justification for staying out of the ₹10 segment",
+        "speaker": "Varun Jaipuria",
+        "kind": "opinion",
+        "quote": "What our focus out here is to build a profitable business and deliver the right growth."
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Africa is the declared expansion geography, with 'huge opportunity' asserted and no capital figure, timeline or return target attached",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "We see good potential going forward and we are expanding in the African continent."
+      },
+      {
+        "theme": "Guidance",
+        "point": "The headline forward claim is '20% plus', asserted for the period from March onward AND extended past the quarter - with NO metric specified (volume or revenue) and NO horizon attached",
+        "figure": "'20% plus growth at least minimum'",
+        "speaker": "Varun Jaipuria",
+        "kind": "guidance",
+        "quote": "If you see our growth, which is March onwards, we are growing healthily at 20% plus. Even post-June, we are looking at a 20% plus growth at least minimum."
+      },
+      {
+        "theme": "Guidance",
+        "point": "GUIDANCE MOVEMENT: asked the direct question - can VBL still grow low double digits now that Campa and Coca-Cola are both ramping - management reverted to February's formal band rather than to the 20%-plus talk. The official India promise is unchanged at double digits across all three calls",
+        "figure": "formal guidance still 'double digits'",
+        "speaker": "Percy Panthaki / Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "I do not see any reason why we should not be growing in double digits."
+      },
+      {
+        "theme": "Guidance",
+        "point": "GUIDANCE MOVEMENT: no numeric margin band was stated anywhere on this call. February restated 22-23% for India and 21%-plus consolidated; here the only reference was 'we have never said our margins will be higher than x percentage' - the band has become unquotable rather than raised or lowered",
+        "figure": "22-23% India / 21%+ consol: not restated",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "The margin assurance rests on the claim that this is already the worst-case year, so the only direction is up once geopolitical costs unwind - an argument with no downside case attached",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "We can comfortably maintain our margins even in a year, which is the worst year for the geopolitical reasons and all the costing has gone up internationally."
+      },
+      {
+        "theme": "Guidance",
+        "point": "Raw material: cover is guided one quarter out only, prices to customers stay unchanged, and the residual cost effect is guided as small - 'overall effect would not be large because we have averaged out the pricing'",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Sugar cost risk is guided to zero going forward on the basis that the portfolio conversion is already complete",
+        "speaker": "Varun Jaipuria",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "The energy-drink labelling issue is guided to have no forward effect once labels change inside the 90-day window, with the June-July dip described as temporary and already reversing",
+        "figure": "90 days",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "GUIDANCE WITHHELD, second consecutive call: no margin figure for the acquired South African business. April's 'a bit too early' and 'we are going to correct the margins' were not revisited, and the only new information is the direction of the group drag",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "GUIDANCE WITHHELD: no target for the African food business (a growth rate was offered instead), no revenue base for the dairy or juice ranges, no market share for any category, and no crude level at which margins stop holding",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "GUIDANCE NOT TESTED: no CY2026 capex figure was given or requested, so April's under-₹5,000-6,000mn India number stands unrevised with ₹2,000mn spent in the first half",
+        "figure": "H1 India capex ₹2,000mn vs <₹5,000-6,000mn guided",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "The CALPIS partnership is guided narrowly - stabilise and structure one brand first, with no commitment on further Asahi products or on ready-to-drink tea and coffee",
+        "speaker": "Varun Jaipuria",
+        "kind": "guidance",
+        "quote": "Our idea is to build a solid portfolio, but our starting point is Calpis right now. We want to stabilize Calpis, we want to structure Calpis right in the market."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Abneesh Roy (Nuvama) asked whether the ₹10 price point would scale further and, citing Campa's claim of 50% of FY26 sales in this quarter, whether rain hurt VBL's geographies more. The answer reframed to the 20%-plus claim and declared ₹10 unprofitable rather than addressing the comparison",
+        "figure": "Campa 50% of FY26 sales in the quarter (analyst citing Campa)",
+        "speaker": "Abneesh Roy / Varun Jaipuria",
+        "kind": "qna",
+        "quote": "as long as we are delivering 20% plus growth in most of our markets, we are pretty happy with that growth"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Abneesh Roy's sharpest question was refused: with the whole industry adding grammage, how much of the 13-14% volume growth is pack size rather than consumption? Management would only restate the 8-ounce convention and assert both physical packs and 8-ounce cases grew - no pack figure",
+        "speaker": "Abneesh Roy / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "We keep on changing our pack sizes and we always announce our volumes based on 8-ounce... somewhere we downsize, somewhere we upsize."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Abneesh Roy raised a press report on the group hiring a senior Diageo executive and bidding for Bira, and asked whether VBL itself would enter alcohol now that the PepsiCo agreement has been widened. Bira was denied outright; the category question was left open as 'too early'",
+        "speaker": "Abneesh Roy / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "we are not looking at Bira"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Aditya Soman (CLSA) asked for growth by category and got a refusal followed by a partial reversal - 'we cannot give you the specifics here' from one speaker, then 40%-plus dairy and 30%-plus Nimbooz from another. Neither gave a revenue base, so the growth cannot be sized",
+        "figure": "dairy >40%, Nimbooz >30%; no base",
+        "speaker": "Aditya Soman / Varun Jaipuria / Ravi Jaipuria",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Aditya Soman had to ask the GST question twice - it was skipped on the first pass and answered only after he repeated it, and then only as 'very minimal'",
+        "speaker": "Aditya Soman / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "Yes, what was the other question?"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Aditya Soman followed up on the April statement that inputs were covered only through Q2. He got Q3 cover, an admission that part of the cost was already absorbed and the balance lands in Q3, and an assurance of no surprises - but no figure for the cost itself",
+        "speaker": "Aditya Soman / Ravi Jaipuria / Raj Gandhi",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "THE KEY ERROR: asked for industry growth, the chairman built a ~20% estimate on VBL 'growing at 15% in the first half' and Campa 'growing at 50% or doubling'. The 14.4% was given in the prepared remarks as the QUARTER's India figure, and the 50% was another analyst quoting Campa's claim to have done 50% of FY26 SALES in the quarter - a seasonality statistic, not a growth rate",
+        "figure": "industry ~20% (management estimate, then disowned)",
+        "speaker": "Anand Shah / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "if we are growing at 15% in the first half, and as you said Campa is growing at 50% or doubling, and we are sure Coke is also growing. That means the industry has to be growing ~20% or so."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Management disowned its own industry estimate in the next breath - 'we do not know the real numbers for it' - and Raj Gandhi added B-brand cannibalisation as a further caveat, leaving the ~20% figure as an unsupported aside",
+        "speaker": "Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "So, we do not know the real numbers for it."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "The implication management did not address: its own ~20% industry estimate sits above its own 14.4% India growth, which would mean losing share - and share is the one thing it will not discuss in any category",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Management described 14.4% as a first-half figure TWICE, to two different analysts, after the prepared remarks had attributed it to the quarter. As it happens the March quarter was also +14.4% in India, so the half-year rate is similar - but the industry estimate was built on the conflation",
+        "figure": "14.4% = quarter, presented as H1",
+        "speaker": "Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "if you see in the first half, we had grown at close to 15% i.e., 14.4%"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Anand Shah asked what the targets are for the African food and snack distribution business. He received its growth rate, ~50%, and no target - matching February, when the same question yielded a '$100 million' ambition with no date",
+        "speaker": "Anand Shah / Ravi Jaipuria",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Percy Panthaki (IIFL) framed the structural question directly: the low-double-digit growth ambition was set when Campa was absent and Coca-Cola was losing share, and both are now ramping materially. Management said it saw 'no reason' the ambition could not still be met, citing the season and July",
+        "speaker": "Percy Panthaki / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "Now both these players are ramping up sort of quite materially... would that still mean that we as a company can achieve that kind of a growth?"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Percy Panthaki then showed the growth sits on a soft base - ~3% on a two-year basis, single digit on three years - and management did not dispute the arithmetic, rejecting the quarterly frame instead",
+        "figure": "2-yr ~3%; 3-yr single digit (analyst)",
+        "speaker": "Percy Panthaki / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "one must also be cognizant that it has come on a very favorable base"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Percy Panthaki asked up to what level of crude margins can be held on a year-on-year basis. No level, no scenario and no floor was given - the same refusal as April, where the equivalent question drew 'it is very difficult to answer'",
+        "speaker": "Percy Panthaki / Ravi Jaipuria",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Jay Doshi (Kotak) asked about the energy-drink regulatory response and any July demand impact on STING. He got the 90-day labelling guideline, an admission of a June-July dip, and an assertion of no forward effect - no quantification of the dip",
+        "speaker": "Jay Doshi / Ravi Jaipuria",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Jay Doshi asked whether market share had shifted at the ₹20 price point after VBL upsized from 250ml to 400ml and Campa cut its ₹10 pack to 150ml. Management answered on growth and confidence, never on share",
+        "speaker": "Jay Doshi / Ravi Jaipuria",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Jay Doshi's final question - what data underpins PepsiCo's published claim that its India share was stable or better from 1 March to 31 May, given VBL's own position that industry data is unreliable - was deflected to PepsiCo and then closed off entirely",
+        "speaker": "Jay Doshi / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "We think you should ask that question to PepsiCo. We will leave it for them to answer this... We do not go into market share."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Naman Maheshwari (Sanghvi Family Office) asked whether the very high low-sugar share could reverse and bring back a sugar cost effect on gross margin. Management ruled it out on the basis that the conversion is already complete",
+        "speaker": "Naman Maheshwari / Varun Jaipuria",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Naman Maheshwari probed whether April was really weather or in fact supply chain, mismanagement or raw material availability. Management conceded only the can shortage, at 1-2% of the business",
+        "speaker": "Naman Maheshwari / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "It was one because of some supply chain issues or miss manages or raw material availability."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Nitin Shakdher (Green Capital Family Office) asked whether the Asahi relationship extends to other lines and to ready-to-drink teas and coffees. Explicitly undecided - 'pretty much Calpis for now'",
+        "speaker": "Nitin Shakdher / Varun Jaipuria",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "STRUCTURAL ABSENCES: the call closed after six analysts. Nobody asked why the acquired South African business drags group margin, nobody asked for its margin, nobody asked about capex or the 3-4 year payback and 30% return claimed in April, nobody asked about the dividend or the cash, and for the third consecutive call nobody asked what the CY2024 equity raise is earning - while depreciation rose 33.6% and finance costs 55.8%",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Nor did any analyst probe the licence change itself - a 23-year extension and the removal of the SPV-only restriction drew only the alcohol question, with no question on what PepsiCo received in exchange or what the new freedom will be used for",
+        "kind": "qna"
+      }
+    ],
+    "theme_summaries": {
+      "Demand & volumes": "They sold 19.8% more drinks than a year earlier - 466.7 million cases - and took in 20.4% more money, ₹8,451 crore in the quarter and ₹15,025 crore across the six months, 19.4% up on the same six months last year. This is the peak Indian summer quarter, the one the whole year turns on. India sold 14.4% more, and the shape of that matters: April was 'about flat', which management blamed on rain, while every month from March onward except April grew 'in twenties'. Overseas sold 38.4% more, but 11.8 million of those cases were simply the newly bought South African business rather than extra selling. Management said July was 'looking very good' and 'continuing at the same trend'. The uncomfortable part came from an analyst: measured over two years, to cancel out last year's washed-out summer, India grew about 3%, and over three years only single digits. Management did not argue with that arithmetic - it said quarters cannot be judged individually and 'you have to look at a yearly basis', the same deflection it used in February. Its own defence was month-picking: strip out the rain-hit months and growth was 'heavy double digits'. They also argued the season itself is shifting, saying May used to be about 15% of the year's business up to 2024 and no longer is.",
+      "Pricing & margins": "Money grew slightly faster than cases - 20.4% against 19.8% - because the average price per case rose 1.2%, and management said that gain came from overseas markets. Note what is missing: for the first time in these three calls no India-only figure for money per case was given, after it fell 4% in the December quarter and 1.5% in the March quarter. The share of each rupee of sales left after ingredients rose to 55%, up by a little under half a percentage point, but only because more of the business is now overseas; in India that share was merely 'maintained', held up by buying materials early and by using less sugar as low- and no-sugar drinks took over the range, against costs pushed up by the West Asia conflict. Operating profit was ₹2,343 crore, up 17.2%, and 27.7% of sales - three-quarters of a percentage point lower than a year ago, which management attributed entirely to the newly acquired South African business earning less. India's own profit share improved by about a third of a percentage point, far less than the 1.1 point gain in the March quarter, and was held back by higher transport and delivery costs. Below that line the capital bill is biting: the charge for wear and tear on assets is up 33.6% and interest up 55.8%, so net profit grew only 15.1%, to ₹1,525 crore. Asked how high oil could go before margins stop holding, management gave no number at all. And this is the first of the three calls at which it repeated no specific margin promise - only that 'we have never said our margins will be higher than x percentage'.",
+      "Competition": "Reliance's Campa Cola dominated the questions. One analyst reported Campa claiming it did half of its full-year sales in this single quarter; the chairman later turned that into an assumption that Campa is 'growing at 50% or doubling', although the original claim was about how seasonal Campa's year is, not how fast it is growing. Management's line on the ₹10 pack is now blunt and negative: it has not scaled it up because it is 'a non-profitable category for us', 'long-term sustainability is not there', and 'not a category we would like to fight' - as long as growth stays above 20% without it. That is a clear retreat from February, when a ₹10 launch was described as deliberate, surgical and capped at 5-7% of the range. They accept that the whole industry, themselves included, is now giving more drink for the same price because of Campa, and that Campa is recruiting genuinely new drinkers as well as taking sales from cheap local brands, which they say are a big part of many of their markets. They also argue Campa's growth may be coming from entering new areas rather than selling more in the same ones, and that the two are impossible to separate. An analyst noted Campa has shrunk its ₹10 pack from 200ml to 150ml while keeping 500ml at ₹20, narrowing the gap against VBL's upsized 400ml, and asked whether market share had moved; no share figure was given, for this or anything else. The chairman's answer to the ₹10 threat was that two people sharing a ₹20 pack pay ₹10 each, 'so we are happy both ways'.",
+      "Raw materials": "Costs are rising because of the West Asia conflict, and management's answer is timing rather than immunity - the same answer as three months ago. They have secured enough material for the September quarter, part of the higher cost was absorbed in this quarter and 'the balance would come in' the next, prices to customers will not change, and the 'overall effect would not be large'. The mechanism they lean on is an accounting one: stock is valued at an average cost rather than oldest-first, so expensive purchases are blended into a cheaper average and reach the profit statement slowly - 'there will not be any surprises on that account'. Sugar helped, because using less of it as low- and no-sugar drinks took over cut the bill, and management now says the whole range has been converted so 'there will be no sugar impact going forward'. The one real supply problem in the quarter was aluminium cans, which they say are 1-2% of the business and were affected only for that quarter. What nobody was given is any figure for what the higher input costs actually cost - not in rupees, not as a share of sales, and not as a price of oil at which the arithmetic stops working.",
+      "Segments & products": "Low- and no-sugar drinks are now about 73% of everything sold, up from about 63% three months ago and 59% at the end of last year. Notably, the split between fizzy drinks, water and non-fizzy drinks that appeared in both previous calls was not given this time. The newer, dearer ranges are doing the work: value-added dairy is growing over 40% and the Nimbooz lemon range over 30%, and together with juice they are growing three to four times as fast as the business overall. What management would not give is how big any of them actually is - 'we cannot give you the specifics here' - so a fast percentage sits on a base nobody outside the company can size. The big new product news is an alliance with Japan's Asahi to bring the CALPIS fermented-milk drink to India, framed explicitly as a first step only: stabilise CALPIS, and on whether ready-to-drink teas and coffees follow, 'we are not sure yet. We have not decided.' Energy drinks had a scare: the Indian food regulator objected to the word 'energy', which had never been a registered category, and has given 90 days to remove it. That confused the trade in June and July, energy sales dipped and the volume moved into ordinary fizzy drinks; with new labels out, management says it is coming back and that 'going forward, there is going to be no effect'. On tax, the goods-and-services tax cut at the end of last year helped only 'very minimal[ly]' and only on dairy, water and soda - and management's own account of what happened to prices there reads two ways, saying prices 'had to be taken up' because of the conflict while also saying it is now sustaining and still selling at the old prices.",
+      "International": "Overseas cases grew 38.4%, but 11.8 million of them came from Twizza, the South African business bought in March, so a large part of that growth was purchased rather than earned; an analyst put the growth excluding Twizza at more than 25%. Twizza is doing what it was bought for - it 'helped overcome capacity constraints' and added factories and delivery reach in South Africa - but it 'currently operates at lower margins', and that alone pulled the group's profit share down by three-quarters of a percentage point. Management still gave no figure for what Twizza earns, three months after calling it too early and saying it intended to 'correct the margins', and no analyst asked. The cash cost was ₹1,131 crore. A new agreement will buy the business of Devyani Food Industries in Kenya, valued for giving a ready route to market there for fizzy and energy drinks, and a fizzy-drink line for Kenya is already being built. Every country except Zambia - small, and slower - is said to be growing at a reasonable pace, and Zimbabwe, a problem last year, has recovered. The African snack-food business is growing about 50%; asked what the targets for it are, management offered that growth rate instead of a target.",
+      "Capex & projects": "Spending in the first half added ₹950 crore of assets: about ₹200 crore expanding existing Indian factories, including a new value-added dairy line at Supa; about ₹100 crore on the Zimbabwe snack factory; and about ₹400 crore on market equipment - chillers, glass bottles, pallets and vehicles. That leaves roughly ₹250 crore of the total attributed to currency movement rather than to anything built. Separately ₹1,131 crore went on buying Twizza. Unfinished projects stand at ₹490 crore, mostly expansion in South Africa and a fizzy-drink line in Kenya. No new Indian factory was mentioned, so ₹200 crore of Indian spending in six months sits comfortably inside the under-₹500-600 crore promised in April. What is missing is any capacity figure: both previous calls quantified the spare capacity at roughly 50% more than volumes used, and this one says only 'adequate capacities'. Also missing is any question - not one analyst asked about spending, about April's claim that a new factory pays for itself in 3-4 years at a 30% return on the capital, or about what the enlarged asset base is earning.",
+      "Balance sheet & capital allocation": "India still owes nothing and holds ₹1,494 crore of spare cash. For the group, borrowings minus cash come to ₹373 crore at the end of June, against effectively nil six months earlier - and the change is the South African purchase. That purchase is also why interest cost rose 55.8%, even though the Indian business is sitting on cash; the return earned on that cash appears elsewhere in the accounts, so the interest line looks worse than the group's actual position. The credit rating was reaffirmed at the top grade. The board declared an interim dividend of ₹0.50 a share, a quarter of face value, costing about ₹169 crore - the same amount as was declared with the March-quarter results. No analyst asked about the dividend, about the cash, or about what the money raised from shareholders in 2024 is now earning, which makes three calls in a row.",
+      "Distribution & network": "Management credits its growth to a wider factory footprint, its distribution network and continued spending on chilling, and put about ₹400 crore into market equipment over the six months - chillers, glass bottles, pallets and vehicles. Beyond that there are no numbers. The shop counts and chiller counts that used to appear at the year end are absent for a third consecutive call, and this time nobody even asked for them. Both overseas deals are framed as distribution as much as production: Twizza brought delivery reach in South Africa alongside its factories, and the Kenyan business being bought is valued for handing over a ready route to market for fizzy and energy drinks. The cost of that reach showed up in the numbers - India's profit improvement was partly eaten by higher transport and distribution costs.",
+      "Strategy & outlook": "The most important thing on this call was structural rather than financial. The exclusive agreement to bottle and brand PepsiCo drinks in India has been extended to April 2049, and - the part that changes what this company is - the restriction requiring VBL to operate solely as PepsiCo's vehicle has been removed, giving it, in its own words, 'greater operational flexibility to pursue opportunities that can deliver scale and synergies'. That is what makes the Japanese fermented-milk alliance possible, and it immediately raised the question of how far the company will now wander. An analyst cited a newspaper report that the group had hired a senior executive from the spirits company Diageo and was looking at bidding for the beer maker Bira. Management said the hire is for the wider family group and not this company, that 'it is not alcohol only', that they are 'hiring some people to look at new ventures, new possibilities, but it is too early', and flatly that 'we are not looking at Bira'. Everything else is unchanged: sell more cases through wider reach and more chilling, lean on dairy and juice-type drinks where growth is fastest, stay out of the ₹10 fight because it is not profitable, and expand across Africa. They remain confident about the long run on population, incomes and rising packaged-drink consumption, and say capacity is adequate.",
+      "Guidance": "What was actually promised, and how firm each promise is. The headline claim is 20% plus - 'we are growing healthily at 20% plus' from March onward, and 'even post-June, we are looking at a 20% plus growth at least minimum'. Read that carefully: no measure is attached, so it is not stated whether it means cases or money, and no period is attached either. When an analyst asked the direct guidance question - can this company still grow at low double digits now that both Campa and Coca-Cola are pushing hard - the answer came back at the old level: 'I do not see any reason why we should not be growing in double digits.' So the formal promise is still February's double digits, with 20%-plus talk layered on top of it. On profitability this is the first of the three calls with no number at all: the 22-23% for India and 21%-plus for the group, both restated in February, went unrepeated, replaced by 'we have never said our margins will be higher than x percentage' and a claim that once the wars end 'our margins cannot get worse. It will only get better.' Asked at what oil price margins stop holding: no number, no scenario. Firm enough to check later: material is secured for the September quarter, prices to customers will not change and the remaining cost increase 'would not be large'; the range is already fully low-sugar so there is 'no sugar impact going forward'; the energy-drink labelling problem has 'no effect' once labels change inside 90 days. Withheld entirely: what the acquired South African business earns, any target for the African snack business, any size for the fast-growing dairy and juice ranges, any market share in any category, and any spending figure for the rest of the year - that last one because nobody asked.",
+      "Analyst Q&A concerns": "Six analysts, and then the call was closed. The sharpest exchange was Percy Panthaki of IIFL showing that this quarter's India growth stands on a collapsed base: measured over two years it is about 3%, over three years single digits. Management did not dispute the arithmetic - it said quarters cannot be judged individually, and answered instead on hand-picked months. The most revealing slip was on industry growth. Asked how fast the market grew, the chairman reasoned that if VBL grew 15% 'in the first half' and Campa is 'growing at 50% or doubling', the industry must be growing around 20% - then abandoned the estimate: 'we do not know the real numbers for it.' Two things are wrong with it. The 14.4% was given in the prepared remarks as the quarter's India growth, not the half's, and management described it as a half-year figure twice. And the 50% came from a different analyst quoting Campa's claim to have done half its full-year sales in this quarter, which describes how seasonal Campa is, not how fast it is growing. The estimate also implies VBL grew slower than its own market - and market share is precisely what management will not discuss: asked what data supported PepsiCo's published claim that its India share was stable or better from 1 March to 31 May, the reply was 'you should ask that question to PepsiCo' and then 'we do not go into market share'. Other refusals: no figure for how much of the volume growth is simply bigger packs, on the grounds that everything is counted in standard 8-ounce cases and so 'that is immaterial basically'; no oil price at which margins break; no target for the African snack business, only its growth rate; no size for the dairy and juice ranges; and no commitment on extending the Japanese partnership past one product. The absences matter as much as the answers: nobody asked why the acquired South African business is dragging group profitability down, nobody asked about spending on new plants and machinery, and for the third call running nobody asked what the 2024 share sale is now earning - even though the charge for wear and tear on assets rose 33.6% and interest 55.8% in this quarter alone."
+    }
+  },
+  {
+    "quarter": "Q1 CY2026",
+    "call_date": "2026-04-27",
+    "detailed": [
+      {
+        "theme": "Demand & volumes",
+        "point": "Consolidated sales volume grew 16.3% to 363.4 million cases from 312.4 million, split India +14.4% and international +21.4%",
+        "figure": "363.4m cases vs 312.4m; India +14.4%, international +21.4%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact",
+        "quote": "Consolidated sales volume grew by 16.3% YoY to the level of 363.4 million cases as compared to 312.4 million cases in Q1 CY2025"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Revenue from operations, net of excise and GST, rose 18.1% to Rs 65,741.9 million",
+        "figure": "₹6,574.2cr (+18.1%)",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Volume mix: carbonated soft drinks 73.6% of total volumes, packaged drinking water 18.9%, non-carbonated beverages 7.5%",
+        "figure": "CSD 73.6% / water 18.9% / NCB 7.5%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Low-sugar and no-sugar products reached ~63% of consolidated sales volume",
+        "figure": "~63% of consolidated volume",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Volume drivers named for the quarter were pack upsizing, selective price-point launches in identified markets to onboard new consumers, and new launches in energy and juice-based drinks",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "including pack upsizing, selective price point launches in identified markets to on-board new consumers, and new launches in the energy and juice-based drink segments"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Asked how the rain-hit base was distributed, management placed the damage from end-April to end-June — i.e. in the Q2 base, not the Q1 base just lapped. So the 14.4% India growth was NOT on a weather-broken comparison; the easy comparison is the quarter now running",
+        "figure": "damage 'mainly May and June'; 'April end was not great'",
+        "speaker": "Devanshu Bansal / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "it was mainly end of April to end of June for sure and even continuing to the third quarter... it was mainly May and June which were really disaster"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "On the current (June) quarter, management was bullish but explicitly disclaimed the weather: one month in, trends 'looking very positive' and the quarter 'should be rather much better'",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "This quarter should be rather much better than what we have already had. More than that, we cannot answer on the rain gods, but it is looking very positive."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Asked whether oil-driven inflation would cause consumer pushback on consumption, management said it sees none",
+        "speaker": "Vivek Maheshwari / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "We do not see it, Vivek, because consumption is very strong and we are going through a period which was terrible last year with all the rains."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Asked whether the broad March-quarter FMCG beat signalled an acceleration, management confirmed an uptick but would not claim relative outperformance",
+        "speaker": "Abneesh Roy / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "There is definitely an uptick... We do not know if we are growing faster, but definitely market is growing at a huge pace."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Management claimed pack upsizing (250ml to 400ml) lifted both litres and unit counts, not just litres — 'if it goes up in liters is not good enough for us'",
+        "figure": "250ml to 400ml",
+        "speaker": "Jay Doshi / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "the consumption is going up in Liters as well as in numbers, both ways. If it goes up in liters is not good enough for us, we need the numbers to go up as well."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Gross margin improved 62bps to 55.2%, attributed to early stocking of key raw materials — explicitly despite an inflationary input environment",
+        "figure": "GM 55.2% (+62bps)",
+        "speaker": "Raj Gandhi",
+        "kind": "fact",
+        "quote": "Gross margins improved by 62 bps to 55.2%, supported by early stocking of key raw materials despite an inflationary input environment"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "EBITDA rose 21% to Rs 15,289.3 million with margin up 55bps to 23.3%",
+        "figure": "EBITDA ₹1,528.9cr (+21%); margin 23.3% (+55bps)",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "India EBITDA margin improved 112bps, credited to operational efficiencies from strong volume growth plus better gross margin — i.e. India margins expanded even while India realisation fell",
+        "figure": "India EBITDA margin +112bps",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "PAT rose 20.1% to Rs 8,787.1 million",
+        "figure": "PAT ₹878.7cr (+20.1%)",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Consolidated net realisation per case improved 1.6%, driven by international territories and primarily by favourable currency movement rather than pricing",
+        "figure": "consol realisation/case +1.6%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact",
+        "quote": "net realization per case improved by 1.6% YoY, supported by improved realizations in international territories primarily due to favourable currency movement"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "India realisation per case DECLINED 1.5%, attributed to pack upsizing and selective price-point launches to onboard new consumers",
+        "figure": "India realisation/case -1.5%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "The India realisation drag halved from the December quarter's -4% to -1.5%, better than analysts had feared; management credited premiumisation, ~60% dairy growth at ~3x normal realisation, and new launches",
+        "figure": "-1.5% vs -4% in Q4 CY25; dairy +~60% at ~3x realisation",
+        "speaker": "Vivek Maheshwari / Raj Gandhi",
+        "kind": "qna",
+        "quote": "we have premiumized a number of products. New launches, along with the growth of around 60% in our dairy segment, where realisations are nearly 3x of the normal level, have helped."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Reduced discounting — not price increases — is the stated margin lever, repeated several times through the call",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "we are running it more efficiently and making sure discounting is reduced a little bit"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Depreciation rose 30.9% on commissioning of four new plants last year at Buxar, Prayagraj, Damtal and Meghalaya",
+        "figure": "depreciation +30.9%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Finance cost rose 18% primarily on the Twizza acquisition, while income on surplus India cash sits in other income — so the reported interest line overstates the net funding cost",
+        "figure": "finance cost +18%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact",
+        "quote": "Finance cost increased by 18%, primarily on account of the acquisition of Twizza in South Africa, while income on surplus cash in India has been accounted for under other income."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Asked whether the 250ml-to-400ml upsizing would keep hurting India margins through the year, management said the full effect is already in this quarter and was absorbed by volume and efficiency",
+        "speaker": "Jay Doshi / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "This full quarter we had the upsizing, so whatever effect had to come has already come and our volumes and our efficiencies have absorbed all that."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Cost of production in the new larger plants is claimed at roughly half that of the older smaller plants, with a couple of high-cost old small plants shut down",
+        "figure": "cost of production ~half",
+        "speaker": "Ravi Jaipuria",
+        "kind": "opinion",
+        "quote": "our cost of production is considerably half of what we were doing in our smaller plants. Scale is what is giving us the strength and cost reduction."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Illustration of the efficiency claim: a 1,000-bottles-per-minute line replaces a 200-bottles-per-minute line with the same manpower — five times output for the same labour",
+        "figure": "1,000 bpm vs 200 bpm, same manpower",
+        "speaker": "Ravi Jaipuria",
+        "kind": "opinion",
+        "quote": "if we had a 200 bottles per minute line, now we have got a 1,000 bottles per minute line and the manpower is the same"
+      },
+      {
+        "theme": "Competition",
+        "point": "Management described a rising market with rivals also growing — naming Campa and Coca-Cola — while explicitly declining to claim it was growing faster",
+        "speaker": "Ravi Jaipuria",
+        "kind": "opinion",
+        "quote": "there is Campa in the market, they are growing the volumes in the market, and even Coke is growing"
+      },
+      {
+        "theme": "Competition",
+        "point": "The six-month raw-material inventory is framed as a competitive weapon rather than a working-capital cost, on the claim rivals hold nothing close to it",
+        "figure": "6 months inventory",
+        "speaker": "Ravi Jaipuria",
+        "kind": "opinion",
+        "quote": "which actually gives us an edge over our competition because we do not think competition carries anywhere close to 6 months"
+      },
+      {
+        "theme": "Competition",
+        "point": "On who absorbs cost inflation first if crude stays high, management staked the position that rivals crack first",
+        "speaker": "Percy Panthaki / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "we might be the only company which is holding 6 months inventory. We think other people will blink before we blink"
+      },
+      {
+        "theme": "Competition",
+        "point": "Asked whether competitors' supply-chain problems and delayed plant openings were a share opportunity, management would not make the claim, reverting to a market-expansion argument",
+        "speaker": "Devanshu Bansal / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "we think competition is there, but there is enough market for everybody to take, as we have said that every time"
+      },
+      {
+        "theme": "Competition",
+        "point": "Management observed that B-brands and other water players have not raised prices but have reduced their discounts — the same mechanism VBL says it is using",
+        "speaker": "Ravi Jaipuria",
+        "kind": "opinion",
+        "quote": "we see the B-brands and the other players selling water, they have not increased the price, but they have reduced the discounts"
+      },
+      {
+        "theme": "Competition",
+        "point": "Management said industry-wide can shortage and cost increases affect everyone equally, so it does not represent a relative disadvantage",
+        "speaker": "Ravi Jaipuria",
+        "kind": "opinion",
+        "quote": "There is shortage for everyone and the costs are going up for everyone"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "International raw-material impact from the geopolitical situation put at 'practically zero to a couple of points', on ~6 months of inventory covering this quarter and the next",
+        "figure": "impact ~0 to 'a couple of points'; 6 months inventory",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "the impact on raw materials will be practically zero to a couple of points, as we are well-stocked not just for this quarter but for the next quarter as well"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "For India, cover is thinner and explicitly time-limited: 'completely covered for this quarter, and we are partly covered for the next quarter also'",
+        "figure": "India: this quarter full, next quarter partial",
+        "speaker": "Vivek Maheshwari / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "We are completely covered for this quarter, and we are partly covered for the next quarter also."
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Management conceded the cover is not absolute: 'We cannot say fully covered because we do not know what the prices will be'; gasoline/fuel is named as the vulnerable, unstockable exposure",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "We cannot say fully covered because we do not know what the prices will be. But at the moment for this quarter we are covered with our raw materials."
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Transportation cost identified as the one input that cannot be stocked; management expects to absorb it with no material P&L effect",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "the only thing which can affect us slightly, which you cannot stock, is the transportation cost. There will be some impact, but we will be more than able to absorb it"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Aluminium cans are less than 2% of volumes; the industry is short of cans and they are more expensive, but VBL says it has tied up more than its 2% requirement",
+        "figure": "cans <2% of volumes",
+        "speaker": "Abneesh Roy / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "aluminium cans sales is less than 2% for us. It is very small... we have tied up a reasonable quantity to more than cover up our 2% volumes"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Management confirmed consumers substitute away from cans when unavailable — mostly to PET, sometimes glass — so a can shortage is a mix event rather than a lost sale",
+        "speaker": "Abneesh Roy / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "If you cannot get a can, then you switch to PET or you go for glass, but mostly PET."
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Sugar was a tailwind internationally, where world prices 'come down significantly', while Indian sugar was reasonably constant and, notably, 'has not gone up'",
+        "speaker": "Robert Marshall-Lee / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "in the international market, definitely we have had a gain on sugar costs. International prices have come down significantly. But in India, it has been reasonably constant."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Dairy grew 60-70% and earns nearly three times the realisation per case of the average product — the single largest contributor cited to the improved India mix",
+        "figure": "dairy +60-70%; realisation ~3x",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "dairy is growing at 60%-70%, Nimbooz is also doing at great pace, Tropicana PET at more than 100%"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Tropicana in PET grew more than 100%; Nimbooz described as growing at a 'great pace' (no figure given for Nimbooz)",
+        "figure": "Tropicana PET >100%",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "The ₹60 mid-priced energy drink Adrenaline Rush outran management's own plan — and the can shortage is now constraining it because that demand was not anticipated",
+        "figure": "₹60 price point",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "'Ad-Rush' has done phenomenally well. We are feeling some pinch because of the shortage of cans, as we had not expected 'Ad-Rush' to do as well as it has."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Sting Classic launched in cans is 'doing extremely well'; the PET version only entered the market in April, so its contribution lands in the current quarter, and management hopes it can match Sting Red",
+        "figure": "PET launch April 2026",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "the initial response is fabulous, and we feel it could achieve the same success as Sting Red, hopefully"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "African snack-food distribution more than doubled to ₹112cr in Q1 CY2026 from ₹52cr a year earlier, against ~₹350cr for full CY2025 flagged earlier",
+        "figure": "₹112cr vs ₹52cr; CY2025 ~₹350cr",
+        "speaker": "Anand Shah / Raj Gandhi",
+        "kind": "qna",
+        "quote": "snack foods in the first quarter this year is Rs 112 crore, which was last year Rs 52 crore in the first quarter"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Water volume is deliberately NOT pushed — management said it will not buy water share with discounts, protecting margin instead, and prioritises servicing exclusive outlets and its cooler base",
+        "speaker": "Abneesh Roy / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "Water is like a commodity, you can increase your sales as much as you want by offering discounts, which we are not in the game of and that is why we can sustain our margins."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "The ₹10 price point was materially downplayed: under 2% of total volume, used only selectively, and framed as a distributor-retention tool rather than a growth engine — a smaller claim than the launch had carried",
+        "figure": "₹10 packs <2% of total volume",
+        "speaker": "Vivek Maheshwari / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "It will be less than 2% of our total volume, so practically it would not show. We are using it only to make sure our distributors remain with us"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Energy, dairy and hydration are becoming significant portions of the mix; management declined to project the mix, citing constantly shifting consumer preference, and said the same machines can switch flavour or packaging",
+        "speaker": "Arjav Jain / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "this will keep changing year on year, so it is very difficult to say. The new Gen Z keeps on asking for something new all the time."
+      },
+      {
+        "theme": "International",
+        "point": "International volume grew 21.4%, and management insisted the growth was broad-based rather than South Africa-led",
+        "figure": "international volume +21.4%",
+        "speaker": "Anand Shah / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "No, it is not only South Africa. Actually, all our international businesses have grown."
+      },
+      {
+        "theme": "International",
+        "point": "Pressed twice, management confirmed markets previously growing mid-to-high single digits are back to double digits and that South Africa grew close to the 21.4% average — with the arithmetic argument that the average could not otherwise be reached",
+        "figure": "ex-South Africa also double digit",
+        "speaker": "Anand Shah / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "All international markets, otherwise, we would not be able to average 21.4%."
+      },
+      {
+        "theme": "International",
+        "point": "Morocco named as the only weak international market, and that was the prior quarter",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "We think Morocco was the only one which was weak last quarter."
+      },
+      {
+        "theme": "International",
+        "point": "Explanation offered for the weak CY2025 international base: South Africa and the DRC had only just started and needed stabilisation, plus disruption from the Gaza war",
+        "speaker": "Percy Panthaki / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "Last year South Africa and DRC had just started for us. Some challenges and then you know with the Gaza war we had some other challenges."
+      },
+      {
+        "theme": "International",
+        "point": "Twizza acquisition in South Africa completed through BevCo during the quarter at an enterprise value of ZAR 2,053 million",
+        "figure": "EV ZAR 2,053m",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "BevCo has separately signed a share purchase agreement for Crickley Dairy at an enterprise value of ~ZAR 238 million including net working capital, subject to regulatory approvals — so not yet closed",
+        "figure": "EV ~ZAR 238m",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "Price and scale disclosed in rupees under questioning: Twizza's last full-year revenue ~₹800cr for ~₹1,140cr paid; Crickley ~₹160cr; together ~₹1,000cr of revenue joining the group",
+        "figure": "Twizza ₹800cr revenue / ₹1,140cr paid; Crickley ₹160cr; combined ~₹1,000cr",
+        "speaker": "Devanshu Bansal / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "Twizza, last full year revenue was ~ Rs. 800 crore and we have paid ~ Rs. 1,140 crore"
+      },
+      {
+        "theme": "International",
+        "point": "Strategic rationale is capacity, not distribution: Twizza's production capability fixes a constraint BevCo was struggling with, enabling growth without heavy capex",
+        "speaker": "Ravi Jaipuria",
+        "kind": "opinion",
+        "quote": "Twizza has enough production capability which we were struggling in BevCo. So, this will help us give growth going forward without putting too much CAPEX."
+      },
+      {
+        "theme": "International",
+        "point": "Asked for a margin run-rate to build into CY2026 for the two acquisitions, management refused — and in doing so conceded the acquired margins need fixing",
+        "figure": "no margin figure given",
+        "speaker": "Devanshu Bansal / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "On the margins, we think it is a bit too early. Let us take it over properly. It has been 10-15 days only or a month. We are going to correct the margins."
+      },
+      {
+        "theme": "International",
+        "point": "Snack scale-up in Africa is expected to keep ramping, attributed to the Zimbabwe plant commissioned only at the end of last year",
+        "speaker": "Anand Shah / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "Absolutely, because Zimbabwe plant has just come up last year, end of last year only. So, there is consolidation and growth coming."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "India capex guided sharply lower for CY2026: under ₹500-600cr, most probably only one plant, because capacity is adequate",
+        "figure": "India capex < ₹500-600cr; ~1 plant",
+        "speaker": "Devanshu Bansal / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "our CAPEX is not going to be very large this year because we have enough capacity. We are most probably going to only have one plant... It will be very low this year."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "The four plants commissioned over the last year (Buxar, Prayagraj, Damtal, Meghalaya) are described as stabilised and expected to support growth and efficiency",
+        "figure": "4 plants",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "The facilities commissioned over the last year have stabilized well and are expected to support growth and enhance operating efficiencies going forward."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Capacity headroom claimed at 50% volume growth with no capacity addition — the justification for cutting capex into the peak season",
+        "figure": "50% growth absorbable",
+        "speaker": "Harit Kapoor / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "we have enough capacity that even if we get a 50% growth, we can comfortably do it without adding any capacity"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Asked twice, management put new-plant economics at a 3-4 year payback and 30% ROCE — a claim well above the group's post-equity-raise returns",
+        "figure": "3-4 year payback; 30% ROCE",
+        "speaker": "Arjav Jain / Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "Normally we work on a 3-4 year payback. 30% RoCE."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Utilisation of the new plants is rising with volume, with production shifting to the larger plants and a couple of old, small, high-cost plants shut down",
+        "speaker": "Robert Marshall-Lee / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "We are using more of our larger plants, and we have shut down a couple of high-cost plants, which were very old and small."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Management framed plant additions as demand-led rather than discretionary — capacity must back the sales line — while insisting only large plants are built now",
+        "speaker": "Ravi Jaipuria",
+        "kind": "opinion",
+        "quote": "We need capacity, and for that we need to open new plants, otherwise we cannot keep up the pace with the growing sales."
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Interim dividend of 25% of face value, ₹0.50 per share, total cash outflow ~Rs 1,691 million",
+        "figure": "₹0.50/share; ~₹169.1cr outflow",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Interest cost rose 18% on the South African acquisition while the return on surplus India cash is reported in other income — the two are not netted, so the funding cost reads worse than the net position",
+        "figure": "finance cost +18%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Balance-sheet strength asserted without figures: no debt, net cash, gearing or working-capital number was given on the call, and none was asked for",
+        "figure": "no figures given",
+        "speaker": "Raj Gandhi",
+        "kind": "opinion",
+        "quote": "we continue to maintain a strong financial position, supported by disciplined capital allocation, efficient working capital management, and a robust balance sheet"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "The quarter's main capital deployment was the South African purchase — roughly ₹1,140cr for a business with ~₹800cr of revenue, on margins management declined to describe",
+        "figure": "~₹1,140cr paid on ~₹800cr revenue",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Outlet expansion runs at 300,000-400,000 a year on a base of ~4 million, with more than 10% already added this year and an aspiration of half a million for CY2026",
+        "figure": "300,000-400,000/yr; base ~4m; target ~500,000",
+        "speaker": "Devanshu Bansal / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "we are hoping to add close to half a million outlets with a base of about 4 million. We are aggressively increasing our go-to-market"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Management clarified under questioning that the half-million figure is OUTLETS, not visi-coolers — 'We do not give visi-coolers to everyone'",
+        "speaker": "Devanshu Bansal / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "Half a million new outlets. We do not give visi-coolers to everyone."
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Chilling infrastructure quantified across the industry: ~half a million or more coolers a year between Campa, Coke and VBL, plus 400,000-500,000 bought by outlets themselves — roughly a million a year, which management says is expanding the market drastically",
+        "figure": "~1m chillers/yr industry-wide",
+        "speaker": "Ravi Jaipuria",
+        "kind": "opinion",
+        "quote": "there is a million chilling equipment, refrigerators going in the market on a year-to-year basis. That is expanding the market drastically."
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "VBL's own visi-cooler base put at 'close to a million plus' in the market, and servicing that base is given as the reason it will not chase water volume",
+        "figure": "~1m+ visi-coolers",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Management's stated theory of the category: distribution and go-to-market decide the winner, not price or product",
+        "speaker": "Ravi Jaipuria",
+        "kind": "opinion",
+        "quote": "whoever does a good go-to-market and whoever can expand his distribution will win the game"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "The operating strategy is explicit: buy volume with bigger packs and entry price points, then recover it through lower plant costs and reduced trade discounts rather than through price increases",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "we are covering that by reducing our discounts and becoming more efficient. We are cutting our costs wherever we can, and this is already showing in our first quarter results."
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Africa strategy: build scale in snacks and deepen presence in high-potential markets, broadening the portfolio beyond beverages",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "Across Africa, we continue to build scale in snacks and deepen our presence in high-potential markets"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Management remains structurally bullish on India, citing more competitors expanding chilling and outlets as market-expanding rather than share-destructive",
+        "speaker": "Ravi Jaipuria",
+        "kind": "opinion",
+        "quote": "We are very bullish on the Indian market, and we believe the growth should continue in double-digits for the next 5-10 years at least."
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Asked whether further pack-price architecture changes were coming, management explicitly refused to say, on competitive grounds",
+        "speaker": "Jay Doshi / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "if we had something in mind, we would not be able to divulge it anyway because that is not good for us from a competitive perspective"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Management flagged the inflationary environment from the geopolitical situation as a near-term challenge to be navigated through execution and supply-chain agility, not through pricing",
+        "speaker": "Raj Gandhi",
+        "kind": "guidance",
+        "quote": "Despite the inflationary environment arising from the prevailing geopolitical situation, we remain confident in our ability to navigate near-term challenges through focused execution"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Long-run growth aspiration restated at double digits for the next 5-10 years, in India and internationally — reasserted, not raised, after an analyst challenged the recent record",
+        "figure": "double digits for 5-10 years",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "We still believe we can grow in double digits going forward for the next 5-10 years. We do not see any challenges."
+      },
+      {
+        "theme": "Guidance",
+        "point": "CY2026 India capex guided under ₹500-600cr with probably a single plant — a marked step down from the four-plant CY2025 programme now driving 30.9% depreciation growth",
+        "figure": "< ₹500-600cr",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "On whether the -1.5% India realisation is the right run-rate for the year, management hedged in both directions — it 'might even become lower' or 'could remain that' — but argued a 1-2% realisation gap is coverable if volumes hold",
+        "figure": "India realisation -1.5%, could go lower",
+        "speaker": "Latika Chopra / Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "we think it might even become lower because it depends how strong the season is, or it could remain that... this 1% or 2% we can cover easily if the numbers are right"
+      },
+      {
+        "theme": "Guidance",
+        "point": "No price increase planned; management expects the wider industry to move first if fuel prices rise, and will cut discounting further before pricing",
+        "speaker": "Latika Chopra / Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "If the prices go up, then we will further reduce our discounting to some level."
+      },
+      {
+        "theme": "Guidance",
+        "point": "The profit assurance is conditional on volume, stated twice — the hedge is the operative part of the sentence",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "as long as the volumes continue to come, we do not think there will be any effect on the bottom line"
+      },
+      {
+        "theme": "Guidance",
+        "point": "African snack distribution guided to keep ramping off the ₹112cr first-quarter run-rate, with no full-year number given",
+        "figure": "Q1 ₹112cr; no FY figure",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Distribution target for CY2026 set at close to half a million new outlets, above the 8-10% annual addition rate an analyst put to management",
+        "figure": "~500,000 outlets; >10% added so far",
+        "speaker": "Harit Kapoor / Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "practically this year we have added more than 10% outlets"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Percy Panthaki (IIFL) used a 2-year CAGR to neutralise base effects, showing standalone growth of 11% on an 18% base — a 14% two-year rate against ~8% in the prior quarter and ~8% for the trailing four quarters — and asked whether it was the season or a slowdown in the new entrant's share gains. Management disputed his figures rather than answering the question",
+        "figure": "analyst: standalone +11% on +18% base = 14% 2-yr CAGR vs 8% prior quarter",
+        "speaker": "Percy Panthaki / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "we think we have never had 6%-8% growth except last year when the weather was really bad and India did not grow... We do not know where you are getting 6%-8% growth."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "The analyst then supplied the arithmetic (Q4 CY25 6% on a 9% base) and management still declined the framing, reverting to 'last year was the one exceptional year'; the analyst withdrew with 'I will take this offline'",
+        "figure": "analyst: Q4 CY25 +6% on +9% base",
+        "speaker": "Percy Panthaki / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "Understood, sir. I was not talking only of last year, I was looking at 2-year CAGR, but anyways I will take this offline."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Asked whether margins could hold if crude stayed near 100 for several more quarters — the longer-dated question the six-month inventory does not answer — management gave no commitment and no scenario, only a bet on rivals cracking first",
+        "figure": "analyst premise: crude at 100",
+        "speaker": "Percy Panthaki / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "it is very difficult to answer, but only thing we can tell you, we might be the only company which is holding 6 months inventory"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Harit Kapoor (Investec) asked whether rivals' availability problems opened up near-term market-share gains. Management declined to discuss share at all",
+        "figure": "no share figure",
+        "speaker": "Harit Kapoor / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "We cannot answer for other people. The only thing we can say, we are fully prepared and we have enough capacity"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Abneesh Roy (Nuvama) cited Reliance's claim to be India's third-largest branded water player and asked directly whether VBL's standing had changed. Management never addressed its own water share, answering instead that it does not over-push water",
+        "figure": "analyst: Reliance claims #3 in branded water",
+        "speaker": "Abneesh Roy / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "No, we do not over-push water. We try and make sure our basic margins remain"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Devanshu Bansal (Emkay) asked for the revenue AND margin run-rate to bake in for Twizza and Crickley in CY2026. He got revenue after two attempts and an explicit refusal on margins",
+        "figure": "revenue given; margins refused",
+        "speaker": "Devanshu Bansal / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "On the margins, we think it is a bit too early... We are going to correct the margins."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Jay Doshi (Kotak) asked for growth in units — bottles — rather than 8-ounce cases, to test whether pack upsizing was flattering the reported volume number. Declined on measurement grounds",
+        "figure": "no unit-level figure",
+        "speaker": "Jay Doshi / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "We measure volumes in 8-ounce and that is what we quote. Otherwise, each size we have to start measuring... it becomes very difficult."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Asked whether any further pack-price architecture change was left to come, management refused outright rather than saying no",
+        "speaker": "Jay Doshi / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "we will see what the market requires, and we will play with that. And if we had something in mind, we would not be able to divulge it anyway"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Vivek Maheshwari (Jefferies) challenged the six-month cover claim against the P&L, noting the inventory build did not look large versus two years ago. Management repeated the assurance without supplying a coverage figure or an inventory number",
+        "figure": "no inventory figure given",
+        "speaker": "Vivek Maheshwari / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "it does not look like to be very high compared to let us say what you have had 2 years back"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Vivek Maheshwari pushed twice on why India realisation improved to -1.5% from -4% when consensus expected worse, noting the ₹10 launches should have hurt. The eventual answer came from the CFO on mix and dairy, not from the initial cost-efficiency deflection",
+        "figure": "analyst: expected worse than -4%",
+        "speaker": "Vivek Maheshwari / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "there were worries that this number could actually be worse than what it was in the December quarter. What explains this delta then?"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Devanshu Bansal's question about how the rain-hit base was distributed across the three months of the comparison quarter was answered about April-June instead — the following quarter's base — leaving the composition of the quarter actually reported unaddressed",
+        "speaker": "Devanshu Bansal / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "it was mainly end of April to end of June for sure and even continuing to the third quarter"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Arjav Jain (Systematix) had to ask twice for the payback period on new plants — the first answer was a discussion of line speeds and manpower — before getting 3-4 years and 30% ROCE",
+        "figure": "3-4 years; 30% ROCE",
+        "speaker": "Arjav Jain / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "Okay. I was asking for the payback period."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Arjav Jain also asked for the current and future sales mix by category. Management gave direction (energy, dairy, hydration growing) but no percentages for either period",
+        "figure": "no mix percentages given",
+        "speaker": "Arjav Jain / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "this will keep changing year on year, so it is very difficult to say"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Latika Chopra (JP Morgan) asked whether input pressure was visibly hurting smaller unorganised players. Management answered about pricing behaviour among B-brands instead of about their distress, offering no evidence of consolidation",
+        "speaker": "Latika Chopra / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "they have not increased the price, but they have reduced the discounts"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Anand Shah (Axis) probed the international growth split and had to ask three times — whether South Africa drove it, whether Zimbabwe had returned to double digits, whether ex-South Africa was double digit — before getting confirmation, and no country-level figure was ever given",
+        "figure": "no country-level figures",
+        "speaker": "Anand Shah / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "Yes. All international markets, otherwise, we would not be able to average 21.4%."
+      }
+    ],
+    "theme_summaries": {
+      "Demand & volumes": "The recovery management promised actually showed up. They sold 16.3% more drinks than a year earlier — 363.4 million cases against 312.4 million — with India up 14.4% and overseas up 21.4%, and sales up 18.1% to ₹6,574 crore. Fizzy drinks were 73.6% of what they sold, water 18.9% and non-fizzy 7.5%; low- and no-sugar drinks reached about 63% of the total. Importantly, management said the rain that wrecked last year was 'mainly May and June', which were 'really disaster' — so the January-March quarter they are comparing against was not itself damaged, and this growth is not a rebound off a broken base. The genuinely easy comparison is the quarter now running. On that quarter they were bullish but hedged: one month in, 'trends are looking very positive' and it 'should be rather much better' — followed immediately by 'we cannot answer on the rain gods'. They saw no sign that fuel-driven inflation was making consumers buy less, and said the whole market was growing fast, with both Campa and Coca-Cola growing too — while admitting 'we do not know if we are growing faster.'",
+      "Pricing & margins": "Profit grew faster than sales: operating profit rose 21% to ₹1,529 crore, and was 23.3% of sales versus 22.7% a year earlier; in India alone that share improved by about 1.1 percentage points. Net profit rose 20.1% to ₹879 crore. The reason the cost side held up is that they bought raw materials early, before prices rose, which lifted the share of each rupee of sales left after ingredients to 55.2% from 54.6%. The awkward part is the price they charge: in India they earned 1.5% LESS per case than a year ago, because they made packs bigger for the same price and launched cheap entry price points. That is better than the 4% decline in the December quarter, and management credited three things — selling more expensive products, dairy growing about 60% at nearly three times the money per case, and cutting the discounts they give the trade. Note what is absent: no price increase was taken or planned. Two costs are now rising fast — depreciation on the four new factories is up 30.9%, and interest is up 18% because of the South African purchase. Management's defence is that the new factories cost about half as much to run per bottle, because a line now fills 1,000 bottles a minute instead of 200 with the same number of people, and a couple of old high-cost plants have been shut.",
+      "Competition": "Management's account is a rising tide: Campa is growing volumes, 'even Coke is growing', and the market is expanding 'at a huge pace' — while conceding 'we do not know if we are growing faster.' Their claimed edge is stock, not price: they hold six months of raw material overseas and 'do not think competition carries anywhere close to 6 months', which on a rising cost curve buys them time. Pressed on whether rivals' supply problems and delayed factory openings were a chance to take share, they refused to make the claim — 'there is enough market for everybody to take.' On whether anyone would raise prices, they observed that cheaper local brands and water sellers have not raised prices but have cut their own discounts. The hardest line of the call was about who cracks first if oil stays high: 'we think other people will blink before we blink.' They would not give a market share figure for any category, in India or in water.",
+      "Raw materials": "This is the quarter's central risk and management's answer is timing rather than immunity. Overseas they normally carry six months of stock, so the hit from higher oil-linked packaging is 'practically zero to a couple of points' for this quarter and the next. In India they are 'completely covered for this quarter' and only 'partly covered' for the one after — and they said plainly 'we cannot say fully covered because we do not know what the prices will be.' The one cost you cannot stockpile is transport, which they expect to absorb. Aluminium cans are short across the industry and more expensive, but cans are under 2% of what they sell and they have tied up more than they need; when a can is unavailable the shopper buys a plastic bottle or glass instead. Sugar helped: world prices fell significantly, which was a gain overseas, while Indian sugar was flat — 'fortunately, it has not gone up.' The plan if costs keep climbing is to cut discounts further, not to raise prices.",
+      "Segments & products": "The newer, higher-priced parts of the range are carrying the mix. Dairy grew 60-70% and earns nearly three times the money per case of an ordinary drink. Orange-juice drinks in plastic bottles more than doubled and the lemon drink grew fast. The ₹60 energy drink Adrenaline Rush did 'phenomenally well' — so well that the can shortage is now pinching it, because they had not planned for that demand. A new energy variant, Sting Classic, is selling strongly in cans and only reached plastic bottles in April, so its effect lands in the current quarter; management hopes it can eventually match the original. Snack food in Africa more than doubled to ₹112 crore from ₹52 crore, helped by the Zimbabwe factory that started at the end of last year. Two deliberate refusals to chase volume: they will not push water, calling it 'like a commodity' where you can buy sales with discounts, and the ₹10 price point is under 2% of what they sell, used selectively and mainly 'to make sure our distributors remain with us' — a noticeably smaller claim than the ₹10 launch had carried before.",
+      "International": "Overseas volumes grew 21.4% and management insisted this was broad, not just South Africa — every market grew, growth outside South Africa was also in double digits, and South Africa itself grew close to the 21.4% average. Morocco was the only weak spot, and that was the previous quarter. The reason last year was hard, they said, was that South Africa and the Democratic Republic of Congo had only just started and the Gaza war added disruption. The big event is South Africa: they completed the purchase of Twizza for an enterprise value of 2,053 million rand — about ₹1,140 crore paid for a business with roughly ₹800 crore of annual sales — and have signed to buy Crickley Dairy for about 238 million rand, roughly ₹160 crore of sales, still awaiting approvals. Together about ₹1,000 crore of revenue joins the group. The strategic logic given is capacity: Twizza has factory capability that their existing South African business was short of, so they can grow there, in their words, without having to spend much more on new plants and machinery. What they would not say is what any of it earns — margins were 'a bit too early' and they intend to 'correct the margins', which is an admission that the acquired margins are not where they want them.",
+      "Capex & projects": "Spending is being pulled back hard. After commissioning four factories last year — Buxar, Prayagraj, Damtal and Meghalaya, all now described as stabilised — India spending this year will be under ₹500-600 crore and will 'most probably' cover just one plant: 'It will be very low this year.' The justification is headroom: they claim they could handle 50% more volume with no new capacity, and that the new bigger plants are filling up as sales rise while a couple of old small high-cost ones have been closed. On the economics of a plant, they gave the sharpest number of the call, and only after being asked twice: a 3-4 year payback and 30% return on the capital employed. Set against reported returns for the whole company, that is a claim worth testing.",
+      "Balance sheet & capital allocation": "An interim dividend of ₹0.50 per share — 25% of face value — costing about ₹169 crore. Interest expense rose 18%, almost entirely because of the South African purchase, while the return earned on spare cash in India sits in other income rather than reducing that interest line, so the interest number looks worse than the net position. Beyond calling the balance sheet robust and capital allocation disciplined, management put no figures on debt, cash or working capital, and none were asked for. The one hard capital-allocation datapoint is the price paid in South Africa: about ₹1,140 crore for roughly ₹800 crore of annual sales, on margins they declined to describe.",
+      "Distribution & network": "Reach is the growth engine they point to. They add 300,000-400,000 shops a year onto a base of about 4 million, have already added more than 10% this year, and hope to reach half a million new shops. Cold storage is the other lever: between themselves, Campa and Coca-Cola roughly half a million or more coolers go into the market each year, and shopkeepers buy another 400,000-500,000 themselves — about a million fridges a year, which management says is expanding the market 'drastically'. Their own branded coolers number 'close to a million plus'. Their stated view of how this market is won is blunt: 'whoever does a good go-to-market and whoever can expand his distribution will win the game.'",
+      "Strategy & outlook": "The plan is to buy volume with pack sizes and entry price points, then earn the money back through lower factory costs and smaller trade discounts rather than through higher prices. Management was explicit that discount cuts are the shock absorber for rising input costs, and that as long as volumes keep coming 'there will be any effect on the bottom line' is something they do not expect. Overseas, the direction is to widen the range — snacks, dairy — and to use the acquired South African capacity instead of building. They stayed bullish on India for the long run, expecting double-digit growth 'for the next 5-10 years at least', and noted the range keeps shifting because 'the new Gen Z keeps on asking for something new all the time'. Two things they deliberately will not do: push water for volume, and reveal what further pack-and-price changes are planned — 'we would not be able to divulge it anyway because that is not good for us from a competitive perspective.'",
+      "Guidance": "The forward claims, and how firm each one is. Firm: India spending under ₹500-600 crore this year with probably one new plant; new plants earn back their cost in 3-4 years at a 30% return on capital; roughly half a million new shops this year; the two South African businesses add about ₹1,000 crore of sales. Soft: double-digit growth 'for the next 5-10 years at least' — an aspiration, restated after an analyst challenged the recent record. Hedged both ways: the 1.5% decline in money earned per case in India 'might even become lower' or 'could remain that', depending on how strong the summer is. Explicitly withheld: any margin for the acquired businesses, and any commitment on group margins if oil stays high — that one drew 'it is very difficult to answer'. No price increase is planned; management expects the industry, not itself, to move first if fuel costs climb. And the profit promise comes with a condition attached: the bottom line is protected 'as long as the volumes continue to come'.",
+      "Analyst Q&A concerns": "Analysts spent the call testing whether a good quarter was a turn or a season. The sharpest challenge came from Percy Panthaki, who used two-year compound growth to cancel out base effects and showed India growth accelerating from about 8% to about 14% — and asked whether that was the weather or a rival slowing down. Management rejected his figures rather than his conclusion ('we do not know where you are getting 6%-8% growth'), fell back on a 23% long-run average, and the analyst dropped it with 'I will take this offline.' Four things they would not quantify: margins on the two South African acquisitions ('a bit too early'), market share in any category ('we cannot answer for other people'), growth in actual bottles as opposed to standard cases, and whether margins survive oil near $100 for several quarters. Two questions were answered past: how the base quarter's rain was distributed was answered about the following quarter instead, and whether rivals' supply problems were a share opportunity became 'there is enough market for everybody'. One refusal was open — further pack-and-price changes would not be divulged on competitive grounds. And the payback-period question had to be asked twice before a number came."
+    }
+  },
+  {
+    "quarter": "Q4 CY2025",
+    "call_date": "2026-02-03",
+    "detailed": [
+      {
+        "theme": "Demand & volumes",
+        "point": "CY2025 consolidated volumes grew 7.9% to 1,213.1 million cases from 1,124.4 million in CY2024",
+        "figure": "1,213.1mn cases, +7.9%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Q4 CY2025 consolidated volumes rose 10.2% to 237.1 million cases from 215.1 million, with India +10.5% and international +10%",
+        "figure": "Q4 237.1mn cases, +10.2%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Full-year DOMESTIC volume growth was only 2.2% - a figure that appears nowhere in the prepared remarks and emerged only in answer to an analyst on the soft-base question; management framed it as proof of margin resilience rather than as a growth failure",
+        "figure": "India CY2025 volume +2.2%",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "even after having a two soft quarters and an overall volume growth of 2.2%, we were able to maintain our EBITDA and sustain our margins in India"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Chairman characterised CY2025 as the worst season the company has seen, attributing it to rains and new competition",
+        "speaker": "Ravi Jaipuria",
+        "kind": "opinion",
+        "quote": "If you look at the full year 2025, this year was the worst season with the rains and competition coming in."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "India volumes were hit by 'unprecedented heavy rainfall throughout the year', not just in the peak summer months",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "Volume growth in India was impacted during parts of the year due to unprecedented heavy rainfall throughout the year."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Management corrected the analyst premise that all of CY2026 laps a soft base: Q1 CY2025 was strong in India at ~15-16% volume growth, so only Q2 and Q3 offer an easy comparison",
+        "figure": "Q1 CY2025 India volume +15-16%",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "The first quarter was not soft and had a strong base in last year, with volume growth of ~15% - 16% in India."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "The rural shortfall was throughput, not reach - outlets were added and serviced but did not buy, which management concedes was worse than expected",
+        "speaker": "Varun Jaipuria",
+        "kind": "opinion",
+        "quote": "It is not that you have not increased your reach to those outlets. It is just that a throughput from those outlets, what you expected has not come."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Management repeatedly deflected quarterly analysis in favour of an annual lens, given seasonality",
+        "speaker": "Ravi Jaipuria",
+        "kind": "opinion",
+        "quote": "each quarter cannot be looked at in isolation and each quarter cannot be the reflecting point, given the seasonality in the business"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Q4 recovery was attributed to distribution reach and brand portfolio strength rather than to any base effect",
+        "figure": "Q4 India +10.5%",
+        "speaker": "Ravi Jaipuria",
+        "kind": "opinion",
+        "quote": "performance improved meaningfully in Q4 with domestic volumes growing up by 10.5%, reflecting the strength of our wide distribution network"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "CY2025 revenue from operations (net of excise and GST) rose 8.4% to ₹216,853.8mn (~₹21,685cr)",
+        "figure": "₹216,853.8mn, +8.4%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "CY2025 EBITDA rose only 7.2% to ₹50,493.7mn, so the margin slipped to 23.3% from 23.5% - EBITDA grew slower than both volume and revenue",
+        "figure": "EBITDA ₹50,493.7mn; margin 23.3% vs 23.5%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "The chairman claimed the company 'managed to gain in overall margins' for CY2025, which sits against the reported consolidated EBITDA margin decline from 23.5% to 23.3%; the gain applies to the India standalone business, not the group",
+        "figure": "claim vs consol margin -20bps",
+        "speaker": "Ravi Jaipuria",
+        "kind": "opinion",
+        "quote": "we still managed to gain in overall margins, with a 2% sales volume growth"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Q4 CY2025 EBITDA rose 10.2% to ₹6,392.6mn, in line with volume growth, which management attributed to improved operating leverage as volumes recovered",
+        "figure": "Q4 EBITDA ₹6,392.6mn, +10.2%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Net realisation per case rose 3.4% in Q4 to ₹177.3 - driven by international territories, i.e. not by India - and for the full year rose only 0.5% to ₹178.8",
+        "figure": "Q4 ₹177.3 (+3.4%); CY2025 ₹178.8 (+0.5%)",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Full-year gross margin was largely stable at 55.2% versus 55.5%",
+        "figure": "GM 55.2% vs 55.5%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "CY2025 PAT rose 16.2% to ₹30,620.4mn and Q4 PAT rose 32.9% to ₹2,600.0mn, driven by volume, LOWER FINANCE COSTS and HIGHER OTHER INCOME including deposit interest and favourable currency - i.e. materially non-operating",
+        "figure": "PAT ₹30,620.4mn, +16.2%; Q4 ₹2,600.0mn, +32.9%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "The four newly notified labour codes added ~₹14 crore of incremental cost recognised under employee benefits in Q4, absorbed within operating performance",
+        "figure": "₹14cr",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Depreciation rose 28.4% for the year on the new India greenfields and international brownfield expansion - the cost of the capex cycle is already in the P&L while the volume is not",
+        "figure": "depreciation +28.4%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "On the India volume-value gap: management explicitly denied it was mix, blaming industry-wide discounting and its own decision to upsize packs instead, and dismissed the off-season quarter's impact as unimportant",
+        "figure": "gap ~4% (analyst: 4.5%)",
+        "speaker": "Raj Gandhi",
+        "kind": "fact",
+        "quote": "the difference of 4% is not because of the mix as it did not change that much... a 4% impact in the off-season in an otherwise weak quarter is not that important"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Management sized the ₹20 pack upsizing cost indirectly: 250ml fizzy drinks are only 10-12% of the base, so even a full conversion costs a tenth of the incremental amount, and variable GST at 40%, variable concentrate price and low-sugar readiness cut it further to 'less than 10%'",
+        "figure": "250ml = 10-12% of base; impact <10%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact",
+        "quote": "the mix of 250 ml CSD in the base itself is not more than 10% - 12%. So even if we had to do the 100%, it is going to be one-tenth of the incremental cost"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "A tax lever on new launches: juice-based Nimbooz variants attract 5% GST instead of 40%",
+        "figure": "GST 5% vs 40%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact",
+        "quote": "the new launches will be juice-based drink under our star performer, Nimbooz, this will entitle us to a GST of 5% instead of 40%"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Management would not concede that realisation stays negative, arguing volume growth will 'cover up this marginal decline' - but offered no realisation outlook for the March quarter when asked",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "We believe this year the volume growth to be reasonably healthy, and because of that, we do not see any marginal dilution."
+      },
+      {
+        "theme": "Competition",
+        "point": "The competitive backdrop in CY2025 was industry-wide discounting; VBL says it chose upsizing over discounting to protect a 30-year volume record",
+        "figure": "30 years",
+        "speaker": "Raj Gandhi",
+        "kind": "opinion",
+        "quote": "everyone was trying to discount the product. Instead of that, we focused on the market and upsized a few of these packs. We have a history of consistent volume growth in the past 30 years"
+      },
+      {
+        "theme": "Competition",
+        "point": "Q4 realisation weakness was only partly upsizing - discounting in the market was 'much higher' after a bad season, compounded by a lot of new industry capacity and unliquidated stock",
+        "speaker": "Varun Jaipuria",
+        "kind": "opinion",
+        "quote": "When the volumes are not coming, people end up discounting and throwing the kitchen sink, and there has been a lot of capacity, which has been added."
+      },
+      {
+        "theme": "Competition",
+        "point": "Early CY2026 read: discounting is 'not as rampant' - but management explicitly refused to forecast where pricing goes",
+        "speaker": "Varun Jaipuria",
+        "kind": "opinion",
+        "quote": "what we are seeing so far is that the discounting is not as rampant compared to what it was... how the market reacts and what further pricing happens, that we cannot probably answer right now"
+      },
+      {
+        "theme": "Competition",
+        "point": "Competitive sensitivity is now the stated reason for reduced disclosure - operating metrics are withheld so as not to inform rivals",
+        "speaker": "Ravi Jaipuria",
+        "kind": "opinion",
+        "quote": "doing so would only provide additional information to our competitors, which we would prefer to avoid"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "CY2025 volume mix: carbonated soft drinks 73.9%, non-carbonated beverages 5.9%, packaged drinking water 20.2%",
+        "figure": "CSD 73.9% / NCB 5.9% / water 20.2%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Low-sugar and no-sugar products rose to ~59% of consolidated volumes",
+        "figure": "~59%",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Snacks revenue was ~₹340 crore in CY2025 - management's figure, higher than the ₹250-300cr the analyst assumed. Morocco manufacturing only started May-June 2025 and was ramped by Q4; Zimbabwe commissioned in December, two weeks before the call",
+        "figure": "~₹340cr",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Bookkeeping clarification obtained under questioning: snacks revenue IS included in reported international revenue, but snacks are NOT in the reported case volumes - so international revenue-per-case is distorted",
+        "figure": "~₹340cr in revenue, nil in volume",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "It has snacks revenue also in it... In volume, it is not included."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Snacks ambition stated without a timeline: high-teens or better growth and 'close to a $100 million business' from two of three territories, with an explicit request for more time before firmer numbers",
+        "figure": "~$100mn aspiration; high-teens+ growth",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "We think this is going to go close to a $100 million business... Give us a little more time to understand the market better."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "The ₹20 pack upsizing from 250ml to 400ml is practically complete as of Q4, so the realisation hit should not recur from further upsizing",
+        "figure": "250ml to 400ml, done",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "All the upsizing has been practically done in the quarter."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "A ₹10 price point was launched only ~15 days before the call, in West Bengal and the Northeast, deliberately not pan-India, and capped at 5-7% of the portfolio",
+        "figure": "capped at 5-7% of portfolio",
+        "speaker": "Varun Jaipuria",
+        "kind": "guidance",
+        "quote": "We will be very surgical with it. We are not planning to make it a pan-India launch."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Innovation pipeline for the season: Nimbooz Jeera around March plus more Nimbooz flavours and price points; energy-category launches including a wider push for the mid-priced Ad Rush with PepsiCo above-the-line support",
+        "figure": "Nimbooz Jeera ~March",
+        "speaker": "Varun Jaipuria",
+        "kind": "guidance",
+        "quote": "About March, we will be launching our Nimbooz Jeera range, this is the second product which we are launching in a big way."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Alcoholic beverages have been added to the objects clause; the entry is Carlsberg in Africa only, with one greenfield brewery starting this year and ready only by the end of the following year - explicitly not India for now",
+        "figure": "1 greenfield brewery; ready end-2027",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "We are starting with Carlsberg in Africa. We are putting our first Greenfield plant this year, which hopefully will be ready by the end of next year."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Snacks distribution in Zimbabwe and Zambia is 'gaining traction' and Morocco 'ramped up well' - no revenue split by territory given",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "Q4 international volumes grew 10%, with South Africa delivering healthy growth on general-trade reach expansion, more visi-coolers, and progress on backward integration and capacity",
+        "figure": "Q4 international volume +10%",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "No full-year international volume growth figure was given in the prepared remarks - only the consolidated 7.9% and the Q4 splits",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "Twizza (South Africa) was announced on 21 December and remains subject to Competition Commission and other approvals; it brings 3 manufacturing facilities including backward integration in Africa's largest soft drink market",
+        "figure": "3 facilities; announced 21 Dec",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "Twizza adds 70-80% capacity inorganically; combined with organic capex, management guides South Africa growth of 'somewhere around 80% or higher' in CY2026",
+        "figure": "+70-80% capacity; SA growth ~80%+",
+        "speaker": "Raj Gandhi",
+        "kind": "guidance",
+        "quote": "we are going to add 70% - 80% capacity by the inorganic acquisition of Twizza... we should see the growth of somewhere around 80% or higher in South Africa this year"
+      },
+      {
+        "theme": "International",
+        "point": "Twizza is qualitatively better-assetted than the existing BevCo operation: it owns its land and buildings (BevCo rents), owns its distribution vehicles (BevCo had none) and its plants have solar power (BevCo's do not)",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "The South Africa constraint is capacity, not demand; three additional locations take the market servicing footprint from 5 to 8 sites, cutting freight by being nearer the market",
+        "figure": "5 sites to 8",
+        "speaker": "Raj Gandhi",
+        "kind": "fact",
+        "quote": "in South Africa our struggle is more on the capacity side... Instead of 5, we will be reaching the market from 8 different locations."
+      },
+      {
+        "theme": "International",
+        "point": "Guidance on Twizza economics was qualitative only: margin accretive for BevCo, capacity accretive and freight reducing, with economies of scale as BevCo grows - no margin figure",
+        "speaker": "Raj Gandhi",
+        "kind": "guidance",
+        "quote": "as a guidance it will be margin accretive for BevCo, capacity accretive and freight reducing because we will be nearer the market"
+      },
+      {
+        "theme": "International",
+        "point": "International margins, put at 16-16.5% by the analyst and not disputed, are guided to move toward Indian levels on backward integration - and the timeline was compressed under questioning from the analyst's 4-5 years to 'the next couple of years'",
+        "figure": "international ~16-16.5%; convergence in 'a couple of years'",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "It will be sooner than 4 - 5 years, but everything will not take effect immediately. We would say in the next couple of years."
+      },
+      {
+        "theme": "International",
+        "point": "Africa carries 3-4 months or more of inventory, so management says the operational currency and cost-of-operations benefit only starts showing from CY2026",
+        "figure": "3-4 months inventory",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "The real currency benefits is operational, and cost of operations will start showing from this year onwards."
+      },
+      {
+        "theme": "International",
+        "point": "The ex-India tax charge rose because Zimbabwe entered the tax bracket after previously availing a tax break; with no cross-country set-off available, the effective rate will keep mismatching, though management says international tax overall stays below India's",
+        "speaker": "Raj Gandhi",
+        "kind": "fact",
+        "quote": "because Zimbabwe has come in the tax bracket. Earlier, we were availing the tax break."
+      },
+      {
+        "theme": "International",
+        "point": "International finance cost is primarily South Africa, including fair value adjustments of leases under Ind AS 116",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "South Africa is framed as the priority growth market",
+        "speaker": "Raj Gandhi",
+        "kind": "opinion",
+        "quote": "the South Africa is going to be a star territory"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "CY2025 capitalised capex was ~₹45,000mn (~₹4,500cr), of which ~₹16,500mn had actually been incurred in CY2024 - so the capitalised figure overstates CY2025 cash outflow",
+        "figure": "~₹45,000mn capitalised; ₹16,500mn spent in CY2024",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "~₹17,000mn went to four India greenfields - Prayagraj (UP), Buxar (Bihar), Damtal (Himachal) and Mendipathar (Meghalaya) - plus ~₹3,000mn brownfield at Sri City and Gorakhpur",
+        "figure": "₹17,000mn greenfield; ₹3,000mn brownfield",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "~₹13,000mn of international capex covered a PET line and backward integration in DRC, snack plants in Morocco and Zimbabwe, and a new can line in South Africa; the balance was visi-coolers, glass, pallets, vehicles, write-offs and forex",
+        "figure": "~₹13,000mn international",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "The central admission of the call: the four new India plants added considerable cost through CY2025 with no offsetting benefit, which management says begins only in CY2026",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "We were not able to get any benefit out of these plants, which we believe we will start getting from this year onwards."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Capacity added in CY2025 alone was over 20% and could not be used; across the last two years 40-45% has been added, leaving ~50% more capacity than CY2025 volumes consumed. Capacity is sized for the Q2 peak, so Q4 utilisation is not the binding constraint",
+        "figure": "+20%+ in CY2025; +40-45% over 2 years; ~50% headroom",
+        "speaker": "Ravi Jaipuria / Raj Gandhi",
+        "kind": "fact",
+        "quote": "We would say we have 50% more capacity available than what we have done this year."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "CY2026 capex guidance: no new India plants and 'very low' India capex; internationally only one South African brownfield, 'not very large'; nothing major beyond paying for Twizza",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "in India we are not looking for any major CAPEX this year as we are not setting up any new plants... Overall there will be no major CAPEX this year except the acquisition of Twizza"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Capital work in progress and capital advances stood at ~₹5,400mn at 31 December 2025, for phase-wise expansion and support infrastructure for the 2026-2027 season",
+        "figure": "~₹5,400mn",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Newly commissioned greenfield and backward-integration facilities are described as 'progressively stabilizing', expected to support higher volumes and operating leverage in the upcoming season",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "India remains net debt free with free cash of ~₹12,250mn; consolidated net debt at 31 December 2025 was ₹256mn - effectively nil",
+        "figure": "India free cash ~₹12,250mn; consol net debt ₹256mn",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "India finance cost is now negligible following repayment of debt from the equity-raise proceeds",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "CRISIL upgraded the long-term credit rating to AAA/stable during the year",
+        "figure": "AAA/stable",
+        "speaker": "Raj Gandhi",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "The final dividend was recommended at ₹0.50 per share - not increased despite the cash position, which an analyst raised directly. Management earmarked cash for Twizza, the African brewery and opportunistic territory capacity, making any increase conditional",
+        "figure": "final dividend ₹0.50/share",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "if everything goes well, maybe we will increase the dividend"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Capital allocation to the Africa alcoholic-beverage venture is described as small",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "we are starting with Carlsberg in Africa, the capital allocation will not be so large"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Management left open further capacity spending if volumes surprise, since individual territories can outgrow the group",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "even though overall volume does not grow to that level, certain territories grow faster, then we have to increase the capacity in those territories"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "The distribution-expansion and visi-cooler data that normally appears in the year-end results presentation was omitted this time, and management declined to give any figure, citing competitive disclosure",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "We do not feel it is necessary to disclose these figures every time, as doing so would only provide additional information to our competitors, which we would prefer to avoid."
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Expansion was confirmed qualitatively without numbers: more visi-coolers deployed and routes expanded 'as required'",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact",
+        "quote": "We have been deploying more visi-coolers and expanding our routes as required to grow our presence in the market."
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Management rejected the suggestion that CY2025 distribution expansion was weak, and says the exercise of further adding has already been done for CY2026 in anticipation of a good season",
+        "speaker": "Varun Jaipuria",
+        "kind": "fact",
+        "quote": "No, CY 2025 was good... for 2026 as well, we have gone through the entire exercise of further adding because we believe it is going to be a great season this year."
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "International distribution build-out in South Africa came through general-trade reach expansion and visi-cooler additions",
+        "speaker": "Ravi Jaipuria",
+        "kind": "fact"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "The stated priority order is volume growth first, bottom line maintained - with an explicit hedge that profitability may wobble",
+        "speaker": "Raj Gandhi",
+        "kind": "guidance",
+        "quote": "the focus is going to be a volume growth like in the past with maintaining the bottom line. However, a little bit here and there can always happen."
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "The CY2026 thesis is that already-built capacity, backward integration, cold chain and a wider portfolio convert into growth and operating leverage without further heavy spending",
+        "speaker": "Raj Gandhi",
+        "kind": "guidance",
+        "quote": "with the stabilization of newly commissioned capacities, expanding backward integration, strengthening distribution and cold chain infrastructure and a diversified product portfolio"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Management is explicitly bullish on CY2026 as a bounce off a bad year rather than on any structural change",
+        "speaker": "Ravi Jaipuria",
+        "kind": "opinion",
+        "quote": "We are quite bullish on this year after going through such a bad year, which was the worst year we have ever seen in the last few years in our industry."
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Category strategy is widening beyond beverages - snacks in Africa, energy drinks, juice-based lower-tax drinks in India, and beer in Africa - all funded from existing cash",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Balance-sheet flexibility is framed as the enabler for 'value-accretive strategic opportunities', i.e. more acquisitions",
+        "speaker": "Ravi Jaipuria",
+        "kind": "opinion",
+        "quote": "Our balance sheet remains strong, supported by healthy cash flows, providing flexibility to support organic expansion"
+      },
+      {
+        "theme": "Guidance",
+        "point": "India volume guidance for CY2026 is 'double digit', maintained and NOT raised despite a 2.2% base year; management declined mid-teens twice and made the promise conditional on weather",
+        "figure": "double-digit India volume growth",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "We would like to maintain that, but you can pray to the weather gods and hopefully, we will do better."
+      },
+      {
+        "theme": "Guidance",
+        "point": "Consolidated margin guidance restated as '21% and above' - well below the 23.3% delivered",
+        "figure": "21%+ vs 23.3% delivered",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "we have always guided of consolidated margins at 21% and above, but we are still doing much better than that"
+      },
+      {
+        "theme": "Guidance",
+        "point": "India standalone margin guidance held at 22-23% against an all-time-high ~26% actually delivered; the most management would say is that they hope to hold near current levels",
+        "figure": "guided 22-23%; delivered ~26%",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "Realistically, if we can maintain margins anywhere close to the current levels, we would be very happy. But our guidance has always been 22% - 23%, has never been higher than that."
+      },
+      {
+        "theme": "Guidance",
+        "point": "Margins are guided better in CY2026 alongside stronger growth once the season starts",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "we believe going forward also, when the season starts, the margins should be better with stronger growth coming this year"
+      },
+      {
+        "theme": "Guidance",
+        "point": "South Africa is guided to grow ~80% or higher in CY2026 on combined organic and Twizza capacity",
+        "figure": "~80%+",
+        "speaker": "Raj Gandhi",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Snacks guided to much higher volume in CY2026 as Zimbabwe contributes a full year and Morocco laps a mid-year start; no revenue number given for CY2026",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "We expect a much better and much higher volume in 2026 as Zimbabwe will have its full year."
+      },
+      {
+        "theme": "Guidance",
+        "point": "The closing reaffirmation of double-digit growth was heavily hedged - conditional on the weather and on the June quarter specifically",
+        "speaker": "Ravi Jaipuria",
+        "kind": "guidance",
+        "quote": "For the time being, that is what we are saying because till the weather opens up until we see what is happening. And it is the second quarter, which really makes the big difference."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Abneesh Roy (Nuvama) opened on the 4.5% gap between India volume growth of 10.5% and India sales growth of ~6%, asked for the mix breakdown within segments and whether pricing/mix stays negative in the March quarter. He got a denial that mix was the cause and no March-quarter view at all",
+        "figure": "gap 4.5%; GM down 30-40bps (analyst)",
+        "speaker": "Abneesh Roy / Raj Gandhi",
+        "kind": "qna",
+        "quote": "If I see India volumes has grown double digit, 10.5%, but India sales has grown around 6% so there is a gap of 4.5%."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Devanshu Bansal (Emkay) pressed twice for an upgrade to mid-teens CY2026 volume growth given a 1-2% base, noting double digits are what VBL delivers in normal years anyway. Guidance did not move - management stayed at 'double digit' and deferred to the weather",
+        "figure": "asked mid-teens; got double digit",
+        "speaker": "Devanshu Bansal / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "since the base was only 1% - 2% growth. So that is the reason I was checking, can we improve the outlook towards mid-teen"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Asked why the distribution and visi-cooler data normally provided in the year-end presentation was absent, management refused to reinstate it, asserting it already discloses 'as much or more information than what is required'",
+        "speaker": "Devanshu Bansal / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "we feel that we are providing as much or more information than what is required"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Percy Panthaki (IIFL) told management directly that the 22-23% India margin guidance has lost credibility against ~26% delivered, and asked for a realistic CY2026 number. Management refused to raise the band",
+        "figure": "delivered ~26% vs guided 22-23%",
+        "speaker": "Percy Panthaki / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "And frankly, no one takes that 22% - 23% number seriously. If you can give some realistic sort of guidance for CY 2026, it will be very helpful?"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Percy Panthaki asked, failing exact guidance, for any framework on the foods business - market size, market share or capacity - to model a 2-3 year path. He received none of the three, only a '$100 million' ambition, a 'high teens or even higher' growth remark and a request for more time",
+        "speaker": "Percy Panthaki / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "if you cannot give an exact guidance here, at least help us think about how to approach this topic in terms of either market sizes, market shares or capacities"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Latika Chopra (JP Morgan) asked twice, explicitly restating the question, whether the volume-value gap will sustain or worsen. Both answers pivoted to margins, volumes and the plant cost drag; the realisation question was never answered with a number or a direction",
+        "speaker": "Latika Chopra / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "No, my question was actually more on realization. So maybe the value growth continues to lag volume growth. And that is what I was trying to understand better."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Pressed on where pricing goes from here, Varun Jaipuria explicitly declined to answer",
+        "speaker": "Varun Jaipuria",
+        "kind": "qna",
+        "quote": "Now, how the market reacts and what further pricing happens, that we cannot probably answer right now."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Jay Doshi (Kotak) asked whether the ₹10 pack would exceed 5% of volumes or be consciously capped below it. Management gave a cap of 5-7% - slightly above the analyst's threshold",
+        "figure": "5-7% cap",
+        "speaker": "Jay Doshi / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "as far as the Rs. 10 price point, it will be surgical, as my son said, and it will not be more than 5% - 7% of our portfolio"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Harit Kapoor (Investec) asked for the constant-currency international growth number and the quarter's currency impact, noting 10% volume growth against optically 20%-plus revenue growth. NO currency figure was given - the answer redirected entirely to benefits expected from CY2026 onward",
+        "figure": "vol +10% vs revenue +20%+ (analyst)",
+        "speaker": "Harit Kapoor / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "you are seeing just a 10% growth in volume but optically looks like a 20% plus growth there on the revenue side"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Harit Kapoor also asked whether CY2025 distribution expansion had been weak. Management said no and reframed the miss as rural throughput rather than reach - without any expansion figure to support either version",
+        "speaker": "Harit Kapoor / Varun Jaipuria",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Rehan Saiyyed (Trinetra) noted Q4 employee costs up 22% against revenue up 14%, and asked how to model staff cost as a structurally higher share of sales. No percentage was given - the increase was attributed entirely to one-offs: the four new plants, the labour codes, and a 30-year anniversary celebration",
+        "figure": "employee cost +22% vs revenue +14% (analyst)",
+        "speaker": "Rehan Saiyyed / Raj Gandhi",
+        "kind": "qna",
+        "quote": "Both these are only one time."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Rajit Aggarwal (Nilgiri) asked for Twizza's EBITDA margin. Declined - the deal awaits Competition Commission approval - with only qualitative advantages offered instead",
+        "speaker": "Rajit Aggarwal / Raj Gandhi",
+        "kind": "qna",
+        "quote": "First of all, Twizza is to be consummated after the Competition Commission approval."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Rajit Aggarwal noted international margins fell in the June and September quarters and asked whether a rising international mix drags the consolidated margin down. That dilution question was not answered directly; the reply asserted convergence toward Indian margins instead",
+        "figure": "international ~16-16.5% (analyst)",
+        "speaker": "Rajit Aggarwal / Raj Gandhi",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Asked whether the ex-India Q4 tax charge roughly equalling ex-India PBT of ~₹17 crore is the go-forward trajectory or a percentage, management gave no rate - only that country-level mismatches are inevitable without cross-border set-off",
+        "figure": "ex-India Q4 PBT ~₹17cr, tax similar (analyst)",
+        "speaker": "Rajit Aggarwal / Raj Gandhi",
+        "kind": "qna",
+        "quote": "So slight mismatch is always quite likely, but overall percentage in international is lower than that of India."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Onkar Ghugardare (Shree Investments) asked for the quarter's capacity utilisation. No utilisation figure was given - only that there were 'no capacity issues' and roughly 50% headroom remains",
+        "figure": "~50% headroom, no utilisation %",
+        "speaker": "Onkar Ghugardare / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "Last quarter had no capacity issues. Our capacities are based for the second quarter of the year, and we have adequate capacity available."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Onkar Ghugardare put the capital-allocation question most bluntly - large cash, no major capex, and no dividend increase - and got a conditional answer: Twizza, the brewery, possible territory capacity, and a dividend rise only 'if everything goes well'",
+        "speaker": "Onkar Ghugardare / Ravi Jaipuria",
+        "kind": "qna",
+        "quote": "With the cash on the books you are sitting at and no major CAPEX coming in... and you have not even increased the dividend payout."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Yash Sonthalia (Edelweiss PMS) asked twice for the profitability impact of the ₹20 upsizing and of the ₹10 pack reaching 5% of sales. He got a bounded answer - 'less than 10%' on the affected portfolio - but no absolute rupee or margin quantification",
+        "figure": "impact <10% on that part of the portfolio",
+        "speaker": "Yash Sonthalia / Raj Gandhi",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "A structural absence worth recording: across the entire call no analyst asked about returns on the enlarged capital base after the CY2024 equity raise, or when the four new plants clear their cost of capital. The closest anyone came was asking what the idle cash is for",
+        "kind": "qna"
+      }
+    ],
+    "theme_summaries": {
+      "Demand & volumes": "Over the full year they sold 7.9% more drinks than in 2024 - 1,213.1 million cases against 1,124.4 million - but almost all the extra came from outside India. In India they sold just 2.2% more, a number that never appeared in the prepared remarks and only came out when an analyst pushed on the season. The chairman called 2025 'the worst season with the rains and competition coming in'. The last three months were much better: 10.2% more cases overall, 10.5% more in India, 10% more abroad. Management also punctured the easy assumption that 2026 gets a soft comparison - the first three months of 2025 were strong in India, growing 15-16%, so only the April-September stretch is weak. Their account of the rural problem is uncomfortable: they signed the village shops up, and the shops did not order - 'a throughput from those outlets, what you expected has not come'.",
+      "Pricing & margins": "Sales rose 8.4% to about ₹21,685 crore, but operating profit rose only 7.2% to about ₹5,049 crore, so profit slipped from 23.5% of sales to 23.3%. The average price they got per case for the year was ₹178.8 - up 0.5%, which is flat. In the last quarter it was ₹177.3, up 3.4%, and that entire gain came from overseas markets. In India, money grew about 6% while cases grew 10.5%; management insisted the 4.5% shortfall was not the product mix but a market where everyone was discounting, so they made packs bigger for the same ₹20 instead of cutting price. Net profit still rose 16.2% to about ₹3,062 crore, helped by interest on deposits and favourable currency rather than by the drinks business. A new labour law cost ₹14 crore in the quarter, and the charge for wear and tear on assets jumped 28.4% because the new factories switched on. India on its own earned roughly 26% - its best ever - yet management refused to raise its long-standing 22-23% promise. And one claim sits awkwardly against its own accounts: the chairman said they 'managed to gain in overall margins' for the year, while the group figure actually slipped.",
+      "Competition": "Management described a market where rivals cut prices hard to shift stock after a washed-out season - 'when the volumes are not coming, people end up discounting and throwing the kitchen sink' - made worse by a lot of new bottling capacity added across the industry. Their own answer was to give more drink for the same ₹20 rather than discount, to protect a 30-year record of selling more every year. So far in 2026 they say discounting is 'not as rampant', but they explicitly would not forecast prices: 'how the market reacts and what further pricing happens, that we cannot probably answer right now'.",
+      "Segments & products": "Of every 100 cases sold, about 74 were fizzy drinks, 20 packaged water and 6 juices or other still drinks; low-sugar and no-sugar versions are now about 59% of everything they sell. The snacks business made about ₹340 crore and has barely begun - the Morocco factory only started producing in May-June and Zimbabwe's opened in December, two weeks before the call. They talk about it reaching 'close to a $100 million business' but attached no date. A ₹10 pack has been launched in West Bengal and the Northeast, only 15 days old, deliberately 'surgical' and capped at 5-7% of what they sell. The bigger ₹20 packs are done. Coming next: a cumin-flavoured Nimbooz around March, which pays 5% sales tax instead of 40% because it counts as juice-based, plus a wider push behind the Ad Rush energy drink with PepsiCo advertising support. They have also added alcohol to their charter - a Carlsberg beer plant in Africa, started this year but not ready until the end of the following year.",
+      "International": "Overseas cases grew 10% in the last quarter, and overseas prices are the only reason the group's average price per case rose at all. South Africa is where the money goes: they call it a 'star territory' and are buying Twizza, which brings three factories, land and buildings it owns outright, its own delivery trucks and solar power - all things the South African business they already own rents or lacks. That adds 70-80% more capacity and they expect South Africa to grow 'somewhere around 80% or higher' in 2026, serving the market from 8 depots instead of 5. They would not say what Twizza earns, because the competition regulator has not cleared the deal. Overseas profit runs at about 16-16.5% of sales against roughly 26% in India; asked whether it converges, they said yes, 'in the next couple of years' rather than the four to five an analyst suggested. Asked how much of the revenue jump was just currency, they produced no number. Overseas tax rose because Zimbabwe's tax holiday ended, and they warned that losses in one country cannot be set against profits in another, so the tax charge will keep jumping around.",
+      "Capex & projects": "They added about ₹4,500 crore of new assets to the books in 2025, though about ₹1,650 crore of that money was actually spent in 2024. Roughly ₹1,700 crore went on four new Indian factories - Prayagraj, Buxar, Damtal and Mendipathar - ₹300 crore on expanding Sri City and Gorakhpur, and about ₹1,300 crore abroad on a bottle line and ingredient plant in the Congo, snack factories in Morocco and Zimbabwe, and a can line in South Africa. The rest went on coolers, glass bottles, pallets and trucks. The most important admission of the call is that those four Indian factories carried cost all year and returned nothing: 'we were not able to get any benefit out of these plants, which we believe we will start getting from this year onwards'. Capacity added in 2025 alone was over 20% and could not be used; over two years they have added 40-45%, leaving about 50% more capacity than the volumes they actually sold. Spending now stops - no new Indian plants in 2026, one modest South African expansion, and nothing large besides paying for Twizza. About ₹540 crore sits in unfinished projects for the 2026-2027 season.",
+      "Balance sheet & capital allocation": "The Indian business owes nothing and holds about ₹1,225 crore of spare cash; for the group as a whole, borrowings minus cash come to ₹25.6 crore, which is effectively nil. Interest cost in India is now negligible because the 2024 share sale was used to clear debt; what interest remains is mostly South Africa, including the accounting treatment of leases. The rating agency lifted them to its top grade during the year. Despite all that, the final dividend was left at ₹0.50 a share, and an analyst asked why. The answer was that the cash is spoken for - paying for Twizza, building the African brewery, and topping up capacity in whichever territories grow fast - and only 'if everything goes well, maybe we will increase the dividend'. The African brewery, they added, will not need much money.",
+      "Distribution & network": "This theme is mostly notable for what is missing: the shop-count and cooler-count figures that normally appear in the year-end results presentation were dropped, and management refused to supply them, saying disclosure 'would only provide additional information to our competitors'. They confirmed expansion happened without quantifying any of it - more coolers, more delivery routes, and the same in South Africa where general-trade reach and coolers were both added. Asked whether 2025 was a weak year for expansion, they said no, and shifted the blame to demand: reach was created in the villages, but the shops did not order.",
+      "Strategy & outlook": "The story management is telling is that everything painful in 2025 was weather and rivals' discounting, and that the money already spent - four factories, ingredient plants, coolers - starts paying from 2026. Given a choice they will sell more cases at a thinner price rather than defend price and lose volume, citing 30 years of unbroken volume growth; 'a little bit here and there can always happen' on profit. Beyond fizzy drinks they are pushing snacks, energy drinks, juice-based drinks that carry a lower tax rate, and now beer in Africa. What they will not do is spend big again: 2026 is meant to be the year they use what they have already built.",
+      "Guidance": "For India they promise double-digit growth in cases in 2026, and when pushed twice to say mid-teens given how weak the 2.2% base year was, they refused to move - 'you can pray to the weather gods'. The group profit promise stays '21% and above' and the India-only promise stays 22-23%, even though India actually delivered about 26% and an analyst told them nobody believes the lower number. South Africa is meant to grow around 80% or more once Twizza is bought. Overseas profitability is meant to close the gap with India within a couple of years. Snacks are meant to grow high-teens or better toward roughly $100 million, with no date attached. Capital spending is meant to be minimal apart from paying for Twizza. Every part of the India promise is conditional on the weather, and the chairman closed by saying it all turns on the April-June quarter.",
+      "Analyst Q&A concerns": "Analysts pressed on three things: the gap between cases sold and money earned, whether 2026 could beat 'double digit' given the collapsed base, and a profit promise of 22-23% against roughly 26% actually delivered - one analyst told management plainly that nobody takes the lower number seriously. Management held every number exactly where it was, and refused several others outright: no figure for how much of the overseas revenue jump was currency, no earnings figure for Twizza until the regulator clears it, no shop or cooler counts, no market size or share for snacks, no percentage for where staff costs settle, and no figure for how much of the new capacity was actually being used - only that about 50% of it is spare. The quarter's cost overrun was explained away as one-offs, including a 30th-anniversary celebration. And in an hour of questions, nobody asked what the money raised from shareholders in 2024 is now earning."
+    }
+  }
+];
+
+const THEME_ORDER = [
+  "Demand & volumes", "Pricing & margins", "Competition", "Raw materials",
+  "Segments & products", "International", "Capex & projects",
+  "Balance sheet & capital allocation", "Distribution & network",
+  "Strategy & outlook", "Guidance", "Analyst Q&A concerns",
+];
+
+const KINDS = [
+  { k: "all", label: "All" },
+  { k: "fact", label: "Facts" },
+  { k: "guidance", label: "Guidance" },
+  { k: "opinion", label: "Views" },
+  { k: "qna", label: "Q&A" },
+];
+
+let fCall = "all", fKind = "all", fTheme = "all";
+
+const esc = s => String(s ?? "").replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+
+function segmented(el, items, current, onPick) {
+  el.innerHTML = items.map(i =>
+    `<button type="button" data-v="${esc(i.k)}" aria-pressed="${i.k === current}">${esc(i.label)}</button>`).join("");
+  el.onclick = ev => {
+    const b = ev.target.closest("button[data-v]");
+    if (b) onPick(b.dataset.v);
+  };
+}
+
+function themesPresent() {
+  const seen = new Set();
+  CALLS.forEach(c => c.detailed.forEach(p => seen.add(p.theme)));
+  const ordered = THEME_ORDER.filter(t => seen.has(t));
+  const extra = [...seen].filter(t => !THEME_ORDER.includes(t)).sort();
+  return [...ordered, ...extra];
+}
+
+function render() {
+  segmented(document.getElementById("fCall"),
+    [{ k: "all", label: "All" }, ...CALLS.map(c => ({ k: c.quarter, label: c.quarter }))],
+    fCall, v => { fCall = v; render(); });
+  segmented(document.getElementById("fKind"), KINDS, fKind, v => { fKind = v; render(); });
+
+  const themeSel = document.getElementById("fTheme");
+  if (themeSel.options.length === 0) {
+    themeSel.innerHTML = `<option value="all">All themes</option>` +
+      themesPresent().map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join("");
+    themeSel.onchange = () => { fTheme = themeSel.value; render(); };
+  }
+
+  let shown = 0, total = 0;
+  const out = [];
+
+  for (const call of CALLS) {
+    total += call.detailed.length;
+    if (fCall !== "all" && call.quarter !== fCall) continue;
+
+    const pts = call.detailed.filter(p =>
+      (fKind === "all" || p.kind === fKind) && (fTheme === "all" || p.theme === fTheme));
+    if (!pts.length) continue;
+    shown += pts.length;
+
+    // group by theme, in canonical order
+    const byTheme = new Map();
+    for (const p of pts) {
+      if (!byTheme.has(p.theme)) byTheme.set(p.theme, []);
+      byTheme.get(p.theme).push(p);
+    }
+    const themes = [...byTheme.keys()].sort(
+      (a, b) => (THEME_ORDER.indexOf(a) + 1 || 99) - (THEME_ORDER.indexOf(b) + 1 || 99));
+
+    out.push(`<section class="call">
+      <div class="call-head">
+        <span class="call-q">${esc(call.quarter)}</span>
+        <span class="call-date">call ${esc(call.call_date)} · ${pts.length} of ${call.detailed.length} pointers</span>
+      </div>
+      ${themes.map(th => `
+        <div class="theme-group">
+          <p class="theme-name">${esc(th)}</p>
+          ${(call.theme_summaries || {})[th]
+            ? `<p class="theme-summary"><span class="lbl">Summary</span>${esc(call.theme_summaries[th])}</p>`
+            : ""}
+          <ul class="pts">${byTheme.get(th).map(p => `
+            <li class="pt">
+              <span class="pt-body">${esc(p.point)}
+                ${p.quote ? `<blockquote>“${esc(p.quote)}”</blockquote>` : ""}
+              </span>
+              ${p.figure ? `<span class="pt-fig">${esc(p.figure)}</span>` : "<span></span>"}
+              <span class="pt-meta">
+                <span class="badge ${esc(p.kind)}">${esc(p.kind === "qna" ? "Q&A" : p.kind)}</span>
+                ${p.speaker ? `<span class="who">${esc(p.speaker)}</span>` : ""}
+              </span>
+            </li>`).join("")}
+          </ul>
+        </div>`).join("")}
+    </section>`);
+  }
+
+  document.getElementById("out").innerHTML =
+    out.length ? out.join("") : `<p class="empty">No pointers match these filters.</p>`;
+  document.getElementById("count").textContent = `${shown} of ${total} pointers`;
+}
+
+render();
+</script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Asian Paints Ltd — financial dashboard, FY15–FY26</title>
+<title>Eicher Motors Ltd — financial dashboard, FY14–FY26</title>
 <style>
   .viz-root {
     color-scheme: light;
@@ -616,10 +616,10 @@
 <body>
 <div class="viz-root">
   <div class="card">
-    <p class="crumb"><a href="/research/">← All analyses</a> <span>/ Asian Paints Ltd</span></p>
+    <p class="crumb"><a href="/research/">← All analyses</a> <span>/ Eicher Motors Ltd</span></p>
 
-    <h1>Asian Paints Ltd — financial dashboard, FY2015–FY2026</h1>
-    <p class="sub">Consolidated, financial years ending March. Every metric on its own panel — the series span ₹ crore and percentages across a 100× range, so one shared axis would be meaningless.</p>
+    <h1>Eicher Motors Ltd — financial dashboard, FY2014–FY2026</h1>
+    <p class="sub">Consolidated. Every metric on its own panel — the series span ₹ crore and percentages across a 100× range, so one shared axis would be meaningless.</p>
     <div class="tabs" id="tabs" role="tablist" aria-label="Report sections"></div>
 
     <section class="overall tabpanel" data-section="overall" id="tab-overall" role="tabpanel" aria-labelledby="tabbtn-overall">
@@ -674,7 +674,7 @@
       <div class="board-spacer" id="boardSpacer" aria-hidden="true"></div>
 
       <div class="chart-wrap">
-        <svg id="chart" role="img" aria-label="Twelve small-multiple line charts for Asian Paints FY2015 to FY2026: sales, net profit, cash from operations, free cash flow, investing cash flow, financing cash flow, borrowings, debt as percent of sales, reserves, dividend payout, ROCE and ROE."></svg>
+        <svg id="chart" role="img" aria-label="Small-multiple line charts for Eicher Motors Ltd, FY14 to FY26."></svg>
       </div>
     </div>
 
@@ -768,275 +768,417 @@
       <ol class="mn-list" id="mnList"></ol>
     </section>
 
-    <p class="src">Source: Tapetide (Screener-derived consolidated financials), fetched 22 Aug 2026. As reported: Sales, Net Profit, Dividend Payout % (P&amp;L); Borrowings, Reserves (balance sheet); Cash from Operating/Investing/Financing Activity, Free Cash Flow (cash flow); ROCE (ratios). <strong>Computed: ROE</strong> (net profit ÷ year-end equity capital + reserves, not average equity), <strong>debt/sales</strong>, <strong>net margin</strong>, <strong>retained ₹</strong>. Dividend payout is dividend as a share of <em>profit</em> — not dividend yield, which is against price. Borrowings are <strong>gross</strong>, not net of the ₹7,062cr investment book. <strong>Every plotted value comes from one Tapetide dataset</strong> — one consistent basis across all 12 years, all derivations documented. External sources such as the Ind-Ra rationale are used to <em>cross-check and annotate only</em>; no panel value is ever swapped for a figure from another source, because a basis break mid-series is worse than either source alone. Point-in-time data — not investment advice. <strong>The valuation section is a MODEL, not reported data</strong> — a 10-year free-cash-flow projection with the terminal value struck at year 11 as an exit multiple. Its base year is the TTM column (12 months to Jun 2026), which the 12-year panels above deliberately exclude because TTM is not a fiscal year. Share price and the risk-free rate are the only figures on this page not drawn from the cache; beta and the equity risk premium are assumptions, not measurements.</p>
+    <p class="src">Source: Tapetide (Screener-derived consolidated financials), fetched 2026-08-28. Every plotted value comes from one dataset on one consistent definition for all periods. External documents are used to cross-check and annotate only, never to replace a plotted value. ROE, debt/sales, net margin and CFO/PAT are computed — exact definitions accompany the derived series. Borrowings are gross. Point-in-time data — not investment advice.</p>
   </div>
 </div>
 
 <script>
 const DATA = [
   {
-    "period": "Mar 2015",
-    "fy": "FY15",
-    "sales": 13615,
-    "profit": 1427,
-    "debt": 418,
-    "reserves": 4646,
-    "payout": 42,
-    "roce": 42,
-    "roe": 30.1,
-    "debtToSales": 3.1,
-    "netMargin": 10.5,
-    "paidOut": 599,
-    "retained": 828,
-    "cfo": 1188,
-    "fcf": 750,
-    "capex_derived": 438,
-    "cfoToPat": 0.83,
-    "cfi": -465,
-    "cff": -576,
-    "netCF": 147
+    "period": "Dec 2014",
+    "fy": "FY14",
+    "sales": 8738,
+    "profit": 702,
+    "operating_profit": 1118,
+    "opm": 13,
+    "eps": 22.71,
+    "payout": 22,
+    "interest": 10,
+    "depreciation": 220,
+    "debt": 58,
+    "reserves": 2489,
+    "equity_capital": 27,
+    "fixed_assets": 2309,
+    "investments": 1078,
+    "total_assets": 6403,
+    "cwip": 419,
+    "cfo": 1047,
+    "fcf": 79,
+    "cfi": -1214,
+    "cff": -162,
+    "roce": 28,
+    "ccc": -31,
+    "debtor_days": 23,
+    "inventory_days": 41,
+    "wc_days": -35,
+    "equity": 2516,
+    "roe": 27.9,
+    "debtToSales": 0.7,
+    "netMargin": 8.0,
+    "paidOut": 154,
+    "retained": 548,
+    "cfoToPat": 1.49
   },
   {
     "period": "Mar 2016",
     "fy": "FY16",
-    "sales": 14271,
-    "profit": 1803,
-    "debt": 323,
-    "reserves": 6429,
-    "payout": 41,
-    "roce": 42,
-    "roe": 27.6,
-    "debtToSales": 2.3,
-    "netMargin": 12.6,
-    "paidOut": 739,
-    "retained": 1064,
-    "cfo": 2243,
-    "fcf": 1441,
-    "capex_derived": 802,
-    "cfoToPat": 1.24,
-    "cfi": -866,
-    "cff": -849,
-    "netCF": 528
+    "debt": 23,
+    "reserves": 3626,
+    "equity_capital": 27,
+    "fixed_assets": 790,
+    "investments": 3388,
+    "total_assets": 4939,
+    "cwip": 94,
+    "cfo": 1463,
+    "fcf": 954,
+    "cfi": -1001,
+    "cff": -466,
+    "roce": 51,
+    "ccc": -42,
+    "debtor_days": 2,
+    "inventory_days": 33,
+    "wc_days": -47,
+    "equity": 3653
   },
   {
     "period": "Mar 2017",
     "fy": "FY17",
-    "sales": 15062,
-    "profit": 2016,
-    "debt": 560,
-    "reserves": 7508,
-    "payout": 51,
-    "roce": 38,
-    "roe": 26.5,
-    "debtToSales": 3.7,
-    "netMargin": 13.4,
-    "paidOut": 1028,
-    "retained": 988,
-    "cfo": 1527,
-    "fcf": 860,
-    "capex_derived": 667,
-    "cfoToPat": 0.76,
-    "cfi": -681,
-    "cff": -756,
-    "netCF": 90
+    "sales": 7033,
+    "profit": 1667,
+    "operating_profit": 2174,
+    "opm": 31,
+    "eps": 61.27,
+    "payout": 16,
+    "interest": 4,
+    "depreciation": 154,
+    "debt": 112,
+    "reserves": 5318,
+    "equity_capital": 27,
+    "fixed_assets": 873,
+    "investments": 4987,
+    "total_assets": 7009,
+    "cwip": 374,
+    "cfo": 1708,
+    "fcf": 1161,
+    "cfi": -1744,
+    "cff": 25,
+    "roce": 53,
+    "ccc": -40,
+    "debtor_days": 3,
+    "inventory_days": 33,
+    "wc_days": -55,
+    "equity": 5345,
+    "roe": 31.2,
+    "debtToSales": 1.6,
+    "netMargin": 23.7,
+    "paidOut": 267,
+    "retained": 1400,
+    "cfoToPat": 1.02
   },
   {
     "period": "Mar 2018",
     "fy": "FY18",
-    "sales": 16825,
-    "profit": 2098,
-    "debt": 533,
-    "reserves": 8314,
-    "payout": 41,
-    "roce": 36,
-    "roe": 24.9,
-    "debtToSales": 3.2,
-    "netMargin": 12.5,
-    "paidOut": 860,
-    "retained": 1238,
-    "cfo": 2113,
-    "fcf": 705,
-    "capex_derived": 1408,
-    "cfoToPat": 1.01,
-    "cfi": -1556,
-    "cff": -1379,
-    "netCF": -822
+    "sales": 8965,
+    "profit": 1960,
+    "operating_profit": 2809,
+    "opm": 31,
+    "eps": 71.89,
+    "payout": 15,
+    "interest": 5,
+    "depreciation": 223,
+    "debt": 151,
+    "reserves": 7003,
+    "equity_capital": 27,
+    "fixed_assets": 1502,
+    "investments": 5581,
+    "total_assets": 9522,
+    "cwip": 333,
+    "cfo": 2482,
+    "fcf": 1736,
+    "cfi": -2145,
+    "cff": -262,
+    "roce": 49,
+    "ccc": -58,
+    "debtor_days": 3,
+    "inventory_days": 31,
+    "wc_days": -64,
+    "equity": 7030,
+    "roe": 27.9,
+    "debtToSales": 1.7,
+    "netMargin": 21.9,
+    "paidOut": 294,
+    "retained": 1666,
+    "cfoToPat": 1.27
   },
   {
     "period": "Mar 2019",
     "fy": "FY19",
-    "sales": 19240,
-    "profit": 2208,
-    "debt": 1320,
-    "reserves": 9375,
-    "payout": 47,
-    "roce": 33,
-    "roe": 23.3,
-    "debtToSales": 6.9,
-    "netMargin": 11.5,
-    "paidOut": 1038,
-    "retained": 1170,
-    "cfo": 2470,
-    "fcf": 1336,
-    "capex_derived": 1134,
-    "cfoToPat": 1.12,
-    "cfi": -918,
-    "cff": -1117,
-    "netCF": 434
+    "sales": 9797,
+    "profit": 2203,
+    "operating_profit": 2904,
+    "opm": 30,
+    "eps": 80.75,
+    "payout": 15,
+    "interest": 7,
+    "depreciation": 300,
+    "debt": 187,
+    "reserves": 8891,
+    "equity_capital": 27,
+    "fixed_assets": 1875,
+    "investments": 4923,
+    "total_assets": 11387,
+    "cwip": 450,
+    "cfo": 1575,
+    "fcf": 786,
+    "cfi": -660,
+    "cff": -292,
+    "roce": 41,
+    "ccc": -40,
+    "debtor_days": 3,
+    "inventory_days": 46,
+    "wc_days": -42,
+    "equity": 8918,
+    "roe": 24.7,
+    "debtToSales": 1.9,
+    "netMargin": 22.5,
+    "paidOut": 330,
+    "retained": 1873,
+    "cfoToPat": 0.71
   },
   {
     "period": "Mar 2020",
     "fy": "FY20",
-    "sales": 20211,
-    "profit": 2774,
-    "debt": 1118,
-    "reserves": 10034,
-    "payout": 43,
-    "roce": 33,
-    "roe": 27.4,
-    "debtToSales": 5.5,
-    "netMargin": 13.7,
-    "paidOut": 1193,
-    "retained": 1581,
-    "cfo": 3038,
-    "fcf": 2661,
-    "capex_derived": 377,
-    "cfoToPat": 1.1,
-    "cfi": -518,
-    "cff": -2871,
-    "netCF": -351
+    "sales": 9154,
+    "profit": 1827,
+    "operating_profit": 2183,
+    "opm": 24,
+    "eps": 66.91,
+    "payout": 19,
+    "interest": 19,
+    "depreciation": 382,
+    "debt": 249,
+    "reserves": 9954,
+    "equity_capital": 27,
+    "fixed_assets": 2378,
+    "investments": 5749,
+    "total_assets": 12450,
+    "cwip": 312,
+    "cfo": 1694,
+    "fcf": 1150,
+    "cfi": -1508,
+    "cff": -858,
+    "roce": 25,
+    "ccc": -28,
+    "debtor_days": 3,
+    "inventory_days": 42,
+    "wc_days": -44,
+    "equity": 9981,
+    "roe": 18.3,
+    "debtToSales": 2.7,
+    "netMargin": 20.0,
+    "paidOut": 347,
+    "retained": 1480,
+    "cfoToPat": 0.93
   },
   {
     "period": "Mar 2021",
     "fy": "FY21",
-    "sales": 21713,
-    "profit": 3207,
-    "debt": 1093,
-    "reserves": 12710,
-    "payout": 55,
-    "roce": 34,
-    "roe": 25.0,
-    "debtToSales": 5.0,
-    "netMargin": 14.8,
-    "paidOut": 1764,
-    "retained": 1443,
-    "cfo": 3683,
-    "fcf": 3422,
-    "capex_derived": 261,
-    "cfoToPat": 1.15,
-    "cfi": -541,
-    "cff": -650,
-    "netCF": 2492
+    "sales": 8720,
+    "profit": 1347,
+    "operating_profit": 1783,
+    "opm": 20,
+    "eps": 49.28,
+    "payout": 34,
+    "interest": 16,
+    "depreciation": 451,
+    "debt": 219,
+    "reserves": 11411,
+    "equity_capital": 27,
+    "fixed_assets": 2433,
+    "investments": 3902,
+    "total_assets": 14559,
+    "cwip": 314,
+    "cfo": 1691,
+    "fcf": 1176,
+    "cfi": -1625,
+    "cff": -15,
+    "roce": 17,
+    "ccc": -39,
+    "debtor_days": 7,
+    "inventory_days": 62,
+    "wc_days": -30,
+    "equity": 11438,
+    "roe": 11.8,
+    "debtToSales": 2.5,
+    "netMargin": 15.4,
+    "paidOut": 458,
+    "retained": 889,
+    "cfoToPat": 1.26
   },
   {
     "period": "Mar 2022",
     "fy": "FY22",
-    "sales": 29101,
-    "profit": 3085,
-    "debt": 1587,
-    "reserves": 13716,
-    "payout": 61,
-    "roce": 29,
-    "roe": 22.3,
-    "debtToSales": 5.5,
-    "netMargin": 10.6,
-    "paidOut": 1882,
-    "retained": 1203,
-    "cfo": 986,
-    "fcf": 475,
-    "capex_derived": 511,
-    "cfoToPat": 0.32,
-    "cfi": -317,
-    "cff": -1808,
-    "netCF": -1138
+    "sales": 10298,
+    "profit": 1677,
+    "operating_profit": 2178,
+    "opm": 21,
+    "eps": 61.32,
+    "payout": 34,
+    "interest": 19,
+    "depreciation": 452,
+    "debt": 108,
+    "reserves": 12581,
+    "equity_capital": 27,
+    "fixed_assets": 2424,
+    "investments": 7721,
+    "total_assets": 16140,
+    "cwip": 505,
+    "cfo": 1527,
+    "fcf": 888,
+    "cfi": -983,
+    "cff": -593,
+    "roce": 18,
+    "ccc": -29,
+    "debtor_days": 11,
+    "inventory_days": 69,
+    "wc_days": -15,
+    "equity": 12608,
+    "roe": 13.3,
+    "debtToSales": 1.0,
+    "netMargin": 16.3,
+    "paidOut": 570,
+    "retained": 1107,
+    "cfoToPat": 0.91
   },
   {
     "period": "Mar 2023",
     "fy": "FY23",
-    "sales": 34489,
-    "profit": 4195,
-    "debt": 1933,
-    "reserves": 15896,
-    "payout": 60,
-    "roce": 34,
-    "roe": 26.2,
-    "debtToSales": 5.6,
-    "netMargin": 12.2,
-    "paidOut": 2517,
-    "retained": 1678,
-    "cfo": 4193,
-    "fcf": 2774,
-    "capex_derived": 1419,
-    "cfoToPat": 1.0,
-    "cfi": -1282,
-    "cff": -2140,
-    "netCF": 771
+    "sales": 14442,
+    "profit": 2914,
+    "operating_profit": 3446,
+    "opm": 24,
+    "eps": 106.55,
+    "payout": 35,
+    "interest": 28,
+    "depreciation": 526,
+    "debt": 288,
+    "reserves": 14963,
+    "equity_capital": 27,
+    "fixed_assets": 2690,
+    "investments": 12321,
+    "total_assets": 19198,
+    "cwip": 472,
+    "cfo": 2823,
+    "fcf": 2149,
+    "cfi": -2397,
+    "cff": -417,
+    "roce": 27,
+    "ccc": -14,
+    "debtor_days": 9,
+    "inventory_days": 57,
+    "wc_days": -14,
+    "equity": 14990,
+    "roe": 19.4,
+    "debtToSales": 2.0,
+    "netMargin": 20.2,
+    "paidOut": 1020,
+    "retained": 1894,
+    "cfoToPat": 0.97
   },
   {
     "period": "Mar 2024",
     "fy": "FY24",
-    "sales": 35495,
-    "profit": 5558,
-    "debt": 2474,
-    "reserves": 18632,
-    "payout": 58,
-    "roce": 38,
-    "roe": 29.7,
-    "debtToSales": 7.0,
-    "netMargin": 15.7,
-    "paidOut": 3224,
-    "retained": 2334,
-    "cfo": 6104,
-    "fcf": 3613,
-    "capex_derived": 2491,
-    "cfoToPat": 1.1,
-    "cfi": -2548,
-    "cff": -2982,
-    "netCF": 573
+    "sales": 16536,
+    "profit": 4001,
+    "operating_profit": 4329,
+    "opm": 26,
+    "eps": 146.13,
+    "payout": 35,
+    "interest": 51,
+    "depreciation": 598,
+    "debt": 419,
+    "reserves": 18018,
+    "equity_capital": 27,
+    "fixed_assets": 2914,
+    "investments": 13527,
+    "total_assets": 23115,
+    "cwip": 555,
+    "cfo": 3724,
+    "fcf": 2909,
+    "cfi": -2834,
+    "cff": -844,
+    "roce": 31,
+    "ccc": -19,
+    "debtor_days": 8,
+    "inventory_days": 57,
+    "wc_days": 5,
+    "equity": 18045,
+    "roe": 22.2,
+    "debtToSales": 2.5,
+    "netMargin": 24.2,
+    "paidOut": 1400,
+    "retained": 2601,
+    "cfoToPat": 0.93
   },
   {
     "period": "Mar 2025",
     "fy": "FY25",
-    "sales": 33906,
-    "profit": 3710,
-    "debt": 2290,
-    "reserves": 19304,
-    "payout": 65,
-    "roce": 26,
-    "roe": 19.1,
-    "debtToSales": 6.8,
-    "netMargin": 10.9,
-    "paidOut": 2412,
-    "retained": 1298,
-    "cfo": 4424,
-    "fcf": 2604,
-    "capex_derived": 1820,
-    "cfoToPat": 1.19,
-    "cfi": -941,
-    "cff": -3753,
-    "netCF": -270
+    "sales": 18870,
+    "profit": 4734,
+    "operating_profit": 4723,
+    "opm": 25,
+    "eps": 172.69,
+    "payout": 41,
+    "interest": 54,
+    "depreciation": 729,
+    "debt": 458,
+    "reserves": 21269,
+    "equity_capital": 27,
+    "fixed_assets": 3473,
+    "investments": 14791,
+    "total_assets": 27174,
+    "cwip": 491,
+    "cfo": 3980,
+    "fcf": 2951,
+    "cfi": -2461,
+    "cff": -1399,
+    "roce": 30,
+    "ccc": -24,
+    "debtor_days": 11,
+    "inventory_days": 55,
+    "wc_days": 31,
+    "equity": 21296,
+    "roe": 22.2,
+    "debtToSales": 2.4,
+    "netMargin": 25.1,
+    "paidOut": 1941,
+    "retained": 2793,
+    "cfoToPat": 0.84
   },
   {
     "period": "Mar 2026",
     "fy": "FY26",
-    "sales": 35584,
-    "profit": 4395,
-    "debt": 3929,
-    "reserves": 21276,
-    "payout": 61,
-    "roce": 26,
-    "roe": 20.6,
-    "debtToSales": 11.0,
-    "netMargin": 12.4,
-    "paidOut": 2681,
-    "retained": 1714,
-    "cfo": 7088,
-    "fcf": 5604,
-    "capex_derived": 1484,
-    "cfoToPat": 1.61,
-    "cfi": -1328,
-    "cff": -2377,
-    "netCF": 3383
+    "sales": 23408,
+    "profit": 5515,
+    "operating_profit": 5789,
+    "opm": 25,
+    "eps": 201.06,
+    "payout": 41,
+    "interest": 72,
+    "depreciation": 840,
+    "debt": 514,
+    "reserves": 25073,
+    "equity_capital": 27,
+    "fixed_assets": 3852,
+    "investments": 17496,
+    "total_assets": 32164,
+    "cwip": 736,
+    "cfo": 4805,
+    "fcf": 3538,
+    "cfi": -2834,
+    "cff": -1983,
+    "roce": 31,
+    "ccc": -16,
+    "debtor_days": 6,
+    "inventory_days": 55,
+    "wc_days": 22,
+    "equity": 25100,
+    "roe": 22.0,
+    "debtToSales": 2.2,
+    "netMargin": 23.6,
+    "paidOut": 2261,
+    "retained": 3254,
+    "cfoToPat": 0.87
   }
 ];
 // derived — computed here, never restated as if reported
@@ -1060,8 +1202,7 @@ const PANELS = [
     "title": "Sales",
     "fam": "--scale",
     "unit": "₹ crore",
-    "upIsGood": true,
-    "mergeWith": "profit"
+    "upIsGood": true
   },
   {
     "key": "profit",
@@ -1075,8 +1216,7 @@ const PANELS = [
     "title": "Cash from ops",
     "fam": "--scale",
     "unit": "₹ crore",
-    "upIsGood": true,
-    "mergeWith": "fcf"
+    "upIsGood": true
   },
   {
     "key": "fcf",
@@ -1136,14 +1276,21 @@ const PANELS = [
     "fam": "--capital",
     "unit": "percent",
     "isRatio": true,
-    "upIsGood": true,
-    "mergeWith": "roe"
+    "upIsGood": true
   },
   {
     "key": "roe",
     "title": "ROE",
     "fam": "--capital",
     "unit": "percent, computed",
+    "isRatio": true,
+    "upIsGood": true
+  },
+  {
+    "key": "opm",
+    "title": "Operating margin",
+    "fam": "--capital",
+    "unit": "percent",
     "isRatio": true,
     "upIsGood": true
   }
@@ -1812,202 +1959,172 @@ document.getElementById("table").innerHTML =
 const POINTS = {
   "s": [
     {
-      "claim": "Highest domestic credit rating, newly assigned",
-      "ev": "Ind-Ra IND AAA/Stable + IND A1+ on ₹2,300cr bank facilities (24 Jun 2026). Positive sensitivity: “Not applicable” — already at the ceiling",
-      "src": "Ind-Ra 24Jun26",
+      "claim": "This is a capital-light business wearing a capital-heavy balance sheet",
+      "ev": "FY2026 return on capital employed was 31%, and it has been 31%, 30%, 31% across the last three years while sales grew 42% from 16,536cr to 23,408cr. The reported figure divides by a base that includes a 17,496cr investment book earning a financial return; the capital actually employed making motorcycles is a small fraction of it. Fixed assets are 3,852cr and work in progress 736cr against 32,164cr of total assets.",
+      "src": "reported reported ratios, balance sheet, P&L",
       "verified": true
     },
     {
-      "claim": "Dominant market share, not merely leadership",
-      "ev": "~50% of India's organised paint market — almost 3× the closest competitor; higher still in decorative (~¾ of the market)",
-      "src": "Ind-Ra 24Jun26 (their estimate)",
-      "verified": true
-    },
-    {
-      "claim": "Distribution is the moat",
-      "ev": "~170,000 retail touchpoints, over 2× the nearest competitor's reach, plus extensive tinting-machine coverage",
-      "src": "Ind-Ra 24Jun26",
-      "verified": true
-    },
-    {
-      "claim": "NET CASH for over a decade — not levered",
-      "ev": "FY26 net cash ₹5,000cr (FY25 ₹3,100cr); net leverage −0.8× (FY25 −0.5×); gross leverage 0.1–0.3× for ten years",
-      "src": "Ind-Ra 24Jun26",
-      "verified": true
-    },
-    {
-      "claim": "Margins are stable, not just high",
-      "ev": "Gross margin >40% through cycle (FY26 44%, FY25 42%); EBITDA margin ~20%; coefficient of variation of EBITDA margin in the TOP QUARTILE of the rating category",
-      "src": "Ind-Ra 24Jun26",
-      "verified": true
-    },
-    {
-      "claim": "Earnings are cash-backed",
-      "ev": "12y CFO/PAT 1.07; FY26 CFO ₹7,088cr a record. Ind-Ra concurs: CFO ₹7,010cr post-interest, CFO covered capex every year for a decade",
-      "src": "cash flow + Ind-Ra",
-      "verified": true
-    },
-    {
-      "claim": "Interest cover is effectively unconstrained",
-      "ev": "34.3× consolidated FY26 (FY25 26.5×); 49× standalone. Scheduled term-debt repayment only ₹90cr across FY27–FY28",
-      "src": "Ind-Ra 24Jun26",
-      "verified": true
-    },
-    {
-      "claim": "Zero dilution in 11 years",
-      "ev": "Equity capital flat at ₹96cr FY15–FY26; EPS tracks profit ~3.1× exactly",
+      "claim": "Net cash of 16,982cr, and it is growing",
+      "ev": "Borrowings of 514cr against an investment book of 17,496cr, on an equity base of 25,100cr. The book went 13,527cr to 14,791cr to 17,496cr over three years. Net cash is 7.7% of market value, so enterprise multiples sit meaningfully BELOW the equity multiples — the opposite of a leveraged comparison. Debt to equity is 0.02.",
       "src": "balance sheet",
       "verified": true
     },
     {
-      "claim": "Innovation is contributing",
-      "ev": "New products were ~17% of FY26 revenue, up from ~10% in FY23",
-      "src": "Ind-Ra 24Jun26",
+      "claim": "A record year and then a record quarter, on volume rather than price",
+      "ev": "FY2026: 1,227,000 Royal Enfield motorcycles, domestic up 23% to about 1.1 million and international up 20% to 120,634; revenue 23,408cr, net profit 5,515cr, an 82 rupee final dividend. Q1 FY27 then printed a record 332,940 motorcycles, up 27.4%, revenue 6,632cr up 32%, with about 4,500 motorcycles a day made in June. Price and mix added only about 0.6% in FY2026, so revenue growth here is very nearly volume growth.",
+      "src": "Q4 FY26 and Q1 FY27 calls, P&L",
       "verified": true
     },
     {
-      "claim": "Volume growth beat the industry even into the downturn",
-      "ev": "Paint volume CAGR 13.5% over FY20–FY25, above industry average",
-      "src": "Ind-Ra 24Jun26",
+      "claim": "There is a second business of similar size that never touches the revenue line",
+      "ev": "The commercial-vehicle joint venture with Volvo reported 27,077cr of revenue and 1,471cr of profit in FY2026 on 103,404 units, against the 23,408cr of revenue shown in the accounts — and management said the two combined 'crossed 50,000cr for the first time'. 23,408 + 27,077 = 50,485, so the two ADD rather than overlap: the venture is equity-accounted, not line-consolidated. Two disclosed quarters put the share of its profit at 54.1% and 58.3%, implying roughly 827cr of profit a year arriving as other income.",
+      "src": "Q3 FY26, Q4 FY26 and Q1 FY27 calls, P&L",
       "verified": true
     },
     {
-      "claim": "The cash-flow statement reconciles cleanly every year",
-      "ev": "CFO + investing + financing equals reported net cash flow in all 12 years (±1cr). No unexplained cash anywhere: FY24's apparent surplus was a record ₹6,104cr CFO almost entirely redeployed — ₹2,548cr investing plus ₹2,982cr financing, netting just ₹574cr",
-      "src": "cash flow",
+      "claim": "The international business is early, not mature — 8-9% of its addressable market",
+      "ev": "Sized for the first time on 29 July 2026: Royal Enfield holds only about 8-9% of a 0.8-1.0 million unit middleweight market outside India, and that business has doubled in two years. International revenue crossed 1,000cr for the first time in Q1 FY27, 15.3% of revenue, on 31,766 motorcycles up about 25%. The United States, the tariff-exposed part, is only about 3% of the total market.",
+      "src": "Q4 FY26 and Q1 FY27 calls",
+      "verified": true
+    },
+    {
+      "claim": "Cash conversion looks weak and is not — the gap is the equity-accounted profit",
+      "ev": "Operating cash flow of 4,805cr covers FY2026 net profit of 5,515cr only 0.87 times, and the ratio has been under 1.0 for four consecutive years. But roughly 827cr of that profit is the share of the joint venture's earnings, which is booked as income and generates no operating cash in this entity. Measured against profit excluding it, 4,805 / 4,688 is 1.03 times. Free cash flow was positive in every one of the last eleven years and reached 3,538cr in FY2026.",
+      "src": "cash flow, P&L, Q4 FY26 call",
       "verified": true
     }
   ],
   "w": [
     {
-      "claim": "Topline has stalled for four years",
-      "ev": "Sales ₹34,489cr (FY23) → ₹35,584cr (FY26), ~1%/yr vs 9.1% 11y CAGR; FY25 shrank. Ind-Ra: FY26 standalone revenue +4% to ₹30,770cr",
-      "src": "P&L + Ind-Ra",
+      "claim": "31% of pre-tax profit is other income, and it cannot be split",
+      "ev": "Other income of 2,225cr against pre-tax profit of 7,102cr. It mixes the treasury return on the 17,496cr investment book with the equity-accounted share of the truck venture's profit, and the statements do not disaggregate the line. So roughly a third of the denominator of any earnings multiple for this company is not the motorcycle business, and no comparable Indian manufacturer carries an equivalent item. The data vendor's own summary flags it independently.",
+      "src": "P&L, company profile",
       "verified": true
     },
     {
-      "claim": "Returns reset to a structurally lower level",
-      "ev": "ROCE 42% → 26%; ROE 30.1% → 20.6%. Ind-Ra cites a 5-year average of 30–35%, so FY25–26 sit below their own stated range",
-      "src": "reported ratios + Ind-Ra",
+      "claim": "The capacity guidance drifted twice in six months, in both directions, and nobody asked",
+      "ev": "February 2026: 958cr approved to reach 2 million motorcycles a year, with management agreeing with JPMorgan that the full amount arrives at the BEGINNING of FY29. May: pulled forward to 'by Q2 of FY28', restated under a second question so not a slip, with interim capacity 'almost about 1.6 million plus'. July: the interim figure quietly shrank to 'almost about 1.5 million' and the 2-million date lost its quarter, reverting to 'financial year 27, 28'. Not one analyst asked about either move. The same February call also gave two different starting points — 1.4 million in the prepared remarks, 1.2 million declared and 1.45 million built in the Q&A — never reconciled.",
+      "src": "Q3 FY26, Q4 FY26 and Q1 FY27 calls",
       "verified": true
     },
     {
-      "claim": "Pricing pressure is Ind-Ra's own #1 listed weakness",
-      "ev": "“High competitive intensity to exert pricing pressure” — expected to persist for a couple of years, worst in the price-sensitive non-luxury segment",
-      "src": "Ind-Ra 24Jun26",
+      "claim": "Costs ran hotter than guided and recovery ran weaker — the miss was on both halves",
+      "ev": "In May management guided a 3-3.5% material cost hit for Q1 FY27, incremental to the 0.9% already absorbed, with about 50% recovered by a 1.75% April price increase. In July the hit had landed at 4-4.5% and only about 40% was recovered. Management also describes an advance-purchase programme on critical parts as a cushion while conceding it is stock-based with 'a limited life' — so part of the margin currently reported is borrowed from later quarters.",
+      "src": "Q4 FY26 and Q1 FY27 calls",
       "verified": true
     },
     {
-      "claim": "Project execution risk on VAM/VAE is the other listed weakness",
-      "ev": "No VAM/VAE producer exists in India; global plants run at far larger scale. Risks of time/cost overrun and ramp-up",
-      "src": "Ind-Ra 24Jun26",
+      "claim": "Management's own arithmetic shows the domestic mid-size share falling, while the stated figure did not",
+      "ev": "88.9% claimed in February and never tested by anyone on the call. In May the segment was described going from about 70,000 to about 1.1 lakh a month while Royal Enfield reached '90,000 plus' — about 82%. In July the same construction gave 1.01 lakh of a 1.2 lakh segment, about 84%. The company has never restated the 88.9% and no analyst has asked it to.",
+      "src": "Q3 FY26, Q4 FY26 and Q1 FY27 calls",
       "verified": true
     },
     {
-      "claim": "Equity compounds faster than the business earning on it",
-      "ev": "Reserves 14.8% CAGR vs sales 9.1% — mechanical drag on ROE",
-      "src": "balance sheet",
+      "claim": "Refusing to quantify is stated policy, and it now extends to things management confirms it knows",
+      "ev": "'We don't normally talk about the forward guidance in numbers.' A forward commodity view was refused on all three calls; a growth range was refused three times on the May call alone; the value-engineering benefit was refused in February; precious metals as a share of raw material was promised separately in February and never appeared. In July, asked for the rural-urban split of domestic volumes, the question was answered with something else, asked again explicitly, and never answered. Asked what share of demand comes from government employees, management confirmed it holds exactly that data — 'we have the details' — and gave none of it.",
+      "src": "Q3 FY26, Q4 FY26 and Q1 FY27 calls",
       "verified": true
     },
     {
-      "claim": "Working capital proved fragile under stress",
-      "ev": "FY22 CFO/PAT 0.32, cash cycle out to 94 days; FY25 peak 107 days. Ind-Ra: working capital 18% of sales FY26 vs 20–21% FY22–FY25",
-      "src": "cash flow + Ind-Ra",
+      "claim": "The same numbers get quoted differently on the same call, and nobody reconciles them",
+      "ev": "April 2026 growth was given four different ways on one call: 51% in the prepared remarks, 57% to UBS, 'almost 31%' to Nomura and 'almost about 37%' to Nirmal Bang. The January 2026 price increase has been quoted three ways across three calls — a blended 0.5% in February, 0.7% in May, 0.85% in July. The 958cr approval was dated to February in one part of the May call and to April in another. No analyst queried any of it.",
+      "src": "Q3 FY26, Q4 FY26 and Q1 FY27 calls",
       "verified": true
     },
     {
-      "claim": "High payout constrains free cash flow",
-      "ev": "Ind-Ra states the 60% three-year payout is “affecting free cash flow”. Ours: 42% (FY15) → 65% (FY25) → 61% (FY26)",
-      "src": "P&L + Ind-Ra",
+      "claim": "Nobody has ever asked what any of the new capital should earn",
+      "ev": "Across three calls and 2,933cr of newly committed capital — 958cr at Cheyyar, 1,225cr for Tada Phase 1, up to 750cr for the vehicle-financing venture — not one analyst has asked for a return, a payback or a hurdle rate. Requests for structure inside the 958cr were made three times in February (the split above and below 350cc, the spread across eight quarters, the domestic-versus-export share) and produced three qualitative answers. The one piece of return arithmetic anywhere in the three calls was extracted by an analyst and concerned the financing venture, not a plant.",
+      "src": "Q3 FY26, Q4 FY26 and Q1 FY27 calls",
       "verified": true
     },
     {
-      "claim": "Management will not quantify the things that matter most",
-      "ev": "Across all three calls it refused a market-share figure (three times — 'all of you can calculate the shares'), refused to size the VAM/VAE benefit, refused to value the cheap-inventory cushion in bps, declined every crude-price scenario, and gave no first-half/second-half profitability split. The VAM/VAE benefit then quietly widened from 400-500bps to 300-500bps, and margin confidence narrowed from the full year to 'the first six months'",
-      "src": "3 concalls — pattern across Q3 FY26 / Q4 FY26 / Q1 FY27",
-      "verified": true
-    },
-    {
-      "claim": "A cost spike hits cash far harder than profit — FY22 is the precedent",
-      "ev": "In FY22 sales rose 34% while operating profit was flat (4,856 → 4,804) and CFO collapsed to ₹986cr (CFO/PAT 0.32). ₹4,188cr went into working capital, with days payable falling 119 → 96 — paying suppliers 23 days faster while holding more stock. With FY27 material inflation ~25% against ~7% recovered in price, this is the pattern to watch",
-      "src": "cash flow + reported ratios + P&L",
+      "claim": "Working capital turned from a source of funding into a use of it",
+      "ev": "Working-capital days went from -14 in FY2023 to +5 in FY2024, +31 in FY2025 and +22 in FY2026, and the cash conversion cycle from -31 days in the earliest year of the record to -16 now. The business no longer funds its growth from its suppliers to the degree it once did. The absolute amounts are small against the cash pile, but the direction has been one way for three years.",
+      "src": "reported reported ratios",
       "verified": true
     }
   ],
   "o": [
     {
-      "claim": "VAM/VAE backward integration is the strategic bet",
-      "ev": "150,000 mtpa VAE plant on KBR (US) licensed technology, VAE onstream 1HFY27, VAM in 1.5–2 years. Replaces volatile imports; enables low-VOC differentiated product",
-      "src": "Ind-Ra 24Jun26",
+      "claim": "Capacity is the stated constraint, and 2,183cr has been committed to removing it",
+      "ev": "Against roughly 1.23 million motorcycles sold in FY2026, build capacity is about 1.5 million — roughly 11% a year of headroom on the interim figure. 958cr is approved to take Cheyyar to 2 million and 1,225cr for Phase 1 of a greenfield plant at Tada, adding 450,000 units and taking total planned capacity to 2.45 million by FY29-30. 261 acres were signed in Andhra Pradesh in May for a plant beyond 2 million. If those dates hold, the growth constraint of the next two years is removed rather than eased.",
+      "src": "Q3 FY26, Q4 FY26 and Q1 FY27 calls",
       "verified": true
     },
     {
-      "claim": "Structural demand tailwind, per Ind-Ra",
-      "ev": "High single-digit paint demand CAGR expected over the medium term — shorter repaint cycles, rising incomes, urbanisation/nuclearisation, younger buyers driving premiumisation",
-      "src": "Ind-Ra 24Jun26",
+      "claim": "The truck venture is carried at book, and management would not rule out listing it separately",
+      "ev": "Asked on 29 July 2026 whether the commercial-vehicle business might be hived off and separately listed to unlock value, management neither confirmed nor ruled it out: 'we have a lot of plans to mull over.' The stake earns about 827cr a year and its carrying value sits undisclosed inside the single 17,496cr investment line, so nothing in any published multiple reflects what it would fetch. A separate listing would replace a carrying value with a market price.",
+      "src": "Q1 FY27 call, balance sheet",
       "verified": true
     },
     {
-      "claim": "Adjacency expansion beyond paint",
-      "ev": "Waterproofing and home décor products/services; B2B/B2G push diversifying the user base",
-      "src": "Ind-Ra 24Jun26",
+      "claim": "A financing venture that scales without more equity",
+      "ev": "Up to 750cr for 50% of a vehicle-financing joint venture with Volvo, announced in May. An analyst — not management — did the arithmetic: 750cr plus about 500cr of existing net worth gives roughly 1,200-1,250cr of equity, borrowings can run five to six times that, so managed assets could reach 9,000-10,000cr within five years with no further money required, from 1,806cr today. Management confirmed the trigger was the Volvo relationship rather than an internal need. It received no mention at all on the following call.",
+      "src": "Q4 FY26 and Q1 FY27 calls",
       "verified": true
     },
     {
-      "claim": "Working-capital normalisation already converting to cash",
-      "ev": "Cash cycle 107 → 84 days; FY26 CFO +60% YoY on +18% profit",
-      "src": "cash flow + reported ratios",
+      "claim": "The parts of the business that are not motorcycles are growing faster than the motorcycles",
+      "ev": "Allied businesses are about 15% of revenue and outgrowing the core: apparel +21%, accessories +32%, spares +18%. International revenue crossed 1,000cr in a quarter for the first time. The Flying Flea electric programme reached production launch, though no volume target has been given for it on any of the three calls and management says it is deliberately not in a hurry.",
+      "src": "Q1 FY27 and Q4 FY26 calls",
       "verified": true
     },
     {
-      "claim": "Pricing power is being exercised right now",
-      "ev": "10–11% of price hikes taken, plus a further 2–4% announced from mid-June 2026",
-      "src": "Ind-Ra 24Jun26",
-      "verified": true
-    },
-    {
-      "claim": "Ethylene logistics secured",
-      "ev": "MoU with Gujarat Chemical Port Ltd for an ethylene storage and handling facility at Dahej",
-      "src": "Ind-Ra 24Jun26",
-      "verified": true
+      "claim": "The price does not require a re-rating — which is unusual",
+      "ev": "Inverting the intrinsic model, today's price needs 14.12% sales growth held flat for eleven years, BELOW this company's own 14.50% nine-year median; or an exit multiple of 24.1 times operating profit in year eleven, BELOW the 33.1 times the business carries today. So the price asks for the multiple to hold above roughly three-quarters of where it is now while the business roughly triples, rather than for a re-rating on top of growth. ⚠️ This rests on the intrinsic model, not on a primary source, and a flat rate held for eleven years is a stronger claim than a median drawn from a window containing two negative years and one at +40%.",
+      "src": "reverse intrinsic model",
+      "verified": false
     }
   ],
   "t": [
     {
-      "claim": "A large new entrant arrived in FY25 — the returns break is real",
-      "ev": "Ind-Ra explicitly notes “the entry of new players, particularly a large one in FY25”; FY25 ROCE −12pp / ROE −10.6pp",
-      "src": "Ind-Ra 24Jun26 + reported ratios",
+      "claim": "The real US tariff is roughly 41-42%, not the 18% headline, and it has not moved in six months",
+      "ev": "Quantified once, in February 2026: the trade-deal headline rate is 18%, but steel and aluminium tariffs take the weighted average to about 41-42%, with a further EMEA duty of about 6%. Management said it expects the steel and aluminium element to fall away while stating explicitly that there is no clarity and it is waiting for the fine print. Neither figure was restated, updated or resolved on either of the two later calls, and no analyst raised them again.",
+      "src": "Q3 FY26 call",
       "verified": true
     },
     {
-      "claim": "Competitor is funded and loss-tolerant",
-      "ev": "Grasim/Birla Opus: ~₹10,000cr decorative-paints capex completed FY26, paints break-even only expected by end-FY28, itself rated IND AAA",
-      "src": "Ind-Ra Grasim PR — via search summary, NOT read directly",
+      "claim": "From October the domestic base gets much harder, and this company has the most to give back",
+      "ev": "Chandramouli Muthiah of Goldman Sachs put it directly on 29 July: from October the industry faces twelve months against the post-tax-cut base, and Royal Enfield 'has seen the maximum amount of elasticity in domestic demand after GST-related price cuts'. Management's answer rested entirely on its enquiry funnel, low dealer stock and marketing being restored — 'that's the confidence, not from anything else' — and offered no quantified view of the tougher base.",
+      "src": "Q1 FY27 call",
+      "verified": true
+    },
+    {
+      "claim": "The truck venture's own margins are going the wrong way, and nobody has asked why",
+      "ev": "In the June 2026 quarter the venture's revenue rose 16.6% to 6,610cr while operating profit reached only 541cr against 511cr — 8.4% of revenue against 9.2% — and its heavy-duty truck share slipped to 8.8% from the 9.1% reported for the full year. Not one analyst asked about either, on the same call where a separate listing of that business was raised as a way to unlock value.",
+      "src": "Q1 FY27 call",
+      "verified": true
+    },
+    {
+      "claim": "A permanent regulatory cost is already in the base, and it was bigger than commodities",
+      "ev": "The most complete margin bridge given on any of the three calls, in February, had regulation as its largest single line: 100 basis points of emission-norm cost against 70 of net commodity inflation, offset by 140 of pricing and 20 of value engineering. The 100 basis points does not reverse. Separately, profit after tax has repeatedly grown slower than operating profit — operating profit +30% against profit +21% in the December quarter, revenue +32% against profit +21% in the June quarter — and no analyst has asked about the gap on any call.",
+      "src": "Q3 FY26 and Q1 FY27 calls, P&L",
+      "verified": true
+    },
+    {
+      "claim": "Foreign holders have been selling into domestic institutions for two years",
+      "ev": "Foreign holding fell from 28.95% in March 2024 to 25.53% by June 2026 while domestic institutions rose from 11.14% to 16.06%. Promoter holding has drifted down from 49.23% in March 2021 to 49.02%. The shareholder count rose from 263,132 to 283,648 over the same window, so the stock is passing from foreign institutions to domestic ones and to a wider retail base. ⚠️ The zero readings for foreign holding before September 2023 are a classification artefact, not an absence — 'Others' carried about 32% in those quarters and collapsed afterwards.",
+      "src": "quarterly shareholding",
+      "verified": true
+    },
+    {
+      "claim": "Every valuation band held for this company covers 2.31 years and cannot show a cycle",
+      "ev": "121 weekly observations from May 2024 to August 2026. The deepest fall from a running peak inside that window is 17.6%, a correction rather than a cyclical low, and the price rose 73% across it. Drift between the first and second halves accounts for 41% to 49% of the entire range of every multiple, and only four distinct annual earnings figures sit under 121 observations. So the 67th-to-71st percentile readings on price-to-earnings, price-to-book, enterprise value to operating profit and enterprise value to sales are positions within a two-year uptrend, NOT long-run positions. Deeper history could not be obtained — the paging path was unavailable, not expensive.",
+      "src": "121 weekly price bars and computed multiples",
+      "verified": true
+    },
+    {
+      "claim": "A 36% premium to the two-wheeler peer median on returns only 8% better",
+      "ev": "38.0 times earnings against a two-wheeler median of 27.9, while return on capital is 30.5% against 28.2%. Return on EQUITY of 24.0% is BELOW the peer median of 28.1%, because 17,496cr of an equity base of 25,100cr earns a financial return rather than a motorcycle return. ⚠️ Two things weaken this badly: the comparison is price-to-earnings only, so a balance sheet this favourable is invisible; and the cohort is priced almost backwards against returns — the rank gaps between multiple and return on capital sum to 12 out of a possible 18, with the highest-return company on the lowest multiple. The median is literally one company's number.",
+      "src": "peer multiples, one screening endpoint",
       "verified": false
     },
     {
-      "claim": "Raw-material inflation is live and steep",
-      "ev": "Overall costs +20% since March 2026 — crude-derived VAM, monomers, solvents, driven by West Asia conflict supply-chain disruption",
-      "src": "Ind-Ra 24Jun26",
-      "verified": true
-    },
-    {
-      "claim": "The one numeric downgrade trigger",
-      "ev": "Consolidated net leverage sustained above 1.5× — from weaker market position/profitability OR higher-than-expected capex. Currently −0.8×, so very wide headroom",
-      "src": "Ind-Ra 24Jun26",
-      "verified": true
-    },
-    {
-      "claim": "FY19 precedent: a capex cycle held returns down for four years",
-      "ev": "FY19 borrowings +147.7%, fixed assets 3,732 → 6,497; ROCE 36% → 33% and flat to FY22. FY27–FY28 capex is “sizeable”",
-      "src": "balance sheet + Ind-Ra",
-      "verified": true
-    },
-    {
-      "claim": "Concentration in decorative/India",
-      "ev": "Decorative is ~¾ of the market and the majority of revenue; international only ~10% of FY26 revenue — limited diversification if Indian decorative stays competitive",
-      "src": "Ind-Ra 24Jun26",
-      "verified": true
+      "claim": "Four-fifths of the modelled value is a year-eleven exit multiple, not cash you collect",
+      "ev": "About 81% of base-case enterprise value is the terminal assumption. Assume the business is worth nothing after year ten and the same model gives 1,856 rupees a share against a price of 8,059. The price sits 69% of the way from the bear case to the bull case, so the market is already paying for a good outcome rather than discounting trouble; on bear-case operations the same price returns under 2% a year, worse than a government bond. ⚠️ These are outputs of the intrinsic model, not observations.",
+      "src": "intrinsic model, non-perpetual terminal value at year 11",
+      "verified": false
     }
   ]
 };
@@ -2046,215 +2163,201 @@ if (quadsEl) quadsEl.innerHTML = QUADS.filter(q => (POINTS[q.k] || []).length).m
 // ---------------------------------------------------------------------------
 const DCF = {
   "as_of": "2026-08-28",
-  "price": 2640.0,
-  "price_asof": "2026-08-21",
-  "week52_low": 2115.0,
-  "week52_high": 2985.7,
+  "price": 8059,
+  "price_asof": "2026-08-28",
+  "week52_low": 6070,
+  "week52_high": 8230,
   "risk_free": 0.0685,
-  "sales0": 37187,
-  "ebitda0": 7240,
-  "ebitda_margin0": 0.19469169333369188,
-  "eps_ttm": 49.68,
-  "tax": 0.26,
-  "shares_cr": 95.92,
-  "net_cash": 5000.0,
-  "sales_to_capital": 4.961382113821138,
-  "dep_pct": 0.036,
-  "wc_pct": 0.18,
+  "sales0": 24998,
+  "ebitda0": 6173,
+  "ebitda_margin0": 0.24693975518041444,
+  "eps_ttm": 210.41,
+  "tax": 0.2529186914087388,
+  "shares_cr": 27.4299,
+  "net_cash": 16982,
+  "sales_to_capital": 6.5057608263806115,
+  "dep_pct": 0.037,
+  "wc_pct": 0.06027397260273973,
   "explicit_years": 10,
   "terminal_year": 11,
   "base_fy": 2026,
-  "current_ev_ebitda": 34.28574585635359,
-  "current_pe": 53.14009661835749,
-  "ref_multiple": 30.0,
+  "current_ev_ebitda": 33.059412781192286,
+  "current_pe": 38.30141152987025,
   "defaults": {
-    "exit_multiple": 30.0,
+    "exit_multiple": 20.0,
     "wacc": 0.12,
-    "growth": 0.065,
-    "margin": 0.1875
+    "growth": 0.13,
+    "margin": 0.245
   },
   "limits": {
     "exit_multiple": [
-      8,
-      45
+      6,
+      40
     ],
     "wacc": [
       0.07,
-      0.16
+      0.18
     ],
     "growth": [
       0.0,
-      0.16
+      0.25
     ],
     "margin": [
-      0.1,
-      0.26
+      0.14,
+      0.32
     ]
   },
-  "steps": {
-    "exit_multiple": 0.5,
-    "wacc": 0.0025,
-    "growth": 0.0025,
-    "margin": 0.0025
-  },
-  "house_defaults": {
-    "discount_rate": 0.12,
-    "discount_rate_note": "The discount rate is a HOUSE CONVENTION of 12%, applied flat to every company, every scenario and every panel here. It is chosen for comparability between companies, and it is NOT a measurement of this company's cost of capital. The dial keeps its full range and simply starts at 12%, so any reader can move it and see what changes. A bottom-up rate built from a government bond yield, a beta and an equity risk premium would have been about 11.35% — 0.65 percentage points away — but two of its three inputs are assumptions rather than observations, which is exactly why the convention replaced it.",
-    "growth_median": 0.06487152822773345,
-    "growth_adjustment": 0.0,
-    "growth_base_case": 0.06487152822773345,
-    "growth_note": "Sales growth settles at the median year-on-year growth of the last ten financial years (FY17-FY26), 6.49%, with NO permanent adjustment for the latest earnings call — because the call's own arithmetic brackets that median rather than beating it. Management guides an 8-10% volume band and, separately, a 3-4% gap between volume growth and revenue growth caused by product mix; the two together imply about 4-7% of revenue growth once prices stop moving, and the median sits inside that. A median rather than an average, because one exceptional year — the 34% of FY22, which was price and restocking through a cost spike — should not set a decade.",
-    "growth_path": [
-      0.125,
-      0.10495717607591115,
-      0.0849143521518223,
-      0.06487152822773345,
-      0.06487152822773345
-    ],
-    "growth_path_note": "What the calls DO change is the near term, and that is expressed as the shape of the forecast rather than as a permanent uplift. The first year is 12.5%, built from three figures management actually gave: 9% volume, the midpoint of the reaffirmed band; minus 3.5%, the midpoint of the guided mix gap; plus 7%, the weighted average of the price increases taken in April, May and June. It then glides back to the 6.49% median by year 4 and stays there, because a price increase raises the LEVEL of revenue once and does not repeat — and management said it would rather take no more of them unless conditions force it.",
-    "growth_path_value": 1900.8475075066965,
-    "growth_flat_value": 1723.1116877669222,
-    "growth_path_reading": "The two treatments differ by 178 rupees a share, 10.3% of the flat answer — against 314 rupees for a plus-or-minus 10% move in the exit multiple. So the path choice is material and must be published, but it is SMALLER than the exit multiple's swing, which therefore remains the single largest free choice in the model. Both treatments leave the value far below the market price, so the conclusion does not turn on which is used — which is exactly why both are reported.",
-    "regime_note": "Before using a ten-year median at all, it has to be checked against the recent record, because a median protects against a one-off bad year and not against a business whose growth era has genuinely ended. Here the gap is wide: 6.49% over ten years against 1.0% a year compounded over the last three, which include an outright decline. It resolves in the company's favour, and the resolution is checkable. THE VOLUMES NEVER STOPPED. Through those flat years the company sold 7.9% more paint in the December 2025 quarter, 12.4% more in the March 2026 quarter and about 9% more across the year, while the money it took in grew 2.8%, 10.2% and 4.3%. Raw materials got cheaper in every quarter of that year and the company neither cut prices nor raised them, and the mix shifted toward cheaper products. That is a price and mix effect, it is reversible, and it has now reversed — roughly 11% of price increases through the year to March 2026 and about 7% more in the June quarter, which grew its top line about 18%. What has NOT reversed is the return on capital: 38% down to 26%, and there for two years running, with competition management calls the most intense it has seen. So the honest split is that the growth slowdown was cyclical and the returns reset may well be structural — which is why the pessimistic case here cuts the margin to its worst level in a decade rather than assuming the sales disappear.",
-    "margin_median": 0.19305848853768615,
-    "margin_adjustment": -0.005,
-    "margin_base_case": 0.18805848853768614,
-    "margin_note": "Operating margin starts from the median of the same ten years, 19.31%, and takes one stated adjustment of -0.5 percentage points, again from the 3 August 2026 call: the finance office said the benefit of cheaply-bought stock had already been used up in the June quarter and that cost inflation shows up from here, with about 7% of price increases standing against materials still running about 25% dearer. Management nonetheless reaffirmed an 18-20% margin band, so the adjustment is sized to place the base case in the lower half of that band rather than outside it: 18.81%, within a whisker of the 18.83% actually reported in the year to March 2026.",
-    "window": "FY17-FY26",
-    "window_note": "Ten years (FY17-FY26) — ten year-on-year growth observations and ten margin observations, the longest the record supports. The five-year window (FY22-FY26) is reported alongside because it gives materially different answers (4.95% growth, 18.15% margin): it opens on the FY22 cost spike and closes on two weak years, so it samples one cost cycle rather than two.",
-    "slider_snap_note": "The dials move in quarter-point steps, so they start at 6.50% and 18.75% — the nearest step to the computed 6.49% and 18.81%. Note the growth dial starts at the STEADY rate, so a flat calculation from it reproduces the control case worth about Rs 1,723 rather than the base case worth about Rs 1,901, which starts higher and reverts. The difference between those two figures IS the value of the near-term price cycle."
-  },
+  "base_period_label": "the twelve months to June 2026. This company reports to a March year end, so the figures below are a twelve-month run-rate rather than a fiscal year, and each projected year runs to June. The earnings figures are one quarter fresher than the capital figures they stand on.",
+  "year_labels": [
+    "Jun 2027",
+    "Jun 2028",
+    "Jun 2029",
+    "Jun 2030",
+    "Jun 2031",
+    "Jun 2032",
+    "Jun 2033",
+    "Jun 2034",
+    "Jun 2035",
+    "Jun 2036",
+    "Jun 2037"
+  ],
+  "ref_multiple": 20.0,
+  "house_convention_note": "<strong>The 12% discount rate is a house convention, not a cost of capital for this company.</strong> It is applied unchanged to every company covered here so the valuations are comparable with one another. A bottom-up rate built from the government bond yield and an assumed risk measure would have been about 12.85% for this business, so the convention is mildly generous to it &mdash; worth about &#8377;425 a share, which is stated rather than left to be discovered. The rate is also held constant across the bear, base and bull cases on purpose: a low discount rate and a high exit multiple express the same belief, that this is a safe premium franchise, and moving both toward optimism would count that belief twice. Move the dial to see what it is worth.",
+  "defaults_note": "<strong>Growth and margin start from medians, not from the latest quarter.</strong> Sales growth begins at the 14.5% median of the last nine full years and is cut 1.5 points to 13.0%, because the capacity to grow faster does not yet exist: last year's 1.23 million motorcycles against a stated build capacity of about 1.5 million is roughly 11% a year of headroom, and the date for the next big step has moved twice in six months. Operating margin begins at the 24.9% median of the last ten years and is cut 0.38 points to 24.5%; the ten-year and five-year medians agree to within 15 basis points, so that choice is not doing any work. Both adjustments are single, stated numbers you can add straight back.",
+  "two_businesses_note": "<strong>The truck joint venture is not inside these figures, and that is the most important thing to know about them.</strong> Eicher owns Royal Enfield outright and a controlling economic interest in a trucks-and-buses venture with Volvo. The venture is accounted for as an investment rather than added line by line, which the arithmetic confirms: it reported &#8377;27,077cr of revenue last year against the &#8377;23,408cr shown here, and management said the two together crossed &#8377;50,000cr &mdash; so they add rather than overlap. Three consequences. The 24.7% operating margin above is a MOTORCYCLE margin, not a blend of bikes and trucks. There is no minority interest to strip out, because the Volvo side never enters the consolidation at all. And the venture's VALUE comes back only through the investment holdings, carried at book &mdash; which almost certainly understates a stake earning about &#8377;827cr a year, by perhaps &#8377;110 to &#8377;250 a share. That understatement points UP and is not in the numbers below.",
+  "other_income_note": "Operating profit here excludes other income, and on this company that does two jobs at once. It removes the return on a &#8377;17,496cr investment book, which is credited back separately &mdash; counting both would be double counting. And it removes the share of the truck venture's profit, which is exactly right for a motorcycle-only cash flow. <strong>On the &#8377;16,982cr of net assets added above:</strong> there is no cash line published at all, so net debt cannot be established for this company and is bounded instead. The figure used is the investment holdings at their carried value less all borrowings, with no credit for cash. Two very different questions hide inside that. Whether the &#8377;514cr of borrowings counts at all is worth about &#8377;19 a share &mdash; a rounding error, and settled. What the investment holdings are actually worth is worth about &#8377;657 a share, or 8% of the price, and it cannot be resolved from what is available: the holdings are reported as one line mixing a treasury portfolio with the truck stake. That is one of the larger open items in this valuation and it is better stated than smoothed over.",
+  "capacity_note": "<strong>The capacity timetable has moved twice in six months, in both directions.</strong> In February the plan was &#8377;958cr to reach 2 million motorcycles a year, with management agreeing that the full amount would be available at the start of the 2029 financial year. In May that was pulled forward to the second quarter of 2028 and repeated under questioning, with interim capacity put at 'almost 1.6 million plus'. In July interim capacity had shrunk to 'almost about 1.5 million' and the 2-million date had lost its quarter again. A second plant was approved in July at &#8377;1,225cr for another 450,000 units, taking the plan to 2.45 million by 2029-30. Nobody asked about either move, and nobody has ever asked what any of the new money should earn. The projection here is capped by the least optimistic of those timetables, and a separate case prices the drift continuing.",
   "scenarios": [
     {
       "key": "bear",
-      "label": "Bear - an FY22 repeat: the price increases do not stick",
-      "why": "The Q1 FY27 call put ~7% of realised price increases against material inflation 'very high to the extent of about 25%', with the cheap-inventory cushion exhausted from Q2. FY22 is the precedent for what that does to this business, and the margin then was 16.51%. Growth settles at the five-year median of 4.95% — the rate actually achieved through the current cycle — and capital intensity stays at the 4.71x measured over those same five years.",
-      "is_bound_not_forecast": false,
+      "label": "Bear - the mid-size monopoly is being competed away while the capacity to defend it keeps slipping",
       "wacc": 0.12,
       "growth_5y": [
-        0.049489765823158116,
-        0.049489765823158116,
-        0.049489765823158116,
-        0.049489765823158116,
-        0.049489765823158116
+        0.07999376817615282,
+        0.06999376817615283,
+        0.06999376817615283,
+        0.06499376817615282,
+        0.05999376817615282
       ],
       "g_floor": 0.035,
+      "growth_level_vs_default": -0.061,
       "margin_5y": [
-        0.175,
-        0.17,
-        0.1650802377925157,
-        0.1650802377925157,
-        0.1650802377925157
+        0.235,
+        0.23,
+        0.225,
+        0.22,
+        0.215
       ],
-      "margin_floor": 0.1650802377925157,
+      "margin_floor": 0.21,
+      "margin_level_vs_default": -0.02000004018935908,
       "fade_end": 15,
-      "sales_to_capital": 4.713217804960924,
-      "at_30x": 1286.4125578173482,
-      "band_low": 1157.7713020356134,
-      "band_high": 1415.0538135990832,
-      "at_current_multiple": 1432.8310632877267,
-      "required_exit_multiple": 69.7519834168975,
-      "return_at_30x": 0.03428444022671273,
-      "tv_share_at_30x": 0.8276239334234923
+      "sales_to_capital": 4.710108073744437,
+      "at_30x": 3781.0750831609757,
+      "band_low": 3402.967574844878,
+      "band_high": 4159.182591477073,
+      "at_current_multiple": 5316.20893979902,
+      "required_exit_multiple": 56.50549179686588,
+      "return_at_30x": 0.018235161982590786,
+      "tv_share_at_30x": 0.7412200847331787
     },
     {
       "key": "base",
-      "label": "Base - the house defaults: ten-year medians, the price cycle faded out",
-      "why": "Sales growth reverts TO the FY17-FY26 median of 6.49% rather than being projected flat from it. Year 1 is 12.5% — the 9% midpoint of the reaffirmed volume band, less the 3.5% midpoint of the guided volume-to-value gap, plus the 7% of price increases already realised in the June quarter — and it glides back to the median by year 4, because the price increases are a one-off level shift and management would rather take no more. No permanent adjustment is made to the level: the call's own arithmetic, an 8-10% volume band less a 3-4% mix gap, brackets the median instead of beating it. Operating margin is the same window's median of 19.31% less 0.5pp for the exhausted inventory cushion, which lands it in the lower half of the reaffirmed 18-20% band — and is held FLAT, because unlike growth the margin median, the latest full year and the trailing twelve months agree within seven tenths of a point.",
-      "is_bound_not_forecast": false,
+      "label": "Base - the medians, capped by the capacity that actually exists for two years, then released",
       "wacc": 0.12,
       "growth_5y": [
-        0.125,
-        0.10495717607591115,
-        0.0849143521518223,
-        0.06487152822773345,
-        0.06487152822773345
+        0.10999376817615282,
+        0.10999376817615282,
+        0.14499376817615284,
+        0.14499376817615284,
+        0.13999376817615283
       ],
-      "g_floor": 0.06487152822773345,
+      "g_floor": 0.05,
+      "growth_level_vs_default": 0.0,
       "margin_5y": [
-        0.18805848853768614,
-        0.18805848853768614,
-        0.18805848853768614,
-        0.18805848853768614,
-        0.18805848853768614
+        0.2450000401893591,
+        0.2450000401893591,
+        0.2450000401893591,
+        0.2450000401893591,
+        0.2450000401893591
       ],
-      "margin_floor": 0.18805848853768614,
-      "fade_end": 99,
-      "sales_to_capital": 4.961382113821138,
-      "at_30x": 1900.8475075066965,
-      "band_low": 1710.7627567560269,
-      "band_high": 2090.9322582573664,
-      "at_current_multiple": 2125.9261515689946,
-      "required_exit_multiple": 44.121089679398835,
-      "return_at_30x": 0.08046849962515268,
-      "tv_share_at_30x": 0.8494068852416568
+      "margin_floor": 0.24,
+      "margin_level_vs_default": 2.7755575615628914e-17,
+      "fade_end": 20,
+      "sales_to_capital": 6.5057608263806115,
+      "at_30x": 7010.444240919861,
+      "band_low": 6309.399816827875,
+      "band_high": 7711.488665011848,
+      "at_current_multiple": 10386.332012473189,
+      "required_exit_multiple": 24.068879469186122,
+      "return_at_30x": 0.10162043068106474,
+      "tv_share_at_30x": 0.8064079924793344
     },
     {
       "key": "bull",
-      "label": "Bull - pricing sticks and the backward integration delivers",
-      "why": "Value growth runs at the top of the reaffirmed 8-10% volume band with mix on top, and margin climbs to FY24's 21.37% — the best of the last decade — helped by the 300-500bps gross-margin band management still attaches to the vinyl-monomer plant, by premiumisation and by the cost programme it credited in Q1. Capital intensity at the 5.46x measured over FY17-FY26.",
-      "is_bound_not_forecast": false,
+      "label": "Bull - capacity was the only binding constraint, and it is arriving",
       "wacc": 0.12,
       "growth_5y": [
-        0.1,
-        0.1,
-        0.095,
-        0.09,
-        0.09
+        0.14999376817615281,
+        0.15499376817615282,
+        0.1749937681761528,
+        0.1749937681761528,
+        0.16499376817615283
       ],
-      "g_floor": 0.06,
+      "g_floor": 0.07,
+      "growth_level_vs_default": 0.033999999999999975,
       "margin_5y": [
-        0.195,
-        0.205,
-        0.213692069305536,
-        0.213692069305536,
-        0.213692069305536
+        0.25,
+        0.255,
+        0.26,
+        0.262,
+        0.265
       ],
-      "margin_floor": 0.213692069305536,
+      "margin_floor": 0.265,
+      "margin_level_vs_default": 0.013399959810640932,
       "fade_end": 25,
-      "sales_to_capital": 5.462070732957458,
-      "at_30x": 2449.8333571892604,
-      "band_low": 2204.8500214703345,
-      "band_high": 2694.8166929081867,
-      "at_current_multiple": 2743.992112348486,
-      "required_exit_multiple": 32.779847785402666,
-      "return_at_30x": 0.11089738998814325,
-      "tv_share_at_30x": 0.8559305787348338
+      "sales_to_capital": 9.497881355932204,
+      "at_30x": 9966.538024271526,
+      "band_low": 8969.884221844373,
+      "band_high": 10963.19182669868,
+      "at_current_multiple": 14956.68301390116,
+      "required_exit_multiple": 14.992380347687725,
+      "return_at_30x": 0.14820102804552515,
+      "tv_share_at_30x": 0.815041077329296
     },
     {
       "key": "steelman",
-      "label": "Steelman - every contested input at the bull end at once",
-      "why": "Growth above 10% for five years and above 7.5% for thirty, against a ten-year median of 6.49% and a top-of-band volume guidance of 10%; margin taken to FY21's 22.36%, the best in the whole twelve-year record, and held for ever, ignoring the live 25% input inflation entirely; working capital at 12% of incremental sales, better than any case here; depreciation at 3.4% of sales, which in this model IS maintenance capital spending; capital intensity at the best measured window; and the fade pushed out to year 30. Deliberately indefensible on every axis at once, to test whether the conclusion survives it. The discount rate is NOT moved — it is a convention, not a contested input.",
-      "is_bound_not_forecast": true,
+      "label": "Steelman - every contested input past the bull end at once",
       "wacc": 0.12,
       "growth_5y": [
-        0.12,
-        0.115,
-        0.11,
-        0.105,
-        0.1
+        0.1799937681761528,
+        0.18499376817615282,
+        0.19999376817615283,
+        0.19999376817615283,
+        0.19499376817615283
       ],
-      "g_floor": 0.075,
+      "g_floor": 0.085,
+      "growth_level_vs_default": 0.062,
       "margin_5y": [
-        0.21,
-        0.22,
-        0.22364482107493208,
-        0.22364482107493208,
-        0.22364482107493208
+        0.255,
+        0.265,
+        0.275,
+        0.28,
+        0.28
       ],
-      "margin_floor": 0.22364482107493208,
+      "margin_floor": 0.28,
+      "margin_level_vs_default": 0.025999959810640932,
       "fade_end": 30,
-      "sales_to_capital": 5.462070732957458,
-      "at_30x": 2907.7793031542083,
-      "band_low": 2617.0013728387876,
-      "band_high": 3198.5572334696294,
-      "at_current_multiple": 3259.298085931242,
-      "required_exit_multiple": 26.72435425934706,
-      "return_at_30x": 0.13187032959872058,
-      "tv_share_at_30x": 0.8588077847485982
+      "sales_to_capital": 12.0,
+      "at_30x": 13440.347017318443,
+      "band_low": 12096.3123155866,
+      "band_high": 14784.381719050289,
+      "at_current_multiple": 20416.13129821738,
+      "required_exit_multiple": 9.894233667760851,
+      "return_at_30x": 0.18812877365574832,
+      "tv_share_at_30x": 0.8306568298665723
     }
   ],
-  "note": "Flat-rate calculator: growth and margin held constant for all 11 years. The base case is built exactly that way — it is the ten-year medians with one stated adjustment each, held flat — so the calculator reproduces it. The bear, bull and steelman rows fade growth and margin toward a floor and will NOT match a flat calculator. Terminal value is struck on year-11 operating profit and discounted by the year-10 factor, since it is money standing at the end of year 10."
+  "note": "Flat-rate calculator: growth and margin held constant for all eleven years. The scenario rows below use FADING paths and will not match it. The terminal value is struck on year-11 operating profit and discounted by the year-10 factor, since it is money standing at the end of year 10 &mdash; applying the year-11 factor as well is the classic off-by-one and understates the answer by about 11%. Maintenance capital spending is set equal to depreciation, so the depreciation share of sales is a real cash assumption here and not an accounting line. This is research, not advice: there is no buy, sell or hold call anywhere in it, markets carry risk, and a SEBI-registered adviser is the right person to ask about your own position."
 };
 
 (function () {
@@ -2592,485 +2695,443 @@ const DCF = {
 // stated without what changed.
 // ---------------------------------------------------------------------------
 const RELVAL = {
-  "as_of": "2026-08-23",
-  "price_asof": "2026-08-21",
-  "price": 2640,
-  "subject": "ASIANPAINT",
-  "subject_name": "Asian Paints",
+  "as_of": "2026-08-28",
+  "price_asof": "2026-08-28",
+  "price": 8059.0,
+  "subject": "EICHERMOT",
+  "subject_name": "Eicher Motors",
   "history": {
     "window": {
-      "from": "2015-06-01",
-      "to": "2026-08-17",
-      "bars": 586
+      "from": "2024-05-06",
+      "to": "2026-08-24",
+      "bars": 121,
+      "years": 2.31
     },
+    "history_is_short": true,
+    "short_history_caveat": "⚠️ Every band below covers just 2.3 years — 121 weekly readings from May 2024 to August 2026 — and that is not enough to show a cycle. Deeper history could not be obtained: the market-data service's paging route was unavailable and quietly returned the most recent window again instead of the earlier one, so this is a hard ceiling on the evidence rather than a choice. Three things follow, and they are the reason the percentiles below carry a warning rather than a conclusion. The window contains no cyclical downturn: the share price rose 73% across it and the deepest fall from a running peak inside it is 17.6%, which is a correction in an uptrend, not a cycle low — and for a business that sells motorcycles and trucks, 2.3 years is about a third of a cycle. The whole window divides by only FOUR different annual results, so the distribution behind each percentile is a handful of price trends stitched together rather than a population of valuations the market has actually visited. And the drift is a large share of the apparent range: the earnings multiple's midpoint rose from 33.5 times in the first half of the window to 40.1 times in the second, so a percentile against it mostly tells you where in that trend today sits. Read these as a description of recent price action. What the evidence genuinely supports is the decomposition further down: where the share-price move came from.",
     "bands": [
       {
         "key": "pe",
-        "label": "PE",
-        "min": 38.29497540407589,
-        "p25": 58.56786656286651,
-        "median": 65.36592648988682,
-        "p75": 79.81650355871886,
-        "max": 110.24216524216524,
-        "now": 58.54956753160346,
-        "percentile": 0.24744027303754265,
-        "vs_median": -0.10428000220172762
-      },
-      {
-        "key": "pe3",
-        "label": "PE on 3-yr avg EPS",
-        "min": 47.16584517251377,
-        "p25": 60.69979367262724,
-        "median": 70.13375933981675,
-        "p75": 89.82733463035021,
-        "max": 128.6284618151301,
-        "now": 56.47461494580718,
-        "percentile": 0.1348122866894198,
-        "vs_median": -0.1947584804035296
-      },
-      {
-        "key": "ev_ebitda",
-        "label": "EV/EBITDA",
-        "min": 27.286436387607118,
-        "p25": 36.79450840690556,
-        "median": 40.481269742981596,
-        "p75": 49.98114684387728,
-        "max": 69.891823723229,
-        "now": 37.32773134328359,
-        "percentile": 0.31399317406143346,
-        "vs_median": -0.07790117305410726
-      },
-      {
-        "key": "ev_sales",
-        "label": "EV/Sales",
-        "min": 4.885490121189864,
-        "p25": 6.967701898818218,
-        "median": 7.820975670122428,
-        "p75": 9.182157108003162,
-        "max": 15.630944411182242,
-        "now": 7.0283217176259,
-        "percentile": 0.2764505119453925,
-        "vs_median": -0.10134975301414273
+        "label": "PE — SHORT HISTORY (2.3y)",
+        "min": 30.800857027042678,
+        "p25": 33.19441593102032,
+        "median": 36.43331280366797,
+        "p75": 40.378713301291334,
+        "max": 46.70218310266952,
+        "now": 40.08256241917835,
+        "percentile": 0.7107438016528925,
+        "vs_median": 0.10016244295915344,
+        "observations": 121,
+        "window_years": 2.31
       },
       {
         "key": "pb",
-        "label": "PB",
-        "min": 10.724251546391752,
-        "p25": 14.548833771699105,
-        "median": 16.67539279202238,
-        "p75": 19.431482532589058,
-        "max": 27.845206712734452,
-        "now": 11.848624368332398,
-        "percentile": 0.05802047781569966,
-        "vs_median": -0.2894545564167543
+        "label": "PB — SHORT HISTORY (2.3y)",
+        "min": 6.851040766355184,
+        "p25": 7.373473587785536,
+        "median": 8.06549202859601,
+        "p75": 8.899011215406649,
+        "max": 10.387975894088092,
+        "now": 8.807081876426295,
+        "percentile": 0.7024793388429752,
+        "vs_median": 0.09194601460158869,
+        "observations": 121,
+        "window_years": 2.31
+      },
+      {
+        "key": "ev_ebitda",
+        "label": "EV/EBITDA — SHORT HISTORY (2.3y)",
+        "min": 26.065889965562487,
+        "p25": 28.35963733895126,
+        "median": 31.07316676367248,
+        "p75": 36.9573268257887,
+        "max": 43.80464421776413,
+        "now": 35.252332889670065,
+        "percentile": 0.6694214876033058,
+        "vs_median": 0.13449437444797008,
+        "observations": 121,
+        "window_years": 2.31
+      },
+      {
+        "key": "ev_sales",
+        "label": "EV/Sales — SHORT HISTORY (2.3y)",
+        "min": 6.823853269286406,
+        "p25": 7.308388871171383,
+        "median": 8.013534836313877,
+        "p75": 9.250103582310546,
+        "max": 10.963928703789083,
+        "now": 8.718205532224026,
+        "percentile": 0.6694214876033058,
+        "vs_median": 0.08793506365217074,
+        "observations": 121,
+        "window_years": 2.31
       }
     ],
+    "drift_diagnostic": [
+      {
+        "key": "pe",
+        "first_half_median": 33.46951344693082,
+        "second_half_median": 40.08256241917835,
+        "half_shift": 0.19758425776739075,
+        "drift_share_of_range": 0.41588034487160475
+      },
+      {
+        "key": "pb",
+        "first_half_median": 7.434580982229427,
+        "second_half_median": 8.869386485640495,
+        "half_shift": 0.192990769330595,
+        "drift_share_of_range": 0.4056635057173765
+      },
+      {
+        "key": "ev_ebitda",
+        "first_half_median": 28.343336346799365,
+        "second_half_median": 36.9573268257887,
+        "half_shift": 0.3039158966182207,
+        "drift_share_of_range": 0.48560289840647686
+      },
+      {
+        "key": "ev_sales",
+        "first_half_median": 7.362963404899613,
+        "second_half_median": 9.250103582310546,
+        "half_shift": 0.25630171897298215,
+        "drift_share_of_range": 0.45582265523082766
+      }
+    ],
+    "drift_note": "A short window can look like a valuation range when it is really just a trend. This table measures the difference: it compares the midpoint of each multiple over the first half of the window with the second half, and shows how much of the whole apparent range is accounted for by that one-directional shift. Between 41% and 49% of every range here is drift, which is why the percentiles are labelled rather than used.",
     "fy_snapshots": [
-      {
-        "fy": "FY16",
-        "as_of": "2016-03-28",
-        "close": 870,
-        "valued_on": "FY15",
-        "pe": 59.834938101788175,
-        "ev_ebitda": 36.68319215336603,
-        "pb": 17.59814424293547,
-        "ev_sales": 6.043363936834375,
-        "roce": 42,
-        "sales": 14271,
-        "opm": 19,
-        "eps": 18.19
-      },
-      {
-        "fy": "FY17",
-        "as_of": "2017-03-27",
-        "close": 1073.5,
-        "valued_on": "FY16",
-        "pe": 59.015942825728416,
-        "ev_ebitda": 36.910502752293574,
-        "pb": 15.780861302681991,
-        "ev_sales": 7.047937775909186,
-        "roce": 38,
-        "sales": 15062,
-        "opm": 20,
-        "eps": 20.22
-      },
-      {
-        "fy": "FY18",
-        "as_of": "2018-03-26",
-        "close": 1120.4,
-        "valued_on": "FY17",
-        "pe": 55.41048466864491,
-        "ev_ebitda": 35.195981295925186,
-        "pb": 14.13318884797475,
-        "ev_sales": 6.996200239012084,
-        "roce": 36,
-        "sales": 16825,
-        "opm": 19,
-        "eps": 21.26
-      },
-      {
-        "fy": "FY19",
-        "as_of": "2019-03-25",
-        "close": 1492.7,
-        "valued_on": "FY18",
-        "pe": 70.21166509877705,
-        "ev_ebitda": 44.18595006242197,
-        "pb": 17.02494458977408,
-        "ev_sales": 8.414370520059435,
-        "roce": 33,
-        "sales": 19240,
-        "opm": 20,
-        "eps": 22.48
-      },
-      {
-        "fy": "FY20",
-        "as_of": "2020-03-30",
-        "close": 1520.9,
-        "valued_on": "FY19",
-        "pe": 67.65569395017793,
-        "ev_ebitda": 38.41586401062417,
-        "pb": 15.403307781649247,
-        "ev_sales": 7.51744948024948,
-        "roce": 33,
-        "sales": 20211,
-        "opm": 21,
-        "eps": 28.2
-      },
-      {
-        "fy": "FY21",
-        "as_of": "2021-03-29",
-        "close": 2551.75,
-        "valued_on": "FY20",
-        "pe": 90.48758865248227,
-        "ev_ebitda": 58.59271023546372,
-        "pb": 24.162276406712735,
-        "ev_sales": 12.06584830043046,
-        "roce": 34,
-        "sales": 21713,
-        "opm": 22,
-        "eps": 32.73
-      },
-      {
-        "fy": "FY22",
-        "as_of": "2022-03-28",
-        "close": 3114.15,
-        "valued_on": "FY21",
-        "pe": 95.14665444546289,
-        "ev_ebitda": 60.763028830313026,
-        "pb": 23.32572762767453,
-        "ev_sales": 13.589336710726295,
-        "roce": 29,
-        "sales": 29101,
-        "opm": 17,
-        "eps": 31.59
-      },
-      {
-        "fy": "FY23",
-        "as_of": "2023-03-27",
-        "close": 2761.65,
-        "valued_on": "FY22",
-        "pe": 87.42165242165242,
-        "ev_ebitda": 54.795268109908406,
-        "pb": 19.17879148566464,
-        "ev_sales": 9.045615889488333,
-        "roce": 34,
-        "sales": 34489,
-        "opm": 18,
-        "eps": 42.81
-      },
-      {
-        "fy": "FY24",
-        "as_of": "2024-03-25",
-        "close": 2846.75,
-        "valued_on": "FY23",
-        "pe": 66.49731371174958,
-        "ev_ebitda": 43.24780511182109,
-        "pb": 17.074803651825913,
-        "ev_sales": 7.8497857287830906,
-        "roce": 38,
-        "sales": 35495,
-        "opm": 21,
-        "eps": 56.92
-      },
       {
         "fy": "FY25",
         "as_of": "2025-03-31",
-        "close": 2356.05,
-        "valued_on": "FY24",
-        "pe": 41.39230498945889,
-        "ev_ebitda": 29.515928279499015,
-        "pb": 12.067082229816318,
-        "ev_sales": 6.307319791519933,
-        "roce": 26,
-        "sales": 33906,
-        "opm": 18,
-        "eps": 38.23
+        "close": 5247.9,
+        "valued_on": "Mar 2024",
+        "pe": 35.9125436255389,
+        "pb": 7.9772511269177055,
+        "ev_ebitda": 30.224415935604064,
+        "ev_sales": 7.91252398314163,
+        "roce": 30,
+        "sales": 18870,
+        "opm": 25,
+        "eps": 172.69,
+        "roe": 22.22952667167543
       },
       {
         "fy": "FY26",
         "as_of": "2026-03-30",
-        "close": 2169,
-        "valued_on": "FY25",
-        "pe": 56.735547998953706,
-        "ev_ebitda": 34.235011655011654,
-        "pb": 10.724251546391752,
-        "ev_sales": 6.064280068424468,
-        "roce": 26,
-        "sales": 35584,
-        "opm": 19,
-        "eps": 45.09
+        "close": 6649.5,
+        "valued_on": "Mar 2025",
+        "pe": 38.50541432624935,
+        "pb": 8.564766981740702,
+        "ev_ebitda": 35.583797934183785,
+        "ev_sales": 8.906321019774776,
+        "roce": 31,
+        "sales": 23408,
+        "opm": 25,
+        "eps": 201.06,
+        "roe": 21.97211155378486
+      },
+      {
+        "fy": "now",
+        "as_of": "2026-08-24",
+        "close": 8059,
+        "valued_on": "Mar 2026",
+        "pe": 40.08256241917835,
+        "pb": 8.807081876426295,
+        "ev_ebitda": 35.252332889670065,
+        "ev_sales": 8.718205532224026,
+        "roce": null,
+        "sales": null,
+        "opm": null,
+        "eps": null,
+        "roe": null
       }
     ],
-    "ev_note": "Enterprise value is market value plus borrowings less the investment book, on one consistent definition for every year. It is gross of lease liabilities, so the level is not a statement about leverage — the company is net cash on the rating agency's definition.",
-    "method_note": "Every multiple uses the annual result that had actually been PUBLISHED as of that week, so there is no look-ahead and no dividing an old price by today's earnings. Prices are adjusted for splits and bonuses; the share count has been flat throughout, so no adjustment distortion exists to correct for."
+    "method_note": "Method, so the bands are auditable. Each observation divides that week's price by the annual result that had actually been PUBLISHED by then — the 2026 result came out in late May 2026, so earlier weeks are struck on the 2025 result — which removes look-ahead. Prices are adjusted for splits and bonuses, and that assumption was checked rather than assumed: an unadjusted price print exists for all 121 weeks and matches the adjusted price on every one, so nothing inside this window has been adjusted. The per-share earnings series is also internally consistent across the whole twelve-year record — profit divided by reported earnings per share implies 27.16 to 27.44 crore shares in every single year against 27.43 crore outstanding today — so price against per-share figure is comparable throughout. One reading warning: today's 40.1 times is struck on the published annual result, the same basis as all 121 historical readings. The 38.0 times used in the peer table below is the data provider's trailing-twelve-month basis, which is what makes that table consistent across its six companies. Both are right on their own basis and must never be mixed inside one comparison.",
+    "ev_note": "Enterprise value is market value plus borrowings less the investment book, on one consistent definition for every year. Two things about it matter here. First, this is a net-cash business and the cash is large: 514 crore of borrowings against a 17,496 crore investment book, so net cash is 16,982 crore, 7.7% of market value, and the enterprise-value multiples sit BELOW the equity multiples rather than above them. Second, and more important, the commercial-vehicle joint venture is accounted for by the equity method rather than consolidated, so its entire profit arrives as other income and never touches operating profit. Netting the investment book off enterprise value removes the asset at the same time as its earnings are excluded from the denominator, which is the consistent choice — but a joint venture carried at book value is probably carried below what it is worth, so too little is being removed and the enterprise-value multiple is overstated to that extent. That is why 35.3 times operating profit reads high next to 40.1 times earnings."
   },
   "derating": {
-    "peak_label": "FY22-FY24, before/early competitor entry",
-    "peak_from": "2021-04-01",
-    "peak_to": "2024-03-31",
-    "now_label": "last ~12 months",
+    "peak_label": "the first quarter of the observable window",
+    "peak_from": "2024-05-06",
+    "peak_to": "2024-07-29",
+    "now_label": "the last quarter of it",
+    "direction": "re-rating",
     "multiples": [
       {
         "key": "pe",
-        "label": "PE",
-        "peak": 89.83634438188176,
-        "now": 64.90433076631977,
-        "change": -0.27752702747542213
-      },
-      {
-        "key": "pe3",
-        "label": "PE on 3-yr avg EPS",
-        "peak": 101.28738011709856,
-        "now": 55.832415170918864,
-        "change": -0.4487722448110427
-      },
-      {
-        "key": "ev_ebitda",
-        "label": "EV/EBITDA",
-        "peak": 57.300036882223665,
-        "now": 39.70017828587177,
-        "change": -0.30715265738008524
-      },
-      {
-        "key": "ev_sales",
-        "label": "EV/Sales",
-        "peak": 11.022435942056367,
-        "now": 7.132463268817582,
-        "change": -0.3529140648843784
+        "label": "PE — SHORT HISTORY (2.3y)",
+        "peak": 36.54013700508951,
+        "now": 38.058482351230786,
+        "change": 0.04155280933757277
       },
       {
         "key": "pb",
-        "label": "PB",
-        "peak": 21.540706731788248,
-        "now": 12.45623161650951,
-        "change": -0.4217352396276076
+        "label": "PB — SHORT HISTORY (2.3y)",
+        "peak": 7.744824305376698,
+        "now": 8.362343870496629,
+        "change": 0.07973319222893527
+      },
+      {
+        "key": "ev_ebitda",
+        "label": "EV/EBITDA — SHORT HISTORY (2.3y)",
+        "peak": 29.59756061580294,
+        "now": 33.32403371039305,
+        "change": 0.12590473731813034
+      },
+      {
+        "key": "ev_sales",
+        "label": "EV/Sales — SHORT HISTORY (2.3y)",
+        "peak": 7.504103373412932,
+        "now": 8.241320537827468,
+        "change": 0.09824187217709435
       }
     ],
     "drivers": [
       {
         "key": "roce",
         "label": "Return on capital",
-        "peak": 33.666666666666664,
-        "now": 26.0,
-        "change": -0.2277227722772277
+        "peak": 29.76923076923077,
+        "now": 31.0,
+        "change": 0.04134366925064592
+      },
+      {
+        "key": "roe",
+        "label": "Return on equity — held down by the cash pile",
+        "peak": 21.33150983576621,
+        "now": 21.97211155378486,
+        "change": 0.030030772455898358
       },
       {
         "key": "opm",
         "label": "Operating margin",
-        "peak": 18.666666666666668,
-        "now": 18.5,
-        "change": -0.008928571428571508
+        "peak": 25.384615384615383,
+        "now": 25.0,
+        "change": -0.015151515151515138
       },
       {
         "key": "eps",
         "label": "Earnings per share",
-        "peak": 43.77333333333333,
-        "now": 41.66,
-        "change": -0.04827901309777649
+        "peak": 133.95153846153846,
+        "now": 201.06,
+        "change": 0.5009905993556798
       },
       {
         "key": "sales",
         "label": "Sales",
-        "peak": 33028.333333333336,
-        "now": 34745.0,
-        "change": 0.05197557652520546
+        "peak": 15891.692307692309,
+        "now": 23408.0,
+        "change": 0.4729708798017347
       }
     ],
     "price_decomposition": {
-      "price_avg_peak": 3087.023717948718,
-      "price_avg_now": 2577.866666666667,
-      "eps_used_avg_peak": 34.896153846153844,
-      "eps_used_avg_now": 39.84411764705882,
-      "pe_consistent_peak": 88.46315074029172,
-      "pe_consistent_now": 64.69880170271401,
-      "price_change_actual": -0.16493460944977079,
-      "price_change_implied": -0.1649346094497709,
-      "earnings_contribution": 0.1417910931594064,
-      "multiple_contribution": -0.2686355712939119,
-      "note": "EPS is the then-published figure actually used in each bar's PE, averaged over the same bars, so price = EPS x PE holds exactly. The multiple contribution is the part NOT explained by earnings."
+      "price_avg_early": 4797.661538461538,
+      "price_avg_now": 7652.038461538462,
+      "eps_used_avg_early": 133.95153846153846,
+      "eps_used_avg_now": 201.06,
+      "pe_consistent_early": 35.8163974342041,
+      "pe_consistent_now": 38.058482351230786,
+      "price_change_actual": 0.5949517072419899,
+      "price_change_implied": 0.5949517072419899,
+      "earnings_contribution": 0.5009905993556798,
+      "multiple_contribution": 0.06259939797533987
     },
     "residual": {
-      "multiple_change_ev_ebitda": -0.30715265738008524,
-      "roce_change": -0.2277227722772277,
-      "sales_growth_then_pct_cagr": 9.1,
-      "sales_growth_now_pct": 0.05197557652520546,
-      "residual_vs_roce": -0.07942988510285753,
-      "interpretation": "EV/EBITDA fell 31% while ROCE fell 23% and the topline went from a 9.1% CAGR to roughly flat. A business earning 26% on capital with a stalled topline SHOULD trade below one earning 34% and compounding, so most of the de-rating is explained. The residual is single-digit percent — not an obvious mispricing in either direction. NO 1:1 law maps ROCE to a multiple; this brackets the residual, it does not measure it."
+      "interpretation": "This is a RE-rating window, not a de-rating one, and the striking thing is how little re-rating there was. Between the first quarter of bars and the last, the share price rose 59.5%. Decomposed on the identity that price equals earnings times the multiple — with earnings taken as the figure each bar actually divided by, so the arithmetic reconciles by construction — that is +50.1% of published earnings and only +6.3% of multiple. Practically the whole move is earnings. The drivers agree and are almost flat: return on capital 29.8% to 31.0%, return on equity 21.3% to 22.0%, operating margin 25.4% to 25.0%. Sales rose 47%. So over the stretch that can be observed, the market did not change its mind about this company — it simply paid for more profit at about the same multiple. That is a finding the 2.3-year window fully supports, unlike any claim about whether 40x is the right multiple.",
+      "no_1to1_law": "No one-to-one law maps a return on capital to a multiple. Statements like this bracket what a change in the drivers could explain; they do not measure it."
     }
   },
   "peers": {
     "rows": [
       {
-        "symbol": "ASIANPAINT",
-        "name": "Asian Paints",
-        "cmp": 2640,
-        "market_cap_cr": 253228.22,
-        "pe": 51.92,
-        "div_yield": 1.04,
-        "roce": 26.34,
-        "roe": 21.79,
-        "opm": 19.47,
-        "np_qtr": 1559.45,
-        "sales_qtr": 10541.94,
-        "qtr_sales_var": 17.94,
-        "qtr_profit_var": 39.96,
-        "is_subject": true,
-        "pe_per_roce": 1.971146545178436,
-        "pe_rank": 1,
-        "roce_rank": 1
-      },
-      {
-        "symbol": "BERGEPAINT",
-        "name": "Berger Paints",
-        "cmp": 524.4,
-        "market_cap_cr": 61145.19,
-        "pe": 49.78,
-        "div_yield": 0.76,
-        "roce": 21.55,
-        "roe": 17.31,
-        "opm": 15.59,
-        "np_qtr": 405.01,
-        "sales_qtr": 3583.75,
-        "qtr_sales_var": 11.97,
-        "qtr_profit_var": 18.22,
+        "symbol": "MARUTI",
+        "name": "Maruti Suzuki",
+        "cmp": 13376,
+        "pe": 29.37,
+        "market_cap_cr": 420920.71,
+        "div_yield": 1.05,
+        "roce": 18.87,
+        "roe": 14.26,
+        "opm": 10.72,
+        "np_qtr_cr": 3446.9,
+        "sales_qtr_cr": 52469.8,
+        "qtr_sales_var": 35.91,
+        "qtr_profit_var": -9.11,
+        "_rows_in_bracket": 2,
         "is_subject": false,
-        "pe_per_roce": 2.3099767981438517,
-        "pe_rank": 2,
-        "roce_rank": 3
-      },
-      {
-        "symbol": "KANSAINER",
-        "name": "Kansai Nerolac",
-        "cmp": 205.85,
-        "market_cap_cr": 16648.71,
-        "pe": 25.82,
-        "div_yield": 1.21,
-        "roce": 11.99,
-        "roe": 8.82,
-        "opm": 12.1,
-        "np_qtr": 228.41,
-        "sales_qtr": 2373.59,
-        "qtr_sales_var": 9.79,
-        "qtr_profit_var": 4.83,
-        "is_subject": false,
-        "pe_per_roce": 2.153461217681401,
-        "pe_rank": 5,
-        "roce_rank": 5
-      },
-      {
-        "symbol": "JSWDULUX",
-        "name": "JSW Dulux",
-        "cmp": 3118.8,
-        "market_cap_cr": 14203.11,
-        "pe": 36.99,
-        "div_yield": 1.6,
-        "roce": 22.73,
-        "roe": 19.1,
-        "opm": 13.67,
-        "np_qtr": 79.7,
-        "sales_qtr": 965,
-        "qtr_sales_var": -3.02,
-        "qtr_profit_var": -12.42,
-        "is_subject": false,
-        "pe_per_roce": 1.6273647162340519,
+        "pe_per_roce": 1.5564387917329094,
         "pe_rank": 3,
-        "roce_rank": 2
+        "roce_rank": 4,
+        "in_peer_group": false,
+        "in_median": false,
+        "why": "CONTEXT ROW, held out of the two-wheeler median: the passenger-vehicle anchor, showing what the market pays for the largest and most liquid Indian auto business"
       },
       {
-        "symbol": "INDIGOPNTS",
-        "name": "Indigo Paints",
-        "cmp": 1151.8,
-        "market_cap_cr": 5497.85,
-        "pe": 33.21,
-        "div_yield": 0.43,
-        "roce": 17.94,
-        "roe": 13.43,
-        "opm": 19.13,
-        "np_qtr": 42.37,
-        "sales_qtr": 350.05,
-        "qtr_sales_var": 18.72,
-        "qtr_profit_var": 60.74,
+        "symbol": "BAJAJ-AUTO",
+        "name": "Bajaj Auto",
+        "cmp": 11910,
+        "pe": 27.87,
+        "market_cap_cr": 328552.88,
+        "div_yield": 1.26,
+        "roce": 28.24,
+        "roe": 29.15,
+        "opm": 19.82,
+        "np_qtr_cr": 3188.75,
+        "sales_qtr_cr": 21688.83,
+        "qtr_sales_var": 65.14,
+        "qtr_profit_var": 45.93,
+        "_rows_in_bracket": 1,
         "is_subject": false,
-        "pe_per_roce": 1.851170568561873,
+        "pe_per_roce": 0.9868980169971673,
         "pe_rank": 4,
-        "roce_rank": 4
+        "roce_rank": 3,
+        "in_peer_group": true,
+        "in_median": true,
+        "why": "the closest single comparable: premium motorcycles, three-wheelers, a large export book and a net-cash balance sheet, at a similar market value"
+      },
+      {
+        "symbol": "EICHERMOT",
+        "name": "Eicher Motors",
+        "cmp": 8059,
+        "pe": 38.03,
+        "market_cap_cr": 221209.74,
+        "div_yield": 1.02,
+        "roce": 30.53,
+        "roe": 23.96,
+        "opm": 24.69,
+        "np_qtr_cr": 1462.51,
+        "sales_qtr_cr": 6632.42,
+        "qtr_sales_var": 31.55,
+        "qtr_profit_var": 21.35,
+        "_rows_in_bracket": 2,
+        "is_subject": true,
+        "pe_per_roce": 1.2456600065509336,
+        "pe_rank": 2,
+        "roce_rank": 2,
+        "in_peer_group": true,
+        "in_median": false,
+        "why": "the subject"
+      },
+      {
+        "symbol": "TVSMOTOR",
+        "name": "TVS Motor Co.",
+        "cmp": 4304.2,
+        "pe": 59.22,
+        "market_cap_cr": 204847.01,
+        "div_yield": 0.28,
+        "roce": 17.37,
+        "roe": 33.62,
+        "opm": 14.78,
+        "np_qtr_cr": 1057.61,
+        "sales_qtr_cr": 16295.52,
+        "qtr_sales_var": 33.46,
+        "qtr_profit_var": 67.11,
+        "_rows_in_bracket": 5,
+        "is_subject": false,
+        "pe_per_roce": 3.409326424870466,
+        "pe_rank": 1,
+        "roce_rank": 5,
+        "in_peer_group": true,
+        "in_median": true,
+        "why": "the other listed two-and-three-wheeler maker of scale and the fastest grower in the set — but the only one carrying a large consolidated financing business, which is why its return on equity is the highest here and its return on capital the second lowest"
+      },
+      {
+        "symbol": "HEROMOTOCO",
+        "name": "Hero Motocorp",
+        "cmp": 5600,
+        "pe": 20.28,
+        "market_cap_cr": 112295.57,
+        "div_yield": 3.3,
+        "roce": 35.22,
+        "roe": 28.1,
+        "opm": 13.95,
+        "np_qtr_cr": 1417.93,
+        "sales_qtr_cr": 13126.35,
+        "qtr_sales_var": 34.94,
+        "qtr_profit_var": -17.18,
+        "_rows_in_bracket": 2,
+        "is_subject": false,
+        "pe_per_roce": 0.575809199318569,
+        "pe_rank": 6,
+        "roce_rank": 1,
+        "in_peer_group": true,
+        "in_median": true,
+        "why": "the mass-market volume leader, and the most informative row in the table — the highest return on capital in the set on the LOWEST earnings multiple in it"
+      },
+      {
+        "symbol": "ASHOKLEY",
+        "name": "Ashok Leyland",
+        "cmp": 175.77,
+        "pe": 27.63,
+        "market_cap_cr": 102896.73,
+        "div_yield": 1.99,
+        "roce": 13.63,
+        "roe": 27.43,
+        "opm": 19.03,
+        "np_qtr_cr": 667.77,
+        "sales_qtr_cr": 13069.59,
+        "qtr_sales_var": 11.62,
+        "qtr_profit_var": 0.78,
+        "_rows_in_bracket": 25,
+        "is_subject": false,
+        "pe_per_roce": 2.0271460014673512,
+        "pe_rank": 5,
+        "roce_rank": 6,
+        "in_peer_group": false,
+        "in_median": false,
+        "why": "CONTEXT ROW, held out of the two-wheeler median: a pure commercial-vehicle manufacturer, and the nearest listed proxy for the truck joint venture whose profit this company reports but whose shares nobody can buy"
       }
     ],
     "median": {
-      "pe": 35.1,
-      "roce": 19.745,
-      "roe": 15.37,
-      "opm": 14.629999999999999,
-      "div_yield": 0.985
+      "pe": 27.87,
+      "roce": 28.24,
+      "roe": 29.15,
+      "opm": 14.78,
+      "div_yield": 1.26
     },
+    "median_label": "median of the three other listed Indian two-wheeler makers — the passenger-vehicle and truck rows are context and are deliberately left out of it",
     "vs_median": {
-      "pe": 0.4792022792022792,
-      "roce": 0.33400860977462643,
-      "roe": 0.41769681197137287,
-      "opm": 0.3308270676691729,
-      "div_yield": 0.055837563451776706
+      "pe": 0.3645496950125584,
+      "roce": 0.08109065155807382,
+      "roe": -0.1780445969125214,
+      "opm": 0.6705006765899866,
+      "div_yield": -0.19047619047619047
     },
     "excluded": [
       {
-        "symbol": "GRASIM",
-        "why": "owns Birla Opus but is a cement/viscose/chemicals/financials conglomerate — competitive context only, never in the median"
+        "symbol": "M&M",
+        "why": "quoted in the same batch call at 3,334 and then deliberately not screened. A diversified group spanning passenger vehicles, tractors, commercial vehicles, technology services and financial services, so its consolidated multiple is not a two-wheeler multiple and would not be a clean commercial-vehicle one either. Competitive context, never in a median."
       },
       {
-        "symbol": "PIDILITIND",
-        "why": "adhesives & specialty chemicals, not paint"
+        "symbol": "ESCORTS",
+        "why": "quoted at 3,015.5 and deliberately not screened: tractors and construction equipment under a controlling foreign partner. It competes with neither half of this company."
       },
       {
-        "symbol": "SHALPAINTS",
-        "why": "sub-Rs 1,000cr micro-cap, loss-making history"
+        "symbol": "(the truck joint venture)",
+        "why": "the structural exclusion that matters most. The commercial-vehicle joint venture is NOT separately listed, so the half of this company that makes trucks and buses cannot be priced directly at all — its entire profit arrives as other income and never touches operating profit. Ashok Leyland is included as the nearest proxy and is not a substitute for it."
       },
       {
-        "symbol": "SIRCA",
-        "why": "~Rs 2,000cr wood-coatings niche — scale and mix mismatch"
+        "symbol": "(global motorcycle rivals)",
+        "why": "the mid-size motorcycle brands Royal Enfield actually competes with worldwide are not listed in India, so the premium-motorcycle half has no domestic comparable either. Both halves of this business are therefore being compared to approximations."
       },
       {
-        "symbol": "KAMOPAINTS",
-        "why": "micro-cap, Rs 4.45 share price, different business mix"
+        "symbol": "(electric-only two-wheelers)",
+        "why": "the pure-play electric two-wheeler manufacturers that listed from 2024 onward were neither quoted nor screened. An early-stage manufacturer's multiple is not comparable to an established one and would move the median without adding information."
       }
     ],
     "scale_range": [
-      5497.85,
-      253228.22
+      102896.73,
+      420920.71
     ],
-    "basis_note": "Every row comes from a single screening endpoint, one call per company, so the table is internally consistent. This matters: a different endpoint at the same vendor reports Asian Paints' return on capital as 24.4% rather than 26.3%, and mixing the two would put the subject on a different basis from its peers.",
-    "limitation": "Enterprise-value multiples and price-to-book are not available for the peers from this endpoint, so the peer table is price-to-earnings only — which ignores the balance sheet entirely. Asian Paints holds net cash, which flatters debt-carrying peers in a P/E comparison. Read it alongside the enterprise-value band above."
+    "basis_note": "There are only four listed Indian two-wheeler makers, and all four are in this table: the subject, TVS Motor, Bajaj Auto and Hero MotoCorp. The median is drawn from those three peers alone. Maruti Suzuki and Ashok Leyland are shown as context and deliberately kept out of it — a passenger-vehicle maker and a truck maker answer a different question, though Ashok Leyland is the nearest listed proxy for the truck joint venture whose profit this company reports and whose shares nobody can buy. Every row, including the subject's own, comes from a single screening source queried once per company on the same day, so the table is internally consistent. That is not a formality: another source at the same provider reports this company's return on capital as 26.4% rather than 30.5%, and for TVS Motor the two sources differ far more violently still — 28.9% against 17.4% — which is enough to invert a conclusion on its own. The 4.1-times spread in size from 102,897 crore to 420,921 crore is tight for a peer set, so the usual objection that scale explains the multiple has little force here. One disclosure that does matter: with three peers the median earnings multiple is literally one company's number, Bajaj Auto's 27.9 times, so the premium measured against it is worth exactly as much as that single company's price is right.",
+    "rank_inversion": "Ask the only interesting question — is any company's multiple out of line with what should drive it — and this cohort answers loudly. Rank the six on earnings multiple and on return on capital and the gaps sum to 12 out of a possible 18, which is a strongly INVERTED set. Hero MotoCorp earns the highest return on capital here, 35.2%, and carries the lowest multiple, 20.3 times — 0.58 times of multiple per point of return. TVS Motor earns the second-lowest return, 17.4%, and carries the highest multiple, 59.2 times — 3.41 times per point, six times as much. An industry priced that way is being priced on expected growth, not on returns on capital, and that devalues every premium and discount measured against its median, including this company's. This company's own 1.25 times per point sits almost exactly mid-table.",
+    "limitation": "PRICE-TO-EARNINGS ONLY. Enterprise-value multiples and price-to-book are not obtainable for the peers from this endpoint — the screener recognises the ratio names and returns no column — so this table ignores the balance sheet completely. That is more damaging here than in most sets, because the balance sheets differ wildly: this company holds a 17,496cr investment book against 514cr of borrowings, while TVS Motor carries 32,791cr of borrowings against 9,565cr of equity. A price-to-earnings table prices those two as though they were the same kind of asset. The truck joint venture is not separately listed and its entire profit reaches this company as other income — 2,225cr, or 31% of pre-tax profit. So roughly a third of the earnings in this table's price-to-earnings denominator is not the motorcycle business, and no peer in the table has a comparable item. Ashok Leyland is a proxy for that half and not a substitute. Return on capital and return on equity tell opposite stories about two companies in this table, and in both cases the cause is the balance sheet the table cannot see: this company's return on equity is dragged DOWN by an investment book worth 70% of its equity, and TVS Motor's is pushed UP by 3.4 times gearing. Read the two returns together or not at all. Not investment advice; markets carry risk; consult a registered adviser."
   },
   "reconciliation": {
-    "dcf_expected_return": 0.08046849962515268,
-    "dcf_discount_rate": 0.12,
-    "dcf_exit_multiple": 30.0,
-    "dcf_required_exit_multiple": 44.121089679398835,
-    "dcf_required_flat_growth": 0.114091997779037,
-    "dcf_required_flat_margin": 0.2566168303304982,
-    "dcf_base_value_per_share": 1900.8475075066965,
-    "current_ev_ebitda": 34.28574585635359,
-    "risk_free": 0.0685,
-    "dcf_status": "available — the intrinsic model's base case is worth about Rs 1,901 a share at its 30x reference exit multiple, and paying today's price returns 8.0% a year against a 6.85% risk-free rate. Note what that is measured against: the model discounts at a flat 12%, a house convention applied to every company for comparability rather than a measurement of this company's cost of capital — so the price returns roughly 4.0 percentage points less than the rate the model itself uses.",
-    "text": "The two answers disagree, and that is the finding — they are not averaged. The cash-flow model says that at today's price the expected return is about 8.0% a year against a 6.85% risk-free rate, and that justifying the price needs the business to be sold in 2037 at 44.1 times operating profit — a RICHER rating than the 34.3 times it carries today, after a decade of maturing growth. Put the other way round, the price requires either sales growth of about 11.4% a year for eleven straight years, against a ten-year median of 6.5%, or a steady operating margin of about 25.7%, which the company has never reached in the twelve years on record. The relative view says the opposite: the shares are near the bottom of their own eleven-year range and the premium over paint peers is fully earned by best-in-set returns. Both can hold at once, and the reconciliation is that this is a SECTOR-level valuation question rather than a company-specific mispricing. A relative valuation inherits the market's own errors by construction, so when the relative answer is the friendlier one, that caveat carries weight."
+    "dcf_expected_return": 0.10162043068106474,
+    "dcf_status": "An intrinsic cash-flow valuation for this company is available. On its base case, paying today's price and selling at 20 times year-11 operating profit earns about 10.2% a year. The risk-free rate the model uses is 6.85%, so that is +3.3 percentage points against owning government paper — which is the comparison that decides whether the equity risk is being paid for. Holding today's own multiple instead of the reference one gives 15.3% a year; the gap between the two is entirely an assumption about the exit multiple, not about the business. The two answers are reported side by side with their disagreement intact and are never averaged: a cash-flow model asks what the cash flows are worth on stated assumptions, while the comparison on this tab asks what the market currently pays for comparable cash flows. Where they disagree, that disagreement is the finding.",
+    "dcf_model_present": true,
+    "current_pe_published_annual": 40.08256241917835,
+    "current_pe_ttm": 38.30141152987025,
+    "current_ev_ebitda": 35.252332889670065,
+    "text": "<strong>The verdict, with the driver named.</strong> Over the only stretch that can be observed — two years and four months — this share price rose 59.5% between the first quarter of readings and the last, and that splits into <strong>+50.1% of published earnings and +6.3% of multiple.</strong> Almost the entire move is earnings. The market did not change its mind about this company; it paid for more profit at about the same price for it. The drivers agree and are strikingly flat: return on capital 29.8% to 31.0%, return on equity 21.3% to 22.0%, operating margin 25.4% to 25.0%, on sales up 47%. <strong>Against its peers it carries a premium, and the premium is only half explained.</strong> At 38.0 times earnings against a two-wheeler median of 27.9 times it is 36% dearer, while earning 30.5% on capital against a median of 28.2% — 8% better, which does not buy a 36% premium on its own. Two things fill the gap in opposite directions. The balance sheet is invisible in a peer table built on earnings alone and it is unusually favourable: 514 crore of borrowings against a 17,496 crore investment book. But return on EQUITY of 24.0% is BELOW the two-wheeler median of 28.1% even though return on capital is above it, and that gap is the same investment book — capital worth 70% of the equity base earning a financial return rather than a motorcycle return. <strong>The most important caveat is about the cohort, not the company.</strong> This industry is priced almost backwards against returns: the company with the best return on capital carries the cheapest multiple and the company with nearly the worst carries the dearest. A peer median drawn from a set priced that way is a weak anchor, and a comparison against peers inherits the market's errors by construction — it can only say dear or cheap relative to a set that may itself be mispriced. <strong>What this analysis cannot settle.</strong> Whether 40 times earnings is the right price at all. Both comparisons here are relative — to 2.3 years of its own price history, which is too short to contain a cycle, and to a cohort whose pricing does not track returns. There is also a specific blind spot: 2,225 crore of other income, 31% of pre-tax profit, mixes the return on the investment book with the profit of the equity-accounted truck joint venture, and the published statements do not let the two be separated — so roughly a third of the earnings in that 40 times denominator is not the motorcycle business, and the truck half has no listed comparable at all. Only a cash-flow model answers the absolute question. <strong>Where the intrinsic model stands.</strong> An intrinsic cash-flow valuation for this company is available. On its base case, paying today's price and selling at 20 times year-11 operating profit earns about 10.2% a year. The risk-free rate the model uses is 6.85%, so that is +3.3 percentage points against owning government paper — which is the comparison that decides whether the equity risk is being paid for. Holding today's own multiple instead of the reference one gives 15.3% a year; the gap between the two is entirely an assumption about the exit multiple, not about the business. The two answers are reported side by side with their disagreement intact and are never averaged: a cash-flow model asks what the cash flows are worth on stated assumptions, while the comparison on this tab asks what the market currently pays for comparable cash flows. Where they disagree, that disagreement is the finding. Research and interpretation only — not investment advice, markets carry risk, and a registered adviser is the right person to ask about your own position."
   }
 };
 
@@ -3274,8 +3335,8 @@ const RELVAL = {
 // ---------------------------------------------------------------------------
 const OVERALL = {
   "as_of": "2026-08-28",
-  "price": 2640.0,
-  "price_asof": "2026-08-21",
+  "price": 8059,
+  "price_asof": "2026-08-28",
   "scale": {
     "min": 0,
     "max": 10
@@ -3306,53 +3367,55 @@ const OVERALL = {
       "note": "8 and above"
     }
   ],
-  "band_note": "The bands were specified as 'under 3 worst, 3-5 bad, 6-8 decent, 8-10 best', which left 5 to 6 unassigned and gave 8 to two bands. Closed here as: under 3 worst, 3 to under 6 bad, 6 to under 8 decent, 8 and above best.",
+  "band_note": "The bands were specified as 'under 3 worst, 3-5 bad, 6-8 decent, 8-10 best', which left 5 to 6 unassigned and gave 8 to two bands. Closed here as: under 3 worst, 3 to under 6 bad, 6 to under 8 decent, 8 and above best — the same closure used for the other companies scored in this library, so they are comparable.",
   "axes": [
     {
       "key": "dcf",
-      "label": "Cash-flow model",
+      "label": "Against its own cash flows",
       "short": "DCF",
-      "score": 3,
-      "score_note": "Re-justified on 2026-08-28 rather than changed. The valuation was re-run on a flat 12% house discount rate and on median-based growth and margin, which moved every figure against the price — the base case fell to about Rs 1,901 a share, the expected return to 8.0%, and the exit multiple the price requires rose to 44.1 times. It stays at 3 because the test that would justify going lower is whether the price is reachable at all, and it still is: the steelman case, which pushes every contested input to the optimistic end at once, reaches about Rs 2,908.",
-      "why": "At today's price the expected return is about 8.0% a year on base assumptions with a 30-times exit, against a 6.85% risk-free rate — roughly 1.2 percentage points for taking equity risk, and about 4.0 points BELOW the flat 12% this library discounts every company at. Justifying the price needs a 44.1-times exit multiple in 2037 versus 34.3 times today, i.e. the rating has to go UP after a decade of maturing growth; or sales growth of 11.4% a year for eleven years against a ten-year median of 6.5%; or a steady operating margin of 25.7%, never once achieved in the twelve years on record. With no terminal value at all the floor is far below the price.",
-      "not_lower_because": "The price is reachable on defensible, if deliberately generous, assumptions — the steelman case, every contested input at the optimistic end simultaneously, reaches about Rs 2,908 against a price of Rs 2,640. This is 'poorly compensated', not 'absurd', and the two are different findings.",
-      "not_higher_because": "The price sits 116% of the way from the bear case to the bull case — that is, past the bull case itself. Only the deliberately indefensible set contains it.",
-      "would_move_it": "Margins durably above 22%, or growth durably in double digits — both of which are the reverse model's own thresholds rather than round numbers. Note that a lower cost of equity would NO LONGER move this axis: the discount rate is now a fixed house convention rather than a per-company estimate, so the argument has to be won on the cash flows.",
+      "score": 5,
+      "why": "Paying &#8377;8,059 today and collecting the modelled cash flows earns about 10.2% a year on base assumptions with a 20x exit, against a 6.85% risk-free rate — about 3.3 percentage points for taking equity risk in a discretionary, cyclical, export-exposed manufacturer. The base case values the shares at &#8377;7,010, with a &#177;10% band of &#8377;6,309–&#8377;7,711, so the price sits 13% above the base case and above the top of that band. <strong>What is unusual here is what the price does NOT require.</strong> Inverting the model, &#8377;8,059 needs 14.12% sales growth held flat for eleven years — BELOW this company's own 14.50% nine-year median — and an exit multiple of 24.1x in year eleven, BELOW the 33.1x the business carries today. No re-rating is needed to justify the price; the multiple only has to hold above roughly three-quarters of where it is now while the business roughly triples in size. The margin route is the demanding one: 26.1% against a 24.9% ten-year median, short of the 31.3% best year but well above normal. The capital-intensity route is UNREACHABLE — setting growth capital to effectively free does not lift the value to the price, because this business already adds about 6.5 rupees of sales per rupee of net new capital.",
+      "not_lower_because": "None of the inversions demands something this company has never done. 14.12% growth is below its own nine-year median and it has grown faster than that twice in the last four years, including 24.0% in the most recent full year. The exit multiple required is a DE-rating from today, not a re-rating. The premium over a government bond is 3.3 points rather than nothing, and the bull case — capacity was the only binding constraint and it is arriving — reaches &#8377;9,967, above the price, with the deliberately indefensible set reaching &#8377;13,440. Two omissions also point UP and are not in the base case: the truck stake is carried at book inside the investment line, and marking a holding that earns about &#8377;827cr a year to twelve times earnings would add roughly &#8377;107–&#8377;253 a share; and the house discount rate is about 85 basis points below a bottom-up rate, so the convention costs this company nothing it would not otherwise have. Adding back the single stated 1.5-point growth cut takes the base case to &#8377;7,890.",
+      "not_higher_because": "At &#8377;8,059 the model returns 10.2% a year, which is BELOW the 12.0% the house requires, and the price is above the top of the base band. About 81% of enterprise value is the year-eleven exit multiple rather than cash a holder receives inside the horizon: assume the business is worth nothing after year ten and the same model says &#8377;1,856. The price sits 69th of the way from the bear case to the bull case, so the market is already paying for a good outcome; on bear-case operations the same price returns 1.8% a year, materially worse than the government bond. And the base case's growth path rests on a capacity timetable that has moved twice in six months — pricing that drift continuing rather than stopping costs &#8377;851 a share, about 12%. One further item is genuinely unresolved rather than merely uncertain: what the &#8377;17,496cr investment line is actually worth is worth about &#8377;657 a share across defensible treatments, and it cannot be settled, because the line mixes a treasury portfolio with the truck stake and is not disaggregated.",
+      "would_move_it": "The growth path first, and specifically whether the plants arrive in time to carry it. A 100-basis-point move in growth is worth about &#8377;1,100 a share; the same move in the margin only about &#8377;565, because growth compounds into the year-eleven profit the exit multiple is applied to while a margin point scales it once. So the two-million-motorcycle date being met — or slipping again — moves this more than any near-term margin print. Second, the exit multiple, which carries 81% of the value. Third, any disaggregation of the investment line, or a separate listing of the truck venture, which would convert the largest unresolved item here into an observable number. What would NOT move it, measured rather than assumed: the tax rate (the whole three-point correction is worth &#8377;58 a share), capital intensity, working capital, depreciation and the debt definition are all decoration.",
       "band": "Bad"
     },
     {
       "key": "rel_past",
       "label": "Relative to its own past",
       "short": "Rel. past",
-      "score": 7,
-      "why": "Every multiple sits in the bottom third of its own eleven-year range — price-to-earnings at the 25th percentile, and price-to-book at the 6th, the measure least distorted by the earnings cycle. Earnings-smoothed and sales-based measures agree, so the cheapness is not an artefact of a collapsed denominator.",
-      "not_higher_because": "The de-rating is largely EXPLAINED: return on capital fell about 23% over the same window and the topline went from compounding to roughly flat. A business earning less on capital with a stalled topline should trade lower. The unexplained residual is only single-digit percentage points.",
-      "would_move_it": "Evidence the return on capital is recovering rather than resetting.",
-      "band": "Decent"
+      "score": 5,
+      "why": "⚠️ Read the score before the numbers: <strong>every band held for this company covers 2.31 years</strong> — 121 weekly observations from 2024-05-06 to 2026-08-24 — and that is not enough to show a cycle. Inside that window the four measures agree, which is unusual, and they all say mildly expensive rather than cheap: price-to-earnings 40.1x at the 71st percentile and 10.0% above its own median; price-to-book 8.8x at the 70th; enterprise value to operating profit 35.3x at the 67th and 13.4% above median; enterprise value to sales at the 67th. There is no earnings-versus-enterprise contradiction to resolve here, because the share count has not changed and the balance sheet is net cash.",
+      "not_lower_because": "<strong>The re-rating that did happen was almost entirely earned.</strong> Between the first quarter of observations and the last the share price rose 59.5%, and on the identity that price equals earnings times the multiple that splits into 50.1% of published earnings and only 6.3% of multiple — the arithmetic reconciles exactly. The market did not change its mind about this company; it paid for more profit at roughly the same price for it. The drivers underneath are strikingly flat over the same window: return on capital 29.8% to 31.0%, return on equity 21.3% to 22.0%, operating margin 25.4% to 25.0%, on sales up 47%. A multiple that has barely moved while earnings grew by half is not the profile of a share carried by sentiment.",
+      "not_higher_because": "A percentile measured over 2.31 years is weak evidence and here it is weaker than usual. The deepest fall from a running peak inside the window is 17.6%, a correction inside an uptrend rather than the cyclical low a band needs in order to show a floor, and the price rose 73% across it. Drift between the first and second halves accounts for 41% to 49% of the entire range of every measure, and only 4 distinct annual earnings figures sit underneath 121 observations. So the honest reading is 'above the middle of a short uptrend', not 'above its long-run average' — and every one of the four measures is above its median rather than below it. Deeper history could not be obtained today at any price; the paging path was unavailable rather than expensive, which makes this a ceiling on the evidence and not a choice.",
+      "would_move_it": "A longer price record, ahead of everything else — this axis cannot improve on evidence, only on more of it, and the same scores measured across a genuine downturn would mean something the present ones cannot. Failing that, the enterprise-value multiple falling back toward the bottom of its own range while return on capital holds at 31% would be the combination that argues cheap; either alone is ambiguous.",
+      "band": "Bad"
     },
     {
       "key": "rel_peers",
       "label": "Relative to peers",
       "short": "Rel. peers",
-      "score": 6,
-      "why": "The premium is earned rather than anomalous: it ranks first on price-to-earnings and simultaneously first on return on capital, return on equity and operating margin. On earnings paid per unit of return on capital it is the second cheapest in the set.",
-      "not_higher_because": "The comparison is price-to-earnings only, which ignores the balance sheet, and the peer set spans a 46x range in size. More fundamentally, a relative valuation inherits the market's own errors — being fairly priced against paint companies says nothing if paint companies are collectively expensive, which is exactly what the cash-flow model argues.",
-      "would_move_it": "Enterprise-value multiples for the peers, and a sector-wide comparison against the broad market.",
-      "band": "Decent"
+      "score": 4,
+      "why": "It trades at 38.0x earnings against a two-wheeler peer median of 27.9x — a 36% PREMIUM, not a discount — while earning 30.5% on capital against a median of 28.2%, which is only 8% better. Returns explain about a quarter of the premium. Return on EQUITY of 24.0% is BELOW the peer median of 29.1%, and the cause is the same investment book that makes the balance sheet strong: &#8377;17,496cr against an equity base of &#8377;25,100cr is capital earning a financial return rather than a motorcycle return. Roughly 31% of the earnings in this table's denominator — &#8377;2,225cr of &#8377;7,102cr of pre-tax profit — is other income that no peer in the set has an equivalent of, and it cannot be split between the treasury portfolio and the truck venture.",
+      "not_lower_because": "On the operating measures it is the best company in the table: an operating margin of 24.7% against a median of 14.8%, 67% higher, and the second-highest return on capital in the set. The balance sheet is invisible to this comparison and it is unusually favourable — &#8377;514cr of borrowings against an investment book of &#8377;17,496cr, net cash worth 7.7% of market value — so an enterprise-value comparison, which this endpoint cannot provide for the peers, would flatter this company relative to the price-to-earnings one shown. And the premium is mid-table on the only ratio that combines the two: 1.25 of earnings multiple per point of return on capital, against 3.41 at the top of the set.",
+      "not_higher_because": "<strong>The cohort is priced almost backwards against returns</strong>, which devalues every premium and discount measured against its median. Rank the six companies on earnings multiple and on return on capital and the rank gaps sum to 12 out of a possible 18: the company with the highest return on capital in the set, 35.2%, carries the lowest multiple in it at 20.3x. With three two-wheeler peers the median is literally one company's number — BAJAJ-AUTO's 27.87x — so the headline premium is worth exactly as much as that single multiple is right. The table is price-to-earnings only, because no enterprise-value or book column is obtainable, and neither half of this business has a true listed comparable: the mid-size motorcycle brands it competes with worldwide are not listed in India, and the truck venture is not separately listed at all. A relative valuation also inherits the market's own errors by construction.",
+      "would_move_it": "Enterprise-value and book multiples for the whole set on one consistent basis, which is the single thing that would let a net-cash company be compared fairly with a geared one. A separate listing of the truck venture, or any pricing reference for it, would remove the largest structural hole in the comparison. And a cohort that starts pricing returns — as long as the rank gaps stay this wide, the median is a weak anchor and this axis cannot carry much weight either way.",
+      "band": "Bad"
     },
     {
       "key": "opinion",
-      "label": "Personal opinion",
+      "label": "Stated opinion",
       "short": "Opinion",
-      "score": 7,
-      "author": "owner's own view, 2026-08-23",
-      "why": "The owner's own judgement, recorded as given: a long history of innovation, one of the best distribution networks in the industry, leadership with a strong reputation, and a read that the current pressure is temporary rather than structural.",
-      "not_higher_because": "Held at 7 rather than higher because the analysis cannot yet corroborate 'temporary'. Return on capital has been at the lower level for two consecutive years, not one, and management has narrowed its own margin confidence to the first six months. The distribution and innovation claims ARE externally supported — roughly 170,000 retail touchpoints, over twice the nearest competitor's reach, and new products at about 17% of revenue against 10% three years earlier.",
-      "would_move_it": "The next quarterly result is the direct test: it is the first with the cheap-inventory cushion gone and cost inflation fully landed. Margins holding in the guided band would support 'temporary'; another step down would argue the reset is structural.",
+      "score": 6,
+      "author": "the analyst's own reading, 2026-08-28 — the owner has not recorded a view on this company, so this axis is not theirs",
+      "why": "Two things about this company are genuinely unusual and they pull in opposite directions. The first is that <strong>the price does not require a re-rating</strong>: it needs 14.12% growth against a 14.50% own median and an exit multiple BELOW today's. Most shares that look expensive are asking for something to get better; this one is mostly asking for things to stay as they are, on a business that adds about 6.5 rupees of sales per rupee of new capital and earns 31% on capital while holding &#8377;16,982cr of net cash. The second is that <strong>the quality of what management tells you has been getting worse while the results got better.</strong> In six months the capacity timetable moved forward two quarters and then quietly back, the interim capacity figure shrank from 'almost 1.6 million plus' to 'almost about 1.5 million', a guided 3-3.5% cost hit landed at 4-4.5% with 40% recovered against 50% promised, April growth was quoted four different ways on one call, and the claimed 88.9% share of the mid-size segment was contradicted by management's own later arithmetic at about 82% and then 84%. Not one analyst challenged any of it. My reading is that the business is better than the disclosure, and that the gap is the risk: nothing here is being hidden so much as left unexamined, including what &#8377;2,933cr of newly committed capital is supposed to earn, which has never once been asked.",
+      "not_lower_because": "The structural facts are strong and they are not in dispute. Return on capital has printed 31%, 30%, 31% across three years while sales grew 42%. The balance sheet is &#8377;514cr of borrowings against &#8377;17,496cr of investments. There is a second business of comparable size that never touches the revenue line — &#8377;27,077cr of revenue against the &#8377;23,408cr reported, summing to &#8377;50,485cr against management's claim that the two combined crossed &#8377;50,000cr — and its value comes back only at book. The international business holds 8-9% of a 0.8-1.0 million unit market and has doubled in two years, and the allied lines at about 15% of revenue are growing faster than the motorcycles. The cash conversion that looks weak is an artefact of the equity-accounted profit, not a quality problem: excluding the roughly &#8377;827cr share of the venture, operating cash flow covers profit 1.03 times.",
+      "not_higher_because": "A pattern of guidance moving without anyone noticing is exactly the condition under which a growth assumption should be treated as fragile — and the growth path is what this valuation turns on. The domestic base gets materially harder from October, on a franchise that management's own questioners identified as having 'seen the maximum amount of elasticity' after the tax cuts, and the answer to that challenge was about the enquiry funnel rather than about numbers. The real US tariff is about 41-42% once steel and aluminium are counted rather than the 18% headline; management has expected the difference to lapse since February and it has not, and neither figure has been mentioned since. The truck venture's own margin fell to 8.4% of revenue from 9.2% in the June quarter with its heavy-duty share slipping, unremarked. And 31% of pre-tax profit is other income that cannot be attributed between a treasury portfolio and a joint venture, which means a third of the reported earnings cannot be analysed at all from what is published.",
+      "would_move_it": "The two-million capacity date, stated once and then met. That is the direct test of both halves of this view — whether the growth the price needs is available, and whether management's dates mean anything. Second, the October-onward quarters against the post-tax-cut base: double-digit domestic volume growth there would say the elasticity worry is wrong. Third, a stated return expectation for any of the newly committed capital, or an analyst finally asking for one. Fourth, disaggregation of the investment line, or a separate listing of the truck business, either of which would turn the largest unmeasurable item here into a number.",
       "band": "Decent"
     }
   ],
-  "mean_of_scored": 5.75,
+  "mean_of_scored": 5.0,
   "radar_caveat": {
     "order_as_drawn": [
       "DCF",
@@ -3360,17 +3423,24 @@ const OVERALL = {
       "Rel. peers",
       "Opinion"
     ],
-    "area_as_drawn": 63.0,
-    "distinct_areas": [
-      63.0,
-      65.0
+    "scores_as_drawn": [
+      5,
+      5,
+      4,
+      6
     ],
-    "area_min": 63.0,
-    "area_max": 65.0,
-    "area_spread_pct": 0.031746031746031855,
-    "text": "Two things to know before reading the shape. First, a radar encodes each score as a distance from the centre, so the enclosed AREA grows with the square of the scores — a score twice as good looks four times as big. Second, the area depends on the ORDER the axes are drawn in, which carries no information: these four scores admit only 2 distinct shapes, whose areas run from 63.0 to 65.0 — a spread of 3% with every score identical. So read the spokes, not the blob. The bar view below has neither problem and is the form this data actually wants."
+    "area_as_drawn": 49.5,
+    "distinct_areas": [
+      49.5,
+      50.0
+    ],
+    "area_min": 49.5,
+    "area_max": 50.0,
+    "area_spread_pct": 0.010101010101010166,
+    "orderings_enumerated": 24,
+    "text": "Two things to know before reading the shape. First, a radar encodes each score as a distance from the centre, so the enclosed AREA grows with the square of the scores — a score twice as good looks four times as big. Second, the area depends on the ORDER the axes are drawn in, which carries no information: enumerating all 24 orderings of these four scores gives two distinct shapes, whose areas run from 49.5 to 50.0 — a spread of 1% with every score identical, and the order drawn here happens to give the smallest of them (49.5). That artefact grows with how far apart the scores are, so it is measured per company rather than quoted once. Read the spokes, not the blob. The bar view below has neither problem and is the form this data actually wants."
   },
-  "interpretation": "These are interpretations of the evidence, not measurements, and not a recommendation. The two valuation axes disagree by design: the cash-flow model says the price is poorly compensated — it returns about 8.0% a year against the flat 12% this library discounts every company at — while both relative measures say the shares are reasonably or cheaply priced against their own past and their peers. That disagreement is the actual finding, and it is not averaged away: it points at a sector-level valuation question rather than a company-specific mispricing. One thing has changed in HOW that is said. The 12% is a house convention chosen so every company here is discounted identically, not an estimate of this company's cost of capital, so the cash-flow axis can no longer be argued up or down by reaching for a friendlier rate.",
+  "interpretation": "These are interpretations of the evidence, not measurements, and not a recommendation. The three analytical axes agree that the shares are not cheap and disagree about how much that matters. <strong>The most important single finding is one that cuts in the company's favour and is easy to miss: the price does not require a re-rating.</strong> It needs 14.12% sales growth held flat for eleven years against a 14.50% nine-year median, and an exit multiple of 24.1x against the 33.1x the business carries today. That is a different position from a share whose price needs a record broken and then held. What it buys is a 10.2% annual return against a 6.85% government bond — a premium, but below the 12.0% this library requires, which is why the cash-flow axis sits where it does. Three warnings attach. About 81% of the modelled value is a year-eleven exit multiple rather than cash received inside the horizon. Every own-history band covers 2.31 years and can show no cycle, so no percentile here is a long-run position. And roughly 31% of pre-tax profit is other income mixing a treasury portfolio with an equity-accounted truck venture that cannot be separated from what is published — so a third of the earnings every multiple divides by is not the motorcycle business, and no peer has an equivalent. Note that three of these axes restate the same price from different angles, so they are not four independent votes. This is research and interpretation only; markets carry risk and a SEBI-registered adviser is the right person to ask about your own position.",
   "default_view": "radar"
 };
 
@@ -3539,101 +3609,64 @@ const MYNOTES = {
   "entries": [
     {
       "date": "2026-08-28",
-      "title": "Three inputs taken out of the argument — and the answer barely moved",
+      "title": "The finding that surprised me: the price does not need a re-rating",
       "author": "analysis",
       "tags": [
         "valuation",
-        "method"
+        "reverse-dcf"
       ],
-      "body": "Rebuilt the cash-flow model on three fixed rules, so that the parts of it easiest to bend toward a desired answer can no longer be bent. The discount rate is now a flat 12% applied to every company in this library — a convention for comparability, not a claim about this company's cost of capital — instead of three different rates across the pessimistic, central and optimistic cases, which had let the optimistic case win partly by discounting more gently. Sales growth and profit margin now start from the median of the last ten years rather than being chosen: 6.5% growth and 19.3% margin, with a single stated adjustment of half a percentage point off the margin, because management said in August that the benefit of cheaply-bought stock had run out. The growth median got no adjustment at all, and that was a deliberate reversal: an earlier version of this re-run added a percentage point for management's 8-10% volume guidance, which would have put the forecast above every version of the median and about six points above what the company has actually compounded over the last three years. Management's own arithmetic — 8-10% more paint sold, less a 3-4% gap where the mix shifts toward cheaper products — already implies 4-7% of revenue growth, so the median needed corroborating, not adjusting. The effect on the answer is small: the central estimate went from about ₹2,081 a share to ₹1,901, roughly nine per cent, almost all of it the higher discount rate. What the price demands got harder to believe: it now needs the business sold in 2037 at 44 times operating profit against 34 times today, or eleven straight years of 11.4% growth, or a 25.7% margin the company has never once reached. The return you underwrite by paying today's price is 8.05% a year — above a government bond, but four points below the rate the model itself uses."
+      "body": "Inverting the cash-flow model was supposed to be the part that showed the price asking for the impossible. It showed the opposite. At ₹8,059 the price needs 14.12% sales growth held flat for eleven years — below this company's own 14.50% median over the last nine years — and it needs the business to be sold in year eleven at 24.1 times operating profit, against the 33.1 times it carries today. So the multiple has to hold above roughly three-quarters of where it is now while the business roughly triples in size; it does not have to go up. That is a genuinely different position from a share whose price requires a record to be broken and then sustained, and it is worth stating plainly because the headline multiple of 38 times earnings suggests otherwise. What the price does buy is thin rather than absurd: about 10.16% a year against a 6.85% government bond, which is a premium, but below the flat 12% this library requires of every company. The base case is ₹7,010 with a ±10% band of ₹6,309–₹7,711, so the price sits above the top of the band by about 4.5%. One route is genuinely unreachable, and that is a finding of its own: no assumption about capital intensity reaches the price. Even setting growth capital to effectively free does not get there, because at 6.5 rupees of sales per rupee of new capital there is only about ₹200 a share of it to save. This is the opposite of a capital-intensive company, and the price has to be justified by growth, margin or the exit multiple or not at all."
     },
     {
       "date": "2026-08-28",
-      "title": "Three flat years of revenue, and the volumes never stopped",
-      "author": "analysis",
-      "tags": [
-        "valuation",
-        "margins"
-      ],
-      "body": "Before trusting a ten-year average of anything, it is worth asking whether the decade it describes is over. Revenue compounded at just 1% a year over the last three years and actually shrank in one of them, against a ten-year median of 6.5% — a gap far too wide to average over. It decomposes cleanly, and the decomposition is the finding: the company kept selling more paint throughout. Volumes grew 7.9%, then 12.4%, and about 9% across the last full year, while the money taken in grew 2.8%, 10.2% and 4.3%. Ingredients got cheaper in every quarter of that year, the company neither cut prices nor raised them, and buyers shifted toward cheaper products. That is a price and mix effect, it reverses, and it has now reversed — roughly 11% of price increases through the year to March, about 7% more in the June quarter, and a June quarter whose sales were up about 18%. So the forecast starts at 12.5% next year and settles back to the ten-year median by year four, and the value is published both ways so the choice of shape is visible: ₹1,901 fading, ₹1,723 flat. What has NOT reversed is what the business earns on that volume — return on capital fell from 38% to 26% and has stayed there two years running, with competition management calls the most intense it has seen. So the pessimistic case cuts the margin to its worst level in a decade rather than assuming the sales disappear."
-    },
-    {
-      "date": "2026-08-23",
-      "title": "My view: 7/10 — the franchise is intact, the problem looks temporary",
-      "author": "owner",
-      "tags": [
-        "opinion",
-        "moat"
-      ],
-      "body": "Scoring my own view at 7. The reasons are qualitative and I am comfortable that they are: a long record of innovation, one of the best distribution networks in the industry, and leadership with a strong reputation. My read is that the current pressure is a temporary issue rather than a structural reset. Two of those claims do have outside support — roughly 170,000 retail touchpoints, more than twice the nearest competitor, and new products at about 17% of revenue against 10% three years ago. The part the analysis cannot yet confirm is 'temporary': returns have now been at the lower level for two consecutive years, and management has narrowed its own margin confidence to the first six months. The next quarterly result is the test."
-    },
-    {
-      "date": "2026-08-23",
-      "title": "Relative valuation added — and it disagrees with the cash-flow model",
-      "author": "analysis",
-      "tags": [
-        "valuation",
-        "peers"
-      ],
-      "body": "Built the multiple bands against eleven years of history and a paint-peer table. Both say the shares are unremarkable-to-cheap: bottom third of their own range on every measure, and a peer premium that is fully earned by best-in-set returns on capital. The cash-flow model says the opposite — poorly compensated at an 11.5% required return. The disagreement is the finding, not a problem to average away: it points at a sector-level valuation question rather than a company-specific mispricing. [Updated 28 August 2026: the required return is now a flat 12%, applied to every company here for comparability, and the expected return at today's price is 8.05% rather than the 8.7% quoted when this was written. The disagreement itself is unchanged, and slightly wider.]"
-    },
-    {
-      "date": "2026-08-23",
-      "title": "The entire price decline is the multiple, not earnings",
-      "author": "analysis",
-      "tags": [
-        "valuation"
-      ],
-      "body": "Decomposed the de-rating and it reconciles exactly. Between the FY22–FY24 window and the last twelve months, the earnings the market could actually see ROSE about 14% while the multiple fell about 27% — which multiply to the actual 16% fall in the share price. So none of the decline came from earnings. Against that, return on capital fell about 23% and the topline went from compounding to flat, which explains most but not all of the de-rating."
-    },
-    {
-      "date": "2026-08-22",
-      "title": "Cash-flow model rebuilt without a perpetuity",
-      "author": "analysis",
-      "tags": [
-        "valuation",
-        "method"
-      ],
-      "body": "Dropped the perpetual-growth terminal value, which had been carrying 76–82% of the answer and could report a nonsensical implied growth rate. Rebuilt as ten explicit years with the terminal value struck at year eleven as an exit multiple. That single change moved the base case from roughly 74% below the price to 12–43% below it depending on the exit multiple — the assumption, not the forecast, was doing the work. [Updated 28 August 2026: on the fixed 12% discount rate that range is now 19–48% below the price.]"
-    },
-    {
-      "date": "2026-08-22",
-      "title": "Capex rule was wrong; leases explain it",
-      "author": "analysis",
-      "tags": [
-        "method",
-        "accounting"
-      ],
-      "body": "Growth capex was being modelled off balance-sheet fixed-asset growth, which overstated it by about two times. The identity capex minus depreciation equals the change in net fixed assets fails by 34% of capex over eleven years, because right-of-use lease assets are capitalised with no cash ever spent. Same accounting standard that had already made the borrowings line overstate debt. A cash-flow model needs cash capex, so the rule now derives from eleven years of actual cash spending — it predicts the latest year within 6%."
-    },
-    {
-      "date": "2026-08-22",
-      "title": "The company is net cash, not levered — earlier reading corrected",
+      "title": "Two businesses, and only one of them is in the revenue line",
       "author": "analysis",
       "tags": [
         "accounting",
-        "balance-sheet"
+        "method"
       ],
-      "body": "A rating agency's rationale settled a discrepancy: the borrowings line overstates debt because it includes lease liabilities. On the agency's definition the company holds net cash of about ₹5,000 crore and has done for over a decade, with interest cover around 34 times. The earlier reading of 'debt tripled, debt-funded capex' was wrong and is struck through in the working notes. This is purely a returns problem, not a solvency one."
+      "body": "The first real question on this company was whether the reported figures blend a motorcycle business with a truck business into one meaningless margin. They do not, and arithmetic settles it rather than an assumption. The accounts show ₹23,408cr of revenue; management said on the May call that the truck venture on its own did ₹27,077cr; and management also said the two combined 'crossed ₹50,000cr for the first time'. 23,408 + 27,077 = 50,485, so the two revenues ADD — the venture is equity-accounted, not consolidated line by line. Three consequences follow and all of them matter. The 24.7% operating margin is a MOTORCYCLE margin, not a blend with a truck business earning 9.5%. There is no minority interest to strip out, because the partner's side never enters the consolidation at all. And the venture's value comes back only through the investment holdings at carrying value, which almost certainly understates a stake earning about ₹827cr a year — marking it to twelve times earnings would add somewhere between ₹107 and ₹253 a share, and that understatement points UP and is not taken. Corroboration came from the capital side: the oldest column in the record, when the venture WAS consolidated, shows an 8,738cr revenue at a 13% margin with 2,309cr of fixed assets, and the deconsolidation is visible on both sides of the balance sheet fifteen months later."
     },
     {
-      "date": "2026-08-22",
-      "title": "The cost cycle reversed inside six months",
+      "date": "2026-08-28",
+      "title": "The tax rate was a plug, and correcting it barely moved the answer",
       "author": "analysis",
       "tags": [
-        "margins",
-        "earnings-calls"
+        "accounting",
+        "method",
+        "correction"
       ],
-      "body": "Across three earnings calls, raw-material costs went from 1.1% cheaper year-on-year to roughly 25% more expensive. The most recent full financial year therefore sits entirely on the favourable side of that turn — its 44–45% gross margins are the top of a cost cycle, not a baseline. Management said the cheap-inventory cushion is now exhausted, priced increases are running about 7% against roughly 25% cost inflation, and narrowed its margin confidence from the full year to the first six months."
+      "body": "The vendor's implied tax rate for the latest year is 22.35%, which no Indian manufacturer on the standard regime pays. The reason is the equity-accounted venture: its profit arrives already taxed and sits inside the pre-tax total, so dividing the tax charge by that total understates the rate on the motorcycle business itself. Removing the venture's contribution — using the effective share measured from the two quarters where management disclosed both the venture's profit and this company's share of it, 54.1% and 58.3% — lifts the rate to 25.29%. The cross-check is the part that gives confidence: the corrected figure lands in a 25.2-25.4% band on both quarters independently, which is essentially India's concessional corporate rate for a company that has opted into the lower regime, and nothing in the calculation was tuned to produce that. I expected this to be a top-tier input, because three percentage points of tax for ten years sounds enormous. Measured, it is worth about ₹58 a share, under 1%. The reason is structural and worth understanding rather than shrugging at: the terminal value is struck as a multiple of year-eleven OPERATING profit, which is pre-tax, so the tax rate touches only the ten explicit years — and those carry less than a fifth of the value. The correction stands because it is right, not because it is material. The prior year's implied rate of 20.2% could not be reconciled this way at all: it would need a venture contribution larger than the venture's entire annual profit, so it most likely contains a one-off credit and it was not used."
     },
     {
-      "date": "2026-08-22",
-      "title": "Open question that everything now hangs on",
+      "date": "2026-08-28",
+      "title": "A premium to peers, in a cohort priced almost backwards against returns",
       "author": "analysis",
       "tags": [
+        "peers",
+        "valuation"
+      ],
+      "body": "Expected a discount and found a 36% premium: 38.0 times earnings against a two-wheeler median of 27.9, on a return on capital of 30.5% against 28.2% — only 8% better. Returns explain about a quarter of the premium. What fills the rest is not obvious, and the most useful thing in the table turned out to be a property of the SET rather than of this company: rank the six companies on earnings multiple and on return on capital and the rank gaps sum to 12 out of a possible 18. The company with the highest return on capital in the set carries the lowest multiple in it. In a cohort that inverted, a premium or a discount to the median says more about growth expectations than about quality, and the median is in any case literally one company's number, because there are only three two-wheeler peers. Two further things the table cannot see, pulling in opposite directions. It is price-to-earnings only — no enterprise-value or book column is obtainable — so it prices a company holding ₹17,496cr of investments against ₹514cr of borrowings identically to one geared three and a half times. And return on EQUITY of 24.0% is BELOW the peer median of 28.1% even though return on capital is above it, for exactly the same reason: an investment book worth 70% of equity earns a financial return, not a motorcycle return. Read those two returns together or not at all."
+    },
+    {
+      "date": "2026-08-28",
+      "title": "The capacity date moved twice in six months and nobody asked",
+      "author": "analysis",
+      "tags": [
+        "earnings-calls",
         "open-question"
       ],
-      "body": "The next quarterly result is the first with the cheap-inventory cushion gone and the cost inflation fully landed. It is the cleanest available test of whether the 18–20% margin band survives, and therefore of whether the unexplained part of the de-rating is the market under-pricing a recovery or correctly pricing further share loss. Nothing in the multiples can settle that."
+      "body": "Reading three consecutive calls back to back turned up something no single call shows. In February the board approved ₹958cr to take the existing plant to 2 million motorcycles a year, and management agreed with an analyst's own framing that the full amount would be available at the BEGINNING of the 2029 financial year. In May that was pulled forward to 'by Q2 of FY28' — and repeated under a second question, so deliberate rather than a slip — with interim capacity guided to 'almost about 1.6 million plus'. In July the interim figure had shrunk to 'almost about 1.5 million' and the 2-million date had lost its quarter, reverting to 'financial year 27, 28'. Nobody asked about either move on either call. This matters more here than it would elsewhere, because capacity is what caps the volume path for the first two or three years and therefore sets the growth assumption the whole valuation turns on: the base case takes the least optimistic of the three timetables, and pricing the drift continuing rather than stopping costs about ₹851 a share. The same pattern shows in the cost guidance. In May management guided a 3-3.5% material cost hit with about half recovered by a price increase; in July it had landed at 4-4.5% with about 40% recovered — a miss on both the size and the offset. What I take from the three calls together is that the business is running better than the disclosure about it, and the gap is the risk."
+    },
+    {
+      "date": "2026-08-28",
+      "title": "Every valuation band here covers 2.3 years, and that is a ceiling on the evidence",
+      "author": "analysis",
+      "tags": [
+        "method",
+        "limitations"
+      ],
+      "body": "The own-history multiple bands rest on 121 weekly observations from May 2024 to August 2026 — two years and four months. Deeper history could not be obtained: the data service's paging path was unavailable and silently re-served the most recent window instead of the earlier one, so this is a hard ceiling rather than a choice, and it is stated on the page rather than smoothed over. Three specific reasons the percentiles are weak. The deepest fall from a running peak inside the window is 17.6%, which is a correction inside an uptrend and not the cyclical low a band needs in order to show a floor; the price rose 73% across the window, so drift between its first and second halves accounts for 41% to 49% of the entire range of every measure; and only four distinct annual earnings figures sit underneath 121 observations. So when the page says price-to-earnings is at the 71st percentile, that is a position within a short uptrend and not a long-run position, and I have tried to write it that way everywhere. The one genuinely useful thing this window does yield is the decomposition: the price rose 59.5% between the first quarter of observations and the last, which splits into +50.1% of published earnings and only +6.3% of multiple, and the two reconcile exactly. Almost the whole move is earnings. That is worth more than any of the percentiles."
     }
   ]
 };
@@ -3684,21 +3717,7 @@ const MYNOTES = {
 // Sources. Anything unread stays flagged rather than silently dropped.
 const REFS = [
   {
-    "t": "India Ratings &amp; Research — <em>India Ratings Assigns Asian Paints’ Bank Facilities ‘IND AAA’/Stable</em>, 24 Jun 2026. IND AAA/Stable + IND A1+ on ₹2,300cr of bank facilities; fully consolidated analytical approach. <a href=\"https://www.indiaratings.co.in/pressrelease/83887\" target=\"_blank\" rel=\"noopener\">source page</a>"
-  },
-  {
-    "t": "Tapetide financials, fetched 22 Aug 2026, FY15–FY26 consolidated. Screener-derived."
-  },
-  {
-    "t": "Ind-Ra press release on Grasim Industries (competitor context)",
-    "note": "Second-hand via search summary only — the Grasim capex and break-even figures have NOT been read from the release itself."
-  },
-  {
-    "t": "Asian Paints annual report — Statement of Changes in Equity",
-    "note": "Still needed for the reserves reconciliation (OCI / non-controlling interests). The lease-vs-debt question is now resolved by Ind-Ra."
-  },
-  {
-    "t": "Not yet obtained: peer financials (Berger, Kansai Nerolac, Indigo), shareholding trend, valuation multiples."
+    "t": "Consolidated basis, one definition for every period. Figures are point-in-time as of the 28 Aug 2026 pull."
   }
 ];
 
@@ -3707,65 +3726,68 @@ const REFS = [
 const CALL_HEADLINES = [
   {
     "quarter": "Q1 FY27",
-    "call_date": "2026-08-03",
-    "count": 65,
+    "call_date": "2026-07-29",
+    "count": 126,
     "headline": [
-      "Decorative volume ~9%, spread across all three months; management says it 'could have looked at touching a double-digit'. Rural/T3-T4 outgrew urban/T1-T2",
-      "THE KEY RISK: price increases in Apr/May/Jun gave a weighted average of only ~7%, against material inflation still 'very high to the extent of about 25%'",
-      "The cheap-inventory cushion is now gone — CFO: 'most of the low-cost inventory benefit on finished goods has seeped through in 1Q, and here onwards, we will see the pricing inflation coming in'",
-      "Competitive intensity described as 'at an all-time high' with 'no leeway' — and management explicitly refused to blame any single entrant, saying it is 'across all players'",
-      "VAM/VAE guidance SOFTENED: the earlier 400-500bps gross-margin benefit became a wider '300-500 basis points band'; 150,000 MT capacity now framed over ~2-2.5 years",
-      "Guidance reaffirmed at 8-10% volume and 18-20% PBDIT margin; management would prefer NOT to raise prices further 'unless the situation really becomes alarming'"
+      "Best ever first quarter: revenue INR6,632cr up 32%, operating profit INR1,591cr - but profit after tax up only 21%, the same unexplained gap as two quarters ago",
+      "THE COST HIT LANDED WORSE THAN GUIDED: 4-4.5% against the 3-3.5% promised in May, and only about 40% was recovered against the 'about 50%' guided - the miss is on both the size and the offset",
+      "THE INTERIM CAPACITY NUMBER SHRANK: build capacity is now 'almost about 1.5 million'. In May the same step was 'almost about 1.6 million plus' from June-July. And the 2-million date lost the specific 'Q2 FY28' it was given in May, reverting to 'financial year 27, 28'",
+      "NEW APPROVAL: INR1,225cr for Phase 1 of a greenfield plant at Tada, Andhra Pradesh, adding 4.5 lakh motorcycles a year and taking total capacity to 2.45 million by FY29-30 - the size and date BNP Paribas asked for and did not get in May",
+      "Management's own segment numbers again imply share loss: the mid-size market went from 70,000 to 1.2 lakh a month while Royal Enfield went from 61,000 to 1.01 lakh - about 87% down to about 84% - and outside India it holds only 8-9% of a 0.8-1.0 million unit market",
+      "VECV's margin went the other way: revenue up 16.6% to INR6,610cr but operating profit only INR541cr against INR511cr - 8.4% of sales versus 9.2% - and heavy-duty share slipped to 8.8% from 9.1%. Not one analyst asked about either"
     ],
     "qna_headline": [
-      "Asked to reaffirm the benefit from the new ingredient plant, management would not — it quietly became a wider '300-500 basis points' range instead of the 400-500 promised when the project was announced.",
-      "Dealers told analysts prices actually went up 13-14%; management claims a 7% average and would neither confirm nor deny the higher figure, saying only that the effect would be 'in the range of about 8-9%'.",
-      "Refused to say how much the cheap leftover materials were worth to profit — 'difficult to put a number to it' — but did admit roughly half the quarter was sold using old stock.",
-      "Pressed on costs up 25% against price rises of 9-11%, management would not concede margins will shrink, but did admit 'a large part of this inflation effect definitely will come in as we go ahead in quarter two'.",
-      "Asked for their market share, gave no number at all — only that 'possibly we would have grown slightly higher than the industry average'.",
-      "A question about whether West Bengal elections hurt sales (painters going home to vote) was never answered."
+      "THE QUESTION THAT GOT NO ANSWER AT ALL: Chandramouli Muthiah (Goldman Sachs) asked for the rural-urban split of domestic volumes, received an unrelated answer, and asked again explicitly - 'Just if you could share the rural urban splits and the first-time versus upgraders splits as well?' He got the buyer-mix split. The rural-urban number was never given, on a call where rural demand is central to the growth case.",
+      "In the same exchange he asked what share of demand comes from government employees, ahead of a likely pay commission. Management confirmed it holds exactly that data - 'we have the details of what the government employees and is it the central government, state government, all those cuts' - and gave none of it, saying it 'will be a very detailed analysis'. Having the number and declining to share it is a different refusal from not knowing.",
+      "Gunjan Prithyani (Bank of America) asked how much of the lower other-expenses reverses and how much commodity pressure remains for the September quarter. Refused: 'I don't think I can give you a forward looking guidance as far as commodity is concerned.' That is three calls out of three - February would not size cost savings, May would not give a growth range, July will not size the remaining cost pressure. The one thing volunteered was that costs are 'softening', with no size and no timing.",
+      "Chandramouli Muthiah put the sharpest structural challenge of the three calls: from October the industry faces twelve months against the post-GST-cut base, and 'Royal Enfield has seen the maximum amount of elasticity in domestic demand after GST-related price cuts' - so it has the most to give back. Management's answer rested entirely on the enquiry funnel, low stock and marketing it had cut last year and is now restoring: 'Even if the base is higher, we can continue to grow even the higher base of the last year. That's the confidence, not from anything else.' No quantified view of the tougher base was offered.",
+      "Pramod Kumar (UBS) asked whether Eicher would hive off and separately list the commercial-vehicle business to unlock value that the market ignores. Neither confirmed nor ruled out: 'At an Eicher Motors level, we have a lot of plans to mull over and fathom do it. Currently, the focus is on EV.' On the same call the truck venture's margin fell from 9.2% to 8.4% of sales and its heavy-duty share slipped, and nobody asked about either.",
+      "Raghunandhan N.L. (Nuvama) named the failing models rather than accepting the aggregate - Super Meteor, Himalayan and Shotgun all under pressure while the 650 twins and Guerrilla recovered. The answer contained no timelines at all: a 'drop' coming on Shotgun, a 125-year Classic 650 edition, and 'on Super Meteor, we are working on something'. Management did concede the Himalayan's weakness was partly self-inflicted - marketing was withheld until the tax change settled.",
+      "Two clusters worth naming. First, the January 2026 price increase has now been quoted three different ways across three calls: a blended 0.5% in February, 0.7% in May, 0.85% here. Second, nobody has ever asked what any of the new capital should return - the INR1,225 crore approved today, the INR958 crore at Cheyyar, or the INR750 crore financing venture announced in May, which got no mention on this call at all."
     ]
   },
   {
     "quarter": "Q4 FY26",
-    "call_date": "2026-06-03",
-    "count": 71,
+    "call_date": "2026-05-22",
+    "count": 117,
     "headline": [
-      "Volume growth back to double digits — 12.4% with value +10.2%, narrowing the volume-value gap to just 2.2% (FY26 full year: vol ~9%, val 4.3%)",
-      "REVERSAL: ~11% cumulative price increases taken against an estimated ~20% total cost impact — management deliberately not passing it all through",
-      "Q4 gross margin an almost all-time high 45.6% on 1.4% deflation — but management warns the larger inflation impact lands in Q1 and Q2 as cheap inventory runs out",
-      "Discounting intensity has NOT let up despite industry-wide price hikes; discount differentials between players are unchanged",
-      "FY26 dividend ₹27.5/share total at a 60% payout ratio",
-      "Only the VAE portion of VAM-VAE commissions in H1; full project benefits must be phased over one and a half to two years, and management refused to quantify the gross-margin benefit"
+      "A record year: 12.27 lakh Royal Enfield motorcycles, domestic up 23% to 1.1 million, international up 20% to 120,634, group revenue INR23,408cr and profit INR5,515cr, with a INR82 per share final dividend",
+      "THE CAPACITY DATE MOVED FORWARD: the INR958cr Cheyyar expansion now reaches 2 million by Q2 FY28. In February the same project was guided to FY27-28 with full availability confirmed as the BEGINNING OF FY29 - roughly two quarters earlier, stated twice, so not a slip",
+      "THE COST WARNING: a 3-3.5% material cost hit is expected in Q1 FY27, incremental to the 0.9% already absorbed in Q4. A 1.75% April price increase recovers about half; the rest depends on austerity, cost savings landing in July-August and pre-bought stock",
+      "TWO NEW COMMITMENTS: 261 acres signed in Andhra Pradesh for a plant beyond 2 million capacity - with no size, cost or date given - and up to INR750cr for a 50-50 vehicle financing joint venture with Volvo",
+      "April 2026 growth was quoted four different ways on one call - 51% in the prepared remarks, 57% to UBS, 'almost 31%' to Nomura, 'almost about 37%' to Nirmal Bang - and no analyst asked which was right",
+      "Management's own market arithmetic points the opposite way to its conclusion: the mid-size segment went from ~70,000 to ~1.1 lakh a month while Royal Enfield went to '90,000 plus' - about 82% share, against the 88.9% claimed in February"
     ],
     "qna_headline": [
-      "Asked point-blank whether their market share had gone up or down, management refused to say and told analysts to work it out themselves — 'all of you can calculate the shares'.",
-      "An analyst pointed out that in 2022 an even bigger price rise still crushed margins badly. Management did not defend the full year, narrowing its confidence to just 'the first six months'.",
-      "Would not put a number on the new plant's profit benefit — too early, and only knowable 'by the last quarter'.",
-      "Asked what happens to margins if oil stays at $90-100, management declined the scenario entirely: 'very difficult to really predict for over three to four quarters'.",
-      "Reminded that past oil spikes cost the industry 500-800 basis points of margin, management offered no number for how much its own plant would offset that.",
-      "Asked to strip out the dealer stocking effect and give January-February growth alone, management gave neither — only that March was inflated 3-4%."
+      "Kumar Rakesh (BNP Paribas) did the arithmetic management would not: 1.6 million units of capacity 'will start getting exhausted by fiscal '28' on double-digit growth, a new plant takes about 18 months to ramp, 'so it should have already gotten started'. Management neither accepted nor rebutted the maths, gave no capacity and no start date for the Andhra Pradesh plant, and offered only that land-to-operational typically takes 24-30 months. The plant's size and date arrived two months later, on the next call.",
+      "Kapil Singh (Nomura) asked for an FY27 growth range for the industry or for Royal Enfield and was refused as a matter of policy: 'we don't normally talk about the forward guidance in numbers.' VECV's new chief executive refused the equivalent truck question in the same session - 'there is no forecast expected at this moment' - and Pramod Kumar's attempt to get management to at least confirm 'strong double-digit growth' for the premium segment produced a history lesson instead of a number.",
+      "Pramod Kumar (UBS) got the most valuable clarification on the call by refusing to accept a round number. Told the material cost hit would be 3-3.5%, he asked whether that included the 0.9% already taken in the fourth quarter. Answer: 'It is incremental in Q1.' He then pinned down the recovery: 'if we have to give a slight equation, 3% to 3.5% level, yes 50% is actually recovered.' The moderator tried to cut him off before he could confirm that operating leverage sits on top of that.",
+      "The '500 module' behind the jump from 1.4 to 1.6 million had to be asked about three times. Arvind Sharma (Citi) said so himself - 'it's been asked twice already' - before management clarified it is 500 motorcycles PER DAY across the plants, not a total. The same call also dated the INR958 crore approval to February in the prepared remarks and to April in an answer.",
+      "Arvind Sharma asked for any aspirational monthly or annual number for the newly launched electric motorcycle. None was given, on this or either of the other two calls - only that one store's test-ride enquiries are 'very good' and that the company is deliberately not in a hurry. He also asked whether the range will go below 350cc once capacity expands, and got the 250cc-750cc band restated as policy.",
+      "Pramod Amthe (InCred) extracted the only piece of return arithmetic anywhere in the three calls, and it was about the financing venture rather than the plants: INR750 crore plus INR500 crore of existing net worth gives roughly INR1,200-1,250 crore of equity, borrowings can run at five to six times that, so managed assets could reach INR9,000-10,000 crore in five years with no further money required. He also established that Eicher had never seriously looked at this business before - the trigger is the Volvo relationship, not an internal need.",
+      "What nobody asked is striking. Nobody asked why fourth-quarter revenue of INR6,080 crore was below the third quarter's INR6,114 crore, or why a quarter described as a record was presented with no year-ago figures at all. Nobody asked what the INR750 crore financing venture should earn. And nobody returned to February's tariff numbers - the 41-42% weighted US rate and the 6% European duty - even though this was the call that sized the United States at just 3% of the business."
     ]
   },
   {
     "quarter": "Q3 FY26",
-    "call_date": "2026-02-02",
-    "count": 61,
+    "call_date": "2026-02-10",
+    "count": 126,
     "headline": [
-      "Decorative volume grew 7.9% but value only 2.8% — a ~5% volume-value gap management attributes to mix, not price cuts",
-      "Standalone gross margin 44.9% (+200bps), one of the highest in recent quarters, helped by raw-material DEFLATION of ~1.1%",
-      "No price change planned; management dismissed the new entrant's hike as an 'artificial strategy' with no market impact",
-      "Management concedes the expected demand recovery has NOT happened and nothing material changes for one or two quarters",
-      "Despite printing 21.4% PBDIT margin, the 18-20% guidance band was explicitly retained",
-      "Two exceptional items: labour-code provision plus a further White Teak impairment"
+      "A 23% revenue quarter carried entirely by India: Royal Enfield sold 325,773 motorcycles, up 21%, with India up 24% to 300,426 - while international volumes actually FELL to 25,347 from 27,068",
+      "Profit grew 30% at the operating level but only 21% after tax, and INR183cr of that profit is EML's share of VE Commercial Vehicles rather than motorcycle earnings - nobody on the call asked about the gap",
+      "THE CAPACITY DECISION: the Board cleared INR958cr to expand the existing Cheyyar plant to 2 million motorcycles a year, and management confirmed to JPMorgan that the full 2 million is available at the BEGINNING OF FY29",
+      "The starting point was stated two different ways in one call: prepared remarks said 'from the current 1.4 million', the Q&A said declared capacity is 1.2 million and only reaches 1.45 million once a INR100cr module lands",
+      "US TARIFFS QUANTIFIED: the trade-deal headline rate is 18%, but steel and aluminium tariffs take the weighted average to about 41-42% today. Management is planning on 18% and a removal of the EMEA 6% duty, while saying explicitly there is no clarity yet",
+      "The margin bridge is the most complete disclosure on the call - and its biggest single line is regulation, not commodities: 100 basis points of OBD2B emission-norm cost, against 70 of net commodity inflation, all offset by 140 of price increases"
     ],
     "qna_headline": [
-      "Asked to put a confidence percentage on winning meaningful market share over the next 12-18 months, management refused a number, saying only that it was 'reasonably confident'.",
-      "An analyst asked whether the improvement was real or 'more of a hope at this point of time'. Management redirected to other figures and never addressed the market-share question.",
-      "Asked when growth would reach double digits — months or quarters — management gave no timeline at all.",
-      "Rejected the suggestion that year-end sales are boosted by pushing stock onto dealers, calling that practice 'always artificial'.",
-      "Looking at nine months rather than one quarter, which cancels out festive-timing noise, an analyst argued the industry was still struggling. Management conceded 'not too much is going to change for the immediate quarter or the immediate two quarters'.",
-      "Asked directly for its share-of-voice figure and a TV-versus-digital spend split, management provided neither."
+      "Chandramouli Muthiah (Goldman Sachs) asked whether the first sequential gross-margin improvement in five or six quarters is an inflection point. Management refused the framing twice. The first answer substituted a twelve-quarter record - volumes 14% a year, revenue 18%, gross profit 20%, operating profit 22% - and the second called the driver 'literally a bit of timing also' before offering to take it offline. No view on the direction of margins was given.",
+      "Gunjan Prithyani (Bank of America) asked for a number on the value-engineering benefit going forward. Flat refusal from the CFO: 'It's very difficult to quantify exactly how it's going to pan out in the following quarters... So I won't necessarily be able to guide to that extent.' She then asked for precious metals as a share of raw material or of sales and was told the figure was not to hand and would be sent separately - it never appeared on either of the next two calls, and nobody asked again.",
+      "Amyn Pirani (JPMorgan) extracted the one hard date on the call by proposing it himself: 'the whole 2 million capacity will be available to us in the beginning of fiscal year '29. Is that the correct understanding?' Answer: 'Yeah. Your take, yes, Amyn.' That date would be pulled forward to Q2 FY28 three months later and then lose its quarter again in July.",
+      "The same exchange exposed the capacity baseline. The prepared remarks said capacity goes to 2 million 'from the current 1.4 million'; asked to pin it down, management said declared capacity is 1.2 million and becomes 1.45 million only when a INR100cr module lands in 1-1.5 months. Two different starting points in one call, never reconciled.",
+      "Chandramouli Muthiah asked twice for structure inside the INR958cr - how much serves 350cc versus above 350cc, and whether the spend is spread evenly across the eight quarters. Neither split was given. Amyn Pirani asked for the domestic-versus-export share of the new capacity and got 'majority will be in India only'. Three requests for a breakdown of a two-year, INR958cr commitment; three qualitative answers.",
+      "Gunjan Prithyani asked for a directional export growth rate for the coming year, noting growth had tempered as the base caught up. She got a country-by-country tour ending in 'cautiously optimistic' and 'calibration and grow', with no number - in a quarter when international volumes had just gone backwards.",
+      "The absences matter as much. Nobody asked how INR1,058cr of newly approved plant spending will be funded or what it should return. Nobody asked why profit after tax grew 21% when operating profit grew 30%. Nobody tested the claimed 88.9% share of the mid-size segment. And nobody asked what the Flying Flea electric programme costs, on the call where its production launch was confirmed for the next quarter."
     ]
   }
 ];

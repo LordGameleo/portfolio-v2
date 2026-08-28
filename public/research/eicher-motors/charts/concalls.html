@@ -1,0 +1,2858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eicher Motors Ltd — earnings-call pointers (detailed)</title>
+<style>
+  .viz-root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --grid:           #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --hover:          rgba(11,11,11,0.05);
+    --scale:          #2a78d6;
+    --leverage:       #eb6834;
+    --capital:        #1baf7a;
+    --delta-good:     #006300;
+    --delta-bad:      #d03b3b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .viz-root {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page:           #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --grid:           #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --hover:          rgba(255,255,255,0.07);
+      --scale:          #3987e5;
+      --leverage:       #d95926;
+      --capital:        #199e70;
+      --delta-good:     #0ca30c;
+      --delta-bad:      #d03b3b;
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --page:           #0d0d0d;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --grid:           #2c2c2a;
+    --baseline:       #383835;
+    --border:         rgba(255,255,255,0.10);
+    --hover:          rgba(255,255,255,0.07);
+    --scale:          #3987e5;
+    --leverage:       #d95926;
+    --capital:        #199e70;
+    --delta-good:     #0ca30c;
+    --delta-bad:      #d03b3b;
+  }
+
+  html, body { margin: 0; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--page, #f9f9f7); }
+  .viz-root { background: var(--page); color: var(--text-primary); min-height: 100vh; padding: 32px 20px 64px; box-sizing: border-box; }
+  /* capped deliberately: this page is prose, and a very long line hurts reading */
+  .card {
+    max-width: min(1180px, 94vw); margin: 0 auto; background: var(--surface-1);
+    border: 1px solid var(--border); border-radius: 10px; padding: 24px 24px 20px;
+  }
+  @media (max-width: 640px) {
+    .viz-root { padding: 14px 8px 40px; }
+    .card { max-width: 100%; padding: 14px 12px 14px; border-radius: 8px; }
+    h1 { font-size: 17px; }
+    .controls { gap: 6px; }
+    .count { margin-left: 0; flex-basis: 100%; }
+    select { max-width: 100%; }
+    li.pt { grid-template-columns: 1fr; }        /* figure drops below the text */
+    .pt-fig { white-space: normal; }
+    .call-src { margin-left: 0; flex-basis: 100%; }
+  }
+
+  .crumb { font-size: 12px; margin: 0 0 10px; }
+  .crumb a { color: var(--scale); text-decoration: none; }
+  .crumb a:hover { text-decoration: underline; }
+  .crumb span { color: var(--text-muted); }
+
+  h1 { font-size: 19px; font-weight: 600; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 2px; line-height: 1.5; }
+  .note { font-size: 12px; color: var(--text-muted); margin: 6px 0 0; line-height: 1.5; }
+
+  /* filters: one row above the content */
+  .controls { display: flex; align-items: center; gap: 8px; margin: 18px 0 4px; flex-wrap: wrap; }
+  .controls .label { font-size: 11.5px; color: var(--text-muted); margin-right: 2px; }
+  .segmented { display: inline-flex; border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+  .segmented button {
+    font: inherit; font-size: 12px; padding: 5px 10px; border: 0; cursor: pointer;
+    background: transparent; color: var(--text-secondary); border-right: 1px solid var(--border);
+  }
+  .segmented button:last-child { border-right: 0; }
+  .segmented button:hover { background: var(--hover); }
+  .segmented button[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); font-weight: 600; }
+  select {
+    font: inherit; font-size: 12px; padding: 5px 8px; border: 1px solid var(--border);
+    border-radius: 7px; background: var(--surface-1); color: var(--text-secondary);
+  }
+  .count { font-size: 11.5px; color: var(--text-muted); margin-left: auto; font-variant-numeric: tabular-nums; }
+
+  /* one block per call */
+  .call { margin: 26px 0 0; }
+  .call-head {
+    position: sticky; top: 0; z-index: 3; background: var(--surface-1);
+    padding: 9px 0 8px; border-bottom: 1px solid var(--grid);
+    display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap;
+  }
+  .call-q { font-size: 14px; font-weight: 600; }
+  .call-date { font-size: 11.5px; color: var(--text-muted); }
+  .call-src { font-size: 11px; margin-left: auto; }
+  .call-src a { color: var(--scale); }
+
+  .theme-group { margin: 15px 0 0; }
+  .theme-name {
+    font-size: 11.5px; font-weight: 600; color: var(--text-secondary);
+    text-transform: uppercase; letter-spacing: .04em; margin: 0 0 7px;
+  }
+  .theme-summary {
+    font-size: 12.5px; color: var(--text-secondary); line-height: 1.6;
+    margin: 0 0 10px; padding: 9px 12px 10px 13px;
+    background: var(--hover); border-left: 2px solid var(--capital); border-radius: 0 6px 6px 0;
+  }
+  .theme-summary .lbl {
+    display: block; font-size: 9.5px; font-weight: 600; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--text-muted); margin-bottom: 3px;
+  }
+  ul.pts { margin: 0; padding: 0; list-style: none; }
+  li.pt {
+    font-size: 12.5px; color: var(--text-secondary); line-height: 1.55;
+    padding: 8px 0 9px; border-bottom: 1px solid var(--grid);
+    display: grid; grid-template-columns: 1fr auto; gap: 3px 10px;
+  }
+  li.pt:last-child { border-bottom: 0; }
+  .pt-body { min-width: 0; }
+  .pt-fig {
+    font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums;
+    white-space: nowrap; font-size: 12px;
+  }
+  .pt-meta { grid-column: 1 / -1; display: flex; gap: 7px; align-items: center; flex-wrap: wrap; margin-top: 3px; }
+  .badge {
+    font-size: 10px; padding: 1px 6px; border-radius: 4px; border: 1px solid var(--border);
+    color: var(--text-muted); white-space: nowrap;
+  }
+  .badge.fact     { border-color: var(--capital); color: var(--capital); }
+  .badge.guidance { border-color: var(--scale);   color: var(--scale); }
+  .badge.qna      { border-color: var(--leverage); color: var(--leverage); }
+  .badge.opinion  { border-style: dashed; }
+  .who { font-size: 10.5px; color: var(--text-muted); }
+  blockquote {
+    margin: 5px 0 0; padding: 4px 0 4px 10px; border-left: 2px solid var(--border);
+    font-size: 11.5px; color: var(--text-muted); font-style: italic;
+  }
+  .empty { font-size: 12.5px; color: var(--text-muted); padding: 24px 0; text-align: center; }
+  .src { font-size: 11.5px; color: var(--text-muted); margin: 24px 0 0; padding-top: 14px; border-top: 1px solid var(--grid); line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="viz-root">
+  <div class="card">
+    <p class="crumb"><a href="/research/">← All analyses</a> <span>/</span>
+      <a href="financials">Eicher Motors Ltd dashboard</a> <span>/ earnings-call pointers</span></p>
+
+    <h1>Eicher Motors Ltd — earnings-call pointers, detailed</h1>
+    <p class="sub">Every substantive pointer from the last 3 calls, Q3 FY26 (2026-02-10) through Q1 FY27 (2026-07-29). The dashboard carries only the headline items — this is the full set.</p>
+    <p class="note">Badges separate <span class="badge fact">fact</span> reported results from <span class="badge guidance">guidance</span> forward-looking statements, <span class="badge opinion">opinion</span> management views, and <span class="badge qna">Q&amp;A</span> pushback from questioners or non-answers. Treat guidance as a claim, not a result. Figures are quoted as stated — nothing rounded or inferred. Each theme opens with a <strong>plain-language summary</strong> of that theme for that call — jargon expanded, figures kept. The pointers beneath it are the precise layer, in the company’s own terms. A summary covers the whole theme and does not narrow when you filter.</p>
+
+    <div class="controls">
+      <span class="label">Call</span>
+      <span class="segmented" id="fCall" role="group" aria-label="Filter by call"></span>
+      <span class="label" style="margin-left:6px">Type</span>
+      <span class="segmented" id="fKind" role="group" aria-label="Filter by kind"></span>
+      <select id="fTheme" aria-label="Filter by theme"></select>
+      <span class="count" id="count"></span>
+    </div>
+
+    <div id="out"></div>
+
+    <p class="src">Source: company earnings-call transcripts filed with BSE/NSE. Figures are quoted as management stated them and were transcribed by machine, so treat anything that reads like a table as indicative. Commentary is management's own; inclusion here is not endorsement. Not investment advice.</p>
+  </div>
+</div>
+
+<script>
+const CALLS = [
+  {
+    "quarter": "Q1 FY27",
+    "call_date": "2026-07-29",
+    "detailed": [
+      {
+        "theme": "Demand & volumes",
+        "point": "Best ever Q1 revenue of INR6,632cr, up 32% on INR5,042cr",
+        "figure": "INR6,632cr, +32%",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Highest ever EBITDA of INR1,591cr against INR1,203cr - operating profit held at 24.0% of revenue versus 23.9% a year earlier despite the commodity hit",
+        "figure": "INR1,591cr vs INR1,203cr",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "PAT INR1,463cr, up only 21% against 32% revenue growth - the same gap between operating and bottom-line growth seen in Q3 FY26, and again unexamined",
+        "figure": "PAT INR1,463cr, +21%",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "The prior-year PAT includes INR168cr of EML's share of VECV profit, so a fifth of the comparison base is associate income rather than motorcycle earnings",
+        "figure": "INR168cr VECV share in Q1 FY26 PAT",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Highest ever quarterly Royal Enfield sales at 332,940 motorcycles against 261,326 - up 27.4%",
+        "figure": "332,940 vs 261,326 (+27.4%)",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "India volumes 301,174; global 31,766 - international grew about 25% and is finally outpacing its own prior-year base",
+        "figure": "India 301,174; international 31,766",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "June production hit about 4,500 motorcycles a day and 1.16 lakh motorcycles for the month",
+        "figure": "~4,500/day in June; 1.16 lakh in June",
+        "speaker": "B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Despatches have since reached 5,000-5,100 a day after the first new module started in the last week of July",
+        "figure": "5,000-5,100/day",
+        "speaker": "B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Oragadam and Vallam have been running three shifts since April",
+        "figure": "3 shifts since April",
+        "speaker": "B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Q1 problems were operational, not demand: LPG shortage (managed by switching back to piped gas), manpower shortage (extra hiring plus contractor support) and key commodity availability",
+        "speaker": "B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Volumes tracking about 32% growth; enquiry funnel indicators - bookings, walk-ins, telephone enquiries - all growing 'slightly higher than our volume growth'",
+        "figure": "volumes +32%; funnel growing faster",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "Even our other funnel indicators such as overall booking, walk-ins, telephonic inquiry, etcetera, continue to maintain a very strong growth, which is slightly higher than our volume growth."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Retail growth put at 'over about 30%' in a later answer, against 'over about 32%' earlier in the same call - close, but two different figures for the same quarter",
+        "figure": "32% vs 30%",
+        "speaker": "B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Chandramouli Muthiah (Goldman Sachs) framed the year as two halves: from October the industry faces the GST-cut base, and Royal Enfield showed the most price elasticity of any two-wheeler brand, so it has the most to lose",
+        "speaker": "Chandramouli Muthiah",
+        "kind": "qna",
+        "quote": "starting September, October for a period of 12 months, the base might be pretty high for the industry... Royal Enfield has seen the maximum amount of elasticity in domestic demand after GST-related price cuts"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Management's answer to the high-base question rested entirely on the enquiry funnel, low inventory and planned marketing, with no quantified view of what growth looks like against the tougher base",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "Even if the base is higher, we can continue to grow even the higher base of the last year. That's the confidence, not from anything else."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Brand-awareness spending was deliberately CUT in Q1 FY26 because supply was short, and is being ramped back up now - so part of the current-year comparison is a marketing base effect",
+        "speaker": "B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Buyer mix given as roughly 5-6% Royal Enfield owners upgrading to another Royal Enfield, '70% plus' upgraders and about 25% first-time buyers - internally inconsistent and left unclarified",
+        "figure": "RE-to-RE ~5-6%; upgraders 70%+; first-time ~25%",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "the percentage of people who are actually buying as existing Royal Enfield customers as an upgrade from a Royal Enfield to Royal Enfield is about 5%, 6%. And 70% plus are mainly the upgraders. So, another 25% are the first-time buyers."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "THE COST HIT CAME IN WORSE THAN GUIDED: net commodity and process impact was 4-4.5% in Q1, against the 3-3.5% management guided in May",
+        "figure": "4-4.5% actual vs 3-3.5% guided",
+        "speaker": "Vidhya Srinivasan",
+        "kind": "fact",
+        "quote": "In the quarter, we've had a net impact of about 4% to 4.5% on account of increase input cost of commodity as well as some of the processes involved."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Every named input rose: aluminium, crude oil, steel, copper and precious metals, plus supply-chain and logistics disruption",
+        "speaker": "Vidhya Srinivasan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "The offsets totalled about 1.8%: value engineering 0.4%, the April 1.75% price increase on the majority of 350cc models worth 1.2%, and mix 0.2%",
+        "figure": "VA/VE 0.4%; pricing benefit 1.2%; mix 0.2%",
+        "speaker": "Vidhya Srinivasan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "So roughly 40% of the cost increase was recovered, against the 'about 50%' management guided in May - the recovery ratio slipped as well as the cost",
+        "figure": "~40% recovered vs ~50% guided",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "An advance purchase programme was run on critical parts and raw materials and is expected to keep helping - a stock-based cushion with a limited life",
+        "speaker": "Vidhya Srinivasan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Other expenses fell about 7%, and management broke it down: INR20cr of Cricket World Cup marketing in Q4 that did not repeat, INR10cr from two Q4 launches, and INR22cr of deliberately controlled marketing spend",
+        "figure": "-7%; INR20cr + INR10cr timing, INR22cr controlled spend",
+        "speaker": "Vidhya Srinivasan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Gunjan Prithyani (Bank of America) asked how much of the other-expense benefit reverses and how much commodity pressure remains for Q2. Refused - no forward view on commodity, for the third consecutive call",
+        "speaker": "Gunjan Prithyani / Vidhya Srinivasan",
+        "kind": "qna",
+        "quote": "I think the situation continues to be quite volatile. So I don't think I can give you a forward looking guidance as far as commodity is concerned."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Management did volunteer that commodity is 'softening' and that the Q1 headwind is easing slightly - a directional claim with no number and no timing",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "there is a softening, which is taking place... But the extent in the Q1 as a headwind, you see slightly it is softening."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Average selling price rose 2.8% over Q4, decomposed as 1.2% from the April increase, 0.85% from a January increase on certain models, about 1% from a higher international mix, 0.4% from currency and 0.6% from allied businesses",
+        "figure": "+2.8% vs Q4; components 1.2 / 0.85 / ~1 / 0.4 / 0.6",
+        "speaker": "Vidhya Srinivasan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "The components of that 2.8% add to more than 2.8%, and no analyst asked for the reconciliation",
+        "kind": "qna"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "THIRD DIFFERENT NUMBER for the same January 2026 price increase: 0.85% here, 70 basis points in May, a blended 0.5% in February",
+        "figure": "0.85% / 70bps / 0.5%",
+        "speaker": "Vidhya Srinivasan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Value engineering framed as a calendar of initiatives where 'not that 100 initiatives and 100 ideas will translate to all 100' - an explicit admission the pipeline does not fully convert",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "we normally start the year with a calendar of activities, not that 100 initiatives and 100 ideas will translate to all 100 will become penny ties"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Value-engineering focus is now shifting: the 350cc J platform has four years of scale behind it, and the 450cc and 650cc platforms are only now entering the cost-reduction funnel because the priority there had been adding value to win volume",
+        "speaker": "B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "VECV operating profit fell to 8.4% of revenue from 9.2% a year earlier, on revenue up 16.6% to INR6,610cr - profit grew INR30cr on revenue up INR939cr",
+        "figure": "VECV EBITDA INR541cr vs INR511cr; margin 8.4% vs 9.2%",
+        "speaker": "B. Srinivas",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "VECV PAT INR300cr against INR288cr - up 4% on 16.6% revenue growth",
+        "figure": "INR300cr vs INR288cr",
+        "speaker": "B. Srinivas",
+        "kind": "fact"
+      },
+      {
+        "theme": "Competition",
+        "point": "The middleweight segment is now put at about 1.2 lakh a month, up from 70,000 three years ago on the back of 20-plus launches, with Royal Enfield at about 1.01 lakh a month against 61,000 then",
+        "figure": "segment 70,000 -> 1.2 lakh/mo; RE 61,000 -> 1.01 lakh/mo",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "when the base for the middleweight was 70,000 per month, Royal Enfield was about 61,000 per month. Now the base is almost about 1.2 lakh per month. The base is almost about 1.01 lakh per month."
+      },
+      {
+        "theme": "Competition",
+        "point": "Those numbers imply Royal Enfield's share of its own segment has gone from about 87% to about 84% - a share loss offered as evidence of strength, and again unchallenged",
+        "figure": "~87% -> ~84% implied share",
+        "kind": "qna"
+      },
+      {
+        "theme": "Competition",
+        "point": "The segment size quoted has itself moved: 1.1 lakh a month in May, 1.2 lakh a month in July, with Royal Enfield's own volume moving from '90,000 plus' to '1.01 lakh'",
+        "figure": "1.1 lakh (May) -> 1.2 lakh (July)",
+        "kind": "qna"
+      },
+      {
+        "theme": "Competition",
+        "point": "350cc models - Classic, Bullet, Hunter and Meteor - grew about 34%, which management says outperforms the industry",
+        "figure": "350cc +34%",
+        "speaker": "B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Competition",
+        "point": "Royal Enfield holds only about 8-9% of the roughly 0.8-1.0 million unit middleweight market outside India - the first time the international share has been sized on any of these calls",
+        "figure": "market 0.8-1.0mn units; RE share 8-9%",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "The total market size is almost about 0.8 million to 1 million outside India. Our market share currently is about 8% to 9%."
+      },
+      {
+        "theme": "Competition",
+        "point": "Royal Enfield is No. 2 in middleweight in Brazil, Argentina and Thailand",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Competition",
+        "point": "VECV heavy-duty truck share slipped to 8.8% from the 9.1% reported for FY26, even as heavy-duty volumes grew 15.2% - and no analyst asked about it",
+        "figure": "HD share 8.8% vs 9.1% FY26",
+        "speaker": "B. Srinivas",
+        "kind": "fact"
+      },
+      {
+        "theme": "Competition",
+        "point": "Ranked the world's third strongest automobile brand by Brand Finance",
+        "figure": "No. 3 globally",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Aluminium, crude oil, steel, copper and precious metals all named as having risen, with the combined effect 4-4.5% of cost in one quarter",
+        "figure": "4-4.5%",
+        "speaker": "Vidhya Srinivasan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Supply-chain and logistics disruption is now a separate problem from price, and is included in the 4-4.5% figure",
+        "speaker": "Vidhya Srinivasan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Key commodity availability was an active production constraint in Q1, alongside LPG and labour",
+        "speaker": "B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Advance purchase of critical parts and raw materials has been used as a buffer; the benefit depends on when the stock flows through",
+        "speaker": "Vidhya Srinivasan",
+        "kind": "qna",
+        "quote": "it's a mix of inventory at what point of time we bought, what's an inventory which we are holding, whether it is flowing through"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "The only forward-looking statement offered on input costs was that softening is under way; the size and timing were both refused",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Both the 450cc and 650cc ranges are back to pre-GST volumes: Guerrilla 450 at about 2,400-2,500 a month and the 650 twins at about 4,000-4,200 a month",
+        "figure": "Guerrilla 450 ~2,400-2,500/mo; 650 twins ~4,000-4,200/mo",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "both our 450 cc and 650 cc motorcycles are back at the pre-GST level, and we continue to invest in them to drive growth and expand this segment from now on"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Management states it deliberately did NOT detune the 450cc down to a lower tax band, choosing to hold performance and pass on the GST increase instead",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion",
+        "quote": "We will not look at reducing the performance of those platforms to get into the lower GST benefit. So we have not lowered our 450 cc to 350 cc level or something like that."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Bullet 650 launched during the quarter on the 650cc platform",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Hunter 350 got an expanded line-up with a new base premium variant and three colourways; first-time buyers are now about 50% of Hunter sales",
+        "figure": "~50% first-time buyers in Hunter",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Himalayan 450 became the best-selling adventure motorcycle in its class in several regions, notably India and Brazil",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Flying Flea C6 deliveries began: over 100 electric motorcycles delivered in two months from one store, with about 29,000 cumulative kilometres ridden",
+        "figure": "100+ units in 2 months; ~29,000 km",
+        "speaker": "B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Flying Flea network plan: five more Bengaluru touchpoints then another five, giving ten identified locations over the next two months, with six further markets identified after Bengaluru matures",
+        "figure": "5 + 5 = 10 Bengaluru points in 2 months; 6 more markets",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Kapil Singh (Nomura) asked for the Flying Flea customer profile. Declined as too early - only that the average age of people looking is 25-30 and that some existing owners of 5-6 year old Royal Enfields are interested. Still no volume target on any of the three calls",
+        "figure": "average age 25-30 (indicative)",
+        "speaker": "Kapil Singh / B. Govindarajan",
+        "kind": "qna",
+        "quote": "it is too, too early for us to talk about any detailed profiles"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Raghunandhan N.L. (Nuvama) named the weak models directly - Super Meteor, Himalayan and Shotgun under pressure in Q1 while the 650 twins and Guerrilla did well. The answer contained no timelines: a Shotgun 'drop', a Classic 650 125-year edition and 'on Super Meteor, we are working on something'",
+        "speaker": "Raghunandhan N.L. / B. Govindarajan",
+        "kind": "qna",
+        "quote": "And we have a drop, which is going to come in our Shotgun. And on Super Meteor, we are working on something."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Himalayan marketing was deliberately withheld until the GST change settled, and experiential rides now start in the coming quarters - the model's weakness is partly self-inflicted timing",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "we haven't done enough marketing activities during this time because we thought the GST thing have to settle in first"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Allied businesses now about 15% of revenue: service job cards up 20% at about 9 lakh a month, accessories and apparel up more than 30%",
+        "figure": "allied ~15% of revenue; job cards +20% at ~9 lakh/mo; accessories/apparel +30%",
+        "speaker": "Vidhya Srinivasan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Accessory attach rate has gone from 35-40% at the start to about 87% of buyers today, with more product lines being added on the back of it",
+        "figure": "35-40% -> ~87% attach",
+        "speaker": "B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "VECV Q1 volumes 24,815 units, up 14.8%, its best ever first quarter",
+        "figure": "24,815, +14.8%",
+        "speaker": "B. Srinivas",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "VECV heavy-duty trucks 5,275 units, up 15.2%; light and medium-duty 9,993 units; buses 6,126 units; Volvo trucks and buses a record 598 units",
+        "figure": "HD 5,275 (+15.2%); LMD 9,993; buses 6,126; Volvo 598",
+        "speaker": "B. Srinivas",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "VECV small commercial vehicles: 1,041 Pro X delivered including 172 electric",
+        "figure": "1,041 (172 EV)",
+        "speaker": "B. Srinivas",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "VECV exports grew 14.7% to 1,450 units - a sharp deceleration from the 33.9% delivered in FY26",
+        "figure": "1,450, +14.7% (FY26 was +33.9%)",
+        "speaker": "B. Srinivas",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "VECV spare parts sales grew 15.3% to INR931.3cr",
+        "figure": "INR931.3cr, +15.3%",
+        "speaker": "B. Srinivas",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Volvo FMX Edge launched for mining applications",
+        "speaker": "B. Srinivas",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Pramod Kumar (UBS) asked whether VECV might be hived off and separately listed to unlock value. The answer neither confirmed nor ruled it out - 'we have a lot of plans to mull over', with the current focus stated as electric vehicles",
+        "speaker": "Pramod Kumar / B. Govindarajan",
+        "kind": "qna",
+        "quote": "At an Eicher Motors level, we have a lot of plans to mull over and fathom do it. Currently, the focus is on EV."
+      },
+      {
+        "theme": "International",
+        "point": "International revenue crossed INR1,000cr for the first time in a quarter and is now about 15% of total revenue, up from 13.7% in Q4",
+        "figure": ">INR1,000cr; 15.3% of revenue vs 13.7% in Q4",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "The international business has doubled over the last two years",
+        "figure": "2x in 2 years",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "Brazil retail volumes have tripled over three years and it is now the biggest market outside India; every fourth motorcycle Royal Enfield exports goes to Brazil, and an owned kit-assembly plant is being set up",
+        "figure": "3x in 3 years; 1 in 4 exports",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "US update contains NO tariff number: the market is 'very slow' with 'green shoots', and the new trade deal cutting motorcycle tariffs is 'really helping slightly'. The 41-42% weighted average and the 18% headline from February were never quantified again on any later call",
+        "figure": "no figure given",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "U.S.A., which has been very slow. The market is showing some green shoots of growth in the Q1 with the new trade deal cutting tariffs on motorcycles. So that is really helping slightly."
+      },
+      {
+        "theme": "International",
+        "point": "Europe is called a 'market adjustment phase' for the third call running, and the description has hardened: 'a lot of dealers, distributors, there is too much business pressure on them. There are a lot of things which are not so good in the business establishment'",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "International",
+        "point": "Royal Enfield has replaced third parties with its own European distributorship and subsidiary, which management says is doing well; the Riders Club has passed 42,000 members",
+        "figure": "42,000+ Riders Club members",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "Indonesia blocked: management believed a Thailand kit-assembly plant would give quota-free ASEAN access, but Indonesia confirmed the quota stands, capping sales at about 10,000 vehicles a year",
+        "figure": "10,000 units/year quota",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "Our understanding initially had been if you have plant in Thailand, the treaty will actually help within ASEAN... But on ground, Indonesia has come back and then say no quota restriction is still there."
+      },
+      {
+        "theme": "International",
+        "point": "Even with a local plant, Indonesia levies a luxury tax of about 160%-plus on motorcycles above 250cc, which a local plant does NOT remove - management put this on the record unprompted",
+        "figure": "luxury tax ~160%+ above 250cc",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "there is what is called as the luxury tax, which is about 160% plus. So that is not going up even with CBU or CKD. So that also had to be worked on."
+      },
+      {
+        "theme": "International",
+        "point": "An Indonesian assembler has been identified and a decision on a local kit-assembly plant is expected 'during this quarter'; local content requirement is low so it could come fast",
+        "figure": "decision in Q2 FY27",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "International",
+        "point": "Thailand has been weak for two years on a tourism and economic downturn; retail momentum is returning and a Muay Thai and tourism-board brand collaboration is being built",
+        "speaker": "B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "International",
+        "point": "Latin America broad-based: Colombia leading the rest of the region, Mexico growing, Argentina No. 2 in middleweight",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "Asia-Pacific showing 'some green shoots' in both retail and wholesale after a weak run",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "International",
+        "point": "SAARC grew about 60% last year, led by Nepal and Bangladesh",
+        "figure": "+60%",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "Amyn Pirani (JPMorgan) contrasted Latin America's success with ASEAN being 'a mixed bag' three to four years after the pivot away from developed markets - the sharpest strategic challenge on the call",
+        "speaker": "Amyn Pirani",
+        "kind": "qna"
+      },
+      {
+        "theme": "International",
+        "point": "New markets: Goan Classic 350 launched in Nepal and Malaysia; Guerrilla 450 Apex in Australia and New Zealand",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "Consolidated revenue exceeded standalone by over INR400cr against a four-quarter average gap of about INR200cr, which the CFO attributed to subsidiaries - chiefly Brazil - now contributing materially",
+        "figure": "gap >INR400cr vs ~INR200cr average",
+        "speaker": "Raghunandhan N.L. / Vidhya Srinivasan",
+        "kind": "qna"
+      },
+      {
+        "theme": "International",
+        "point": "The subsidiary structure is credited with improving profitability as well as revenue, with no margin figure given for the international business",
+        "speaker": "B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "THE INTERIM CAPACITY NUMBER SHRANK: build capacity is now 'almost about 1.5 million' with the first Cheyyar module in. In May the same step was guided to 'almost about 1.6 million plus' from June-July",
+        "figure": "~1.5mn (was: ~1.6mn+)",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "with the first module, which we have been talking about at Cheyyar, the build capacity has come to almost about 1.5 million motorcycles per year. So that's the base capacity"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "The first 500-a-day module landed in the last week of July, on time, and ramped faster than planned to 5,000-5,100 despatches a day",
+        "figure": "first module July, 5,000-5,100/day",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "The next module is due in the first week of October and management is trying to pull it forward ahead of the festive season",
+        "figure": "next module October, being preponed",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "THE 2-MILLION DATE LOST ITS QUARTER: the Cheyyar brownfield is now described as reaching 2 million 'by financial year 27, 28'. In May it was a specific 'Q2 of FY28'; in February it was FY27-28 with full availability at the start of FY29",
+        "figure": "FY27-28 (Feb) -> Q2 FY28 (May) -> FY27-28 (Jul)",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance",
+        "quote": "the entire brownfield capacity, which will all come by financial year 27, '28, that is what we said with the Cheyyar, our production capacity will go to 2 million"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "NEW APPROVAL: the Board approved INR1,225cr for Phase 1 of a greenfield plant at Tada, Andhra Pradesh, which at full utilisation adds 4.5 lakh motorcycles a year",
+        "figure": "INR1,225cr; +450,000 units/yr",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Total planned capacity is now 2.45 million, to be completed 'during financial year 20-30' - i.e. FY2029-30, and in modules",
+        "figure": "2.45mn by FY29-30",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance",
+        "quote": "that will take us to the overall capacity of 2.45 million, but that will happen by 2029-30"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "So the greenfield now has the size and date the company would not give in May, when BNP Paribas asked for exactly those two things",
+        "figure": "INR1,225cr / 4.5 lakh / FY29-30",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Capacity path now stated in one sentence: about 1.5 million today, 2 million at Cheyyar via brownfield, 2.45 million with the Andhra Pradesh greenfield by FY29-30",
+        "figure": "1.5mn -> 2.0mn -> 2.45mn",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Supplier readiness: a supplier conference was held on the inventory situation, and vendors are planning 24/7 three-shift operations with incentives, so the ramp depends on the supply chain matching it",
+        "speaker": "B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Pramod Kumar asked whether the 5,000-a-day rate is fully supported by vendors across the whole value chain. Management called it 'a tight situation' but expressed confidence, without confirming supplier capacity separately from its own",
+        "speaker": "Pramod Kumar / B. Govindarajan",
+        "kind": "qna",
+        "quote": "Its a tight situation, but we are confident because the way we planned out for the ramp-up of the capacity kicking in has kicked in at the right time"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "The INR958cr Cheyyar approval is dated to February 2026 in this call, contradicting the May call's statement that it was cleared in April",
+        "figure": "February 2026",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Depreciation rose materially, driven by average gross block up about INR346cr plus tools and dies, primarily from the Flying Flea entering production and sale",
+        "figure": "average gross block +~INR346cr",
+        "speaker": "Vidhya Srinivasan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Amyn Pirani asked whether the higher depreciation is the new run rate. The cause was confirmed but the run-rate question was not answered",
+        "speaker": "Amyn Pirani / Vidhya Srinivasan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Cumulative announced capacity spend across three calls now runs to about INR2,183cr - INR958cr at Cheyyar plus INR1,225cr for Tada Phase 1 - before the Volvo financing joint venture's INR750cr",
+        "figure": "INR958cr + INR1,225cr = INR2,183cr; plus INR750cr JV",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "No payback, return-on-capital or utilisation assumption was given for the INR1,225cr greenfield, and no analyst asked for one on any of the three calls",
+        "kind": "qna"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "The INR750cr Volvo Financial Services joint venture announced in May got no update at all on this call, and no analyst raised it",
+        "kind": "qna"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Dealer inventory is 10-12 days, which management calls lean after a strong retail quarter; on clarification there is another 4-5 days in transit against a normal maximum of about 7",
+        "figure": "10-12 days dealer; +4-5 days transit",
+        "speaker": "B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "The inventory basis changed between calls: May's '7, 8 days' explicitly included depot stock, while July's '10 to 12 days' is dealer-only with transit stated separately",
+        "figure": "7-8 days incl depot (May) vs 10-12 days dealer-only (July)",
+        "kind": "qna"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Direct billing to dealers is being scaled up to cut secondary transit and depot handling: it was about 1-1.5% of volume, has risen roughly 4.5-4.7 times, and could save 4-5 days of pipeline time",
+        "figure": "1-1.5% of volume, up ~4.5-4.7x; saves 4-5 days",
+        "speaker": "B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Flying Flea retail goes from one store to ten identified Bengaluru locations in two months before any second city opens",
+        "figure": "1 -> 10 stores",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "VECV added 30 new touchpoints in the quarter, including in the North East",
+        "figure": "30 new touchpoints",
+        "speaker": "B. Srinivas",
+        "kind": "fact"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Community programmes in the quarter: biggest ever Himalayan Odyssey across eight countries, Continental GT Cup expanded to 8 cities with a new GT-R750 professional class, Himalayan Basecamp Ladakh, Himalayan Spirit Kochi, Gymkhana Chennai and GRRR Nights Bengaluru",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "A World Origin Site plaque was unveiled at Redditch, the brand's birthplace, for the 125th year",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Both the Executive Chairman and the Vice Chairman were absent from this call - the first of the three without either, leaving the MD and CFO to field every question including the VECV listing question",
+        "kind": "fact"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Management's stated priority for the rest of the year is building inventory for the festive season, not demand generation",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion",
+        "quote": "we are well on track to maintain our growth momentum, especially as we build inventory for the upcoming festive period"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Pay-commission and income-tax windfalls are handled tactically rather than forecast: management says it identifies which market and product benefits and tweaks marketing accordingly",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "Any free cash which comes in, in the hands of the customers, it helps, and we'll also tweak our positioning according to that."
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Re-own and Assured Buy Back are named as new business levers gaining traction, with no size given",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "VECV signed an MoU for PARIVARTAN, the road ministry's NCR fleet modernisation scheme targeting over 2 lakh vehicles, with implementation still being finalised",
+        "figure": ">200,000 vehicles targeted",
+        "speaker": "B. Srinivas",
+        "kind": "fact"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "VECV's new-project pipeline includes a new transmission project, described only in passing",
+        "speaker": "B. Srinivas",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "VECV growth called 'phenomenal' across all segments except heavy-duty buses, in a quarter where its operating margin fell",
+        "speaker": "B. Srinivas",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Capacity: about 1.5 million now, next module in October and being pulled forward, 2 million at Cheyyar by FY27-28, 2.45 million by FY29-30 with Tada Phase 1 at INR1,225cr for 4.5 lakh units",
+        "figure": "1.5mn now; 2mn FY28; 2.45mn FY29-30",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Costs: input pressure 'softening', but explicitly no forward guidance on commodity for Q2",
+        "speaker": "Vidhya Srinivasan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Growth: management asserts it can keep growing over the higher post-GST base from October, with no rate attached",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "International: all key markets expected to 'come back very strongly' once energy and tariff situations normalise - conditional on two things outside its control",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance",
+        "quote": "We are hopeful that the normalizing - the energy situation in a few of the markets and the tariff situation normalizes, these all markets will come back very strongly."
+      },
+      {
+        "theme": "Guidance",
+        "point": "Indonesia kit-assembly decision expected within Q2 FY27",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Subsidiary revenue contribution expected to sustain, on the basis that the international investments are already made",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Value engineering will now start showing up across the 450cc and 650cc platforms as well as the 350cc, over time and with no size given",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Still no numeric guidance on volumes, revenue, margin, exports or Flying Flea - the third consecutive call with none",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Six analysts asked questions - Bank of America, Nomura, Goldman Sachs, UBS, Nuvama and JPMorgan - and the MD closed the queue himself with 'I'll go for one last question'",
+        "figure": "6 questioners",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "THE QUESTION THAT GOT NO ANSWER AT ALL: Chandramouli Muthiah asked for the rural-urban split of domestic volumes, was given an unrelated answer, asked again explicitly - and still received only the buyer-mix split. The rural-urban number was never given",
+        "speaker": "Chandramouli Muthiah / B. Govindarajan",
+        "kind": "qna",
+        "quote": "Got it. Got it. Just if you could share the rural urban splits and the first-time versus upgraders splits as well?"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "He also asked what percentage of demand comes from government employees, ahead of a likely pay commission. Management said it has those cuts internally - central versus state - and did not give any of them",
+        "speaker": "Chandramouli Muthiah / B. Govindarajan",
+        "kind": "qna",
+        "quote": "it will be a very detailed analysis, which I have to talk about... But we have the details of what the government employees and is it the central government, state government, all those cuts which are there."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Third consecutive call refusing a forward commodity or margin number, after February's refusal to size value engineering and May's 'we don't normally talk about the forward guidance in numbers'",
+        "figure": "3 of 3 calls",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Nobody asked why VECV's operating margin fell to 8.4% from 9.2% while revenue grew 16.6%, or why its heavy-duty share slipped to 8.8% from 9.1% - the largest unexplained deterioration in the quarter",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Nobody asked why profit after tax grew 21% against 32% operating profit growth, the same gap left unexamined in February",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Nobody asked why the interim capacity figure fell from 'almost 1.6 million plus' in May to 'almost 1.5 million' in July, nor why the 2-million date lost the Q2 qualifier it had two months earlier",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Nobody asked about the January price increase being quoted at a third different value, or reconciled the average-price components that add to more than the stated 2.8%",
+        "kind": "qna"
+      }
+    ],
+    "theme_summaries": {
+      "Demand & volumes": "The best first quarter the company has had, and the second time the same gap appears without explanation. Revenue was INR6,632 crore, up 32%, operating profit INR1,591 crore - holding at 24.0% of sales against 23.9% a year earlier despite a sharp cost increase - but profit after tax rose only 21%, to INR1,463 crore. That is the same eleven-point gap between operating and bottom-line growth seen in December, and again nobody asked about it. Worth noting that INR168 crore of the year-earlier profit was Eicher's share of the truck venture rather than motorcycle earnings, so part of the comparison is not motorcycles at all. Volumes were a record 332,940 motorcycles against 261,326, with India at 301,174 and the rest of the world at 31,766. The quarter's problems were all supply-side: a cooking-gas shortage solved by switching plants back to piped gas, a labour shortage met with extra hiring, and patchy availability of key materials. June production reached about 4,500 motorcycles a day and 1.16 lakh for the month; despatches have since reached 5,000-5,100 a day. Growth is quoted as 'over about 32%' in one answer and 'over about 30%' in another. The buyer-mix answer is internally muddled: 5-6% of buyers are Royal Enfield owners upgrading to another Royal Enfield, '70% plus are mainly the upgraders', and about 25% are first-time buyers.",
+      "Pricing & margins": "The guidance given in May did not hold, in both directions. Management had warned of a 3-3.5% material cost hit; the actual figure was 4-4.5%. It had said about half would be recovered; the offsets add to roughly 1.8% - cost savings 0.4%, the April price increase worth 1.2%, mix 0.2% - which is nearer 40% than 50%. So the cost came in worse and the recovery came in thinner. Aluminium, crude oil, steel, copper and precious metals all rose, and supply and shipping disruption is now counted inside the same number. Operating profit still held at 24.0% of sales, which is the genuine achievement, but part of that came from other expenses falling about 7%, and management's own breakdown shows most of that is timing: INR20 crore of cricket-tournament advertising in the previous quarter that did not repeat, INR10 crore from two launches that were in the previous quarter, and INR22 crore of marketing deliberately held back. Asked how much of that reverses and how much cost pressure is left for the September quarter, the finance chief refused any forward view - the third such refusal in three calls - while the managing director volunteered that costs are 'softening' without sizing it. Average price per motorcycle rose 2.8% over the previous quarter, though the components listed add to more than 2.8% and nobody asked for the reconciliation. The January price increase is now quoted at 0.85%, having been 0.5% in February and 0.7% in May.",
+      "Competition": "For the second call running, management's own market figures contradict its conclusion. The mid-size segment has gone from about 70,000 units a month three years ago to about 1.2 lakh a month, helped by more than twenty competing launches, while Royal Enfield has gone from about 61,000 to about 1.01 lakh. That is roughly 87% share falling to roughly 84%. Two calls earlier the claim was 88.9%; in May the same arithmetic implied about 82%; the segment size itself has moved from 1.1 lakh to 1.2 lakh a month in two months. None of it has been reconciled and no analyst has asked. The underlying point remains sound - the category is growing fast enough that a shrinking share of a much larger market is still very good business, and the 350cc models grew about 34%, which management says beats the industry. The genuinely new disclosure is international: outside India the mid-size market is 0.8 to 1.0 million units a year and Royal Enfield holds only 8-9% of it. That is the first time the international share has been sized on any of these three calls, and it reframes the export story as an early-stage one rather than a mature one. In trucks, heavy-duty share slipped to 8.8% from the 9.1% reported for the full year even as heavy-duty volumes grew 15.2% - unremarked by anyone.",
+      "Raw materials": "The worst input-cost quarter of the three, at 4-4.5% of cost, against 3-3.5% guided in May and 0.9% actually incurred in the March quarter. Everything rose: aluminium, crude oil, steel, copper and precious metals. Two things make this different from ordinary cost inflation. First, availability is now part of the problem - materials shortages were an active constraint on production alongside cooking gas and labour, and the 4-4.5% figure explicitly includes process and logistics disruption rather than just prices. Second, the buffers are all timing devices with finite lives: an advance purchase programme on critical parts and materials, where the benefit depends on when the stock actually flows through the accounts, and cost-saving projects that were themselves pulled forward. The only forward-looking statement offered was that softening is under way. Both the size and the timing of that softening were refused. So the position at the end of the quarter is that the company has absorbed a tripling of cost pressure over six months, has recovered less of it than it said it would, and will not say what the next quarter looks like.",
+      "Segments & products": "The clearest good news on the call: both the 450cc and 650cc ranges are back to the volumes they had before the tax increase - Guerrilla 450 at about 2,400-2,500 a month, the 650 twins at about 4,000-4,200 - which means the roughly 40% collapse reported in February has fully unwound. Management makes a point of how it got there: it refused to detune the 450cc into a lower tax band, chose to pass the tax on and hold the product, and is only now starting to build the market. Bullet 650 launched in the quarter; the Hunter 350 line-up expanded, and first-time buyers are now about half of Hunter's sales. The electric motorcycle has delivered just over 100 units in two months from one store, with about 29,000 kilometres ridden between them - a real number at last, and a very small one - with ten Bengaluru locations planned over two months and six further cities identified. Still no volume ambition, on any of the three calls. The businesses around the motorcycle are now about 15% of revenue: service work up 20% at around 9 lakh job cards a month, accessories and clothing up over 30%, and the share of buyers who also buy accessories has risen from 35-40% at the start to about 87%. Asked about the models that are struggling - Super Meteor, Himalayan, Shotgun - management offered refreshes with no dates. In trucks, a record first quarter of 24,815 units, up 14.8%, but exports slowed to 14.7% growth from 33.9% for the full year.",
+      "International": "The first quarter where the international business looks structurally different rather than just cyclically better. Revenue outside India passed INR1,000 crore in a quarter for the first time and is now about 15% of the total, up from 13.7% three months earlier; the business has doubled in two years. Brazil is the engine - retail volumes have tripled in three years, it is now the largest market outside India, every fourth motorcycle exported goes there, and an owned assembly plant is being built. Set against that, the share number is humbling: 8-9% of a 0.8-1.0 million unit mid-size market outside India, which makes this a beginning rather than a maturity. The United States update contains no tariff figure at all - the market is 'very slow' with 'green shoots', and the new trade deal cutting motorcycle tariffs is 'really helping slightly'. February's 41-42% weighted average and 18% headline were never quantified again on either later call. Europe is a 'market adjustment phase' for the third consecutive quarter, and the description has hardened into 'a lot of things which are not so good in the business establishment', though Royal Enfield has replaced third parties with its own distribution there. The most concrete disclosure is a setback: management believed a Thai assembly plant would give quota-free access across South East Asia, and Indonesia has confirmed the quota stands, capping sales at about 10,000 a year - and even a local plant would not remove Indonesia's luxury tax of about 160% on motorcycles above 250cc. Management put that on the record itself.",
+      "Capex & projects": "The most important page in the three calls, because two numbers moved and one arrived. First, the interim capacity number shrank: build capacity is now 'almost about 1.5 million' with the first Cheyyar module in, where in May the same step was 'almost about 1.6 million plus' from June-July. Second, the 2-million date lost its precision: it is now 'financial year 27, 28', where in May it was specifically the September quarter of FY28 and in February it was FY27-28 with full availability agreed for the start of FY29. Neither change was flagged, and nobody asked about either. Third, what arrived: the Board approved INR1,225 crore for the first phase of a brand-new plant at Tada in Andhra Pradesh, adding 4.5 lakh motorcycles a year at full use and taking total capacity to 2.45 million by 2029-30. Those are exactly the size and date BNP Paribas asked for in May and was not given. The operational detail is encouraging - the first 500-a-day module landed in the last week of July on time and ramped faster than planned to 5,000-5,100 despatches a day, and the next module is due in the first week of October with an attempt to pull it forward before the festive season. Suppliers have been put on three-shift, round-the-clock plans with incentives, and management calls the position 'a tight situation'. One loose end: the INR958 crore approval is dated to February here, having been dated to April in May.",
+      "Balance sheet & capital allocation": "Depreciation jumped, and the explanation is the electric motorcycle: average fixed assets rose about INR346 crore, plus tools and dies, mostly because the Flying Flea started production and sale. Asked directly whether this is the new quarterly run rate, management confirmed the cause but not the run rate. The bigger picture is the pace of commitment. Across three calls the announced plant spending is now roughly INR2,183 crore - INR958 crore to expand Cheyyar and INR1,225 crore for the first phase at Tada - on top of up to INR750 crore of equity for the Volvo financing venture announced in May. Not one of those three commitments has a stated payback, target return or utilisation assumption behind it, and no analyst has asked for one on any of the three calls. The financing venture, which was the largest single announcement of the May call, received no update at all here and was not raised by anyone. For a company adding more than half its existing capacity and entering a lending business at the same time, the capital-returns conversation has been entirely absent.",
+      "Distribution & network": "Stock at dealers is 10-12 days, which management calls lean after a strong retail quarter, with another 4-5 days sitting in transit against a normal maximum of about seven. Note the basis changed between calls: May's '7, 8 days' explicitly included depot stock, while July's '10 to 12 days' is dealer-only with transit counted separately - so the two figures are not comparable and no one pointed that out. The interesting structural move is a shift to billing dealers directly instead of routing through depots and secondary transport. It was about 1-1.5% of volume, has risen several times over, and management thinks it can take 4-5 days out of the pipeline - which matters because the company is going into a festive season with thin stock and a production line only just catching up. Electric retail goes from one Bengaluru store to ten identified locations within two months before any second city opens. In trucks, 30 new service and sales points were added in the quarter including in the North East. On the brand side, the biggest ever Himalayan Odyssey ran across eight countries, the racing series expanded to eight cities with a new professional class, and a plaque was unveiled at Redditch in England, where the brand began 125 years ago.",
+      "Strategy & outlook": "Both the Executive Chairman and the Vice Chairman were absent from this call - the first of the three without either - which left the managing director and the finance chief to field everything, including a question about separately listing the commercial-vehicle business. Management's stated priority for the rest of the year is not demand generation but building stock for the festive season, which is a candid admission of where the constraint sits. On the possibility of a pay commission putting money in consumers' hands, the approach is tactical rather than forecast: identify which market and which product benefits, and adjust the marketing. Two newer levers get named without being sized - a used-motorcycle programme and an assured buy-back scheme. On the truck side, an agreement was signed for the road ministry's fleet-modernisation scheme in the Delhi region, which targets over 2 lakh vehicles, though implementation is still being finalised, and a new transmission project is mentioned in passing. Worth holding on to one contrast: the truck business described its quarter's growth as 'phenomenal' across every segment except heavy-duty buses, in a quarter when its operating margin fell from 9.2% to 8.4% of sales.",
+      "Guidance": "Capacity is now laid out as a path: about 1.5 million today, the next module in October and being pulled forward, 2 million at the expanded Cheyyar plant in FY27-28, and 2.45 million by 2029-30 once the first INR1,225 crore phase at Tada adds 4.5 lakh units. That is more forward detail than either earlier call, and it comes with two quiet retreats - the interim figure down from 1.6 million to 1.5 million, and the 2-million date losing the specific quarter it had in May. On costs, the only statement is that pressure is 'softening', with any number for the September quarter explicitly refused. On growth, management asserts it can keep growing over the much higher post-tax-cut base from October, with no rate attached. On international markets, everything is expected to 'come back very strongly' once energy prices and tariffs normalise - two conditions entirely outside the company's control, and stated as such. A decision on an Indonesian assembly plant is promised within the September quarter. For the third consecutive call there is no number for volumes, revenue, margin, exports or the electric motorcycle.",
+      "Analyst Q&A concerns": "Six analysts got through - Bank of America, Nomura, Goldman Sachs, UBS, Nuvama and JPMorgan - and the managing director closed the queue himself. The stand-out finding is a question that received no answer at all: Goldman Sachs asked for the rural-urban split of domestic volumes, was given something else, asked again in plain terms, and still never got the number - on a call where rural demand is central to the growth case. The same analyst asked what share of demand comes from government employees ahead of a likely pay commission, and management confirmed it holds precisely those cuts, central and state, before declining to share any of them. That is a different and more telling refusal than not knowing. It is also now three calls out of three in which a forward cost or growth number has been refused. Three things nobody asked: why the truck venture's margin fell from 9.2% to 8.4% of sales while its revenue grew 16.6%, and why its heavy-duty share slipped to 8.8% from 9.1%; why profit after tax grew 21% against 32% operating profit growth, the same gap ignored in February; and why the interim capacity figure fell from 1.6 million to 1.5 million while the 2-million date lost its quarter. The January price increase has now been given three different values across three calls, and that went unremarked too."
+    }
+  },
+  {
+    "quarter": "Q4 FY26",
+    "call_date": "2026-05-22",
+    "detailed": [
+      {
+        "theme": "Demand & volumes",
+        "point": "Q4 consolidated revenue INR6,080cr, EBITDA about INR1,514cr and PAT about INR1,520cr - reported as a record with NO year-ago comparatives given for any of the three",
+        "figure": "Q4 revenue INR6,080cr; EBITDA INR1,514cr; PAT INR1,520cr",
+        "speaker": "B. Govindarajan",
+        "kind": "fact",
+        "quote": "Eicher Motors Limited posted a record performance with a consolidated revenue at INR6,080 crores and EBITDA at about INR1,514 crores. Profit after tax stood at about INR1,520 crores."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "FY26 consolidated revenue INR23,408cr, EBITDA INR5,785cr, PAT INR5,515cr",
+        "figure": "FY26 revenue INR23,408cr; EBITDA INR5,785cr; PAT INR5,515cr",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Royal Enfield sold 12.27 lakh motorcycles in FY26, its highest ever and a second consecutive year above 1 million",
+        "figure": "1,227,000 units FY26",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Domestic volumes grew 23% to 1.1 million units",
+        "figure": "1.1mn domestic, +23%",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "International volumes grew 20% to 120,634 units for the full year - a reversal from the year-on-year decline reported in Q3",
+        "figure": "120,634, +20%",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Combined EML and VECV revenue crossed INR50,000cr for the first time",
+        "figure": ">INR50,000cr combined",
+        "speaker": "Siddhartha Lal",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Festive sales grew 26% on the prior year, the second consecutive record festive season",
+        "figure": "+26% festive",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Q4 quarterly revenue INR6,080cr was LOWER than Q3's INR6,114cr, a sequential dip management did not mention and no analyst raised",
+        "figure": "Q4 INR6,080cr vs Q3 INR6,114cr",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "One in every three Royal Enfield customers is now below the age of 25",
+        "figure": "33% of customers under 25",
+        "speaker": "Siddhartha Lal",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "April 2026 growth was quoted FOUR DIFFERENT WAYS on the same call: 51% in the prepared remarks, 57% to UBS, 'almost 31%' to Nomura and 'almost about 37%' to Nirmal Bang. Nobody asked which was right",
+        "figure": "April growth quoted as 51% / 57% / 31% / 37%",
+        "speaker": "B. Govindarajan",
+        "kind": "fact",
+        "quote": "we are happy to have started FY27 on a very strong note with a good momentum in April 2026 with a growth of 51%"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "April 2026 volume given as about 1.04 lakh motorcycles",
+        "figure": "1.04 lakh units in April",
+        "speaker": "B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Enquiry levels growing about 23% - the demand indicator management leans on hardest, and one of the few forward numbers offered",
+        "figure": "enquiries +23%",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "Inquiry levels are growing almost about 23% compared to the previous years and the months. So there is no structural correction which is taking place in the demand."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Dealer and depot inventory down to about 7-8 days because of election-related labour shortages and LPG shortages in May; confirmed under questioning that DEALER-only stock is even lower than 7 days",
+        "figure": "7-8 days including depot; dealer-only lower",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "currently, Royal Enfield, the inventory levels are almost about 7, 8 days, primarily because in the month of May, you know there are issues on the manpower availability due to elections and LPG shortages"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Management sized the disruption at 'a week to 10 days phenomenon' in one answer and '2, 3 weeks' in a later answer to a different analyst",
+        "figure": "'a week to 10 days' vs '2, 3 weeks'",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "Those are temporary about a week to 10 days phenomenon. And that is now back on track"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Rural growth described as 'the story of India'; urban has started growing too, credited to the income tax saving, with no split given",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "I don't think now urban or rural is there a shift which is taking place"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "In April, top-10 cities grew about 24% while total India grew far faster on management's own numbers - meaning the growth came from outside the big cities",
+        "figure": "top-10 cities +24%",
+        "speaker": "B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "First-time buyers rising, but the replacement cycle 'is yet to kick in' - so the installed base is not yet a source of demand",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "On the replacement cycle, as I mentioned, it is yet to kick in."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Q4 commodity cost increase was 90 basis points, offset by a 70bps blended January price increase and 20bps of cost reduction and mix - fully mitigated",
+        "figure": "Q4 commodity -90bps; January price +70bps; 20bps cost reduction/mix",
+        "speaker": "Vidhya Srinivasan",
+        "kind": "fact",
+        "quote": "because of the increase in commodity costs, we've had a total of about 90 basis points in the quarter. We were -- we took a price increase in January and the blended price increase was about 70 basis points."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "The January price increase is now quoted at 70 basis points, having been given as a blended 0.5% on the February call - the same action, two numbers",
+        "figure": "70bps (May) vs 0.5% (February)",
+        "speaker": "Vidhya Srinivasan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "A 1.75% price increase was taken in April 2026",
+        "figure": "+1.75%, April 2026",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Under-recovery quantified: of the expected 3-3.5% material cost hit, about 50% is recovered by the April price increase and the rest must come from austerity, value engineering landing in July-August, and pre-bought inventory",
+        "figure": "~50% of a 3-3.5% hit recovered",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance",
+        "quote": "Under recovery is, yes, if we have to give a slight equation, 3% to 3.5% level, yes 50% is actually recovered."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Management confirmed under questioning that the 3-3.5% hit is INCREMENTAL in Q1 FY27, on top of the 90bps already absorbed in Q4",
+        "figure": "incremental in Q1 FY27",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "Pramod Kumar: just to clarify this 350 bps is incremental or this includes the 90 bps of what happened in 4Q? B. Govindarajan: It is incremental in Q1."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Operating leverage confirmed as an additional mitigant on top of the pricing and cost actions, but only after the moderator tried to cut the question off",
+        "speaker": "Pramod Kumar / B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Cost defence described as a war footing: value engineering intensified before the price increase, cost-reduction exercises intensified, austerity measures, advance buying of materials",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion",
+        "quote": "because it's a war situation, we also have to be prepared for it"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Management stops short of claiming full recovery: 'it is not that the entire commodity inflation has actually covered up' - only confidence in mitigating 'to a maximum extent'",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion",
+        "quote": "We know it is not that the entire commodity inflation has actually covered up. But how do we minimize, how do we mitigate this?"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "VECV took price increases of about 2% across various vehicles from 1 April, against the same 3-3.5% cost hit - implying a larger unrecovered gap at VECV than at Royal Enfield",
+        "figure": "VECV +2% from 1 April vs 3-3.5% cost",
+        "speaker": "B. Srinivas",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "VECV Q4 margin: revenue INR8,280.6cr with EBITDA INR921.5cr, or 11.1% of sales - materially above the 9.5% reported in Q3",
+        "figure": "Q4 revenue INR8,280.6cr; EBITDA INR921.5cr; PAT INR595.8cr",
+        "speaker": "B. Srinivas",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "VECV FY26 revenue INR27,076.6cr with EBITDA INR2,562.6cr (9.5% of sales) and PAT INR1,471cr",
+        "figure": "FY26 revenue INR27,076.6cr; EBITDA INR2,562.6cr; PAT INR1,471cr",
+        "speaker": "B. Srinivas",
+        "kind": "fact"
+      },
+      {
+        "theme": "Competition",
+        "point": "The middleweight segment grew from about 70,000 units a month in 2022-23 to about 1.1 lakh a month now, of which Royal Enfield is 'almost about 90,000 plus' - implying share of roughly 82%, well below the 88.9% exit share claimed in February",
+        "figure": "segment ~70,000/mo to ~1.1 lakh/mo; RE ~90,000+/mo (implies ~82%)",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "the entire premium motorcycle in 2022, '23, the market size was only almost 70,000, now it has gone to almost about 1.1 lakh per month. And in that time till now in the 1.1 lakh, we are almost about 90,000 plus."
+      },
+      {
+        "theme": "Competition",
+        "point": "Management's conclusion from those numbers is that the segment grew and Royal Enfield outgrew it - the arithmetic in the same sentence points the other way, and no analyst tested it",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "So the entire premium motorcycle segment grew and Royal Enfield outgrew that. So that momentum is continuing as of now."
+      },
+      {
+        "theme": "Competition",
+        "point": "A rival's claim that premium motorcycles are the strongest-growing segment right now was put to management by UBS and accepted rather than contested",
+        "speaker": "Pramod Kumar / B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Competition",
+        "point": "Premiumisation described as 'continuing as a spree' and as the only growing part of the motorcycle market",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion",
+        "quote": "of all the motorcycles total, only the premium segment is growing"
+      },
+      {
+        "theme": "Competition",
+        "point": "VECV heavy-duty truck share improved to 9.1% in FY26 on 25,155 units, up 14.1%",
+        "figure": "HD share 9.1%; 25,155 units, +14.1%",
+        "speaker": "B. Srinivas",
+        "kind": "fact"
+      },
+      {
+        "theme": "Competition",
+        "point": "In Europe the market is shrinking and Royal Enfield says it is only holding share, not gaining",
+        "speaker": "B. Govindarajan",
+        "kind": "fact",
+        "quote": "Europe continued to degrow. In a degrowing market, we are maintaining our market share."
+      },
+      {
+        "theme": "Competition",
+        "point": "In LMD trucks VECV explicitly qualifies its leadership: 'market leadership must always be accompanied by profitable growth' - a hint that it will not chase volume share",
+        "figure": "46,195 LMD units FY26",
+        "speaker": "B. Srinivas",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "A 3-3.5% material cost impact is expected in Q1 FY27, described as 'a huge headwind'",
+        "figure": "3-3.5% material cost impact, Q1 FY27",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance",
+        "quote": "As far as the commodity is concerned, yes, there is a huge headwind. If I have to give you some number, it is almost about 3 to 3.5 percentage on the material cost level impact is expected."
+      },
+      {
+        "theme": "Raw materials",
+        "point": "The cause is framed as the war situation driving both inflation AND physical availability problems, with production continuity itself at risk",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion",
+        "quote": "One is about the inflation increase, which is taking place. The second is also availability itself is becoming a bit of a problem."
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Pre-buying has been done and residual inventory will be used to soften the hit - a one-off cushion, not a structural offset",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance",
+        "quote": "we also have done some prebuy, which is also helping us. So the residual inventories, which will also be used."
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Value-engineering projects have been pulled forward to land by July-August, i.e. the relief arrives a quarter after the cost",
+        "figure": "benefit lands July-August",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "VECV faces exactly the same 3-3.5% commodity pressure in Q1, and its new CEO expects it to persist 'in the similar lines for the year'",
+        "figure": "3-3.5%, continuing for the year",
+        "speaker": "B. Srinivas",
+        "kind": "guidance",
+        "quote": "the commodity pressure is exactly same as what Govind has mentioned. I think we are sailing the same boat. So, which is expected to be in the range of 3% to 3.5%"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "LPG availability, power and commodity availability all named as active constraints on production, not just cost",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Flying Flea C6 launched in the first week of April 2026 in Bangalore alongside the brand's first store; response called 'very exciting'",
+        "speaker": "Siddhartha Lal",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Guerrilla 450 Apex 2026 launched, plus meaningful upgrades to Hunter 350, Meteor 350, Goan Classic 350 and Himalayan Mana Black",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Meteor 350 crossed 6 lakh cumulative sales since its 2020 launch",
+        "figure": "600,000 cumulative",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Himalayan 450 grew 53% to over 38,000 retails globally",
+        "figure": "38,000+ retails, +53%",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Bullet 650 despatches have already started, confirmed on the call",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Raghunandhan NL (Nuvama) asked for product launch timelines from the EICMA showcase. Refused as a matter of policy - only that everything is 'on track' with 'no delay'",
+        "speaker": "Raghunandhan NL / B. Govindarajan",
+        "kind": "qna",
+        "quote": "new products have to be open when the new products is really coming on to the market, Raghu"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Arvind Sharma (Citi) asked whether there are plans to go below 350cc once capacity expands. Answer: no - the 250cc-750cc band is restated and existing platforms are said to have enough potential",
+        "figure": "250cc-750cc band restated",
+        "speaker": "Arvind Sharma / B. Govindarajan",
+        "kind": "qna",
+        "quote": "as a company, we always say less is more and our focus has been always 250 cc to 750 cc"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Arvind Sharma asked for any aspirational monthly volume or annual figure for Flying Flea. No number of any kind was given - only that test-ride enquiries at one store are 'very good'",
+        "speaker": "Arvind Sharma / B. Govindarajan",
+        "kind": "qna",
+        "quote": "It's a new category. We have to develop not in an urgency of doing that. That's why we have chosen city-by-city approach. We have gone to only one store at this level."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Allied businesses grew faster than motorcycles: apparel +21%, genuine motorcycle accessories +32% globally, spare parts +18%",
+        "figure": "apparel +21%; accessories +32%; spares +18%",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "VECV delivered a record 103,404 units in FY26, up almost 15%",
+        "figure": "103,404 units, +15%",
+        "speaker": "B. Srinivas",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "VECV small commercial vehicle entry: 2,452 Pro X trucks delivered including 726 electric",
+        "figure": "2,452 Pro X (726 EV)",
+        "speaker": "B. Srinivas",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "VECV buses 18,651 units; Volvo buses a record 712 units; Volvo trucks 1,712 units",
+        "figure": "buses 18,651; Volvo buses 712; Volvo trucks 1,712",
+        "speaker": "B. Srinivas",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "VECV exports grew 33.9% to 6,933 units",
+        "figure": "6,933, +33.9%",
+        "speaker": "B. Srinivas",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "VECV spare parts sales grew 13.9% to INR3,045.5cr",
+        "figure": "INR3,045.5cr, +13.9%",
+        "speaker": "B. Srinivas",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Yash Agarwal (Nirmal Bang) asked for VECV's electric bus market share and the 3-5 year opportunity. No share figure and no market size were given - only the 9m, 12m and 13.5m range and 'a reasonably good order book'",
+        "speaker": "Yash Agarwal / B. Srinivas",
+        "kind": "qna",
+        "quote": "we go by the current order book, our current demand, but we have a reasonably good order book business right now"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Raghunandhan NL asked for the MHCV industry growth view for FY27. Refused: 'there is no forecast expected at this moment'",
+        "speaker": "Raghunandhan NL / B. Srinivas",
+        "kind": "qna",
+        "quote": "As far as demand is concerned, I think there is no forecast expected at this moment. But however, right now, the traction in the market is quite good."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Asked whether a white space exists that would justify the capacity being added, management pointed backwards to Hunter's history rather than forwards to any new model, and said it will keep 'looking at' white spaces",
+        "speaker": "Kumar Rakesh / B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Eicher Pro X is assembled on an all-women line, described as an Indian commercial-vehicle industry first",
+        "speaker": "B. Srinivas",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "Brazil grew about 71% during the year and is now Royal Enfield's largest and fastest-growing market outside India",
+        "figure": "Brazil +71%",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "Royal Enfield is No. 2 in middleweight in Brazil; Guerrilla 450 won motorcycle of the year and Himalayan 450 style bike of the year there",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "Nepal outperformed within SAARC on the back of Classic 350 and Hunter 350 launches",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "The US is sized at only about 3% of Royal Enfield's total market - the first time the exposure is quantified, and it is used to dismiss the tariff question",
+        "figure": "US ~3% of total market",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "especially United States, you all know, and there are tariff issues, confusions, which are all getting settled, but that's only about 3% of the total market for us"
+      },
+      {
+        "theme": "International",
+        "point": "The February call's specific tariff numbers - 18% headline, ~41-42% weighted average, EMEA 6% - were NOT updated, restated or resolved anywhere on this call, and no analyst asked",
+        "figure": "no tariff figure given",
+        "kind": "qna"
+      },
+      {
+        "theme": "International",
+        "point": "Europe is again called a 'market adjustment year', with pre-registered OBD2B stock still sitting on dealer floors and delaying fresh billing",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion",
+        "quote": "still because of the degrowth, those preregistered vehicles are not cleared off from the floor. As a result, fresh billing is taking time."
+      },
+      {
+        "theme": "International",
+        "point": "The international stance stays 'cautiously optimistic' - the identical formulation used in February, with no numbers attached either time",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "International",
+        "point": "Kapil Singh (Nomura) asked for an export growth outlook. No number - the answer was a market tour plus the 3% US sizing",
+        "speaker": "Kapil Singh / B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Near-term capacity: declared capacity is now stated as about 1.4 million, with a '500 module' kicking in from June-July taking the total to 'almost about 1.6 million plus'",
+        "figure": "1.4mn declared -> ~1.6mn+ from June-July",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance",
+        "quote": "our capacity is about 1.4 million with about 500 module, which we explained to you people in the last call also, that's going to kick in from June and July. It does mean the overall capacity will go up to almost about 1.6 million plus."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "The 500 module was clarified under repeated questioning as a PER DAY addition across the manufacturing facilities, not a total",
+        "figure": "500 units per day",
+        "speaker": "Arvind Sharma / B. Govindarajan",
+        "kind": "qna",
+        "quote": "That's per day module of all the manufacturing facilities. Maybe you should have clarified, it's about a per day module"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "The 1.4-to-1.6 million step is confirmed as brownfield debottlenecking, not new plant",
+        "speaker": "Arvind Sharma / B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "THE DATE MOVED: the INR958cr Cheyyar brownfield now takes capacity to 2 million 'by Q2 of FY28'. In February the same project was guided to FY27-28 with full availability confirmed as the beginning of FY29",
+        "figure": "2mn by Q2 FY28 (was: start of FY29)",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance",
+        "quote": "That's about 2 million capacity, which will be there by Q2 of FY28."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Pressed again by BNP Paribas, management restated Q2 FY28 for the 1.6-to-2.0 million step - so the pull-forward was deliberate and repeated, not a slip",
+        "figure": "Q2 FY28 restated",
+        "speaker": "Kumar Rakesh / B. Govindarajan",
+        "kind": "qna",
+        "quote": "the additional INR958 crores, which we are putting in as a capital or taking the capacity from 1.6 million to almost 2 million at our Cheyyar facility, which is a Brownfield expansion, that we are looking at Q2 FY28"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "The INR958cr approval date is given inconsistently within the same call: the prepared remarks say it was announced in February, an answer says it 'was also clear INR958 crores in April'",
+        "figure": "February (remarks) vs April (Q&A)",
+        "speaker": "B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "NEW COMMITMENT: a greenfield plant in Andhra Pradesh, with 261 acres signed the week before the call, positioned as capacity BEYOND 2 million",
+        "figure": "261 acres, Andhra Pradesh",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Kumar Rakesh (BNP Paribas) argued 1.6 million would be exhausted by FY28 on double-digit growth and that an 18-month ramp means the plant should already have started. Management gave no capacity and no timeline for the greenfield - only 24-30 months from land in hand to a fully operational plant",
+        "figure": "24-30 months to operational; no capacity, no start date",
+        "speaker": "Kumar Rakesh / B. Govindarajan",
+        "kind": "qna",
+        "quote": "there is a business case which we have to make... Typically, it will be somewhere around 24 to 30 months window, that's where we will come out with a new plant fully operational."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "The stated reason for the greenfield is land, not demand: management says a land parcel is the longest lead-time item and 'at some point of time, that may become a major bottleneck'",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion",
+        "quote": "The longest lead time is always of having a land parcel in hand. And at some point of time, that may become a major bottleneck."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Cheyyar was only available as a brownfield option because Royal Enfield already held about 65 acres there",
+        "figure": "65 acres at Cheyyar",
+        "speaker": "B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Oragadam was recognised as Sustainable Factory of the Year by Frost & Sullivan; VECV added a 4.5MW rooftop solar project expected to cut emissions 25%",
+        "figure": "4.5MW solar; -25% emissions",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "A final dividend of INR82 per share was recommended for FY26",
+        "figure": "INR82/share final dividend",
+        "speaker": "Siddhartha Lal",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "NEW BUSINESS: a 50-50 joint venture with Volvo Group to enter vehicle financing, leasing and other financial services in India, with EML investing up to INR750cr for its 50% stake",
+        "figure": "50-50 JV; up to INR750cr for 50%",
+        "speaker": "Vinod Aggarwal",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Volvo Financial Services India already has assets under management of INR1,806cr and has operated in India for over 10 years; EML's money goes in as fresh equity",
+        "figure": "AUM INR1,806cr",
+        "speaker": "Vinod Aggarwal",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "The JV will be captive - financing only VECV, Volvo and, later, Royal Enfield products",
+        "speaker": "Vinod Aggarwal",
+        "kind": "fact",
+        "quote": "the VFS, they do only captive financing. So, they will do only the VECV or Volvo products or Royal Enfield at a later date."
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Asked about further capital calls, management laid out the arithmetic: INR750cr plus INR500cr existing net worth gives about INR1,200-1,250cr of equity, leverage can go to 5-6 times, so assets under management could reach INR9,000-10,000cr over five years with no additional money required",
+        "figure": "equity ~INR1,200-1,250cr; leverage to 5-6x; AUM to INR9,000-10,000cr over 5 years; no further capital for 5 years",
+        "speaker": "Pramod Amthe / Vinod Aggarwal",
+        "kind": "qna",
+        "quote": "we don't think that we will be required to put in any additional money at least for the next 5 years"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Management confirmed this business was never seriously evaluated before - the trigger is the Volvo partnership rather than an internal financing need",
+        "speaker": "Pramod Amthe / Vinod Aggarwal",
+        "kind": "qna",
+        "quote": "I think earlier we had never seriously evaluated entering this business. So this is the first time."
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Growth in the financing JV will be deliberately slow, subject to systems and risk management being in place first",
+        "speaker": "Vinod Aggarwal",
+        "kind": "guidance",
+        "quote": "we are not in a hurry to grow the business very fast. We will adopt a very slow and steady step-by-step approach."
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Asked whether financing is a share weapon or a profit pool, management said both, and that Volvo's global product ideas will be imported",
+        "speaker": "Kapil Singh / Vinod Aggarwal",
+        "kind": "qna"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Total new capital committed across two quarters now stands at roughly INR958cr (Cheyyar) plus INR750cr (financing JV) plus an unquantified Andhra Pradesh greenfield - and no return target was given for any of the three",
+        "figure": "INR958cr + INR750cr + unquantified greenfield",
+        "kind": "qna"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "The used-motorcycle and buy-back effort now covers about 400 cities and 710 dealerships with a digital platform, growing in double digits off a low base",
+        "figure": "400 cities; 710 dealerships",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "we have gone to almost about 400 cities, about 710 dealerships. We have created a digital platform, the traction is slightly better."
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Royal Enfield ranked highest in J.D. Power's 2026 two-wheeler initial quality study and No. 1 in the FADA dealer satisfaction survey",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Ranked third strongest automobile brand in the world by Brand Finance's 2026 automotive report",
+        "figure": "No. 3 globally",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Motoverse 2025 drew 30% higher footfall; One Ride's 14th edition brought together more than 40,000 riders across 66 countries",
+        "figure": "+30% footfall; 40,000 riders, 66 countries",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Two new community properties, HunterHood and The Nights, launched across multiple cities to reach younger riders",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "VECV added 30-plus touchpoints of servicing capacity commentary alongside its FY26 network build; the Journeying Across the Himalayas festival drew 11,000-plus visitors",
+        "figure": "11,000+ visitors",
+        "kind": "fact"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Leadership change: B. Srinivas took over as MD and CEO of VECV in March 2026; Vinod Aggarwal, who ran it for over 15 years, becomes Chairman of VECV while remaining Vice Chairman of EML",
+        "speaker": "Siddhartha Lal",
+        "kind": "fact"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Management says the resilience of eight quarters of growth is what underwrites the expansion, and that the medium-term trajectory is expected to be upwards",
+        "figure": "8 quarters",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion",
+        "quote": "The resilience of our growth over the past 8 quarters makes us confident that our strategies are steering us in the right direction and over the medium term, we expect the trajectory to be upwards."
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Structural demand claim repeated twice: 'there is no structural correction which is taking place in the demand'",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Vinod Aggarwal's framing of commercial-vehicle demand risk: everything rests on GDP growth and government infrastructure spending; diesel price rises will be passed on by transporters, so the industry grows unless the economy stalls",
+        "speaker": "Vinod Aggarwal",
+        "kind": "opinion",
+        "quote": "If the Indian economy continues to grow, if we suppose government is able to continue to make infrastructure investments and the economy grows, then there is no reason why the CV industry will not grow."
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Asked whether fuel inflation would push buyers into the second-hand market, VECV said no, because customers' contracts are time-bound and turnaround efficiency matters more than vehicle cost",
+        "speaker": "Sridhar Kalyani / B. Srinivas",
+        "kind": "qna"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Labour shortage acknowledged across both businesses, attributed to election-related worker migration and LPG availability, sized at 2-3 weeks of disruption and described as settling",
+        "figure": "2-3 weeks disruption",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "it was almost about 2, 3 weeks disturbance were in both the businesses. It's all settling in down along to us even at the supplier end."
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "VECV frames the year ahead honestly: global uncertainties, geopolitical developments and supply chain volatility 'will continue to test our ability'",
+        "speaker": "B. Srinivas",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "The GST cut is credited with widening access, with the sequence stated as pass-through first, then market building",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Kapil Singh asked directly for an FY27 growth range for the industry or for Royal Enfield. Refused as policy: 'we don't normally talk about the forward guidance in numbers'",
+        "speaker": "Kapil Singh / B. Govindarajan",
+        "kind": "qna",
+        "quote": "So Kapil, we don't normally talk about the forward guidance in numbers."
+      },
+      {
+        "theme": "Guidance",
+        "point": "Asked to at least confirm 'strong double-digit growth' for the premium category in FY27, management would not put a number on it and answered with the segment's history instead",
+        "speaker": "Pramod Kumar / B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Capacity: about 1.6 million plus from June-July, 2 million at Cheyyar by Q2 FY28, greenfield capacity beyond that with no size and no date",
+        "figure": "1.6mn+ Jun-Jul; 2mn Q2 FY28",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Costs: 3-3.5% material cost hit incremental in Q1 FY27, about half recovered by the April 1.75% price increase, the rest to come from austerity, value engineering landing July-August, and pre-bought stock",
+        "figure": "3-3.5% hit; ~50% recovered",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "VECV: same 3-3.5% commodity pressure expected to persist through the year, with about 2% of price taken from 1 April",
+        "speaker": "B. Srinivas",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Financing JV: assets under management targeted at INR9,000-10,000cr in five years with no further equity needed",
+        "figure": "INR9,000-10,000cr AUM in 5 years",
+        "speaker": "Vinod Aggarwal",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Greenfield plant: 24-30 months from land to fully operational, with no capacity, no spend and no start date given",
+        "figure": "24-30 months",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "No numeric guidance was offered on this call for volumes, revenue, margin, exports, Flying Flea or the greenfield's size",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Eight analysts asked questions - UBS, Nomura, Nuvama, Citi, InCred, BNP Paribas, Nirmal Bang and Antique - and the call was closed after the eighth",
+        "figure": "8 questioners",
+        "kind": "fact"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "The single most useful exchange on the call was BNP Paribas doing the capacity arithmetic out loud: 1.6 million exhausted by FY28 on double-digit growth, an 18-month ramp, therefore the greenfield is already late. Management neither accepted nor rebutted the maths",
+        "speaker": "Kumar Rakesh / B. Govindarajan",
+        "kind": "qna",
+        "quote": "1.6 million capacity, assuming that you grew at double digit for the next couple of years will start getting exhausted by fiscal '28 and a plant typically takes about 18 months to ramp up at least, so it should have already gotten started"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Four different April growth rates were given on one call (51%, 57%, 31%, 37%) and not one analyst asked which was correct",
+        "figure": "51% / 57% / 31% / 37%",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "The '500 module' had to be asked about three times before it was clarified as a per-day figure - the analyst noted it himself: 'it's been asked twice already'",
+        "speaker": "Arvind Sharma / B. Govindarajan",
+        "kind": "qna",
+        "quote": "I'm sorry, it's been asked twice already, but from 1.4 million to 1.6 million, you said something about a 500 module. Could you clarify, sir, what exactly it is?"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Forward guidance was refused three separate times: Royal Enfield/industry FY27 growth, the premium segment growth rate, and the MHCV industry outlook",
+        "figure": "3 refusals",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Nobody asked why Q4 revenue of INR6,080cr was below Q3's INR6,114cr, or why the prepared remarks gave no year-ago comparatives for a quarter described as a record",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Nobody asked what return the INR750cr financing joint venture is expected to earn, only whether more capital would be needed",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Nobody asked about the February tariff numbers - the 41-42% weighted average US rate and the EMEA 6% - despite three months having passed and the US being sized at 3% of the business for the first time on this call",
+        "kind": "qna"
+      }
+    ],
+    "theme_summaries": {
+      "Demand & volumes": "A record year, presented with some of the arithmetic missing. Royal Enfield sold 12.27 lakh motorcycles in the year, its best ever and a second straight year above a million: India up 23% to 1.1 million, and sales outside India up 20% to 120,634, which reverses the decline reported three months earlier. Group revenue for the year was INR23,408 crore with profit of INR5,515 crore, and Eicher plus its truck venture together crossed INR50,000 crore of revenue for the first time. The fourth quarter itself is described as a record and given as INR6,080 crore of revenue, INR1,514 crore of operating profit and INR1,520 crore of profit - with no year-earlier figures for any of the three. That INR6,080 crore is in fact slightly below the December quarter's INR6,114 crore, which nobody mentioned. The most confusing part is April: growth in that one month was quoted as 51% in the prepared remarks, 57% to one analyst, 'almost 31%' to another and 'almost about 37%' to a third, all on the same call. Stock at dealers and depots is down to 7-8 days after election-related labour shortages and cooking-gas shortages in May, sized as 'a week to 10 days' in one answer and '2, 3 weeks' in another. Enquiries are up about 23%, and one in three buyers is now under 25.",
+      "Pricing & margins": "The quarter itself was managed cleanly and the next one is the problem. In the January-March quarter commodity costs added 0.9% and were fully covered - 0.7% by a January price increase and 0.2% by cost reduction and mix. Then the warning: management expects a 3-3.5% material cost hit in the June quarter, and confirmed under questioning that this is on TOP of the 0.9% already absorbed, not inclusive of it. A 1.75% price increase went through in April, and management put the recovery at roughly half. The other half has to come from austerity measures, cost-saving projects deliberately pulled forward to land in July-August, and materials bought in advance - one-off cushions rather than structural fixes. To its credit, management did not overclaim: 'it is not that the entire commodity inflation has actually covered up.' The truck business faces the same 3-3.5% and took only about 2% of price from 1 April, so its unrecovered gap is bigger. One awkward detail: the January price increase is now described as 0.7%, having been given as a blended 0.5% on the February call. That number changes again in July.",
+      "Competition": "Management gave the market numbers and then drew the opposite conclusion from them. The mid-size segment has grown from about 70,000 units a month in 2022-23 to about 1.1 lakh a month, of which Royal Enfield is 'almost about 90,000 plus'. That is roughly 82% - against the 88.9% claimed three months earlier. Management's stated conclusion is that 'the entire premium motorcycle segment grew and Royal Enfield outgrew that.' Its own figures say the segment grew faster than Royal Enfield did. No analyst tested it. Premiumisation is described as 'continuing as a spree', and as the only growing part of the Indian motorcycle market, which is the genuinely important claim: the category is expanding fast enough that losing a few points of a much larger market is still very good business. A rival's public view that premium motorcycles are the strongest-growing segment right now was put to management and accepted rather than contested. In Europe the market is shrinking and Royal Enfield says only that it is holding share, not gaining. In trucks, heavy-duty share improved to 9.1%, and the leadership claim in light and medium trucks comes with a caveat worth noting - 'market leadership must always be accompanied by profitable growth' - which reads as a signal it will not buy volume.",
+      "Raw materials": "This is the call where cost pressure becomes the story. A 3-3.5% material cost hit is expected in the June quarter and is described as 'a huge headwind'. The cause is framed as the war situation, and it has two edges: prices are rising, and physical availability is becoming a problem, to the point where management talks about keeping production running rather than just protecting margin. Cooking gas, power and key commodities are all named as live constraints. The defences are all timing devices. Cost-saving projects have been pulled forward to land in July-August, which means relief arrives a quarter after the cost. Materials have been bought in advance and residual stock will be drawn down, which helps once. Austerity measures have been imposed. None of that changes the underlying price of aluminium or copper. The truck business confirms it faces exactly the same 3-3.5% and expects it to persist 'in the similar lines for the year' - so this is not a one-quarter event on either side of the group. Read against the previous quarter's 0.9%, input costs have roughly tripled in severity in three months.",
+      "Segments & products": "The year's product work was mostly upgrades rather than new platforms: a 2026 Guerrilla 450 Apex, plus refreshes of Hunter 350, Meteor 350, Goan Classic 350 and the Himalayan Mana Black. Two real milestones - the Meteor 350 passed 6 lakh cumulative sales since 2020, and the Himalayan 450 grew 53% to over 38,000 retails worldwide. The first electric motorcycle, the Flying Flea C6, launched in Bengaluru in early April with the brand's first store, and Bullet 650 despatches have started. Asked for launch timelines on everything shown at the Milan show, management refused as policy, saying only that nothing is delayed. Asked whether the range will go below 350cc once capacity expands, the answer was no - 'less is more', 250cc to 750cc, existing platforms have room. Asked for any volume ambition for the electric motorcycle, no number of any kind was given. The businesses around the motorcycle grew faster than the motorcycle: clothing up 21%, accessories up 32% worldwide, spare parts up 18%. In trucks, a record 103,404 units for the year, up almost 15%, with a new small-truck range contributing 2,452 units including 726 electric, and exports up 33.9%.",
+      "International": "Brazil is now the whole story outside India. It grew about 71% in the year and is described as the largest and fastest-growing market Royal Enfield has anywhere except India, where it is second in mid-size and won two motorcycle-of-the-year style awards. Nepal outperformed within the neighbourhood on the back of Classic 350 and Hunter 350. The United States, by contrast, is dealt with in one clause and sized for the first time at 'only about 3% of the total market for us' - which is a legitimate answer to the tariff question, and also a convenient one. February's specific tariff figures, the 18% headline and the 41-42% weighted average with metals tariffs included, plus the 6% European duty expected to lapse, were not updated, restated or resolved anywhere on this call, and nobody asked. Europe is again a 'market adjustment year': the market is shrinking and rivals' pre-registered stock is still sitting on dealer floors, so fresh billing is delayed. Asked for an export growth outlook, management gave the market tour and the 3% United States figure, and no number. 'Cautiously optimistic' is now the third-consecutive-quarter formulation for the whole international business.",
+      "Capex & projects": "Three capacity statements, and the important one is a date that moved. Near-term, declared capacity is now given as about 1.4 million, with a '500 module' arriving in June-July lifting it to 'almost about 1.6 million plus'. That module had to be asked about three times before management clarified it means 500 motorcycles PER DAY across the plants. Then the change that matters: the INR958 crore expansion of the existing Cheyyar plant now reaches 2 million 'by Q2 of FY28'. In February the same project was guided to FY27-28 with full availability agreed as the beginning of FY29. The pull-forward of roughly two quarters was stated twice on this call, so it is deliberate. Third, a brand-new plant: 261 acres signed in Andhra Pradesh the week before, positioned as capacity beyond 2 million. Pressed by BNP Paribas that 1.6 million runs out by FY28 and a new plant needs 18 months to ramp - so it should already have begun - management gave no capacity, no cost and no start date, only that land to fully operational typically takes 24-30 months. The stated reason for buying land now is that land is the longest-lead item and could itself become the bottleneck. Cheyyar was only available as a cheap expansion because 65 acres were already owned there.",
+      "Balance sheet & capital allocation": "The busiest capital-allocation call of the three. A final dividend of INR82 per share was recommended. Alongside it, a brand-new business: a 50-50 joint venture with Volvo in vehicle financing and leasing, with Eicher putting in up to INR750 crore for its half. The vehicle already exists - Volvo Financial Services India has operated here over ten years and manages INR1,806 crore of assets - and Eicher's money goes in as fresh equity. It will lend only against Volvo, truck-venture and eventually Royal Enfield products. Asked whether more capital will be needed, management laid out the arithmetic: INR750 crore plus INR500 crore of existing net worth gives roughly INR1,200-1,250 crore of equity, borrowings can run at five to six times, so managed assets could reach INR9,000-10,000 crore within five years with no further money. Management also confirmed this business had never been seriously evaluated before, so the trigger is the partnership rather than a financing gap in the dealer network. Add it up and two quarters have produced roughly INR958 crore of plant spending, INR750 crore of financing equity and an unpriced new plant in Andhra Pradesh - with no target return stated for any of the three, and nobody asking.",
+      "Distribution & network": "The used-motorcycle and buy-back effort is the interesting item here: it now reaches about 400 cities and 710 dealerships with a digital platform behind it, growing in double digits but from a low base. That matters because management says the replacement cycle 'is yet to kick in', so the installed base of millions of motorcycles is not yet producing repeat demand - and the trade-in network is how that eventually gets captured. Recognition arrived from several directions: highest ranking in J.D. Power's 2026 two-wheeler initial quality study, number one in the dealer satisfaction survey run by the dealers' federation, and third strongest automobile brand in the world by Brand Finance. The community machinery kept growing - Motoverse footfall up 30%, the fourteenth One Ride bringing together over 40,000 riders across 66 countries, and two new event properties, HunterHood and The Nights, aimed at younger and more varied riders. The Himalayan cultural festival drew over 11,000 visitors. All of this feeds the enquiry funnel that management treats as its primary demand signal.",
+      "Strategy & outlook": "A leadership handover and a widening of ambition. B. Srinivas became managing director and chief executive of the truck venture in March 2026; Vinod Aggarwal, who ran it for more than 15 years, moved up to its chairmanship while staying vice chairman of the parent. Management's case for the expansion rests on 8 consecutive quarters of growth and a stated expectation that the medium-term direction is upwards - and it repeats twice that 'there is no structural correction which is taking place in the demand'. On the truck side the framing is refreshingly plain: everything depends on the economy and on government infrastructure spending, diesel price increases will be passed on by transporters because freight contracts are indexed, and the industry grows unless growth itself stalls. Labour shortage is acknowledged on both sides of the group, blamed on election-related worker migration and cooking-gas availability, and sized at 2 to 3 weeks of disruption now settling. The truck business's own summary of the year ahead is the most candid line on the call: global uncertainty, geopolitics and supply-chain volatility 'will continue to test our ability'.",
+      "Guidance": "The clearest thing about guidance on this call is the explicit refusal of it: asked for an FY27 growth range, management said 'we don't normally talk about the forward guidance in numbers', and the truck chief refused the equivalent question with 'there is no forecast expected at this moment'. An attempt to get even a 'strong double-digit' confirmation for the premium segment produced history instead. What was given: capacity of about 1.6 million plus from June-July and 2 million at Cheyyar by the September quarter of FY28, with the new Andhra Pradesh plant unsized and undated at 24-30 months from land to operation. On costs, a 3-3.5% material hit incremental in the June quarter, about half recovered by the 1.75% April price increase, and the balance dependent on austerity, savings landing July-August and pre-bought stock. In trucks, the same 3-3.5% expected to persist all year against 2% of price taken. On the financing venture, INR9,000-10,000 crore of managed assets in five years with no further equity. Nothing numeric on volumes, revenue, margin, exports, the electric motorcycle, or the size of the new plant.",
+      "Analyst Q&A concerns": "Eight analysts got through - UBS, Nomura, Nuvama, Citi, InCred, BNP Paribas, Nirmal Bang and Antique. The best question on the call came from BNP Paribas, which simply did the capacity arithmetic out loud: 1.6 million exhausted by FY28 on double-digit growth, 18 months to ramp a new plant, therefore the new plant is already late. Management neither accepted nor rebutted it, and gave neither a size nor a date - both of which appeared on the next call. UBS extracted the two most useful numbers of the quarter by refusing round answers: that the 3-3.5% cost hit is incremental rather than inclusive, and that about half of it is recovered. Forward guidance was declined three separate times. The '500 module' needed three attempts to clarify. And the four different April growth rates - 51%, 57%, 31%, 37% - passed without a single challenge. Nobody asked why the record fourth quarter had no year-ago comparison and why its revenue was below the previous quarter's. Nobody asked what the INR750 crore financing venture should earn. Nobody went back to February's tariff numbers, on the call that first sized the United States at 3% of the business."
+    }
+  },
+  {
+    "quarter": "Q3 FY26",
+    "call_date": "2026-02-10",
+    "detailed": [
+      {
+        "theme": "Demand & volumes",
+        "point": "EML consolidated Q3 revenue of INR6,114cr, up 23% year-on-year",
+        "figure": "INR6,114cr vs INR4,973cr, +23%",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Consolidated EBITDA INR1,557cr, up 30% - profit grew faster than revenue for the quarter",
+        "figure": "INR1,557cr vs INR1,201cr, +30%",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "PAT INR1,421cr, up only 21% - well behind the 30% EBITDA growth, and INR183cr of it is EML's share of VECV associate profit rather than its own operations",
+        "figure": "PAT INR1,421cr (+21%); VECV share INR183cr",
+        "speaker": "B. Govindarajan",
+        "kind": "fact",
+        "quote": "PAT at INR 1,421 crores, up by 21% from INR 1,171 crores in Q3 last year. Please note that PAT includes the share of profits of VECV, which for Q3 stood at about INR 183 crores."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Royal Enfield sold 325,773 motorcycles in Q3, up 21%",
+        "figure": "325,773 vs 269,039, +21%",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "India volumes 300,426, up 24% - domestic carried the entire quarter",
+        "figure": "300,426, +24%",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Crossed 1 million motorcycles year-to-date before the financial year closed - the second such year",
+        "figure": "1mn units YTD",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Best ever festive performance: over 2.49 lakh motorcycles sold across September and October",
+        "figure": "2.49 lakh units (Sep+Oct)",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Domestic sales grew double digit in all three months of the quarter",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Sixth consecutive quarter of what management calls a steady growth journey",
+        "figure": "6 quarters",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Plants running 24/7 at full capacity; leave days being worked with special permission because demand is ahead of supply",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "the plant is running almost 24/7 now, and it's in full capacity"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Daily despatch rate disclosed at 4,300-4,400 vehicles per day; ~110,000 motorcycles produced in January",
+        "figure": "4,300-4,400/day; ~110,000 in January",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "we are delivering almost about 4,300 to 4,400 vehicles per day"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Pramod Kumar (UBS) put it to management that demand is 'way higher than what you can supply' and that dealer inventory is very low - management did not dispute either, and gave no inventory number on this call",
+        "speaker": "Pramod Kumar / B. Govindarajan",
+        "kind": "qna",
+        "quote": "demand is way higher than what you can supply, and there have been some holidays and all that last few months"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Urban demand has turned - management attributes it tentatively to the income tax cut but explicitly cannot pin it down; rural and semi-urban described as 'really, really growing'",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "we are not able to attribute exactly to that, but probably the income tax cut, which has come in, there is a positive sentiment"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Hunter's buyer base got younger after the GST cut: about 40% of Hunter buyers are now aged 23-24, up from 34-35%",
+        "figure": "40% aged 23-24, up from ~34-35%",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "It has come to almost 40% of the buyers who are buying Hunter. As of now, they are at an age group of almost 23 to 24."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Website search volume named as the leading demand indicator, described only as 'very good' with no figure attached",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "the funnel is from the website search. The search is very good."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "The middleweight segment itself is now growing, which management concedes was an open question two years ago when growth rested on the share leader",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion",
+        "quote": "if I have to talk about 2 years back, we discussed, will the middle weight be grown... But now I'm seeing the overall middleweight segment is growing."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Dealer principals described as 'very upbeat about the overall market' - management's own channel check, not a measured number",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Full gross-margin bridge for Q3 given year-on-year: +0.6% from domestic model mix, -100bps from OBD2B emission-norm cost, -70bps net commodity inflation (after +20bps value engineering), -40bps model/variant/geography mix, +140bps from the April and July price increases",
+        "figure": "+0.6% mix; -100bps OBD2B; -70bps net commodity; -40bps mix; +140bps pricing",
+        "speaker": "Vidhya Srinivasan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Cost increase driven specifically by precious metals, aluminium and copper",
+        "speaker": "Vidhya Srinivasan",
+        "kind": "fact",
+        "quote": "the cost increase largely is driven by the increase in precious metals, which we've had aluminum as well as copper"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "A January 2026 price increase was taken on select models at a blended ~0.5%",
+        "figure": "~0.5% blended, January",
+        "speaker": "Vidhya Srinivasan",
+        "kind": "fact",
+        "quote": "as far as January price increase is concerned, I think I would say a blended model price increase of about 0.5%"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Value engineering delivered 0.2% (20bps) of gross-margin benefit in the quarter",
+        "figure": "0.2%",
+        "speaker": "Vidhya Srinivasan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Pricing policy stated explicitly as not aggressive: increases only where commodity movement is sharp, case by case, with growth the priority",
+        "speaker": "Vidhya Srinivasan",
+        "kind": "opinion",
+        "quote": "we're not taking aggressive price increases and focus continues to be on growth"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Sequential gross-margin improvement and lower other expenses explained as operating leverage plus timing of marketing spend (more in Q2 than Q3), model mix and value engineering - part of it is therefore a shift, not a saving",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "primarily number one is operating leverage... and fiscal discipline on the expenses, in fact, even the marketing expenses, we have done ahead planning for this season"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Chandramouli Muthiah (Goldman Sachs) asked whether this is a margin inflection point after 5-6 quarters of pressure. Management declined the framing entirely and answered with a 12-quarter record instead: volumes 14% CAGR, revenue 18%, gross profit 20%, EBITDA 22%",
+        "figure": "12-quarter CAGR: volume 14%, revenue 18%, gross profit 20%, EBITDA 22%",
+        "speaker": "Chandramouli Muthiah / Vidhya Srinivasan",
+        "kind": "qna",
+        "quote": "if I take the 12-quarter period, our volumes have grown by a CAGR of 14%. Our revenues have grown by 18%, our gross profit by 20% and our EBITDA by 22%"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "He asked a second time, specifically what drove gross margin and the other-expense control. The first part of the answer was 'literally a bit of timing also' and an offer to take it offline",
+        "speaker": "Vidhya Srinivasan",
+        "kind": "qna",
+        "quote": "it's literally a bit of timing also, which is coming through because we've had timing of spend in different quarters... but we can get into more detail separately"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Gunjan Prithyani (Bank of America) asked for a quantified value-engineering benefit going forward. Refused outright - the CFO would not guide",
+        "speaker": "Gunjan Prithyani / Vidhya Srinivasan",
+        "kind": "qna",
+        "quote": "It's very difficult to quantify exactly how it's going to pan out in the following quarters... So I won't necessarily be able to guide to that extent."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Pressed for qualitative detail instead, management named four value-engineering levers: scale, low-cost-country sourcing (electricals, with Stark), mature J/K/T platforms allowing weight reduction and optimisation, and cutting precious-metal loading in catalytic converters",
+        "speaker": "B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Value-engineering rollout is deliberately slowed at high volume so that two versions of the same motorcycle are never in the market at once - a self-imposed cap on how fast cost savings can land",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "we'll be cautious in implementing it because when you're doing a higher volume, we don't want to have anything at the front end having 2 different kind of a vehicle"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Pricing philosophy framed as value returned to the product: every Royal Enfield must remain desirable 'at an accessible price point'",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion",
+        "quote": "Everybody should desire to own one at an accessible price point. We are very cautious of it."
+      },
+      {
+        "theme": "Competition",
+        "point": "Royal Enfield's exit market share in the middle-sized motorcycle segment stated at 88.9%, with share gains claimed 'across the board'",
+        "figure": "88.9% exit share, mid-size segment",
+        "speaker": "B. Govindarajan",
+        "kind": "fact",
+        "quote": "where Royal Enfield has been able to continue its dominance at 88.9% exit market share"
+      },
+      {
+        "theme": "Competition",
+        "point": "The above-350cc portfolio fell about 40% after the GST rate increase, with a pre-buy between 15 August and 22 September distorting the comparison; 650cc began recovering within a month, 450cc only started later",
+        "figure": "~40% drop post-GST; 650cc recovering faster than 450cc",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "post that, there was a huge drop... It went as good as almost about 40%, but the rate of recovery of 650 cc started showing a positive sign within about a month's time"
+      },
+      {
+        "theme": "Competition",
+        "point": "The full ~40% GST rate change on larger motorcycles was passed straight through to customers with no absorption",
+        "figure": "~40% passed through",
+        "speaker": "B. Govindarajan",
+        "kind": "fact",
+        "quote": "We have passed on whatever the GST rates, which are there, we just went into the market as it is at about 40%."
+      },
+      {
+        "theme": "Competition",
+        "point": "Management confirms the above-350cc range has NOT recovered to pre-GST levels, only that the rate of recovery is improving",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "Have we come to the same level as the earlier time pre-GST level? No. But are we seeing the traction that we are reaching there? Yes."
+      },
+      {
+        "theme": "Competition",
+        "point": "Industry growth for next year put at high single digit, with the premium segment growing faster and Royal Enfield expected to outgrow the market - stated as an ambition, not a forecast",
+        "figure": "industry high single digit FY27",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance",
+        "quote": "the whole industry is looking at high single digit, that's sort of the growth. And the premium segment will grow. We will continue to outgrow the market. That's our ambition."
+      },
+      {
+        "theme": "Competition",
+        "point": "In Europe Royal Enfield is competing against heavily discounted pre-registered stock cleared by rivals ahead of OBD2B, and has chosen not to discount in response",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion",
+        "quote": "we are competing in a market which has a very huge discount because of the pre-registration vehicles"
+      },
+      {
+        "theme": "Competition",
+        "point": "VECV lost bus share to competitors on institutional orders: last year's large UPSRTC order did not repeat and competition took larger orders this year",
+        "speaker": "Vinod Aggarwal",
+        "kind": "qna",
+        "quote": "Last year, we had very large institutional sale orders from UPSRTC. This year, of course, we still don't have very large orders, whereas the competition has got larger orders."
+      },
+      {
+        "theme": "Competition",
+        "point": "VECV holds 34.5% share in light and medium-duty trucks and the No. 1 position",
+        "figure": "34.5% LMD share",
+        "speaker": "Vinod Aggarwal",
+        "kind": "fact"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Commodity outlook described as neither improving nor worsening, but with pressure certain to continue",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance",
+        "quote": "it is not cooling off. Equally, I must say it is not also heating up... But there will be a bit of a pressure on the commodity for some more time. That's for sure."
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Precious metals have been mapped out for roughly the next four quarters using pre-buy and hedging, because management expects prices to rise further",
+        "figure": "~4 quarters covered",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance",
+        "quote": "We mapped it for next almost 4 quarters, how it will be based on what prebuy which we can do, how much we can do as a hedging away"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Gunjan Prithyani asked for precious metals as a percentage of raw material cost or of net sales. The figure was not available on the call and was promised offline - it never reappeared on the two later calls, and nobody asked again",
+        "speaker": "Gunjan Prithyani / B. Govindarajan",
+        "kind": "qna",
+        "quote": "We'll probably send it to you, Gunjan. I may not be having it immediately now"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "OBD2B emission norms added 100 basis points of cost year-on-year - a regulatory cost, not a commodity one, and it is the single largest line in the margin bridge",
+        "figure": "100bps",
+        "speaker": "Vidhya Srinivasan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "A value-engineering pipeline is described as continuously kicking in as the offset to commodity pressure, with no size given",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "350cc demand rose after the GST cut; during the festive period the 350cc range grew almost 50% on an already higher base",
+        "figure": "~50% festive growth in 350cc",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "during the festive time itself compared to last year, we grew almost 50% with the higher base itself"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Capacity for 450cc and 650cc is already in place and currently under-utilised; debottlenecking and some automation will cover next year's growth there",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance",
+        "quote": "for 450cc and 650cc, there is a capacity which is built, which is good enough because currently, the utilization is slightly lower"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Every 350cc model is growing - Hunter, Bullet, Classic and a refreshed Meteor, which had dipped after GST and recovered on new colourways",
+        "speaker": "B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Bullet 350 went from a regional product to pan-India last year and is now selling in markets that had historically not accepted it",
+        "speaker": "B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Product actions in the quarter: refreshed Hunter 350 and Scram 440 in Nepal, Bear 650 in Argentina, Guerilla 450 in Brazil, Meteor 350 Sundowner special edition at Motoverse",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "EICMA showcase included the Classic 650 special edition, the new Bullet 650, Himalayan 450 Mana Black, a Shotgun collaboration with Rough Crafts and the Flying Flea S6 electric",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "The Meteor 350 rider community now exceeds half a million",
+        "figure": ">500,000 Meteor riders",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Flying Flea C6 is 'almost ready for production' and will reach market within the next quarter; the S6 comes around EICMA later in the year",
+        "figure": "C6 next quarter; S6 around EICMA",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance",
+        "quote": "C6 is almost ready for production. You will see it in the market soon... That you will see it in the next quarter time window."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "The electric rollout is deliberately slow because the category itself has to be built - explicitly not a volume push",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion",
+        "quote": "we will be doing a cautious approach of not going around and then saying here is a product. We'll build because a category has to be built"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "The declared playing field is 250cc to 750cc; adjacencies are hinted at but no product below 350cc was committed",
+        "figure": "250cc-750cc focus band",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "Our focus has always been the middleweight 250cc to 750cc... You will see the adjacencies which are there, but the demand as of now is 350cc."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Pramod Amthe (InCred) asked directly whether the existing engine range can fill a 2-million plant or whether downsizing is needed. No product answer - only 'there are enough projects which are going on'",
+        "speaker": "Pramod Amthe / B. Govindarajan",
+        "kind": "qna",
+        "quote": "here and now, the task in hand is how do I fulfill that demand... But there are enough projects which are going on."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "A Gymkhana rider-training programme is being started specifically to lift the slower-recovering 450cc segment",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "VECV Q3 volumes 26,086 units, up 24.2%, its strongest ever third quarter; year-to-date 69,597 units, up 13.2% - so the quarter ran far ahead of the nine-month run rate",
+        "figure": "Q3 26,086 (+24.2%); YTD 69,597 (+13.2%)",
+        "speaker": "Vinod Aggarwal",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "VECV light and medium-duty trucks 12,447 units, up 28.3%",
+        "figure": "12,447, +28.3%",
+        "speaker": "Vinod Aggarwal",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "VECV heavy-duty trucks 6,850 units, up 14.9%, its best ever third quarter",
+        "figure": "6,850, +14.9%",
+        "speaker": "Vinod Aggarwal",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "VECV buses 3,624 units, DOWN 3.3%, attributed to tender timing",
+        "figure": "3,624, -3.3%",
+        "speaker": "Vinod Aggarwal",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "VECV parts business (Eicher and Volvo combined) INR810cr, up 14.4%",
+        "figure": "INR810cr, +14.4%",
+        "speaker": "Vinod Aggarwal",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "VECV exports 2,056 units, up 72.5%",
+        "figure": "2,056, +72.5%",
+        "speaker": "Vinod Aggarwal",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "VECV revenue INR7,019cr vs INR5,801cr; EBITDA INR652cr vs INR517cr; margin 9.5% vs 9.2%; PAT INR338cr vs INR299cr",
+        "figure": "revenue INR7,019cr; EBITDA INR652cr (9.5% vs 9.2%); PAT INR338cr",
+        "speaker": "Vinod Aggarwal",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Eicher Pro X diesel launched with a new E449X2 engine for city and near-city logistics, targeting e-commerce, FMCG, cold chain, fresh produce and couriers",
+        "speaker": "Vinod Aggarwal",
+        "kind": "fact"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Yash Agarwal (Nirmal Bang) put VECV's bus share decline at 110 basis points year-to-date. Management explained it as a high base and lost institutional orders, and offered no recovery plan and no share target",
+        "figure": "-110bps bus share (analyst)",
+        "speaker": "Yash Agarwal / Vinod Aggarwal",
+        "kind": "qna"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "VECV margin improvement attributed to pricing discipline, operating leverage and cost reduction",
+        "speaker": "Vinod Aggarwal",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "International volumes FELL to 25,347 units from 27,068 a year earlier - the one segment that went backwards in a 21% growth quarter",
+        "figure": "25,347 vs 27,068 (-6.4%)",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "Retail momentum described as strong in Brazil, Argentina and Thailand even as wholesale volumes fell",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "First Royal Enfield exclusive store in Lima, Peru opened December 2025",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "US tariff detail: the effective rate had been 'almost about 50% plus'; the new trade deal sets 18%, but steel and aluminium tariffs take the weighted average to about 41-42% today",
+        "figure": "previously ~50%+; deal rate 18%; weighted average now ~41-42%",
+        "speaker": "B. Govindarajan",
+        "kind": "fact",
+        "quote": "With the latest trade deal, which has been done, the rate is 18%. However, there is a steel and aluminum tariff, that, there is no clarity as of now... the weighted average tariff is almost about 41% to 42% currently."
+      },
+      {
+        "theme": "International",
+        "point": "Management expects the steel and aluminium element to fall away, which would leave 18% and 'open up the market' - but says explicitly there is no clarity and it is waiting for the fine print",
+        "figure": "18% if steel/aluminium tariff lapses",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance",
+        "quote": "If that goes off, mostly it will go off. That's what we are expecting in the fine print, then it will become an 18% for us, which is a good sign."
+      },
+      {
+        "theme": "International",
+        "point": "The steel tariff is framed as competitively neutral because it applies to every importer into the US",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion",
+        "quote": "So it's a common denominator for all."
+      },
+      {
+        "theme": "International",
+        "point": "EMEA duty currently about 6%; management expects that to be knocked off too, again subject to fine print",
+        "figure": "EMEA ~6% duty, expected to go",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance",
+        "quote": "As far as EMEA is concerned, currently, we are at almost about 6% duty structure. Once again, clarity is being sought. Mostly that will also go off."
+      },
+      {
+        "theme": "International",
+        "point": "The stated planning assumption for both regions: US at 18%, EMEA 6% removed",
+        "figure": "US 18%; EMEA 6% removed",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance",
+        "quote": "We are assuming directionally, as I mentioned, U.S. at 18%, EMEA knocking off 6%. That will be the scenario of the whole."
+      },
+      {
+        "theme": "International",
+        "point": "Europe and the UK are called a 'market adjustment year' internally and a 'calibration year' externally, because pre-OBD2B pre-registered stock is still being discounted through the channel",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion",
+        "quote": "internally, we call it a market adjustment year. Probably I will call it as a calibration year."
+      },
+      {
+        "theme": "International",
+        "point": "Italy is the one European market performing, with a focus on Hunter there",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "Brazil called 'a North Star': Guerilla won Motorcycle of the Year, Himalayan won Trail Bike of the Year, and Royal Enfield is No. 2 in middleweight; two local assemblers are being consolidated into one owned kit-assembly plant",
+        "figure": "No. 2 in Brazil middleweight",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "Latin America broadly growing - Argentina and Colombia both cited",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "International",
+        "point": "Asia-Pacific described only as 'so, so', with Thailand recovering from its own problems",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "International",
+        "point": "In Bangladesh and Nepal distributors are signed, dealer locations identified and spares and kit-assembly facilities set up, but marketing is being held back because of political unrest",
+        "speaker": "B. Govindarajan",
+        "kind": "fact",
+        "quote": "we are cautiously moving in our marketing campaign depending upon the political situations and the unrest which are taking place"
+      },
+      {
+        "theme": "International",
+        "point": "Gunjan Prithyani asked for a directional export growth rate for the next year, noting growth had tempered as the base caught up. No number was given at all - the answer was a market-by-market tour ending in 'cautiously optimistic' and 'calibration and grow'",
+        "speaker": "Gunjan Prithyani / B. Govindarajan",
+        "kind": "qna",
+        "quote": "in the international market, as I have been always maintaining, we are cautiously optimistic. Market by market, there will be a growth"
+      },
+      {
+        "theme": "International",
+        "point": "US demand is expected to recover only once the tariff settles at 18%, with Bear 650, Super Meteor 650 and Himalayan named as the products positioned for it",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "The Board approved a brownfield expansion at the Cheyyar plant in Tamil Nadu taking annual capacity to 20 lakh units 'from the current 1.4 million'",
+        "figure": "to 2.0mn from 1.4mn (prepared remarks)",
+        "speaker": "B. Govindarajan",
+        "kind": "fact",
+        "quote": "taking our annual production capacity to 20 lakh units per year from the current 1.4 million to meet the rapidly expanding existing and the projected future demand"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "The investment is about INR958cr over two years, reaching target capacity by FY27-28",
+        "figure": "INR958cr over 2 years; target capacity FY27-28",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance",
+        "quote": "we will invest an estimate of almost INR 958 crores over a period of 2 years, reaching the target capacity by FY 27-28"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Amyn Pirani (JPMorgan) pushed on the starting point and got a different number from the prepared remarks: DECLARED capacity is 1.2 million, and a ~INR100cr module cleared by the Board about two months earlier lifts BUILD capacity to ~1.45 million within 1-1.5 months",
+        "figure": "declared 1.2mn; build 1.45mn after ~INR100cr module",
+        "speaker": "Amyn Pirani / B. Govindarajan",
+        "kind": "qna",
+        "quote": "just a clarity, 1.2 million is a declared capacity, if you all know. We have been saying 1.2 million."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Asked to confirm the timing, management agreed that the full 2 million would be available at the BEGINNING OF FISCAL 2029 - the clearest date given on this call",
+        "figure": "full 2mn available start of FY29",
+        "speaker": "Amyn Pirani / B. Govindarajan",
+        "kind": "qna",
+        "quote": "Amyn Pirani: the whole 2 million capacity will be available to us in the beginning of fiscal year '29. Is that the correct understanding? B. Govindarajan: Yeah. Your take, yes, Amyn."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Capacity arrives in modules timed to festive peaks over roughly eight quarters, and management says it will run 'slightly ahead' of that",
+        "figure": "~8 quarters, modular",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance",
+        "quote": "though we have given almost about 8 quarters' time, it will be slightly ahead, we will build the overall capacity to almost 2 million motorcycles"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Chandramouli Muthiah asked whether the spend is linear across the eight quarters or concentrated. No phasing was given - only that modules are mapped to bottlenecks and peak festive requirement",
+        "speaker": "Chandramouli Muthiah / B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "He also asked what share of the new capacity serves 350cc and below versus above 350cc. No split was given; the answer was that 350cc is where demand is and 450cc/650cc already have spare capacity",
+        "speaker": "Chandramouli Muthiah / B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Pramod Amthe questioned how a 60-70% capacity increase can cost so little relative to gross block. Answer: fungibility designed in for CAFE norms, more automation instead of relying on labour arbitrage, an IoT-based plant, and learnings carried over from Oragadam and Vallam",
+        "speaker": "Pramod Amthe / B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Vendor ramp-up formally started the day of the call: debottlenecking points identified, one-to-one discussions held, and a mail sent that day asking suppliers to take the 2-million plan to their own boards, with a cadence attached",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "In fact, today, we shot a mail to them to start talking about. And we have given a cadence of when you have to ramp up"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Base capacity for exported kits must stay in India because doing the work content abroad would cost more - so the 2-million build is essentially all domestic, at Cheyyar",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "the CKD has to go from India. So the base capacity has to be generated in India because the amount of work content which we will be doing outside India, it will make no sense because the cost will be higher"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Overseas assembly footprint listed: Brazil (two assemblers being consolidated into one larger owned unit, already in this year's cash flow), Thailand, Argentina, Colombia, Bangladesh, Nepal, with Mexico under consideration",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Amyn Pirani asked for the domestic-versus-export split of the 1.45-to-2.0 million addition. No split was given, only 'majority will be in India only'",
+        "speaker": "Amyn Pirani / B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "VECV has two truck plants (Pithampur and Bhopal) and is 'very well industrialized' for current volumes; Bhopal may need adding to next year if the industry keeps growing, and it 'will not be a very major capex'",
+        "speaker": "Vinod Aggarwal",
+        "kind": "guidance",
+        "quote": "next year, if the industry continues to grow. Then of course, we might have to increase the capacity in Bhopal and for which we are thinking over it"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "VECV is running at roughly 80-90% utilisation on 10,000-plus vehicles a month",
+        "figure": "~80-90% utilisation; 10,000+/month",
+        "speaker": "Vinod Aggarwal",
+        "kind": "qna"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Two capacity approvals inside one quarter: about INR100cr cleared roughly two months before the call, and INR958cr cleared on the day of the call - INR1,058cr of new commitment",
+        "figure": "INR100cr + INR958cr = INR1,058cr",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "No funding source, payback period or return-on-capital target was given for either amount, and no analyst asked for one",
+        "kind": "qna"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "The Brazil assembly consolidation is described as already absorbed in this year's cash flow, with no figure attached",
+        "speaker": "B. Govindarajan",
+        "kind": "qna",
+        "quote": "So that is already baked in those expenses. It's a cash flow for this year."
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "VECV network crossed 1,150+ touchpoints, with 13 new service sites added in Q3, container support across 14 highways, 20 operational Pro X setups and letters of intent for another 21, servicing 21,500+ vehicles nationwide",
+        "figure": "1,150+ touchpoints; 13 new sites; 20 Pro X setups + 21 LOIs; 21,500+ vehicles",
+        "speaker": "Vinod Aggarwal",
+        "kind": "fact"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Amazon India partnership added for online purchase of the 350cc range in select cities, following an earlier Flipkart tie-up",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Motoverse in Goa drew a record 40,000-plus people over three days",
+        "figure": "40,000+ attendees",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "Continental GT Cup Season 5 ran across 8 cities with over 6,000 registrations",
+        "figure": "8 cities; 6,000+ registrations",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Distribution & network",
+        "point": "HunterHood street-culture events ran in only 3 towns last year and will expand to more places where enquiries are strong",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "The 125th year of Royal Enfield is being used as the platform for a 'mother brand' marketing campaign management says will take the brand 'to a different level'",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "The margin philosophy dates to a 2022 pivot around the Hunter launch: grow absolute volumes and absolute profit rather than defend a percentage margin",
+        "speaker": "Vidhya Srinivasan",
+        "kind": "opinion",
+        "quote": "In 2022, as you know, on the sidelines of the Hunter launch, we had pivoted to rebalance. And there, we had talked about our focus on growing absolute volumes, absolute margins"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "VECV's read on the macro: strong government spending on roads and infrastructure, GST and income tax reforms, and contained inflation all supported customer confidence",
+        "speaker": "Vinod Aggarwal",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "VECV's medium-term commercial-vehicle outlook called 'constructive', supported by infrastructure, stable financing and the domestic manufacturing push",
+        "speaker": "Vinod Aggarwal",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Sustainability metrics: 93% of electricity consumed is green, an 80% reduction in direct and purchased-energy emissions intensity, and net water positivity of 4.6 on the Water Balance Index",
+        "figure": "93% green electricity; 80% emissions-intensity reduction; water index 4.6",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Cultural expansion beyond motorcycles: a Royal Albert Hall partnership with composer Rushil Ranjan for the Bullet 650 launch film, and a Great Himalayan exploration launched with UNESCO",
+        "speaker": "B. Govindarajan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Confidence in the expansion is grounded in the demand funnel and dealer sentiment rather than any forecast, and management says so",
+        "speaker": "B. Govindarajan",
+        "kind": "opinion",
+        "quote": "with all the activities, plus the 125th year, as the mother brand campaign... that is what is actually giving us the confidence"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Q4 FY26: growth momentum expected to continue, with enquiries, conversions and bookings all described as better",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance",
+        "quote": "So Q4 also, we are positive that we will be growing more."
+      },
+      {
+        "theme": "Guidance",
+        "point": "FY27: industry high single digit, premium segment growing faster, Royal Enfield to outgrow the market",
+        "figure": "industry high single digit",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Capacity: 2 million motorcycles for INR958cr, target capacity by FY27-28, full availability confirmed as the beginning of FY29",
+        "figure": "2mn by FY27-28; fully available start FY29",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Commodity pressure to persist 'for some more time'; precious metals expected higher but pre-bought and hedged out about four quarters",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Tariffs: planning on US at 18% and the EMEA 6% duty being removed, both explicitly unconfirmed pending fine print",
+        "figure": "US 18%; EMEA 6% removed",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Flying Flea C6 to market next quarter, S6 around EICMA",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "VECV Q4 exports 'likely to be better'",
+        "speaker": "Vinod Aggarwal",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "450cc and 650cc capacity needs no new investment next year - debottlenecking and automation will cover it",
+        "speaker": "B. Govindarajan",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "No numeric guidance was given anywhere on this call for Royal Enfield volumes, margin, export growth or the future value-engineering benefit",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Seven analysts asked questions - Goldman Sachs, Nomura, Bank of America, JPMorgan, UBS, InCred and Nirmal Bang - and the call was closed after the seventh",
+        "figure": "7 questioners",
+        "kind": "fact"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "The capacity number was inconsistent inside the same call: prepared remarks said capacity goes to 2 million 'from the current 1.4 million', while the answer to JPMorgan said declared capacity is 1.2 million and only becomes 1.45 million once a INR100cr module lands. Nobody reconciled the two",
+        "figure": "1.4mn (prepared remarks) vs 1.2mn declared / 1.45mn build (Q&A)",
+        "speaker": "Amyn Pirani / B. Govindarajan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Three separate requests to quantify something were declined in one call: the forward value-engineering benefit, precious metals as a share of cost, and the phasing of the INR958cr",
+        "figure": "3 refusals to quantify",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "The margin-inflection question was asked twice by the same analyst and answered both times with a 12-quarter growth record and a spend-timing explanation rather than a view on the direction of margins",
+        "speaker": "Chandramouli Muthiah / Vidhya Srinivasan",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Nobody asked why profit after tax grew 21% when operating profit grew 30% - the gap below the operating line went unexamined",
+        "figure": "PAT +21% vs EBITDA +30%",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Nobody challenged the 88.9% middle-size share figure or asked how it is measured, even though management simultaneously described a segment that is itself growing fast",
+        "figure": "88.9% unchallenged",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Nobody asked what the Flying Flea electric programme has cost or what it loses, on a call where its production launch was confirmed for the next quarter",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Two questioners (UBS and InCred) had audio failures and the moderator cut the UBS analyst off mid-question, so the follow-up on operating leverage was never put",
+        "kind": "qna"
+      }
+    ],
+    "theme_summaries": {
+      "Demand & volumes": "The quarter was strong and lopsided. Royal Enfield sold 325,773 motorcycles, 21% more than a year earlier, but all of the growth came from India, where it sold 300,426, up 24%. Sales outside India actually fell, to 25,347 from 27,068. Group revenue was INR6,114 crore, up 23%; operating profit INR1,557 crore, up 30%; profit after tax INR1,421 crore, up only 21% - and INR183 crore of that profit is Eicher's share of the commercial-vehicle joint venture, not motorcycle money. Nobody asked why the bottom line grew nine percentage points slower than the operating line. The festive stretch of September and October was the best the company has had, at over 2.49 lakh motorcycles, and India crossed a million units for the year before the year ended. The plants are running around the clock, delivering 4,300 to 4,400 motorcycles a day, roughly 110,000 in January, with leave days being worked under special permission because orders exceed what the factories can make. Management says city demand has finally turned, guesses the income tax cut is why, and admits it cannot prove it. Hunter buyers got younger: about 40% are now aged 23-24, up from 34-35%.",
+      "Pricing & margins": "This is the most detailed cost disclosure on any of the three calls, and its biggest single item is not commodities but regulation. Against the same quarter last year, tighter emission rules added 1.0% of cost, net commodity inflation another 0.7% after value engineering gave back 0.2%, and mix by model, variant and geography took a further 0.4% - all of it more than covered by price increases worth 1.4% taken in April and July. A further increase of about 0.5% went through in January on selected models. The cost pressure is specifically precious metals, aluminium and copper. On the sequential improvement, management credited operating leverage and better cost discipline, but conceded part of it is simply marketing money spent in the previous quarter rather than this one - a shift, not a saving. Asked twice whether margins have turned a corner, the finance chief declined to answer the question and gave a twelve-year-quarter growth record instead. Asked to put a number on future cost savings, she said plainly she would not guide to it. Pricing policy is stated as deliberately un-aggressive: increases only where a commodity moves sharply, because every motorcycle must stay affordable enough to want.",
+      "Competition": "Management claims 88.9% of the mid-size motorcycle market at the end of the quarter and says it gained share 'across the board'. That number goes unchallenged here, and it matters, because on the two later calls management's own figures for segment size and its own volumes imply something closer to 82-84%. The real competitive event of the quarter is tax, not rivals: the GST rate on motorcycles above 350cc went up, Royal Enfield passed the whole roughly 40% change straight through, and sales in that part of the range fell about 40%. A buying rush between 15 August and 22 September makes the comparison worse than it looks. The 650cc range started recovering within a month, the 450cc only later, and management states clearly that neither is back to where it was before the tax change. For next year it expects the industry to grow at a high single-digit rate, the premium end faster, and Royal Enfield faster still - described as an ambition rather than a forecast. In Europe rivals are dumping pre-registered stock at heavy discounts ahead of new emission rules and Royal Enfield has chosen not to match them. In trucks, the joint venture lost bus share because last year's very large state-transport order did not repeat and a competitor won the big ones instead.",
+      "Raw materials": "The honest summary from management is that input costs are not getting better and not getting dramatically worse: 'some weeks, it's neutral, some weeks, it's certainly shooting up', with pressure certain to continue 'for some more time'. Precious metals are the specific worry - they expect prices to rise further, and have bought forward and hedged roughly four quarters out so the increase does not land as a shock. That protection is a timing device, not a cure. The largest single cost line in the quarter is not a commodity at all: tighter emission rules added 1.0% of cost year on year, more than the 0.7% net effect of commodity inflation. Asked how big precious metals are as a share of raw material cost or of sales, management said the figure was not to hand and would be sent separately. It never appeared on either of the two later calls, and no analyst asked again. Against all this sits a cost-reduction pipeline described as continuously delivering, with the CFO declining to size any of it - which means the offset investors are asked to rely on is the one number the company will not give.",
+      "Segments & products": "The tax change reshaped the range. Small-engine 350cc motorcycles got cheaper and boomed - the festive 350cc range grew almost 50% on an already higher base, and every model in it is selling: Hunter, Bullet, Classic and a refreshed Meteor that had dipped and recovered on new colours. Bullet 350 went from a regional product to a national one and is now selling in places that had never taken it. Above 350cc, capacity is now under-used, which is why no new investment is needed there for a year. Management refuses to widen the range: the declared playing field is 250cc to 750cc, 'less is more', and asked point-blank whether the existing engines can fill a 2-million plant or whether smaller bikes are coming, the answer was only that projects exist. The first electric motorcycle, the Flying Flea C6, is described as almost ready and due in the next quarter, with the scrambler version later - deliberately slow, because a whole category has to be built first. In trucks, the joint venture had its best ever third quarter, 26,086 units up 24.2%, though the nine-month figure is up only 13.2%, so the quarter ran well ahead of the year. Buses fell 3.3%.",
+      "International": "The one part of the business that shrank. Sales outside India fell to 25,347 motorcycles from 27,068, and the answer to a direct question about next year's growth rate was a country-by-country tour with no number in it: 'cautiously optimistic', 'market by market', 'calibration and grow'. Tariffs are the live issue and management gave real numbers. Duties into the United States had been running at 'almost 50% plus'; the new trade deal sets the headline at 18%, but steel and aluminium tariffs push the weighted average to about 41-42% right now. Management expects the metals element to lapse, which would leave 18%, and expects the roughly 6% European duty to go too - while stating clearly that there is no clarity and it is waiting for the fine print. That is a planning assumption, not a fact. Europe and the UK are called a 'calibration year' because rivals' pre-registered stock is being discounted through the channel. Brazil is the bright spot and is called a 'North Star': number two in mid-size there, two awards won, and two local assembly partners being merged into one owned plant. In Nepal and Bangladesh everything is built - distributors, dealers, spares - but marketing is being held back because of political unrest.",
+      "Capex & projects": "The main event. The Board approved about INR958 crore to expand the existing Cheyyar plant in Tamil Nadu to 2 million motorcycles a year, spent over two years, with the target reached in FY27-28. Pushed by JPMorgan, management agreed the full 2 million is available at the BEGINNING OF FY29 - the clearest date anyone gets, and one that moves on both later calls. The starting point was given two ways in the same hour: the prepared remarks said capacity goes to 2 million 'from the current 1.4 million', while the Q&A said the declared figure is 1.2 million and reaches 1.45 million only once a INR100 crore module lands in the next six weeks. Nobody reconciled them. Three requests for structure inside the spend were all declined - the split between smaller and larger engines, the year-by-year phasing, and the domestic-versus-export share. Asked how a 60-70% capacity increase can cost so little, management pointed to designing flexibility in for future fuel-efficiency rules, more automation instead of cheap labour, and lessons carried over from its two existing plants. Suppliers were formally put on notice the same day: a letter went out asking them to take the 2-million plan to their own boards. In trucks, the two plants are running at 80-90% and Bhopal may need a modest addition next year.",
+      "Balance sheet & capital allocation": "Two plant approvals inside one quarter - about INR100 crore cleared a couple of months earlier and INR958 crore cleared on the day of the call - so INR1,058 crore of new commitment in three months. What is missing is everything an investor would want alongside it. No funding source was named, no payback period, no target return on the money, and no utilisation assumption behind the 2-million number. No analyst asked for any of those. The only other capital item mentioned is the consolidation of two Brazilian assembly partners into one owned plant, which management says is already absorbed in this year's cash flow without putting a figure on it. This is the pattern that repeats on the next two calls: large amounts get announced with a capacity number and a date attached, and never with a return attached.",
+      "Distribution & network": "Reach expanded on both sides of the group. The truck joint venture crossed 1,150 service and sales touchpoints, added 13 new service sites in the quarter, put container support on 14 highways, has 20 outlets running for its new small truck with letters of intent for 21 more, and now services over 21,500 vehicles. On motorcycles, Royal Enfield added Amazon India to an existing Flipkart tie-up so its 350cc range can be bought online in selected cities. The community machinery is a genuine distribution channel for the brand rather than a marketing line: the Motoverse festival in Goa drew a record 40,000-plus people over three days, the Continental GT racing series ran in eight cities with over 6,000 entries, and the HunterHood street-culture events - only three towns last year - are being expanded wherever enquiries are strong. The point of all of it is enquiry generation, which is the demand indicator management leans on most heavily and never quantifies beyond calling website search 'very good'.",
+      "Strategy & outlook": "The organising idea is the 125th anniversary, which becomes the platform for a large brand campaign management believes will lift Royal Enfield 'to a different level'. Underneath that sits a decision taken in 2022 around the Hunter launch: chase absolute volumes and absolute profit rather than defend a percentage margin. That is the honest explanation for why the finance chief keeps answering margin questions with growth figures - it is the stated policy, not evasion. It also means investors should not expect margin expansion to be managed for. On the truck side, the read on India is straightforwardly positive: heavy government spending on roads and infrastructure, tax reform, contained inflation, and a medium-term outlook called 'constructive'. On sustainability the numbers are real - 93% of electricity used is green, emissions intensity down 80%, and a water balance index of 4.6. What is worth noticing is what confidence rests on: enquiry levels, dealer sentiment and the anniversary campaign. Management says so directly. There is no volume forecast, no margin target and no market-size model behind a INR958 crore commitment.",
+      "Guidance": "Almost everything forward-looking here is directional rather than numeric, and the few numbers come with conditions attached. For the March quarter, growth continues - enquiries, conversions and bookings all described as better. For the following year, the industry grows at a high single-digit rate, the premium segment faster, and Royal Enfield faster than the market, which management calls an ambition rather than a forecast. On capacity: 2 million motorcycles for INR958 crore, reached in FY27-28, fully available at the start of FY29. On costs: pressure persists 'for some more time', with precious metals bought forward about four quarters. On tariffs: the plan assumes 18% into the United States and the 6% European duty removed, both explicitly unconfirmed and awaiting fine print - so two of the more consequential assumptions on the call are hopes, and management says as much. The first electric motorcycle arrives next quarter. Truck exports should improve. What is absent is any number for motorcycle volumes, for margin, for export growth, or for the cost savings the margin story depends on - the CFO refused the last of those outright.",
+      "Analyst Q&A concerns": "Seven analysts got through, from Goldman Sachs, Nomura, Bank of America, JPMorgan, UBS, InCred and Nirmal Bang, and the call closed after the seventh. Three separate requests to quantify something were turned down: future cost savings, precious metals as a share of cost, and the year-by-year phasing of the INR958 crore. The margin-direction question was asked twice by one analyst and answered both times with something else. The most useful thing to come out of the session was accidental - by proposing the date himself, JPMorgan's analyst got management to confirm the full 2-million capacity arrives at the start of FY29, and in the same exchange exposed that the capacity baseline had been stated as 1.4 million in the prepared remarks and 1.2 million under questioning. Four things nobody asked: how INR1,058 crore of plant spending is funded or what it returns; why profit after tax grew 21% when operating profit grew 30%; how the claimed 88.9% share of the mid-size segment is measured; and what the electric programme costs, on the call where its launch was confirmed for the next quarter. Two questioners had audio failures and one was cut off mid-question."
+    }
+  }
+];
+
+const THEME_ORDER = [
+  "Demand & volumes", "Pricing & margins", "Competition", "Raw materials",
+  "Segments & products", "International", "Capex & projects",
+  "Balance sheet & capital allocation", "Distribution & network",
+  "Strategy & outlook", "Guidance", "Analyst Q&A concerns",
+];
+
+const KINDS = [
+  { k: "all", label: "All" },
+  { k: "fact", label: "Facts" },
+  { k: "guidance", label: "Guidance" },
+  { k: "opinion", label: "Views" },
+  { k: "qna", label: "Q&A" },
+];
+
+let fCall = "all", fKind = "all", fTheme = "all";
+
+const esc = s => String(s ?? "").replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+
+function segmented(el, items, current, onPick) {
+  el.innerHTML = items.map(i =>
+    `<button type="button" data-v="${esc(i.k)}" aria-pressed="${i.k === current}">${esc(i.label)}</button>`).join("");
+  el.onclick = ev => {
+    const b = ev.target.closest("button[data-v]");
+    if (b) onPick(b.dataset.v);
+  };
+}
+
+function themesPresent() {
+  const seen = new Set();
+  CALLS.forEach(c => c.detailed.forEach(p => seen.add(p.theme)));
+  const ordered = THEME_ORDER.filter(t => seen.has(t));
+  const extra = [...seen].filter(t => !THEME_ORDER.includes(t)).sort();
+  return [...ordered, ...extra];
+}
+
+function render() {
+  segmented(document.getElementById("fCall"),
+    [{ k: "all", label: "All" }, ...CALLS.map(c => ({ k: c.quarter, label: c.quarter }))],
+    fCall, v => { fCall = v; render(); });
+  segmented(document.getElementById("fKind"), KINDS, fKind, v => { fKind = v; render(); });
+
+  const themeSel = document.getElementById("fTheme");
+  if (themeSel.options.length === 0) {
+    themeSel.innerHTML = `<option value="all">All themes</option>` +
+      themesPresent().map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join("");
+    themeSel.onchange = () => { fTheme = themeSel.value; render(); };
+  }
+
+  let shown = 0, total = 0;
+  const out = [];
+
+  for (const call of CALLS) {
+    total += call.detailed.length;
+    if (fCall !== "all" && call.quarter !== fCall) continue;
+
+    const pts = call.detailed.filter(p =>
+      (fKind === "all" || p.kind === fKind) && (fTheme === "all" || p.theme === fTheme));
+    if (!pts.length) continue;
+    shown += pts.length;
+
+    // group by theme, in canonical order
+    const byTheme = new Map();
+    for (const p of pts) {
+      if (!byTheme.has(p.theme)) byTheme.set(p.theme, []);
+      byTheme.get(p.theme).push(p);
+    }
+    const themes = [...byTheme.keys()].sort(
+      (a, b) => (THEME_ORDER.indexOf(a) + 1 || 99) - (THEME_ORDER.indexOf(b) + 1 || 99));
+
+    out.push(`<section class="call">
+      <div class="call-head">
+        <span class="call-q">${esc(call.quarter)}</span>
+        <span class="call-date">call ${esc(call.call_date)} · ${pts.length} of ${call.detailed.length} pointers</span>
+      </div>
+      ${themes.map(th => `
+        <div class="theme-group">
+          <p class="theme-name">${esc(th)}</p>
+          ${(call.theme_summaries || {})[th]
+            ? `<p class="theme-summary"><span class="lbl">Summary</span>${esc(call.theme_summaries[th])}</p>`
+            : ""}
+          <ul class="pts">${byTheme.get(th).map(p => `
+            <li class="pt">
+              <span class="pt-body">${esc(p.point)}
+                ${p.quote ? `<blockquote>“${esc(p.quote)}”</blockquote>` : ""}
+              </span>
+              ${p.figure ? `<span class="pt-fig">${esc(p.figure)}</span>` : "<span></span>"}
+              <span class="pt-meta">
+                <span class="badge ${esc(p.kind)}">${esc(p.kind === "qna" ? "Q&A" : p.kind)}</span>
+                ${p.speaker ? `<span class="who">${esc(p.speaker)}</span>` : ""}
+              </span>
+            </li>`).join("")}
+          </ul>
+        </div>`).join("")}
+    </section>`);
+  }
+
+  document.getElementById("out").innerHTML =
+    out.length ? out.join("") : `<p class="empty">No pointers match these filters.</p>`;
+  document.getElementById("count").textContent = `${shown} of ${total} pointers`;
+}
+
+render();
+</script>
+</body>
+</html>

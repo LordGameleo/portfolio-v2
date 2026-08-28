@@ -128,6 +128,106 @@
 <script>
 const COMPANIES = [
   {
+    "slug": "tvs-motor",
+    "company": "TVS Motor Company Ltd",
+    "symbol": "TVSMOTOR",
+    "period_long": "FY2015–FY2026",
+    "periods": 12,
+    "latest_fy": "FY26",
+    "latest": {
+      "sales": 56070,
+      "profit": 3186,
+      "roce": 17,
+      "roe": 33.3
+    },
+    "prev": {
+      "sales": 44089,
+      "profit": 2380,
+      "roce": 15,
+      "roe": 28.0
+    },
+    "panels": 13,
+    "swot_points": 29,
+    "calls": 3,
+    "call_pointers": 337,
+    "fetched_at": "2026-08-28"
+  },
+  {
+    "slug": "paras-defence",
+    "company": "Paras Defence and Space Technologies Ltd",
+    "symbol": "PARASDEFENCE",
+    "period_long": "FY2019–FY2026",
+    "periods": 8,
+    "latest_fy": "FY26",
+    "latest": {
+      "sales": 477,
+      "profit": 89,
+      "roce": 17,
+      "roe": 12.3
+    },
+    "prev": {
+      "sales": 365,
+      "profit": 61,
+      "roce": 16,
+      "roe": 9.5
+    },
+    "panels": 14,
+    "swot_points": 28,
+    "calls": 3,
+    "call_pointers": 186,
+    "fetched_at": "2026-08-28"
+  },
+  {
+    "slug": "eicher-motors",
+    "company": "Eicher Motors Ltd",
+    "symbol": "EICHERMOT",
+    "period_long": "FY2014–FY2026",
+    "periods": 12,
+    "latest_fy": "FY26",
+    "latest": {
+      "sales": 23408,
+      "profit": 5515,
+      "roce": 31,
+      "roe": 22.0
+    },
+    "prev": {
+      "sales": 18870,
+      "profit": 4734,
+      "roce": 30,
+      "roe": 22.2
+    },
+    "panels": 13,
+    "swot_points": 27,
+    "calls": 3,
+    "call_pointers": 369,
+    "fetched_at": "2026-08-28"
+  },
+  {
+    "slug": "varun-beverages",
+    "company": "Varun Beverages Ltd",
+    "symbol": "VBL",
+    "period_long": "CY2014–CY2025",
+    "periods": 12,
+    "latest_fy": "CY2025",
+    "latest": {
+      "sales": 21685,
+      "profit": 3062,
+      "roce": 20,
+      "roe": 15.6
+    },
+    "prev": {
+      "sales": 20008,
+      "profit": 2634,
+      "roce": 25,
+      "roe": 15.9
+    },
+    "panels": 13,
+    "swot_points": 27,
+    "calls": 3,
+    "call_pointers": 315,
+    "fetched_at": "2026-08-25"
+  },
+  {
     "slug": "asian-paints",
     "company": "Asian Paints Ltd",
     "symbol": "ASIANPAINT",
@@ -153,7 +253,7 @@ const COMPANIES = [
     "fetched_at": "2026-08-23"
   }
 ];
-const TODAY = "2026-08-23";
+const TODAY = "2026-08-29";
 
 const nf = v => typeof v === "number" ? v.toLocaleString("en-IN") : "—";
 const money = v => typeof v === "number" ? "₹" + nf(v) + "cr" : "—";
