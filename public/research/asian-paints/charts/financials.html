@@ -305,6 +305,15 @@
     cursor: pointer;
   }
   .dcf .reset:hover { background: var(--hover); }
+  .dcf-saved { font-size: 11px; color: var(--text-muted); margin-left: 10px; }
+  /* A caveat, not body copy: it must read as an aside on the dials above, so it
+     sits at caption size with a rule tying it to them. Bare `.cap` is styled
+     only inside `.dcf-scn`, so reusing it here rendered at 16px body size. */
+  .dcf-opennote {
+    font-size: 12px; line-height: 1.5; color: var(--text-secondary);
+    margin: 12px 0 0; padding-left: 10px;
+    border-left: 2px solid var(--capital);
+  }
 
   .dcf-out {
     margin: 16px 0 0; padding: 14px 15px; border: 1px solid var(--border);
@@ -600,6 +609,8 @@
     .dcf-ret { font-size: 14px; }
     .dcf-bd { font-size: 13.5px; }
     .dcf-warn { font-size: 12.5px; }
+    .dcf-opennote { font-size: 12.5px; }
+    .dcf-saved { font-size: 12px; }
     .dcf-scn .cap { font-size: 13.5px; }
     .dcf .reset { font-size: 12.5px; }
 
@@ -694,7 +705,9 @@
         </details>
       </div>
       <div class="knobs" id="dcfKnobs"></div>
-      <p><button type="button" class="reset" id="dcfReset">Reset to base case</button></p>
+      <p class="dcf-opennote" id="dcfOpenNote" hidden></p>
+      <p><button type="button" class="reset" id="dcfReset">Reset to base case</button>
+        <span class="dcf-saved" id="dcfSaved"></span></p>
       <div class="dcf-out">
         <div class="dcf-head">
           <span class="dcf-val" id="dcfVal">—</span>
@@ -2350,7 +2363,55 @@ const DCF = {
           + pct(DCF.ebitda_margin0, 1) + " in the base year." },
   ];
 
-  const state = Object.assign({}, DCF.defaults);
+  // ⚠️ THREE LAYERS SIT ON THE DIALS, AND THEY MUST NOT BE CONFLATED.
+  //   `DCF.defaults`      — the model's BASE CASE. The reference-scenario table
+  //                         below and every figure quoted in the prose above are
+  //                         computed on it. Never overwritten here.
+  //   `DCF.user_defaults` — optional per-company OPENING POSITION: the working
+  //                         assumptions the dials start on. Published as data so
+  //                         the page opens the same way in every browser rather
+  //                         than only in the one that was dragged. When it
+  //                         differs from the base case the page SAYS SO below —
+  //                         dials that quietly contradict the surrounding text
+  //                         are the exact page/model disagreement this file
+  //                         keeps warning about.
+  //   localStorage        — whatever the reader last dragged, so a revisit
+  //                         resumes there instead of snapping back.
+  const OPEN = Object.assign({}, DCF.defaults, DCF.user_defaults || {});
+  // Versioned so a future contract change (a renamed knob, a moved limit)
+  // retires old values instead of half-restoring them.
+  const SKEY = "dcf:asian-paints:v1";
+
+  // Every stored value is re-validated against `limits`. A key left behind by
+  // an older build, or a hand-edited storage entry, must degrade to the opening
+  // position — never to NaN on the readout.
+  const inLimits = (k, v) => {
+    const lim = DCF.limits[k];
+    return Number.isFinite(v) && lim && v >= lim[0] && v <= lim[1];
+  };
+  // localStorage throws rather than returning null in a few real
+  // configurations (Safari private browsing, third-party-cookie blocking in a
+  // frame, storage quota). Persistence is a convenience; it must not be able
+  // to take the calculator down with it, so every access is wrapped.
+  function readStore() {
+    let obj;
+    try { obj = JSON.parse(localStorage.getItem(SKEY)); } catch (e) { return {}; }
+    if (!obj || typeof obj !== "object") return {};
+    const out = {};
+    KNOBS.forEach(kn => {
+      const v = parseFloat(obj[kn.k]);
+      if (inLimits(kn.k, v)) out[kn.k] = v;
+    });
+    return out;
+  }
+  function writeStore() {
+    try { localStorage.setItem(SKEY, JSON.stringify(state)); } catch (e) {}
+  }
+  function clearStore() {
+    try { localStorage.removeItem(SKEY); } catch (e) {}
+  }
+
+  const state = Object.assign({}, OPEN, readStore());
 
   function project(st) {
     const rows = [];
@@ -2419,19 +2480,46 @@ const DCF = {
         <output id="o_${kn.k}"></output></div>
       <input type="range" id="k_${kn.k}" min="${lo}" max="${hi}"
              step="${kn.step}" value="${state[kn.k]}"
-             aria-describedby="n_${kn.k}">
+             autocomplete="off" aria-describedby="n_${kn.k}">
       <div class="kn" id="n_${kn.k}">${kn.note}</div>
     </div>`;
   }).join("");
 
-  // Read the state back OUT of the inputs rather than trusting the defaults.
-  // Browsers restore range-input positions across a soft reload, so a `state`
-  // initialised only from DCF.defaults can silently disagree with the sliders
-  // the reader is looking at — the readout would describe a projection the
-  // dials do not show.
+  // Read the state back OUT of the inputs rather than trusting what we wrote
+  // into them. Two things can make the two disagree, and either one leaves the
+  // readout describing a projection the dials do not show:
+  //   1. the browser CLAMPS a value that is off the step grid or past a limit;
+  //   2. the browser RESTORES the previous slider positions across a soft
+  //      reload — which `autocomplete="off"` above now suppresses, so that
+  //      localStorage is the single source of truth for a returning reader
+  //      rather than racing an opaque form-restore.
   KNOBS.forEach(kn => {
     state[kn.k] = parseFloat(document.getElementById("k_" + kn.k).value);
   });
+
+  // Name the opening position when it is not the base case, and label the
+  // reset button for what it actually does.
+  const openDiff = KNOBS.filter(kn => OPEN[kn.k] !== DCF.defaults[kn.k]);
+  const savedEl = document.getElementById("dcfSaved");
+  document.getElementById("dcfReset").textContent =
+    openDiff.length ? "Reset the dials" : "Reset to base case";
+  if (openDiff.length) {
+    // The knob labels are sentence-cased for their own <label>, so lowercase
+    // them inside a running sentence and re-capitalise only the first — a bare
+    // join() leaves "base case. exit multiple starts at…".
+    const items = openDiff.map(kn =>
+      `${kn.label.toLowerCase()} starts at <b>${kn.fmt(OPEN[kn.k])}</b> against `
+      + `a base case of ${kn.fmt(DCF.defaults[kn.k])}`);
+    items[0] = items[0].charAt(0).toUpperCase() + items[0].slice(1);
+    const openNote = document.getElementById("dcfOpenNote");
+    openNote.innerHTML =
+      `<strong>The dials open on a working assumption, not on the model's base `
+      + `case.</strong> ${items.join("; ")}. Everything in the prose above and `
+      + `in the reference-scenario table below is computed on the base case, so `
+      + `the two will not agree until you move the dials back — the reset button `
+      + `does that.`;
+    openNote.hidden = false;
+  }
 
   document.getElementById("dcfLede").innerHTML =
     `Free cash flow is projected for <strong>${EY} explicit years</strong> `
@@ -2505,6 +2593,14 @@ const DCF = {
       document.getElementById("o_" + kn.k).textContent = kn.fmt(state[kn.k]);
     });
 
+    // Tell the reader their dials are being kept, and that it is THIS BROWSER
+    // keeping them — not an account, and not something a second device sees.
+    const moved = KNOBS.filter(kn => state[kn.k] !== OPEN[kn.k]).length;
+    savedEl.textContent = moved
+      ? `${moved} dial${moved === 1 ? "" : "s"} moved — saved in this browser, `
+        + `so a revisit resumes here.`
+      : "Drag any dial and this browser will remember it.";
+
     const v = valueOf(state);
     const gap = v.ps / DCF.price - 1;
     const ret = impliedReturn(state);
@@ -2574,11 +2670,15 @@ const DCF = {
   KNOBS.forEach(kn => {
     document.getElementById("k_" + kn.k).addEventListener("input", e => {
       state[kn.k] = parseFloat(e.target.value);
+      writeStore();
       render();
     });
   });
+  // Reset returns to the OPENING POSITION and forgets the saved dials, so the
+  // button is genuinely an undo rather than a value the next reload overwrites.
   document.getElementById("dcfReset").addEventListener("click", () => {
-    Object.assign(state, DCF.defaults);
+    Object.assign(state, OPEN);
+    clearStore();
     KNOBS.forEach(kn => {
       document.getElementById("k_" + kn.k).value = state[kn.k];
     });
@@ -3567,8 +3667,19 @@ const OVERALL = {
 const MYNOTES = {
   "title": "My notes",
   "lede": "A dated log of observations and open questions on this company. Newest first. Each entry records what was actually established on that date, so a later reading can tell what was known when.",
-  "publication_note": "⚠️ This tab is PUBLISHED to a public site. Any entry carrying \"private\": true is dropped from the public build and stays visible only in a local private build — use it for anything that should not be read by strangers, including position sizing, price targets you are acting on, or personal circumstances.",
+  "publication_note": "⚠️ This tab is PUBLISHED to a public site. Any entry carrying \"private\": true is dropped from the public build and stays visible only in a local private build. Decisions and the price bands behind them ARE published deliberately — recorded in advance so a later reading can check them against what actually happened, and stated as one person's own reasoning rather than as advice. What stays private is position sizing, holdings, and personal circumstances.",
   "entries": [
+    {
+      "date": "2026-08-29",
+      "title": "Decision: WAIT — and the three prices I would act at",
+      "author": "owner",
+      "tags": [
+        "decision",
+        "opinion",
+        "valuation"
+      ],
+      "body": "<strong>Decision: WAIT.</strong> No position at ₹2,640 (21 August 2026). Three entry bands, written down in advance so the choice is not made in the moment, ordered by how much weight I am giving my own opinion over the cash-flow model.<br><br><strong>₹2,200–2,300 — if I let my own view lead, and I want that labelled.</strong> This is what I would pay if I act on my 7/10 personal score: intact franchise, best distribution in the industry, current pressure temporary. It sits <em>above</em> the top of the model's base band (₹1,711–2,091) and underwrites 9.7–10.2% a year on base operations at a 30× exit — better than the 8.05% on offer today, still short of the 12% house rate. It clears 12% only if operations come in at the bull case, or if the exit multiple never de-rates from today's 34.3×. So this band is explicitly me paying for my own opinion rather than for the arithmetic, and I would rather record it that way than dress it up as valuation.<br><br><strong>₹2,000–2,100 — neutral.</strong> Straddles the top of the base band. Underwrites 10.8–11.4% on base operations at 30×, and 12.2–12.8% if the multiple holds at 34.3×. This is roughly where the model and the opinion stop arguing.<br><br><strong>₹1,800–1,900 — if I am in doubt, or reading it bearishly.</strong> Inside the base band and straddling the base case itself (₹1,901). Underwrites 12.0–12.7% on base operations with a de-rated 30× exit: the first band that clears the 12% hurdle without needing my opinion to be right about anything.<br><br>Two facts to keep in view against all three. The 52-week low is ₹2,115, so <em>only the top band has been available in the past year</em> — the other two need a price 5%–15% below anything the stock has traded at since August 2025. And the bear case is ₹1,286, so none of these is a floor: if the margin resets to the FY22 trough instead of recovering, all three bands are too high. They are entry discipline, not protection. The test that would move any of this remains the Q2 FY27 result — the first quarter with the cheap-inventory cushion gone. Recorded in public and in advance for my own accountability — so it can be checked later against what actually happened. It is my own reasoning about my own money and is not advice to anyone else."
+    },
     {
       "date": "2026-08-28",
       "title": "Three inputs taken out of the argument — and the answer barely moved",

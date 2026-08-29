@@ -305,6 +305,15 @@
     cursor: pointer;
   }
   .dcf .reset:hover { background: var(--hover); }
+  .dcf-saved { font-size: 11px; color: var(--text-muted); margin-left: 10px; }
+  /* A caveat, not body copy: it must read as an aside on the dials above, so it
+     sits at caption size with a rule tying it to them. Bare `.cap` is styled
+     only inside `.dcf-scn`, so reusing it here rendered at 16px body size. */
+  .dcf-opennote {
+    font-size: 12px; line-height: 1.5; color: var(--text-secondary);
+    margin: 12px 0 0; padding-left: 10px;
+    border-left: 2px solid var(--capital);
+  }
 
   .dcf-out {
     margin: 16px 0 0; padding: 14px 15px; border: 1px solid var(--border);
@@ -600,6 +609,8 @@
     .dcf-ret { font-size: 14px; }
     .dcf-bd { font-size: 13.5px; }
     .dcf-warn { font-size: 12.5px; }
+    .dcf-opennote { font-size: 12.5px; }
+    .dcf-saved { font-size: 12px; }
     .dcf-scn .cap { font-size: 13.5px; }
     .dcf .reset { font-size: 12.5px; }
 
@@ -694,7 +705,9 @@
         </details>
       </div>
       <div class="knobs" id="dcfKnobs"></div>
-      <p><button type="button" class="reset" id="dcfReset">Reset to base case</button></p>
+      <p class="dcf-opennote" id="dcfOpenNote" hidden></p>
+      <p><button type="button" class="reset" id="dcfReset">Reset to base case</button>
+        <span class="dcf-saved" id="dcfSaved"></span></p>
       <div class="dcf-out">
         <div class="dcf-head">
           <span class="dcf-val" id="dcfVal">—</span>
@@ -2718,6 +2731,12 @@ const DCF = {
     "growth": 0.194,
     "margin": 0.2095
   },
+  "user_defaults": {
+    "exit_multiple": 20.0,
+    "wacc": 0.12,
+    "growth": 0.15,
+    "margin": 0.19
+  },
   "limits": {
     "exit_multiple": [
       6,
@@ -3047,7 +3066,55 @@ const DCF = {
           + pct(DCF.ebitda_margin0, 1) + " in the base year." },
   ];
 
-  const state = Object.assign({}, DCF.defaults);
+  // ⚠️ THREE LAYERS SIT ON THE DIALS, AND THEY MUST NOT BE CONFLATED.
+  //   `DCF.defaults`      — the model's BASE CASE. The reference-scenario table
+  //                         below and every figure quoted in the prose above are
+  //                         computed on it. Never overwritten here.
+  //   `DCF.user_defaults` — optional per-company OPENING POSITION: the working
+  //                         assumptions the dials start on. Published as data so
+  //                         the page opens the same way in every browser rather
+  //                         than only in the one that was dragged. When it
+  //                         differs from the base case the page SAYS SO below —
+  //                         dials that quietly contradict the surrounding text
+  //                         are the exact page/model disagreement this file
+  //                         keeps warning about.
+  //   localStorage        — whatever the reader last dragged, so a revisit
+  //                         resumes there instead of snapping back.
+  const OPEN = Object.assign({}, DCF.defaults, DCF.user_defaults || {});
+  // Versioned so a future contract change (a renamed knob, a moved limit)
+  // retires old values instead of half-restoring them.
+  const SKEY = "dcf:varun-beverages:v1";
+
+  // Every stored value is re-validated against `limits`. A key left behind by
+  // an older build, or a hand-edited storage entry, must degrade to the opening
+  // position — never to NaN on the readout.
+  const inLimits = (k, v) => {
+    const lim = DCF.limits[k];
+    return Number.isFinite(v) && lim && v >= lim[0] && v <= lim[1];
+  };
+  // localStorage throws rather than returning null in a few real
+  // configurations (Safari private browsing, third-party-cookie blocking in a
+  // frame, storage quota). Persistence is a convenience; it must not be able
+  // to take the calculator down with it, so every access is wrapped.
+  function readStore() {
+    let obj;
+    try { obj = JSON.parse(localStorage.getItem(SKEY)); } catch (e) { return {}; }
+    if (!obj || typeof obj !== "object") return {};
+    const out = {};
+    KNOBS.forEach(kn => {
+      const v = parseFloat(obj[kn.k]);
+      if (inLimits(kn.k, v)) out[kn.k] = v;
+    });
+    return out;
+  }
+  function writeStore() {
+    try { localStorage.setItem(SKEY, JSON.stringify(state)); } catch (e) {}
+  }
+  function clearStore() {
+    try { localStorage.removeItem(SKEY); } catch (e) {}
+  }
+
+  const state = Object.assign({}, OPEN, readStore());
 
   function project(st) {
     const rows = [];
@@ -3116,19 +3183,46 @@ const DCF = {
         <output id="o_${kn.k}"></output></div>
       <input type="range" id="k_${kn.k}" min="${lo}" max="${hi}"
              step="${kn.step}" value="${state[kn.k]}"
-             aria-describedby="n_${kn.k}">
+             autocomplete="off" aria-describedby="n_${kn.k}">
       <div class="kn" id="n_${kn.k}">${kn.note}</div>
     </div>`;
   }).join("");
 
-  // Read the state back OUT of the inputs rather than trusting the defaults.
-  // Browsers restore range-input positions across a soft reload, so a `state`
-  // initialised only from DCF.defaults can silently disagree with the sliders
-  // the reader is looking at — the readout would describe a projection the
-  // dials do not show.
+  // Read the state back OUT of the inputs rather than trusting what we wrote
+  // into them. Two things can make the two disagree, and either one leaves the
+  // readout describing a projection the dials do not show:
+  //   1. the browser CLAMPS a value that is off the step grid or past a limit;
+  //   2. the browser RESTORES the previous slider positions across a soft
+  //      reload — which `autocomplete="off"` above now suppresses, so that
+  //      localStorage is the single source of truth for a returning reader
+  //      rather than racing an opaque form-restore.
   KNOBS.forEach(kn => {
     state[kn.k] = parseFloat(document.getElementById("k_" + kn.k).value);
   });
+
+  // Name the opening position when it is not the base case, and label the
+  // reset button for what it actually does.
+  const openDiff = KNOBS.filter(kn => OPEN[kn.k] !== DCF.defaults[kn.k]);
+  const savedEl = document.getElementById("dcfSaved");
+  document.getElementById("dcfReset").textContent =
+    openDiff.length ? "Reset the dials" : "Reset to base case";
+  if (openDiff.length) {
+    // The knob labels are sentence-cased for their own <label>, so lowercase
+    // them inside a running sentence and re-capitalise only the first — a bare
+    // join() leaves "base case. exit multiple starts at…".
+    const items = openDiff.map(kn =>
+      `${kn.label.toLowerCase()} starts at <b>${kn.fmt(OPEN[kn.k])}</b> against `
+      + `a base case of ${kn.fmt(DCF.defaults[kn.k])}`);
+    items[0] = items[0].charAt(0).toUpperCase() + items[0].slice(1);
+    const openNote = document.getElementById("dcfOpenNote");
+    openNote.innerHTML =
+      `<strong>The dials open on a working assumption, not on the model's base `
+      + `case.</strong> ${items.join("; ")}. Everything in the prose above and `
+      + `in the reference-scenario table below is computed on the base case, so `
+      + `the two will not agree until you move the dials back — the reset button `
+      + `does that.`;
+    openNote.hidden = false;
+  }
 
   document.getElementById("dcfLede").innerHTML =
     `Free cash flow is projected for <strong>${EY} explicit years</strong> `
@@ -3202,6 +3296,14 @@ const DCF = {
       document.getElementById("o_" + kn.k).textContent = kn.fmt(state[kn.k]);
     });
 
+    // Tell the reader their dials are being kept, and that it is THIS BROWSER
+    // keeping them — not an account, and not something a second device sees.
+    const moved = KNOBS.filter(kn => state[kn.k] !== OPEN[kn.k]).length;
+    savedEl.textContent = moved
+      ? `${moved} dial${moved === 1 ? "" : "s"} moved — saved in this browser, `
+        + `so a revisit resumes here.`
+      : "Drag any dial and this browser will remember it.";
+
     const v = valueOf(state);
     const gap = v.ps / DCF.price - 1;
     const ret = impliedReturn(state);
@@ -3271,11 +3373,15 @@ const DCF = {
   KNOBS.forEach(kn => {
     document.getElementById("k_" + kn.k).addEventListener("input", e => {
       state[kn.k] = parseFloat(e.target.value);
+      writeStore();
       render();
     });
   });
+  // Reset returns to the OPENING POSITION and forgets the saved dials, so the
+  // button is genuinely an undo rather than a value the next reload overwrites.
   document.getElementById("dcfReset").addEventListener("click", () => {
-    Object.assign(state, DCF.defaults);
+    Object.assign(state, OPEN);
+    clearStore();
     KNOBS.forEach(kn => {
       document.getElementById("k_" + kn.k).value = state[kn.k];
     });
@@ -4344,8 +4450,19 @@ const OVERALL = {
 const MYNOTES = {
   "title": "My notes",
   "lede": "A dated log of observations and open questions on this company. Newest first. Each entry records what was actually established on that date, so a later reading can tell what was known when.",
-  "publication_note": "⚠️ This tab is PUBLISHED to a public site. Any entry carrying \"private\": true is dropped from the public build and stays visible only in a local private build — use it for anything that should not be read by strangers, including position sizing, price targets you are acting on, or personal circumstances.",
+  "publication_note": "⚠️ This tab is PUBLISHED to a public site. Any entry carrying \"private\": true is dropped from the public build and stays visible only in a local private build. Decisions and the price bands behind them ARE published deliberately — recorded in advance so a later reading can check them against what actually happened, and stated as one person's own reasoning rather than as advice. What stays private is position sizing, holdings, and personal circumstances.",
   "entries": [
+    {
+      "date": "2026-08-29",
+      "title": "Decision: START ACCUMULATING — and the three prices I would act at",
+      "author": "owner",
+      "tags": [
+        "decision",
+        "opinion",
+        "valuation"
+      ],
+      "body": "<strong>Decision: START ACCUMULATING</strong> — unlike Asian Paints, where the decision on the same day was to wait. Price ₹438 (25 August 2026); base case ₹392.52 with a ±10% band of ₹353–432.<br><br><strong>₹400–410 — base case, and where I start buying.</strong> 6%–9% below today, just above the model's base case and inside its band. Underwrites 11.5–11.8% a year on base operations at an 18× exit — a shade under the 12% house rate — and 15.6–15.8% if the exit multiple holds at today's 26.3×. I am willing to begin here rather than wait for the hurdle to be cleared exactly, because the question that decides this company gets an observable answer within about two years: whether the capital added since the 2024 raise earns the ~30% management claims for a plant or the 12.1% it has earned so far. Starting a position is how I get paid for being early if it does.<br><br><strong>₹360–370 — the bear band, where I would add more.</strong> Underwrites 12.7–13.0%, clearing the house rate on base operations. Note this is <em>below</em> the 52-week low of ₹381, so it requires a price the stock has not seen in the past year.<br><br><strong>₹420–430 — bullish.</strong> Still inside the top of the base band (₹432) but only 2%–4% below today, underwriting 11.0–11.2%. This is the band for paying up if volume re-acceleration shows up in the next result before the price comes to me.<br><br>The honest caveat, and it is a real one: at ₹438 the return already underwritten is 10.76%, so the entire ladder from ₹430 down to ₹400 buys about one percentage point. These bands are finer than the model can resolve — the growth path alone spans ₹238–₹693 across defensible readings of a single rule, wider than the whole bear-to-bull range and far wider than the gaps between these three bands. So treat them as staging discipline for a position I have already decided to build, not as a claim that ₹405 is meaningfully different from ₹425 in value terms. And remember 94% of the base case sits in the year-11 exit multiple: the cash flows do not pay for any of these prices, the eventual sale price does. Recorded in public and in advance for my own accountability — so it can be checked later against what actually happened. It is my own reasoning about my own money and is not advice to anyone else."
+    },
     {
       "date": "2026-08-28",
       "title": "Rebuilt the cash-flow model on house convention — and it moved the answer 29%",
