@@ -21,6 +21,18 @@
     --capital:        #1baf7a;
     --delta-good:     #006300;
     --delta-bad:      #d03b3b;
+    /* Revenue-split ramp — see the "Revenue splits" CSS block for why this is
+       a rank ramp of ONE hue and not eight categorical colours. Rank 1 is the
+       largest slice and is the darkest here; dark mode inverts, so the largest
+       slice is always the most prominent against its own background. */
+    --rev-1:          #123f73;
+    --rev-2:          #1a5da8;
+    --rev-3:          #2a78d6;
+    --rev-4:          #5b9be2;
+    --rev-5:          #8fbaec;
+    --rev-6:          #b9d3f4;
+    --rev-7:          #dbe8fa;
+    --rev-other:      #b6b5ad;
   }
   @media (prefers-color-scheme: dark) {
     :root:where(:not([data-theme="light"])) .viz-root {
@@ -39,6 +51,14 @@
       --capital:        #199e70;
       --delta-good:     #0ca30c;
       --delta-bad:      #d03b3b;
+      --rev-1:          #cfe1fa;
+      --rev-2:          #a6c8f2;
+      --rev-3:          #7aade8;
+      --rev-4:          #4f8fdc;
+      --rev-5:          #3070bd;
+      --rev-6:          #23558f;
+      --rev-7:          #1a3e68;
+      --rev-other:      #55544f;
     }
   }
   :root[data-theme="dark"] .viz-root {
@@ -57,6 +77,14 @@
     --capital:        #199e70;
     --delta-good:     #0ca30c;
     --delta-bad:      #d03b3b;
+    --rev-1:          #cfe1fa;
+    --rev-2:          #a6c8f2;
+    --rev-3:          #7aade8;
+    --rev-4:          #4f8fdc;
+    --rev-5:          #3070bd;
+    --rev-6:          #23558f;
+    --rev-7:          #1a3e68;
+    --rev-other:      #55544f;
   }
 
   html, body { margin: 0; }
@@ -497,6 +525,120 @@
     .rv-bar { grid-template-columns: 104px 1fr auto; gap: 7px; }
   }
 
+  /* ---- Revenue splits ----------------------------------------------------
+     A pie is the form that was asked for, and it is a WEAK form for
+     comparison: the eye reads angle badly, and past ~7 slices it reads
+     nothing at all. Two consequences are built into these rules rather than
+     left to discipline.
+
+     1. Colour is a RANK RAMP of one hue, not a categorical scale. Only three
+        hues clear this store's all-pairs colour-blindness gate (see the
+        family legend), so eight categorical hues would be a fabrication of
+        separation that does not exist. Slices are sorted by size and shaded
+        dark-to-light by rank in light mode, light-to-dark in dark mode — so
+        luminance carries rank, which is the one thing a ramp encodes
+        honestly, and identity is carried by the printed label in the table
+        beside every wedge. Rank is fixed on the LATEST period so a wedge
+        keeps its colour as the reader steps back through time.
+     2. Every number the pie encodes is ALSO printed. The table is not a
+        fallback for screen readers, it is the primary read: share, the value,
+        year-on-year growth and the slice's contribution to total growth in
+        percentage points, which is the column that says which part of the
+        business actually moved the top line.
+
+     Bars, Growth, Mix-over-time and Margin views share this block's marks. */
+  .rvn-cards { display: grid; gap: 16px; margin: 4px 0 0; }
+  .rvn-card { border: 1px solid var(--border); border-radius: 9px; padding: 13px 14px 14px; background: var(--page); }
+  .rvn-card.estimated { border-style: dashed; }
+  .rvn-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+  .rvn-head h3 { margin: 0; font-size: 14px; }
+  .rvn-q { font-size: 11.5px; color: var(--text-muted); }
+  .rvn-chip { font-size: 10px; border-radius: 999px; padding: 1px 8px; border: 1px solid var(--border); color: var(--text-secondary); white-space: nowrap; }
+  .rvn-chip.reported { border-color: var(--capital); color: var(--capital); }
+  .rvn-chip.derived { border-style: solid; }
+  .rvn-chip.estimated { border-style: dashed; color: var(--leverage); border-color: var(--leverage); }
+  .rvn-body { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 16px; align-items: start; margin: 11px 0 0; }
+  /* minmax(0, …) on every track, always. A bare `1fr` carries a min-content
+     floor, and the widest bar row or table row then pushes the card past the
+     viewport — which is exactly what happened here, in the four non-donut views
+     only, because they are the ones that use this class. */
+  .rvn-body.wide { grid-template-columns: minmax(0, 1fr); }
+  .rvn-fig { min-width: 0; }
+  .rvn-fig svg { width: 100%; height: auto; overflow: visible; }
+  .rvn-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  /* the wedge readout. Reserved height, so pointing at a slice never reflows
+     the card under the pointer. */
+  .rvn-read { font-size: 11.5px; color: var(--text-secondary); line-height: 1.5; margin: 6px 0 0; min-height: 34px; }
+  .rvn-read b { color: var(--text-primary); font-variant-numeric: tabular-nums; }
+  .rvn-read .pin { color: var(--text-muted); font-size: 10.5px; }
+  .rvn-wedge { stroke: var(--surface-1); stroke-width: 1.5; cursor: pointer; }
+  .rvn-wedge.dim, .rvn-stack i.dim { opacity: 0.35; }
+  .rvn-bar.on .nm, .rvn-bar.on .vl { color: var(--text-primary); font-weight: 600; }
+  .rvn-hole-v { font-size: 19px; font-weight: 600; fill: var(--text-primary); font-variant-numeric: tabular-nums; }
+  .rvn-hole-l { font-size: 10.5px; fill: var(--text-muted); }
+  /* Table: the primary read, not the fallback. Seven nowrap columns have a
+     min-content width wider than a phone, and a grid track cannot shrink below
+     that — so the table scrolls on its own axis rather than pushing the card
+     (and the whole page) past the viewport. */
+  .rvn-tbl { overflow-x: auto; }
+  .rvn-tbl table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+  .rvn-tbl th, .rvn-tbl td { padding: 4px 7px; text-align: right; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  .rvn-tbl th { color: var(--text-muted); font-weight: 500; font-size: 10.5px; }
+  .rvn-tbl th:first-child, .rvn-tbl td:first-child { text-align: left; white-space: normal; }
+  .rvn-tbl td { font-variant-numeric: tabular-nums; }
+  .rvn-tbl tr.on td { background: var(--hover); }
+  .rvn-tbl tr.tot td { font-weight: 600; border-bottom: 0; }
+  .rvn-sw { width: 9px; height: 9px; border-radius: 2px; display: inline-block; margin-right: 6px; flex: none; }
+  /* horizontal bars — share, growth and margin all use this mark */
+  .rvn-bars { display: grid; gap: 7px; }
+  .rvn-bar { display: grid; grid-template-columns: 148px 1fr auto; gap: 10px; align-items: center; font-size: 11.5px; }
+  .rvn-bar .nm { color: var(--text-secondary); overflow-wrap: anywhere; }
+  .rvn-bar .tr { position: relative; height: 15px; border-radius: 3px; background: var(--grid); }
+  .rvn-bar .fill { position: absolute; top: 0; bottom: 0; border-radius: 3px; }
+  /* zero line for the diverging growth bars: growth can be negative, and a bar
+     that only ever grows rightward hides that */
+  .rvn-bar .zero { position: absolute; top: -2px; bottom: -2px; width: 1px; background: var(--baseline); }
+  .rvn-bar .vl { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  /* mix over time — 100% stacked columns, one per period */
+  .rvn-mix { display: grid; gap: 10px; }
+  .rvn-mixrow { display: grid; grid-template-columns: 62px 1fr; gap: 10px; align-items: center; font-size: 11px; }
+  .rvn-mixrow .pd { color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .rvn-stack { display: flex; height: 20px; border-radius: 3px; overflow: hidden; background: var(--grid); }
+  .rvn-stack i { display: block; height: 100%; border-right: 1px solid var(--surface-1); }
+  .rvn-stack i:last-child { border-right: 0; }
+  .rvn-cov { font-size: 11px; color: var(--text-muted); margin: 10px 0 0; line-height: 1.55; }
+  .rvn-cov.gap { color: var(--leverage); }
+  .rvn-caveat { font-size: 11px; color: var(--text-muted); margin: 6px 0 0; line-height: 1.55; }
+  .rvn-none { font-size: 11.5px; color: var(--text-muted); margin: 8px 0 0; line-height: 1.55; }
+  /* management commentary — the whole card when a company publishes no split
+     at all, and a supplement when it publishes one */
+  .rvn-qual { margin: 10px 0 0; }
+  .rvn-qual ul { margin: 8px 0 0; padding-left: 17px; }
+  .rvn-qual li { font-size: 11.5px; color: var(--text-secondary); margin: 0 0 7px; line-height: 1.55; }
+  .rvn-qual li b { color: var(--text-primary); }
+  .rvn-kind { font-size: 9.5px; border-radius: 999px; padding: 1px 6px; border: 1px solid var(--border); color: var(--text-muted); margin-left: 5px; white-space: nowrap; }
+  /* a refusal to quantify is a finding, so it is marked, not buried */
+  .rvn-kind.non-answer { border-color: var(--leverage); color: var(--leverage); }
+  .rvn-kind.guidance { border-color: var(--scale); color: var(--scale); }
+  .rvn-q-src { color: var(--text-muted); }
+  .rvn-missing { margin: 16px 0 0; }
+  .rvn-missing h3 { font-size: 13.5px; margin: 0 0 5px; }
+  .rvn-missing ul { margin: 0; padding-left: 17px; }
+  .rvn-missing li { font-size: 11.5px; color: var(--text-secondary); margin: 0 0 6px; line-height: 1.55; }
+  .rvn-note { font-size: 11px; color: var(--text-muted); margin: 14px 0 0; line-height: 1.6; }
+  .rvn-up { color: var(--delta-good); }
+  .rvn-dn { color: var(--delta-bad); }
+  @media (max-width: 860px) {
+    /* minmax(0, 1fr), never a bare 1fr: a bare track has a min-content floor,
+       which the widest table row then pushes the card past the viewport with */
+    .rvn-body { grid-template-columns: minmax(0, 1fr); }
+    .rvn-fig { max-width: 320px; }
+  }
+  @media (max-width: 660px) {
+    .rvn-bar { grid-template-columns: 104px 1fr auto; gap: 7px; }
+    .rvn-mixrow { grid-template-columns: 50px 1fr; }
+  }
+
   @media (max-width: 640px) {
     /* a sticky bar eats too much of a phone screen, and touch readouts are
        better placed at the finger — see the per-panel chip in the SVG */
@@ -621,6 +763,31 @@
     .rv-callout { font-size: 13.5px; }
     .rv-bar { font-size: 12.5px; grid-template-columns: 168px 1fr auto; }
     .rv-excl li { font-size: 12.5px; }
+
+    /* Revenue splits — same stepping. The donut column widens too, because a
+       200px pie with seven slices is unreadable however good the labels are. */
+    .revenue h2 { font-size: 21px; }
+    .revenue .lede { font-size: 13.5px; }
+    .rvn-card { padding: 15px 17px 16px; }
+    .rvn-head h3 { font-size: 16.5px; }
+    .rvn-q { font-size: 13px; }
+    .rvn-chip { font-size: 11px; }
+    .rvn-body { grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 22px; }
+    .rvn-read { font-size: 13px; min-height: 40px; }
+    .rvn-tbl table { font-size: 13px; }
+    .rvn-tbl th { font-size: 12px; }
+    .rvn-tbl th, .rvn-tbl td { padding: 5px 9px; }
+    .rvn-bar { font-size: 13px; grid-template-columns: 176px 1fr auto; }
+    .rvn-bar .tr { height: 17px; }
+    .rvn-mixrow { font-size: 12.5px; grid-template-columns: 74px 1fr; }
+    .rvn-stack { height: 24px; }
+    .rvn-cov, .rvn-caveat, .rvn-none, .rvn-note { font-size: 12.5px; }
+    .rvn-qual li { font-size: 13px; }
+    .rvn-kind { font-size: 11px; }
+    .rvn-missing h3 { font-size: 15.5px; }
+    .rvn-missing li { font-size: 13px; }
+    .rvn-hole-v { font-size: 23px; }
+    .rvn-hole-l { font-size: 12px; }
   }
 </style>
 </head>
@@ -693,6 +860,27 @@
       <summary>View as table</summary>
       <div class="tbl-scroll"><table id="table"></table></div>
     </details>
+    </section>
+
+    <section class="revenue tabpanel" data-section="revenue" id="tab-revenue" role="tabpanel" aria-labelledby="tabbtn-revenue" hidden>
+      <h2>Revenue — what it is made of, and what moved it</h2>
+      <p class="lede" id="rvnLede"></p>
+      <div class="controls">
+        <span class="label">View</span>
+        <span class="segmented" id="rvnModes" role="group" aria-label="Revenue split view">
+          <button type="button" data-view="donut" aria-pressed="true">Donut</button>
+          <button type="button" data-view="bars" aria-pressed="false">Bars</button>
+          <button type="button" data-view="growth" aria-pressed="false">Growth</button>
+          <button type="button" data-view="mix" aria-pressed="false">Mix over time</button>
+          <button type="button" data-view="margin" aria-pressed="false">Margin</button>
+        </span>
+        <span class="label">Period</span>
+        <span class="segmented" id="rvnPeriods" role="group" aria-label="Period"></span>
+      </div>
+      <p class="note" id="rvnHint"></p>
+      <div class="rvn-cards" id="rvnCards"></div>
+      <div class="rvn-missing" id="rvnMissing"></div>
+      <p class="rvn-note" id="rvnNote"></p>
     </section>
 
     <section class="dcf tabpanel" data-section="dcf" id="tab-dcf" role="tabpanel" aria-labelledby="tabbtn-dcf" hidden>
@@ -2155,9 +2343,10 @@ const POINTS = {
     },
     {
       "claim": "Every valuation band held for this company covers 2.31 years and cannot show a cycle",
-      "ev": "121 weekly observations from May 2024 to August 2026. The deepest fall from a running peak inside that window is 17.6%, a correction rather than a cyclical low, and the price rose 73% across it. Drift between the first and second halves accounts for 41% to 49% of the entire range of every multiple, and only four distinct annual earnings figures sit under 121 observations. So the 67th-to-71st percentile readings on price-to-earnings, price-to-book, enterprise value to operating profit and enterprise value to sales are positions within a two-year uptrend, NOT long-run positions. Deeper history could not be obtained — the paging path was unavailable, not expensive.",
-      "src": "121 weekly price bars and computed multiples",
-      "verified": true
+      "ev": "⚠️ UPDATED 2026-08-30. The own-history bands now rest on 483 weekly observations from June 2017 to August 2026 — 9.3 years against ten consecutive comparable annual results — and the window contains a 61.1% drawdown into April 2020, so the low end is a valuation the market has actually visited. The earlier version of this point described 121 observations over 2.3 years with no downturn in them; that limitation is largely resolved. What remains is narrower and specific: the band starts at FY2018 because the December 2014 result predates the truck joint venture being deconsolidated and is not comparable, so the window opens at a peak-margin year and the measured de-rating's magnitude is sensitive to that start date. FY2015 and FY2016 do not exist at all — the year-end moved from December to March.",
+      "src": "483 weekly price bars (21-year source) and computed multiples",
+      "verified": true,
+      "updated_on": "2026-08-30"
     },
     {
       "claim": "A 36% premium to the two-wheeler peer median on returns only 8% better",
@@ -2834,112 +3023,112 @@ const RELVAL = {
   "subject_name": "Eicher Motors",
   "history": {
     "window": {
-      "from": "2024-05-06",
-      "to": "2026-08-24",
-      "bars": 121,
-      "years": 2.31
+      "from": "2017-06-02",
+      "to": "2026-08-28",
+      "bars": 483,
+      "years": 9.27
     },
-    "history_is_short": true,
-    "short_history_caveat": "⚠️ Every band below covers just 2.3 years — 121 weekly readings from May 2024 to August 2026 — and that is not enough to show a cycle. Deeper history could not be obtained: the market-data service's paging route was unavailable and quietly returned the most recent window again instead of the earlier one, so this is a hard ceiling on the evidence rather than a choice. Three things follow, and they are the reason the percentiles below carry a warning rather than a conclusion. The window contains no cyclical downturn: the share price rose 73% across it and the deepest fall from a running peak inside it is 17.6%, which is a correction in an uptrend, not a cycle low — and for a business that sells motorcycles and trucks, 2.3 years is about a third of a cycle. The whole window divides by only FOUR different annual results, so the distribution behind each percentile is a handful of price trends stitched together rather than a population of valuations the market has actually visited. And the drift is a large share of the apparent range: the earnings multiple's midpoint rose from 33.5 times in the first half of the window to 40.1 times in the second, so a percentile against it mostly tells you where in that trend today sits. Read these as a description of recent price action. What the evidence genuinely supports is the decomposition further down: where the share-price move came from.",
+    "history_is_short": false,
+    "window_note": "These bands cover 9.3 years — 483 weekly readings from June 2017 to August 2026, struck against ten consecutive annual results. That replaces a 2.3-year window whose deeper history the market-data service could not serve, and it changed the conclusion rather than merely strengthening it: over the short window the multiple looked flat, and over 9.3 years it has fallen 20%. Two things follow. The window now contains a real cyclical downturn — the price fell 61.1% from its running peak into April 2020 — so the low end of each band is a valuation the market has actually visited under stress. And the drift is now small: the earnings multiple's midpoint moved from 37.6 times in the first half to 38.8 times in the second, 2.8% of the range, so this is oscillation rather than trend and a percentile against it means what it says. One caveat is deliberate and remains: the band starts at FY2018 because the December 2014 result predates the truck joint venture being deconsolidated and is not comparable — including it put the historical high at 128 times earnings against 61 on a consistent basis.",
     "bands": [
       {
         "key": "pe",
-        "label": "PE — SHORT HISTORY (2.3y)",
-        "min": 30.800857027042678,
-        "p25": 33.19441593102032,
-        "median": 36.43331280366797,
-        "p75": 40.378713301291334,
-        "max": 46.70218310266952,
+        "label": "PE (9.3y, FY18-FY26)",
+        "min": 15.702910216718266,
+        "p25": 32.248165014776745,
+        "median": 38.00179345389329,
+        "p75": 48.02746469302567,
+        "max": 61.08529028049576,
         "now": 40.08256241917835,
-        "percentile": 0.7107438016528925,
-        "vs_median": 0.10016244295915344,
-        "observations": 121,
-        "window_years": 2.31
+        "percentile": 0.5714285714285714,
+        "vs_median": 0.05475449383223485,
+        "observations": 483,
+        "window_years": 9.27
       },
       {
         "key": "pb",
-        "label": "PB — SHORT HISTORY (2.3y)",
-        "min": 6.851040766355184,
-        "p25": 7.373473587785536,
-        "median": 8.06549202859601,
-        "p75": 8.899011215406649,
-        "max": 10.387975894088092,
+        "label": "PB (9.3y, FY18-FY26)",
+        "min": 3.900136527342117,
+        "p25": 6.399198747132343,
+        "median": 7.250330602333771,
+        "p75": 8.657210685625031,
+        "max": 16.739078863645652,
         "now": 8.807081876426295,
-        "percentile": 0.7024793388429752,
-        "vs_median": 0.09194601460158869,
-        "observations": 121,
-        "window_years": 2.31
+        "percentile": 0.7619047619047619,
+        "vs_median": 0.21471452261658652,
+        "observations": 483,
+        "window_years": 9.27
       },
       {
         "key": "ev_ebitda",
-        "label": "EV/EBITDA — SHORT HISTORY (2.3y)",
-        "min": 26.065889965562487,
-        "p25": 28.35963733895126,
-        "median": 31.07316676367248,
-        "p75": 36.9573268257887,
+        "label": "EV/EBITDA (9.3y, FY18-FY26)",
+        "min": 10.346218164888775,
+        "p25": 24.506152098942955,
+        "median": 29.957284604308292,
+        "p75": 36.595598475625806,
         "max": 43.80464421776413,
         "now": 35.252332889670065,
-        "percentile": 0.6694214876033058,
-        "vs_median": 0.13449437444797008,
-        "observations": 121,
-        "window_years": 2.31
+        "percentile": 0.6790890269151139,
+        "vs_median": 0.17675327905387883,
+        "observations": 483,
+        "window_years": 9.27
       },
       {
         "key": "ev_sales",
-        "label": "EV/Sales — SHORT HISTORY (2.3y)",
-        "min": 6.823853269286406,
-        "p25": 7.308388871171383,
-        "median": 8.013534836313877,
-        "p75": 9.250103582310546,
-        "max": 10.963928703789083,
+        "label": "EV/Sales (9.3y, FY18-FY26)",
+        "min": 3.0667977493964482,
+        "p25": 6.076243683250139,
+        "median": 7.420715189281929,
+        "p75": 8.408949665894806,
+        "max": 12.028348716932463,
         "now": 8.718205532224026,
-        "percentile": 0.6694214876033058,
-        "vs_median": 0.08793506365217074,
-        "observations": 121,
-        "window_years": 2.31
+        "percentile": 0.7908902691511387,
+        "vs_median": 0.1748470746884505,
+        "observations": 483,
+        "window_years": 9.27
       }
     ],
     "drift_diagnostic": [
       {
         "key": "pe",
-        "first_half_median": 33.46951344693082,
-        "second_half_median": 40.08256241917835,
-        "half_shift": 0.19758425776739075,
-        "drift_share_of_range": 0.41588034487160475
+        "first_half_median": 37.55139796911949,
+        "second_half_median": 38.81406358122206,
+        "half_shift": 0.033624996149036024,
+        "drift_share_of_range": 0.027822816042880442
       },
       {
         "key": "pb",
-        "first_half_median": 7.434580982229427,
-        "second_half_median": 8.869386485640495,
-        "half_shift": 0.192990769330595,
-        "drift_share_of_range": 0.4056635057173765
+        "first_half_median": 7.017564389134355,
+        "second_half_median": 7.314927899727717,
+        "half_shift": 0.042374176295950416,
+        "drift_share_of_range": 0.023161059751201914
       },
       {
         "key": "ev_ebitda",
-        "first_half_median": 28.343336346799365,
-        "second_half_median": 36.9573268257887,
-        "half_shift": 0.3039158966182207,
-        "drift_share_of_range": 0.48560289840647686
+        "first_half_median": 26.25832720663083,
+        "second_half_median": 32.57949451746937,
+        "half_shift": 0.24073000770750919,
+        "drift_share_of_range": 0.18892602123151309
       },
       {
         "key": "ev_sales",
-        "first_half_median": 7.362963404899613,
-        "second_half_median": 9.250103582310546,
-        "half_shift": 0.25630171897298215,
-        "drift_share_of_range": 0.45582265523082766
+        "first_half_median": 6.957231434182872,
+        "second_half_median": 7.601706254955401,
+        "half_shift": 0.0926338051090323,
+        "drift_share_of_range": 0.07191554487690736
       }
     ],
-    "drift_note": "A short window can look like a valuation range when it is really just a trend. This table measures the difference: it compares the midpoint of each multiple over the first half of the window with the second half, and shows how much of the whole apparent range is accounted for by that one-directional shift. Between 41% and 49% of every range here is drift, which is why the percentiles are labelled rather than used.",
+    "drift_note": "A window can look like a valuation range when it is really just a trend. This table measures the difference: it compares the midpoint of each multiple over the first half of the window with the second half, and shows how much of the whole apparent range is accounted for by that one-directional shift. Here it runs from 2% to 19% of the range, and on the earnings multiple specifically 3% — small enough that these are oscillations rather than trends, so the percentiles mean what they say.",
     "fy_snapshots": [
       {
         "fy": "FY25",
-        "as_of": "2025-03-31",
-        "close": 5247.9,
+        "as_of": "2025-03-28",
+        "close": 5347.7,
         "valued_on": "Mar 2024",
-        "pe": 35.9125436255389,
-        "pb": 7.9772511269177055,
-        "ev_ebitda": 30.224415935604064,
-        "ev_sales": 7.91252398314163,
+        "pe": 36.595497160062955,
+        "pb": 8.1289555539202,
+        "ev_ebitda": 30.856780542963733,
+        "ev_sales": 8.078072264785316,
         "roce": 30,
         "sales": 18870,
         "opm": 25,
@@ -2948,13 +3137,13 @@ const RELVAL = {
       },
       {
         "fy": "FY26",
-        "as_of": "2026-03-30",
-        "close": 6649.5,
+        "as_of": "2026-03-27",
+        "close": 6811.5,
         "valued_on": "Mar 2025",
-        "pe": 38.50541432624935,
-        "pb": 8.564766981740702,
-        "ev_ebitda": 35.583797934183785,
-        "ev_sales": 8.906321019774776,
+        "pe": 39.44351149458567,
+        "pb": 8.773428121832739,
+        "ev_ebitda": 36.52465070560025,
+        "ev_sales": 9.141808441046635,
         "roce": 31,
         "sales": 23408,
         "opm": 25,
@@ -2963,8 +3152,8 @@ const RELVAL = {
       },
       {
         "fy": "now",
-        "as_of": "2026-08-24",
-        "close": 8059,
+        "as_of": "2026-08-28",
+        "close": 8059.0,
         "valued_on": "Mar 2026",
         "pe": 40.08256241917835,
         "pb": 8.807081876426295,
@@ -2977,96 +3166,96 @@ const RELVAL = {
         "roe": null
       }
     ],
-    "method_note": "Method, so the bands are auditable. Each observation divides that week's price by the annual result that had actually been PUBLISHED by then — the 2026 result came out in late May 2026, so earlier weeks are struck on the 2025 result — which removes look-ahead. Prices are adjusted for splits and bonuses, and that assumption was checked rather than assumed: an unadjusted price print exists for all 121 weeks and matches the adjusted price on every one, so nothing inside this window has been adjusted. The per-share earnings series is also internally consistent across the whole twelve-year record — profit divided by reported earnings per share implies 27.16 to 27.44 crore shares in every single year against 27.43 crore outstanding today — so price against per-share figure is comparable throughout. One reading warning: today's 40.1 times is struck on the published annual result, the same basis as all 121 historical readings. The 38.0 times used in the peer table below is the data provider's trailing-twelve-month basis, which is what makes that table consistent across its six companies. Both are right on their own basis and must never be mixed inside one comparison.",
+    "method_note": "Method, so the bands are auditable. Each observation divides that week's price by the annual result that had actually been PUBLISHED by then — the 2026 result came out in late May 2026, so earlier weeks are struck on the 2025 result — which removes look-ahead. ⚠️ The split/bonus basis CANNOT be checked against this price source: it carries no unadjusted print, so 'adjusted' is an assumption here rather than a verified fact, and it is reported as unverifiable rather than as confirmed. What does carry the band is an independent check needing no price data. The per-share earnings series is also internally consistent across the whole twelve-year record — profit divided by reported earnings per share implies 27.16 to 27.44 crore shares in every single year against 27.43 crore outstanding today — so price against per-share figure is comparable throughout. One reading warning: today's 40.1 times is struck on the published annual result, the same basis as all 483 historical readings. The 38.0 times used in the peer table below is the data provider's trailing-twelve-month basis, which is what makes that table consistent across its six companies. Both are right on their own basis and must never be mixed inside one comparison.",
     "ev_note": "Enterprise value is market value plus borrowings less the investment book, on one consistent definition for every year. Two things about it matter here. First, this is a net-cash business and the cash is large: 514 crore of borrowings against a 17,496 crore investment book, so net cash is 16,982 crore, 7.7% of market value, and the enterprise-value multiples sit BELOW the equity multiples rather than above them. Second, and more important, the commercial-vehicle joint venture is accounted for by the equity method rather than consolidated, so its entire profit arrives as other income and never touches operating profit. Netting the investment book off enterprise value removes the asset at the same time as its earnings are excluded from the denominator, which is the consistent choice — but a joint venture carried at book value is probably carried below what it is worth, so too little is being removed and the enterprise-value multiple is overstated to that extent. That is why 35.3 times operating profit reads high next to 40.1 times earnings."
   },
   "derating": {
     "peak_label": "the first quarter of the observable window",
-    "peak_from": "2024-05-06",
-    "peak_to": "2024-07-29",
+    "peak_from": "2017-06-02",
+    "peak_to": "2017-08-24",
     "now_label": "the last quarter of it",
     "direction": "re-rating",
     "multiples": [
       {
         "key": "pe",
-        "label": "PE — SHORT HISTORY (2.3y)",
-        "peak": 36.54013700508951,
+        "label": "PE (9.3y, FY18-FY26)",
+        "peak": 47.64236481651203,
         "now": 38.058482351230786,
-        "change": 0.04155280933757277
+        "change": -0.20116303005092717
       },
       {
         "key": "pb",
-        "label": "PB — SHORT HISTORY (2.3y)",
-        "peak": 7.744824305376698,
+        "label": "PB (9.3y, FY18-FY26)",
+        "peak": 14.98021617898243,
         "now": 8.362343870496629,
-        "change": 0.07973319222893527
+        "change": -0.44177415261675734
       },
       {
         "key": "ev_ebitda",
-        "label": "EV/EBITDA — SHORT HISTORY (2.3y)",
-        "peak": 29.59756061580294,
+        "label": "EV/EBITDA (9.3y, FY18-FY26)",
+        "peak": 34.58797400030408,
         "now": 33.32403371039305,
-        "change": 0.12590473731813034
+        "change": -0.036542767434135204
       },
       {
         "key": "ev_sales",
-        "label": "EV/Sales — SHORT HISTORY (2.3y)",
-        "peak": 7.504103373412932,
+        "label": "EV/Sales (9.3y, FY18-FY26)",
+        "peak": 10.691633083557669,
         "now": 8.241320537827468,
-        "change": 0.09824187217709435
+        "change": -0.22918038119905748
       }
     ],
     "drivers": [
       {
         "key": "roce",
         "label": "Return on capital",
-        "peak": 29.76923076923077,
+        "peak": 53.0,
         "now": 31.0,
-        "change": 0.04134366925064592
+        "change": -0.41509433962264153
       },
       {
         "key": "roe",
         "label": "Return on equity — held down by the cash pile",
-        "peak": 21.33150983576621,
+        "peak": 31.188026192703457,
         "now": 21.97211155378486,
-        "change": 0.030030772455898358
+        "change": -0.2954952834134368
       },
       {
         "key": "opm",
         "label": "Operating margin",
-        "peak": 25.384615384615383,
+        "peak": 31.0,
         "now": 25.0,
-        "change": -0.015151515151515138
+        "change": -0.19354838709677424
       },
       {
         "key": "eps",
         "label": "Earnings per share",
-        "peak": 133.95153846153846,
+        "peak": 61.269999999999996,
         "now": 201.06,
-        "change": 0.5009905993556798
+        "change": 2.281540721397095
       },
       {
         "key": "sales",
         "label": "Sales",
-        "peak": 15891.692307692309,
+        "peak": 7033.0,
         "now": 23408.0,
-        "change": 0.4729708798017347
+        "change": 2.328309398549694
       }
     ],
     "price_decomposition": {
-      "price_avg_early": 4797.661538461538,
+      "price_avg_early": 2919.0476923076926,
       "price_avg_now": 7652.038461538462,
-      "eps_used_avg_early": 133.95153846153846,
+      "eps_used_avg_early": 61.269999999999996,
       "eps_used_avg_now": 201.06,
-      "pe_consistent_early": 35.8163974342041,
+      "pe_consistent_early": 47.64236481651204,
       "pe_consistent_now": 38.058482351230786,
-      "price_change_actual": 0.5949517072419899,
-      "price_change_implied": 0.5949517072419899,
-      "earnings_contribution": 0.5009905993556798,
-      "multiple_contribution": 0.06259939797533987
+      "price_change_actual": 1.6214160466453493,
+      "price_change_implied": 1.6214160466453493,
+      "earnings_contribution": 2.281540721397095,
+      "multiple_contribution": -0.2011630300509274
     },
     "residual": {
-      "interpretation": "This is a RE-rating window, not a de-rating one, and the striking thing is how little re-rating there was. Between the first quarter of bars and the last, the share price rose 59.5%. Decomposed on the identity that price equals earnings times the multiple — with earnings taken as the figure each bar actually divided by, so the arithmetic reconciles by construction — that is +50.1% of published earnings and only +6.3% of multiple. Practically the whole move is earnings. The drivers agree and are almost flat: return on capital 29.8% to 31.0%, return on equity 21.3% to 22.0%, operating margin 25.4% to 25.0%. Sales rose 47%. So over the stretch that can be observed, the market did not change its mind about this company — it simply paid for more profit at about the same multiple. That is a finding the 2.3-year window fully supports, unlike any claim about whether 40x is the right multiple.",
+      "interpretation": "Over 9.3 years this is a DE-rating window, and the earlier 2.3-year read of it was not merely weaker but pointed the other way. Between the first quarter of bars (June-August 2017) and the last (June-August 2026) the share price rose 176.2%. Decomposed on the identity that price equals earnings times the multiple — with earnings taken as the figure each bar actually divided by, so the arithmetic reconciles by construction — published earnings per share rose 228.2% while the earnings multiple FELL 20.1%, from 47.6x to 38.1x. Every other measure de-rated too, and book value most of all: PB 15.0x to 8.4x (-44.2%), EV/Sales 10.7x to 8.2x (-22.9%), EV/EBITDA 34.6x to 33.3x (-3.7%). So the whole move is earnings and then some: the market paid a shrinking multiple for a much larger profit. The drivers say why, and this is the part the short window could not see at all. Quality fell materially over the period: return on capital 53% to 31%, return on equity 31.2% to 22.0%, operating margin 31% to 25% — even as sales rose 232.8%. A de-rating that tracks genuine compression in returns is not an opportunity created by sentiment; it is the market repricing a business that earns less on each rupee of capital than it used to. The FY2018 starting point is a high base by construction — it is the pre-deconsolidation peak of margin and return — so the fall is partly mix and partly the joint venture leaving the operating numbers. Read the direction as robust and the magnitude as sensitive to that start date.",
       "no_1to1_law": "No one-to-one law maps a return on capital to a multiple. Statements like this bracket what a change in the drivers could explain; they do not measure it."
     }
   },
@@ -3263,7 +3452,7 @@ const RELVAL = {
     "current_pe_published_annual": 40.08256241917835,
     "current_pe_ttm": 38.30141152987025,
     "current_ev_ebitda": 35.252332889670065,
-    "text": "<strong>The verdict, with the driver named.</strong> Over the only stretch that can be observed — two years and four months — this share price rose 59.5% between the first quarter of readings and the last, and that splits into <strong>+50.1% of published earnings and +6.3% of multiple.</strong> Almost the entire move is earnings. The market did not change its mind about this company; it paid for more profit at about the same price for it. The drivers agree and are strikingly flat: return on capital 29.8% to 31.0%, return on equity 21.3% to 22.0%, operating margin 25.4% to 25.0%, on sales up 47%. <strong>Against its peers it carries a premium, and the premium is only half explained.</strong> At 38.0 times earnings against a two-wheeler median of 27.9 times it is 36% dearer, while earning 30.5% on capital against a median of 28.2% — 8% better, which does not buy a 36% premium on its own. Two things fill the gap in opposite directions. The balance sheet is invisible in a peer table built on earnings alone and it is unusually favourable: 514 crore of borrowings against a 17,496 crore investment book. But return on EQUITY of 24.0% is BELOW the two-wheeler median of 28.1% even though return on capital is above it, and that gap is the same investment book — capital worth 70% of the equity base earning a financial return rather than a motorcycle return. <strong>The most important caveat is about the cohort, not the company.</strong> This industry is priced almost backwards against returns: the company with the best return on capital carries the cheapest multiple and the company with nearly the worst carries the dearest. A peer median drawn from a set priced that way is a weak anchor, and a comparison against peers inherits the market's errors by construction — it can only say dear or cheap relative to a set that may itself be mispriced. <strong>What this analysis cannot settle.</strong> Whether 40 times earnings is the right price at all. Both comparisons here are relative — to 2.3 years of its own price history, which is too short to contain a cycle, and to a cohort whose pricing does not track returns. There is also a specific blind spot: 2,225 crore of other income, 31% of pre-tax profit, mixes the return on the investment book with the profit of the equity-accounted truck joint venture, and the published statements do not let the two be separated — so roughly a third of the earnings in that 40 times denominator is not the motorcycle business, and the truck half has no listed comparable at all. Only a cash-flow model answers the absolute question. <strong>Where the intrinsic model stands.</strong> An intrinsic cash-flow valuation for this company is available. On its base case, paying today's price and selling at 20 times year-11 operating profit earns about 10.2% a year. The risk-free rate the model uses is 6.85%, so that is +3.3 percentage points against owning government paper — which is the comparison that decides whether the equity risk is being paid for. Holding today's own multiple instead of the reference one gives 15.3% a year; the gap between the two is entirely an assumption about the exit multiple, not about the business. The two answers are reported side by side with their disagreement intact and are never averaged: a cash-flow model asks what the cash flows are worth on stated assumptions, while the comparison on this tab asks what the market currently pays for comparable cash flows. Where they disagree, that disagreement is the finding. Research and interpretation only — not investment advice, markets carry risk, and a registered adviser is the right person to ask about your own position."
+    "text": "<strong>The verdict, with the driver named.</strong> Over 9.3 years this share price rose 176% between the first quarter of readings and the last, and that splits into <strong>+228% of published earnings against a multiple that FELL 20%.</strong> The whole move is earnings and then some: the market paid a shrinking multiple for a much larger profit. Every measure de-rated — book −44%, sales −23%, EV/EBITDA −4%. <strong>The drivers say why, and this is what a shorter window could not see:</strong> return on capital fell 53% to 31%, return on equity 31.2% to 22.0%, operating margin 31% to 25%, even as sales rose 233%. A de-rating that tracks genuine compression in returns is not a discount created by sentiment — it is the market repricing a business that earns less on each rupee of capital than it used to. <strong>Against its peers it carries a premium, and the premium is only half explained.</strong> At 38.0 times earnings against a two-wheeler median of 27.9 times it is 36% dearer, while earning 30.5% on capital against a median of 28.2% — 8% better, which does not buy a 36% premium on its own. Two things fill the gap in opposite directions. The balance sheet is invisible in a peer table built on earnings alone and it is unusually favourable: 514 crore of borrowings against a 17,496 crore investment book. But return on EQUITY of 24.0% is BELOW the two-wheeler median of 28.1% even though return on capital is above it, and that gap is the same investment book — capital worth 70% of the equity base earning a financial return rather than a motorcycle return. <strong>The most important caveat is about the cohort, not the company.</strong> This industry is priced almost backwards against returns: the company with the best return on capital carries the cheapest multiple and the company with nearly the worst carries the dearest. A peer median drawn from a set priced that way is a weak anchor, and a comparison against peers inherits the market's errors by construction — it can only say dear or cheap relative to a set that may itself be mispriced. <strong>What this analysis cannot settle.</strong> Whether 40 times earnings is the right price at all. Both comparisons here are relative — to 9.3 years of its own price history, which does now contain a cycle, and to a cohort whose pricing does not track returns. There is also a specific blind spot: 2,225 crore of other income, 31% of pre-tax profit, mixes the return on the investment book with the profit of the equity-accounted truck joint venture, and the published statements do not let the two be separated — so roughly a third of the earnings in that 40 times denominator is not the motorcycle business, and the truck half has no listed comparable at all. Only a cash-flow model answers the absolute question. <strong>Where the intrinsic model stands.</strong> An intrinsic cash-flow valuation for this company is available. On its base case, paying today's price and selling at 20 times year-11 operating profit earns about 10.2% a year. The risk-free rate the model uses is 6.85%, so that is +3.3 percentage points against owning government paper — which is the comparison that decides whether the equity risk is being paid for. Holding today's own multiple instead of the reference one gives 15.3% a year; the gap between the two is entirely an assumption about the exit multiple, not about the business. The two answers are reported side by side with their disagreement intact and are never averaged: a cash-flow model asks what the cash flows are worth on stated assumptions, while the comparison on this tab asks what the market currently pays for comparable cash flows. Where they disagree, that disagreement is the finding. Research and interpretation only — not investment advice, markets carry risk, and a registered adviser is the right person to ask about your own position."
   }
 };
 
@@ -3452,6 +3641,995 @@ const RELVAL = {
 })();
 
 // ---------------------------------------------------------------------------
+// REVENUE SPLITS. What the top line is made of, and what moved it.
+//
+// A donut was asked for and is the default. It is a WEAK form: the eye reads
+// angle poorly, and past ~7 slices it reads nothing at all. So every number
+// the wedge encodes is also printed in the table beside it, the slice count is
+// capped by the validator, and three stronger forms are one click away — Bars
+// (share on one scale), Growth (per-slice year-on-year, plus each slice's
+// contribution to the total in percentage points, which is the column that
+// says which part of the business actually moved revenue) and Mix over time
+// (share drift, where a story the latest pie cannot tell shows up).
+//
+// Colour is a RANK RAMP of one hue, not a categorical scale: only three hues
+// clear this store's colour-blindness gate, so eight would assert a separation
+// that does not exist. Rank is fixed on each split's LATEST period, so a slice
+// keeps its shade as the reader steps back through time.
+//
+// Where a company publishes no numbers on a dimension, the card carries dated
+// management commentary instead — including the refusals, which are marked as
+// non-answers because a refusal to quantify is itself a finding.
+// ---------------------------------------------------------------------------
+const REVENUE = {
+  "company": "Eicher Motors Limited",
+  "basis": "consolidated",
+  "generated_at": "2026-08-30",
+  "currency": "Rs crore",
+  "period_kind": "fy",
+  "periods": [
+    "FY21",
+    "FY22",
+    "FY23",
+    "FY24",
+    "FY25",
+    "FY26"
+  ],
+  "lede": "Eicher tells the taxman it runs <strong>one</strong> segment, so there is no motorcycles-versus-trucks segment table to read here. What it does publish is three different cuts of the same rupee: an audited domestic/overseas split, an Ind AS 115 product disaggregation, and a management chart that separates the motorcycle business into domestic, international and allied. The commercial-vehicle joint venture &mdash; <em>larger by revenue than Royal Enfield</em> &mdash; is equity-accounted and sits outside every one of them.",
+  "splits": [
+    {
+      "key": "business_line",
+      "label": "By business line",
+      "question": "Where does the money come from - Indian motorcycles, exported motorcycles, or everything that is not a motorcycle?",
+      "unit": "inr_cr",
+      "confidence": "derived",
+      "periods": [
+        "FY21",
+        "FY22",
+        "FY23",
+        "FY24",
+        "FY25",
+        "FY26"
+      ],
+      "source": "FY2026 and FY2025 annual reports, financial review (net revenue from operations chart), reconciled to the audited segment note",
+      "slices": [
+        {
+          "name": "Domestic motorcycle business",
+          "values": {
+            "FY21": 6907,
+            "FY22": 7183,
+            "FY23": 10316,
+            "FY24": 12236,
+            "FY25": 13574,
+            "FY26": 16768
+          },
+          "is_other": false
+        },
+        {
+          "name": "International motorcycle business",
+          "values": {
+            "FY21": 722,
+            "FY22": 1527,
+            "FY23": 2085,
+            "FY24": 1861,
+            "FY25": 2546,
+            "FY26": 3288
+          },
+          "is_other": false
+        },
+        {
+          "name": "Allied business (spares, accessories, apparel, service)",
+          "values": {
+            "FY21": 1091,
+            "FY22": 1588,
+            "FY23": 2041,
+            "FY24": 2439,
+            "FY25": 2750,
+            "FY26": 3351
+          },
+          "is_other": false
+        }
+      ],
+      "total": {
+        "FY21": 8720,
+        "FY22": 10298,
+        "FY23": 14442,
+        "FY24": 16536,
+        "FY25": 18870,
+        "FY26": 23407
+      },
+      "reported_total": {
+        "FY21": 8720,
+        "FY22": 10298,
+        "FY23": 14442,
+        "FY24": 16536,
+        "FY25": 18870,
+        "FY26": 23408
+      },
+      "qualitative": [
+        {
+          "point": "International revenue crossed Rs 1,000 crore in a single quarter for the first time, taking it to 15.3% of revenue against 13.7% the quarter before.",
+          "figure": "Rs 1,000cr+, 15.3% of Q1 FY27 revenue",
+          "speaker": "B. Govindarajan, MD (Eicher Motors) and CEO (Royal Enfield)",
+          "source": "Q1 FY27 earnings call",
+          "date": "2026-07-29",
+          "kind": "fact",
+          "quote": "our revenue has crossed for the first time about INR 1,000 crores, highest ever in the international business"
+        },
+        {
+          "point": "The CFO decomposed a 2.8% sequential rise in realisation per motorcycle: 1.2% from an April price increase, about 1% from the rising international share, 0.4% from currency and 0.6% from allied businesses. This is the only place the mix effect is quantified.",
+          "figure": "+2.8% ASP: 1.2pp price, 1.0pp international mix, 0.4pp currency, 0.6pp allied",
+          "speaker": "Vidhya Srinivasan, CFO",
+          "source": "Q1 FY27 earnings call",
+          "date": "2026-07-29",
+          "kind": "fact",
+          "quote": "The second part is about 1% because of the increase in share of international business, which is now about 15.3% of revenues in Q1, and it was about 13.7% of revenue in Q4."
+        },
+        {
+          "point": "Allied revenue is now running at roughly 15% of revenue and management lists what is inside it, but never publishes apparel, accessories, spares and service as separate rupee lines.",
+          "figure": "~15% of Q1 FY27 revenue",
+          "speaker": "Vidhya Srinivasan, CFO",
+          "source": "Q1 FY27 earnings call",
+          "date": "2026-07-29",
+          "kind": "fact",
+          "quote": "about 0.6% is on account of increase in revenues from allied businesses, which is also about 15% of revenues now"
+        },
+        {
+          "point": "Within allied, only growth rates are given for FY26: apparel up 21%, accessories up 32% on global revenue, spare parts up 18%. No absolute figure is published for any of the three.",
+          "figure": "apparel +21%, accessories +32%, spares +18% (FY26)",
+          "speaker": "B. Govindarajan, MD (Eicher Motors) and CEO (Royal Enfield)",
+          "source": "Q4 FY26 earnings call; repeated in the FY2026 annual report, allied business review",
+          "date": "2026-05-22",
+          "kind": "fact",
+          "quote": "Genuine Motorcycle Accessories has seen an exponential growth with the global revenue growing by 32% over the previous year, while our spare parts business also recorded a robust 18% year-on-year growth."
+        },
+        {
+          "point": "Asked how the demand mix between urban and rural would evolve, management gave growth rates for the top ten cities and then declined to characterise a mix shift at all.",
+          "figure": "top-10 cities +24%, April 2026 overall +37%",
+          "speaker": "B. Govindarajan, MD (Eicher Motors) and CEO (Royal Enfield)",
+          "source": "Q4 FY26 earnings call",
+          "date": "2026-05-22",
+          "kind": "non-answer",
+          "quote": "I don't think now urban or rural is there a shift which is taking place."
+        }
+      ],
+      "caveat": "This is management's own three-way cut of consolidated revenue, published as a bar chart rather than a note, so it is transcribed rather than lifted from a table. FY21-FY25 are taken from the FY2025 annual report and FY26 from the FY2026 annual report, because on that reading every single column adds to the revenue the audited statements report for that year (FY26: 16,768 + 3,288 + 3,351 = 23,407 against 23,408 reported). Two further checks tie it down: domestic motorcycles plus the Indian part of allied equals the audited domestic figure in all three of FY24, FY25 and FY26, and international motorcycles is below audited overseas revenue by a stable Rs 126-203cr in each of those years - the allied revenue billed abroad. The FY2026 report also redraws its own FY22-FY25 columns, moving domestic by up to 0.3% and leaving those years short of reported revenue by as much as Rs 84cr; those restated columns were NOT spliced in. FY24 is a genuine decline in international revenue, not an error.",
+      "disclosure": "Tells you nothing about profitability by line - Eicher publishes no margin for domestic, international or allied separately - and nothing about which country or which motorcycle. The allied wedge mixes a high-frequency parts and service business with apparel and accessories retail."
+    },
+    {
+      "key": "geography",
+      "label": "By geography (audited)",
+      "question": "How much of the business is sold outside India, on the company's own audited definition?",
+      "unit": "inr_cr",
+      "confidence": "reported",
+      "periods": [
+        "FY24",
+        "FY25",
+        "FY26"
+      ],
+      "source": "FY2026 annual report, geographical information in the segment note (FY24 from the FY2025 annual report)",
+      "slices": [
+        {
+          "name": "Domestic (customers located in India)",
+          "values": {
+            "FY24": 14548.68,
+            "FY25": 16142.49,
+            "FY26": 19916.28
+          },
+          "is_other": false
+        },
+        {
+          "name": "Overseas (customers located outside India)",
+          "values": {
+            "FY24": 1987.1,
+            "FY25": 2727.86,
+            "FY26": 3491.28
+          },
+          "is_other": false
+        }
+      ],
+      "total": {
+        "FY24": 16535.78,
+        "FY25": 18870.35,
+        "FY26": 23407.56
+      },
+      "reported_total": {
+        "FY24": 16535.78,
+        "FY25": 18870.35,
+        "FY26": 23407.56
+      },
+      "qualitative": [
+        {
+          "point": "Royal Enfield's international business is small inside a market it sizes at 0.8-1.0 million mid-size motorcycles a year, so the overseas wedge is a share-gain story rather than a market-growth one.",
+          "figure": "8-9% share of a 0.8-1.0mn unit market",
+          "speaker": "B. Govindarajan, MD (Eicher Motors) and CEO (Royal Enfield)",
+          "source": "Q1 FY27 earnings call",
+          "date": "2026-07-29",
+          "kind": "fact",
+          "quote": "The total market size is almost about 0.8 million to 1 million outside India. Our market share currently is about 8% to 9%."
+        },
+        {
+          "point": "Brazil is the largest market outside India and the single biggest destination for exports; a local CKD facility is being set up there. No country-level revenue is disclosed for it or any other market.",
+          "figure": "one in four exported motorcycles goes to Brazil; Brazil retail up ~3x in 3 years",
+          "speaker": "B. Govindarajan, MD (Eicher Motors) and CEO (Royal Enfield)",
+          "source": "Q1 FY27 earnings call",
+          "date": "2026-07-29",
+          "kind": "fact",
+          "quote": "Every fourth motorcycle, which we are exporting by Royal Enfield is shipped to Brazil now."
+        },
+        {
+          "point": "Indonesia is capped by an import quota that a Thai plant does not get around, which is a hard ceiling on one of the largest two-wheeler markets in the region.",
+          "figure": "10,000 units a year",
+          "speaker": "B. Govindarajan, MD (Eicher Motors) and CEO (Royal Enfield)",
+          "source": "Q1 FY27 earnings call",
+          "date": "2026-07-29",
+          "kind": "fact",
+          "quote": "So we can't sell more than about 10,000 vehicles in a year in such a big market in Indonesia."
+        },
+        {
+          "point": "The gap between the parent company's revenue and the consolidated figure is the overseas subsidiaries, and management attributes the widening gap to them rather than to a change in mix.",
+          "figure": "over Rs 400cr in Q1 FY27, against a ~Rs 200cr average over the prior four quarters",
+          "speaker": "Vidhya Srinivasan, CFO",
+          "source": "Q1 FY27 earnings call",
+          "date": "2026-07-29",
+          "kind": "fact",
+          "quote": "essentially, that is growth from subsidiaries, which is kicking in"
+        }
+      ],
+      "caveat": "This is the Ind AS 108 geographical disclosure: revenue is assigned by where the CUSTOMER is, so it includes spares, accessories and apparel billed abroad and is therefore Rs 126-203cr larger each year than management's narrower 'international motorcycle business' line. Domestic revenue is identical on the parent-company and consolidated bases in each of FY24, FY25 and FY26 - the whole of the consolidation difference is overseas.",
+      "disclosure": "Two buckets only. The company publishes no country or region revenue anywhere; regional colour on the calls is given in volume shares and rankings, never in rupees."
+    },
+    {
+      "key": "product_category",
+      "label": "By product category",
+      "question": "How much of revenue is the motorcycle itself, and how much is everything sold afterwards?",
+      "unit": "inr_cr",
+      "confidence": "reported",
+      "periods": [
+        "FY24",
+        "FY25",
+        "FY26"
+      ],
+      "source": "FY2026 annual report, revenue from operations note (details of products sold); FY24 from the FY2025 annual report",
+      "slices": [
+        {
+          "name": "Two-wheelers (manufactured)",
+          "values": {
+            "FY24": 14027.56,
+            "FY25": 16025.8,
+            "FY26": 19947.29
+          },
+          "is_other": false
+        },
+        {
+          "name": "Spare parts and other components (manufactured)",
+          "values": {
+            "FY24": 1172.87,
+            "FY25": 1315.84,
+            "FY26": 1541.26
+          },
+          "is_other": false
+        },
+        {
+          "name": "Accessories and other allied products (traded)",
+          "values": {
+            "FY24": 943.38,
+            "FY25": 1095.88,
+            "FY26": 1368.7
+          },
+          "is_other": false
+        },
+        {
+          "name": "Service-type warranties (recognised over time)",
+          "values": {
+            "FY24": 90.21,
+            "FY25": 100.69,
+            "FY26": 120.32
+          },
+          "is_other": false
+        },
+        {
+          "name": "Other operating revenue (export incentives, scrap, after-sales service income)",
+          "values": {
+            "FY24": 301.76,
+            "FY25": 332.14,
+            "FY26": 429.99
+          },
+          "is_other": true
+        }
+      ],
+      "total": {
+        "FY24": 16535.78,
+        "FY25": 18870.35,
+        "FY26": 23407.56
+      },
+      "reported_total": {
+        "FY24": 16535.78,
+        "FY25": 18870.35,
+        "FY26": 23407.56
+      },
+      "qualitative": [
+        {
+          "point": "The company will not attach a rupee number, or a margin, to any engine-capacity family. Asked about the mix, management answers in growth rates: the 350cc line grew about 34% year on year in Q1 FY27.",
+          "figure": "350cc family +~34% year on year (Q1 FY27)",
+          "speaker": "B. Govindarajan, MD (Eicher Motors) and CEO (Royal Enfield)",
+          "source": "Q1 FY27 earnings call",
+          "date": "2026-07-29",
+          "kind": "fact",
+          "quote": "Within the products, if I have to talk about our 350cc model Classic, Bullet, Hunter and Meteor that continue to grow at almost about 34% compared to last year quarter one"
+        },
+        {
+          "point": "The bigger-engine motorcycles were hurt by a GST change and management's characterisation of the recovery is directional, with no volume or revenue split behind it.",
+          "speaker": "B. Govindarajan, MD (Eicher Motors) and CEO (Royal Enfield)",
+          "source": "Q1 FY27 earnings call",
+          "date": "2026-07-29",
+          "kind": "opinion",
+          "quote": "both our 450 cc and 650 cc motorcycles are back at the pre-GST level, and we continue to invest in them to drive growth"
+        },
+        {
+          "point": "Model-level performance inside the above-350cc range is explicitly mixed, which is as granular as the disclosure gets: the 650 twins and Guerrilla strong, Super Meteor, Himalayan and Shotgun weak in the same quarter.",
+          "speaker": "Raghunandhan N. L., analyst (question)",
+          "source": "Q1 FY27 earnings call",
+          "date": "2026-07-29",
+          "kind": "fact",
+          "quote": "the 450, 650 sales has improved to pre-GST cut levels. The model by sales performance is a mixed bag"
+        },
+        {
+          "point": "Service volume, not price, is what drives the after-sales line: the service business crossed 10.3 million job cards in FY26 with out-of-warranty job cards up 22%, and is averaging about 9 lakh job cards a month.",
+          "figure": "10.3mn job cards in FY26; ~0.9mn a month; service job cards +20% in Q1 FY27",
+          "speaker": "Vidhya Srinivasan, CFO",
+          "source": "Q1 FY27 earnings call; FY2026 annual report, allied business review",
+          "date": "2026-07-29",
+          "kind": "fact",
+          "quote": "We are averaging about 9 lakh service job cards per month, which is a huge growth driver."
+        }
+      ],
+      "caveat": "This is the Ind AS 115 disaggregation of revenue from contracts with customers plus other operating revenue, so the five wedges add to reported revenue exactly in all three years. Note the accounting cut does not match the business cut: apparel and accessories sit inside 'traded goods', a manufactured spare part sits in a different wedge from the service that fits it, and the after-sales service income is split between 'service-type warranties' and 'other operating revenue'. That is why this split totals a smaller allied number than management's Rs 3,351cr allied line.",
+      "disclosure": "No margin is published for any of these categories, and no split by engine family, platform or model. The one thing the note does settle is that the motorcycle itself is still 85% of revenue."
+    },
+    {
+      "key": "group_business",
+      "label": "Motorcycles vs commercial vehicles (the pool the segment note does not show)",
+      "question": "Eicher's trucks business is bigger than its motorcycle business - so why does none of it appear in revenue?",
+      "unit": "inr_cr",
+      "confidence": "derived",
+      "periods": [
+        "FY24",
+        "FY25",
+        "FY26"
+      ],
+      "source": "FY2026 annual report, consolidated statement of profit and loss and joint-venture note (FY24 from the FY2025 annual report)",
+      "slices": [
+        {
+          "name": "Royal Enfield (Eicher Motors consolidated revenue)",
+          "values": {
+            "FY24": 16535.78,
+            "FY25": 18870.35,
+            "FY26": 23407.56
+          },
+          "is_other": false
+        },
+        {
+          "name": "VE Commercial Vehicles at 100% (equity-accounted, outside revenue)",
+          "values": {
+            "FY24": 21867.97,
+            "FY25": 23548.24,
+            "FY26": 27076.61
+          },
+          "is_other": false
+        }
+      ],
+      "total": {
+        "FY24": 38403.75,
+        "FY25": 42418.59,
+        "FY26": 50484.17
+      },
+      "margins": [
+        {
+          "name": "Royal Enfield (Eicher Motors consolidated revenue)",
+          "metric": "EBITDA margin",
+          "basis": "profit before tax, exceptional items and share of joint-venture profit, plus depreciation and finance costs, less other income, over revenue from operations. On this basis the rupee EBITDA equals the company's own published figures of Rs 4,327cr, Rs 4,712cr and Rs 5,785cr, and the FY26 and FY25 percentages match the 24.7% and 25% the company prints.",
+          "kind": "computed",
+          "values": {
+            "FY24": 26.2,
+            "FY25": 25.0,
+            "FY26": 24.7
+          }
+        },
+        {
+          "name": "VE Commercial Vehicles at 100% (equity-accounted, outside revenue)",
+          "metric": "EBITDA margin",
+          "basis": "identical definition applied to the joint venture's own audited accounts: profit before tax and exceptional items, plus depreciation and finance costs, less other income, over revenue from operations. FY24 is not computable from the documents held, so the wedge has revenue but no margin that year.",
+          "kind": "computed",
+          "values": {
+            "FY25": 8.6,
+            "FY26": 9.2
+          }
+        }
+      ],
+      "qualitative": [
+        {
+          "point": "Management itself frames the group as the sum of the two businesses, which is the number no statement in the annual report actually shows.",
+          "figure": "Rs 50,000cr+ combined FY26 revenue",
+          "speaker": "Siddhartha Lal, Executive Chairman",
+          "source": "Q4 FY26 earnings call",
+          "date": "2026-05-22",
+          "kind": "fact",
+          "quote": "the combined revenue of EML and VECV actually crossed INR50,000 crores last year for the first time"
+        },
+        {
+          "point": "The joint venture's margin went backwards in Q1 FY27 while its revenue grew, and no analyst on the call asked about it.",
+          "figure": "EBITDA margin 8.4% vs 9.2%; revenue Rs 6,610cr vs Rs 5,671cr",
+          "speaker": "B. Srinivas, MD and CEO, VECV",
+          "source": "Q1 FY27 earnings call",
+          "date": "2026-07-29",
+          "kind": "fact",
+          "quote": "The EBITDA margin for Q1 8.4% against 9.2% of last year."
+        },
+        {
+          "point": "Inside the truck business the only revenue line broken out is spare parts, and only for the full year.",
+          "figure": "Rs 3,045.5cr, up 13.9% in FY26 - 11% of the joint venture's revenue",
+          "speaker": "B. Srinivas, MD and CEO, VECV",
+          "source": "Q4 FY26 earnings call",
+          "date": "2026-05-22",
+          "kind": "fact",
+          "quote": "Our spare parts sales grew 13.9% to INR3,045.5 crores."
+        },
+        {
+          "point": "The joint venture reports its own FY26 EBITDA at Rs 2,562.6cr, or 9.5% of revenue - about Rs 61cr and 0.2 percentage points above the same-basis computation shown here, on a definition it does not publish.",
+          "figure": "Rs 2,562.6cr / 9.5% as stated, against Rs 2,501cr / 9.2% recomputed",
+          "speaker": "B. Srinivas, MD and CEO, VECV",
+          "source": "Q4 FY26 earnings call",
+          "date": "2026-05-22",
+          "kind": "fact",
+          "quote": "Revenue growing to INR 27,076.6 crores with EBITDA of INR 2,562.6 crores."
+        },
+        {
+          "point": "The commercial-vehicle business also grew units across every vertical in FY26, so its absence from revenue is an accounting outcome and not a dormant asset: 103,404 units, up ~15%, with heavy-duty share improving to 9.1%.",
+          "figure": "103,404 units FY26; heavy duty 25,155 units at 9.1% share; exports 6,933 units, +33.9%",
+          "speaker": "B. Srinivas, MD and CEO, VECV",
+          "source": "Q4 FY26 earnings call",
+          "date": "2026-05-22",
+          "kind": "fact",
+          "quote": "We delivered a record 1,03,404 units, growing almost 15% over last year."
+        }
+      ],
+      "caveat": "THIS IS NOT A SPLIT OF REPORTED REVENUE, and it is the single most important thing to understand about Eicher's top line. The 54.4%-held commercial-vehicle joint venture is equity-accounted, so none of its Rs 27,077cr of FY26 revenue is inside the Rs 23,408cr the company reports - it enters the profit and loss only as a Rs 798cr share of joint-venture profit (FY25: Rs 700cr, FY24: Rs 448cr). The two wedges are therefore added by hand from two separate sets of audited accounts, and no reported-revenue total is stated for this card because none exists. The same joint venture WAS line-consolidated before the accounting change that followed the December-to-March year-end move, which is why the series here starts at FY24 and the tab as a whole starts at FY21 - well clear of that break. Comparing the two margins is legitimate because both are computed on one stated definition; comparing either to a number management quotes is not.",
+      "disclosure": "Because the joint venture is not consolidated, every growth rate, margin and multiple computed on Eicher's reported revenue describes a motorcycle company only - while roughly a seventh of consolidated profit before tax comes from trucks. The wedge shown here is the joint venture at 100%, not Eicher's 54.4% economic share."
+    }
+  ],
+  "not_disclosed": [
+    {
+      "dimension": "Reportable business segments (motorcycles vs commercial vehicles)",
+      "what_is_known": "There is no segment revenue or segment result table at all. The company states that it operates in a single automotive segment and that the chief operating decision maker evaluates the group as one unit, so under Ind AS 108 there is no reportable segment. The only structural disclosures are the two-bucket geography table and the joint venture's summarised revenue and profit.",
+      "why_it_matters": "The usual way to value a conglomerate - a margin and a multiple per segment - is unavailable. The truck business has to be valued off the joint venture's own summarised accounts, and the motorcycle business's margin is whatever is left in the consolidated statements.",
+      "evidence": "Segment reporting disclosure in both the standalone and consolidated notes of the FY2026 annual report, and the same note in the FY2025 annual report."
+    },
+    {
+      "dimension": "Revenue and margin by engine-capacity family (350cc, 450, 650, electric)",
+      "what_is_known": "Growth rates and directional statements only: the 350cc family growing about 34% year on year in Q1 FY27, the 450 and 650 motorcycles 'back at the pre-GST level', model performance above 350cc described as a mixed bag. Nothing that attaches a rupee of revenue or a percentage point of margin to a family, in any document.",
+      "why_it_matters": "The 650 twins and the 450 platform are the premiumisation case for the stock, and their margin relative to the 350cc volume engine is the central question in the investment debate. Any per-family margin quoted anywhere is somebody's estimate, not a disclosure.",
+      "evidence": "Searched the revenue and segment notes of the FY2026 and FY2025 annual reports and the full text of the Q3 FY26, Q4 FY26 and Q1 FY27 earnings calls. Management is asked about mix repeatedly and answers with growth rates, price increases and market share every time."
+    },
+    {
+      "dimension": "Customer concentration",
+      "what_is_known": "The company states affirmatively, in both FY25 and FY26, that no single customer accounted for more than 10% of revenue - so concentration is disclosed as an absence rather than a number. Nothing is published about the largest dealers, distributors or overseas assemblers individually.",
+      "why_it_matters": "For a retail-facing motorcycle business the real concentration risk sits one layer down, in the dealer network and in a handful of overseas distributors and assemblers, and the 10% test does not reach it.",
+      "evidence": "Information about major customers, in the segment note of both the FY2026 and FY2025 annual reports."
+    },
+    {
+      "dimension": "Country and region revenue",
+      "what_is_known": "Only domestic and overseas. Regional detail exists but always in volumes or rankings: SAARC accounted for 22% of international volumes in FY26, Brazil is the largest market outside India and takes one in four exported motorcycles, and the company is number two in the middleweight class in Brazil, Argentina and Thailand.",
+      "why_it_matters": "Tariffs, quotas and currency hit specific countries - an 18% United States headline rate taken to roughly 41-42% by steel and aluminium duties, a 10,000-unit Indonesian quota - and none of them can be sized against revenue without a country split.",
+      "evidence": "Geographical information in the FY2026 annual report segment note (two buckets), the international business review in the same report, and the Q3 FY26 and Q1 FY27 earnings calls."
+    },
+    {
+      "dimension": "Channel mix",
+      "what_is_known": "No revenue by channel. The company lists its company-owned stores as places of business, announced Flipkart and Amazon partnerships for the whole 350cc range, sells CKD kits to overseas assemblers, and describes dealer inventory in days rather than in rupees. None of these is quantified as a share of revenue.",
+      "why_it_matters": "A shift from dealer wholesale towards company-owned retail, e-commerce or overseas CKD assembly changes both the revenue recognised per motorcycle and the margin on it, and it would be invisible in every disclosure the company makes.",
+      "evidence": "Places of business in the FY2026 annual report business responsibility report, the Q4 FY26 and Q1 FY27 earnings calls (Flipkart and Amazon, dealer inventory in days), and the absence of any channel line in the revenue note."
+    }
+  ],
+  "source_note": "Splits transcribed from the FY2026 and FY2025 annual reports - the segment note's geographical information, the revenue-from-operations note, the joint-venture note and the financial review charts - and from the Q3 FY26, Q4 FY26 and Q1 FY27 earnings calls. Margins are recomputed for both businesses on one stated definition from their own audited statements. Nothing here is interpolated: where the company publishes only a growth rate or a directional comment, that is what is shown."
+};
+
+(function () {
+  const cardsEl = document.getElementById("rvnCards");
+  if (!cardsEl || !REVENUE) return;
+
+  const SPLITS = REVENUE.splits || [];
+  const CUR = REVENUE.currency || "₹ crore";
+  const QUARTERLY = REVENUE.period_kind === "quarter";
+  // one definition of "present", as everywhere else in this page
+  const num = v => (typeof v === "number" && isFinite(v)) ? v : null;
+  const RAMP = 7;
+
+  const money = v => v === null ? "—"
+    : (Math.abs(v) >= 100 ? Math.round(v).toLocaleString("en-IN") : v.toFixed(1));
+  const pct = (v, d) => v === null ? "—" : v.toFixed(d === undefined ? 1 : d) + "%";
+  const sg = (v, unit, d) => v === null ? "—"
+    : (v > 0 ? "+" : "") + v.toFixed(d === undefined ? 1 : d) + (unit || "%");
+  const dcls = v => v === null ? "" : v > 0 ? "rvn-up" : v < 0 ? "rvn-dn" : "";
+  const shade = (rank, other) => other ? "var(--rev-other)"
+    : "var(--rev-" + Math.min(rank + 1, RAMP) + ")";
+
+  // ---- per-split arithmetic. `unit` is either money in CUR, or a published
+  // share of revenue; a share is converted to money only when the split also
+  // states the period's total, and that conversion is labelled `derived`.
+  const valAt = (sp, sl, p) => num((sl.values || {})[p]);
+  function totalAt(sp, p) {
+    const t = num((sp.total || {})[p]);
+    if (t !== null) return t;
+    if (sp.unit === "share_pct") return null;
+    const v = (sp.slices || []).map(s => valAt(sp, s, p)).filter(x => x !== null);
+    return v.length ? v.reduce((a, b) => a + b, 0) : null;
+  }
+  function moneyAt(sp, sl, p) {
+    const v = valAt(sp, sl, p);
+    if (v === null) return null;
+    if (sp.unit !== "share_pct") return v;
+    const t = num((sp.total || {})[p]);
+    return t === null ? null : v * t / 100;
+  }
+  function shareAt(sp, sl, p) {
+    if (sp.unit === "share_pct") return valAt(sp, sl, p);
+    const v = valAt(sp, sl, p), t = totalAt(sp, p);
+    return (v === null || !t) ? null : 100 * v / t;
+  }
+  const prevOf = (sp, p) => {
+    const ps = sp.periods || [];
+    const i = ps.indexOf(p);
+    return i > 0 ? ps[i - 1] : null;
+  };
+  function growthPct(sp, sl, p) {
+    const q = prevOf(sp, p);
+    if (!q) return null;
+    const a = moneyAt(sp, sl, p), b = moneyAt(sp, sl, q);
+    return (a === null || b === null || b <= 0) ? null : 100 * (a - b) / b;
+  }
+  // Contribution to total growth, in percentage points OF THE TOTAL. Additive
+  // across slices, unlike a per-slice growth rate — which is why a small,
+  // fast-growing slice stops looking like the story when it isn't.
+  function contribPP(sp, sl, p) {
+    const q = prevOf(sp, p);
+    if (!q) return null;
+    const a = moneyAt(sp, sl, p), b = moneyAt(sp, sl, q), tb = totalAt(sp, q);
+    return (a === null || b === null || !tb) ? null : 100 * (a - b) / tb;
+  }
+  function cagrPct(sp, sl) {
+    if (QUARTERLY) return null;
+    const all = sp.periods || [];
+    const ps = all.filter(p => moneyAt(sp, sl, p) !== null);
+    if (ps.length < 2) return null;
+    const a = moneyAt(sp, sl, ps[ps.length - 1]), b = moneyAt(sp, sl, ps[0]);
+    const n = all.indexOf(ps[ps.length - 1]) - all.indexOf(ps[0]);
+    return (b <= 0 || n < 1) ? null : 100 * (Math.pow(a / b, 1 / n) - 1);
+  }
+  function totalGrowth(sp, p) {
+    const q = prevOf(sp, p);
+    if (!q) return null;
+    const a = totalAt(sp, p), b = totalAt(sp, q);
+    return (a === null || b === null || b <= 0) ? null : 100 * (a - b) / b;
+  }
+  // rank order: largest first at the split's latest period, `is_other` last —
+  // fixed once per split so a slice keeps its shade across periods
+  function ranked(sp) {
+    const ps = sp.periods || [];
+    const last = ps[ps.length - 1];
+    const key = sl => {
+      const v = shareAt(sp, sl, last);
+      return v === null ? -1 : v;
+    };
+    return (sp.slices || [])
+      .map((sl, i) => ({ sl, i }))
+      .sort((a, b) => (!!a.sl.is_other - !!b.sl.is_other) || (key(b.sl) - key(a.sl)))
+      .map((o, rank) => ({ ...o.sl, rank, colour: shade(rank, o.sl.is_other) }));
+  }
+  const marginsOf = sp => sp.margins || [];
+
+  // ---- period control: one canonical ordered list, oldest first
+  const PERIODS = (REVENUE.periods && REVENUE.periods.length)
+    ? REVENUE.periods
+    : [...new Set(SPLITS.flatMap(s => s.periods || []))];
+  let selected = PERIODS[PERIODS.length - 1];
+  let view = "donut";
+  // Not every dimension is disclosed every period — a customer-concentration
+  // note may exist for one year only. Rather than render an empty pie whenever
+  // the reader is standing on a later period, each card falls back to the most
+  // recent period it HAS at or before the selection, and says so in its header.
+  function effP(sp) {
+    const ps = sp.periods || [];
+    if (ps.includes(selected)) return selected;
+    const upto = ps.filter(p => PERIODS.indexOf(p) <= PERIODS.indexOf(selected));
+    // Nothing at or before the selection means the reader has stepped back
+    // BEFORE this dimension was ever disclosed — show the earliest it exists,
+    // not the latest. Showing FY26 to someone standing on FY21 is honest only
+    // in the chip; the nearest disclosed period is what they meant to ask for.
+    return (upto.length ? upto[upto.length - 1] : ps[0]) || selected;
+  }
+  // pinned wedge per split key, so a tap survives a re-render
+  const pinned = {};
+
+  document.getElementById("rvnLede").innerHTML = REVENUE.lede
+    || ("What the top line is made of, on every dimension the company actually "
+        + "publishes. <strong>Shares are the weak half of this tab</strong> — the "
+        + "column worth reading is each slice's contribution to total growth in "
+        + "percentage points, because that is what says which part of the business "
+        + "moved revenue. Where a split is not disclosed, the card carries dated "
+        + "management commentary instead of a number.");
+  document.getElementById("rvnNote").innerHTML = REVENUE.source_note || "";
+
+  const pdBar = document.getElementById("rvnPeriods");
+  pdBar.innerHTML = PERIODS.map(p =>
+    `<button type="button" data-pd="${p}" aria-pressed="${p === selected}">${p}</button>`).join("");
+
+  const HINTS = {
+    donut: "Donut: angle is a poor comparison — the table beside each pie carries the same numbers, plus growth.",
+    bars: "Bars: share on one shared scale, which is the honest form for comparing slices.",
+    growth: "Growth: year-on-year per slice, and each slice's contribution to total growth in percentage points (additive; growth rates are not).",
+    mix: "Mix over time: share drift across every period held. A mix shift is invisible in a single pie.",
+    margin: "Margin: profitability by category, where the company publishes or indicates it. Levels are shaded by revenue rank, not by good/bad.",
+  };
+
+  // ---- marks -------------------------------------------------------------
+  function donutSVG(sp, rows) {
+    const period = effP(sp);
+    const W = 300, C = 150, R = 128, r = 76;
+    const drawn = rows.map(s => ({ s, v: shareAt(sp, s, period) }))
+                      .filter(o => o.v !== null && o.v > 0);
+    const sum = drawn.reduce((a, o) => a + o.v, 0);
+    if (!drawn.length || sum <= 0) return "";
+    const pol = (rad, a) => [C + rad * Math.cos(a), C + rad * Math.sin(a)];
+    let a0 = -Math.PI / 2;
+    const arcs = drawn.map(o => {
+      const a1 = a0 + 2 * Math.PI * (o.v / sum);
+      let d;
+      if (drawn.length === 1) {
+        // a single 100% slice degenerates as an arc — draw the ring instead
+        d = null;
+      } else {
+        const big = (a1 - a0) > Math.PI ? 1 : 0;
+        const [x0, y0] = pol(R, a0), [x1, y1] = pol(R, a1);
+        const [x2, y2] = pol(r, a1), [x3, y3] = pol(r, a0);
+        d = `M${x0.toFixed(1)},${y0.toFixed(1)} A${R},${R} 0 ${big} 1 ${x1.toFixed(1)},${y1.toFixed(1)}`
+          + ` L${x2.toFixed(1)},${y2.toFixed(1)} A${r},${r} 0 ${big} 0 ${x3.toFixed(1)},${y3.toFixed(1)} Z`;
+      }
+      a0 = a1;
+      return d === null
+        ? `<circle class="rvn-wedge" data-i="${o.s.rank}" cx="${C}" cy="${C}" r="${(R + r) / 2}"
+                   fill="none" stroke="${o.s.colour}" stroke-width="${R - r}"></circle>`
+        : `<path class="rvn-wedge" data-i="${o.s.rank}" d="${d}" fill="${o.s.colour}"></path>`;
+    }).join("");
+    const t = totalAt(sp, period);
+    return `<svg viewBox="0 0 ${W} ${W}" role="img" aria-labelledby="rvnSr-${sp.key}">
+      <g aria-hidden="true">${arcs}</g>
+      <text class="rvn-hole-v" x="${C}" y="${C - 2}" text-anchor="middle" data-hole="v">${
+        t === null ? "100%" : money(t)}</text>
+      <text class="rvn-hole-l" x="${C}" y="${C + 15}" text-anchor="middle" data-hole="l">${
+        t === null ? period + " share" : period + " · " + CUR}</text>
+    </svg>`;
+  }
+
+  function shareBars(sp, rows) {
+    const period = effP(sp);
+    return `<div class="rvn-bars">` + rows.map(s => {
+      const v = shareAt(sp, s, period);
+      return `<div class="rvn-bar" data-i="${s.rank}">
+        <span class="nm">${s.name}</span>
+        <span class="tr" role="img" aria-label="${s.name}: ${pct(v)} of revenue">
+          ${v === null ? "" : `<i class="fill" style="left:0;width:${Math.max(0, Math.min(100, v))}%;background:${s.colour}"></i>`}
+        </span>
+        <span class="vl">${pct(v)}</span></div>`;
+    }).join("") + `</div>`;
+  }
+
+  function growthBars(sp, rows) {
+    const period = effP(sp);
+    const gs = rows.map(s => growthPct(sp, s, period));
+    const maxAbs = Math.max(...gs.filter(g => g !== null).map(Math.abs), 1);
+    const anyNeg = gs.some(g => g !== null && g < 0);
+    const half = anyNeg ? 50 : 0;
+    return `<div class="rvn-bars">` + rows.map((s, i) => {
+      const g = gs[i];
+      const w = g === null ? 0 : (Math.abs(g) / maxAbs) * (anyNeg ? 50 : 100);
+      const left = g === null ? half : (g >= 0 ? half : half - w);
+      const col = g === null ? "var(--grid)" : (g >= 0 ? "var(--delta-good)" : "var(--delta-bad)");
+      return `<div class="rvn-bar" data-i="${s.rank}">
+        <span class="nm">${s.name}</span>
+        <span class="tr" role="img" aria-label="${s.name}: ${sg(g)} year on year">
+          ${anyNeg ? `<i class="zero" style="left:50%"></i>` : ""}
+          ${g === null ? "" : `<i class="fill" style="left:${left}%;width:${w}%;background:${col}"></i>`}
+        </span>
+        <span class="vl ${dcls(g)}">${sg(g)}</span></div>`;
+    }).join("") + `</div>`;
+  }
+
+  function mixStack(sp, rows) {
+    return `<div class="rvn-mix">` + (sp.periods || []).map(p => {
+      const parts = rows.map(s => ({ s, v: shareAt(sp, s, p) })).filter(o => o.v !== null && o.v > 0);
+      const sum = parts.reduce((a, o) => a + o.v, 0) || 1;
+      return `<div class="rvn-mixrow"><span class="pd">${p}</span>
+        <span class="rvn-stack" role="img" aria-label="${p}: ${
+          parts.map(o => `${o.s.name} ${pct(o.v)}`).join(", ")}">${
+          parts.map(o => `<i data-i="${o.s.rank}" style="width:${100 * o.v / sum}%;background:${o.s.colour}"></i>`).join("")
+        }</span></div>`;
+    }).join("") + `</div>`;
+  }
+
+  function marginBars(sp, rows) {
+    const period = effP(sp);
+    const ms = marginsOf(sp);
+    if (!ms.length) {
+      return `<p class="rvn-none">No margin is published or indicated for this
+        dimension. Where management has said something qualitative about it, it is
+        under the commentary below rather than turned into a number here.</p>`;
+    }
+    const rankOf = name => {
+      const hit = rows.find(s => s.name === name);
+      return hit ? hit.colour : "var(--rev-other)";
+    };
+    const vals = ms.map(m => num((m.values || {})[period]));
+    const max = Math.max(...vals.filter(v => v !== null).map(Math.abs), 1);
+    return `<div class="rvn-bars">` + ms.map((m, i) => {
+      const v = vals[i], q = prevOf(sp, period);
+      const pv = q ? num((m.values || {})[q]) : null;
+      const d = (v === null || pv === null) ? null : v - pv;
+      return `<div class="rvn-bar">
+        <span class="nm">${m.name}</span>
+        <span class="tr" role="img" aria-label="${m.name}: ${pct(v)} ${m.metric || "margin"}">
+          ${v === null ? "" : `<i class="fill" style="left:0;width:${(Math.abs(v) / max) * 100}%;background:${rankOf(m.name)}"></i>`}
+        </span>
+        <span class="vl">${pct(v)}${d === null ? "" : ` <span class="${dcls(d)}">${sg(d, "pp")}</span>`}</span>
+      </div>`;
+    }).join("") + `</div>`;
+  }
+
+  // ---- table: the primary read in every view ------------------------------
+  function tableFor(sp, rows) {
+    const period = effP(sp);
+    const q = prevOf(sp, period);
+    const mmap = {};
+    marginsOf(sp).forEach(m => { mmap[m.name] = m; });
+    const hasM = Object.keys(mmap).length > 0;
+
+    if (view === "mix") {
+      const ps = sp.periods || [];
+      const head = `<tr><th>Slice</th>${ps.map(p => `<th>${p}</th>`).join("")}
+        <th>Change, ${ps[0]}→${ps[ps.length - 1]}</th></tr>`;
+      const body = rows.map(s => {
+        const a = shareAt(sp, s, ps[0]);
+        const b = shareAt(sp, s, ps[ps.length - 1]);
+        const d = (a === null || b === null) ? null : b - a;
+        return `<tr data-i="${s.rank}"><td><i class="rvn-sw" style="background:${s.colour}"></i>${s.name}</td>
+          ${ps.map(p => `<td>${pct(shareAt(sp, s, p))}</td>`).join("")}
+          <td class="${dcls(d)}">${sg(d, "pp")}</td></tr>`;
+      }).join("");
+      return `<div class="rvn-tbl"><table><thead>${head}</thead><tbody>${body}</tbody></table></div>`;
+    }
+
+    if (view === "margin") {
+      const ms = marginsOf(sp);
+      if (!ms.length) return "";
+      const body = ms.map(m => {
+        const v = num((m.values || {})[period]);
+        const pv = q ? num((m.values || {})[q]) : null;
+        const d = (v === null || pv === null) ? null : v - pv;
+        return `<tr><td>${m.name}</td><td>${pct(v)}</td>
+          <td class="${dcls(d)}">${sg(d, "pp")}</td>
+          <td style="text-align:left">${m.metric || "margin"}${
+            m.kind ? ` <span class="rvn-kind ${m.kind}">${m.kind}</span>` : ""}</td></tr>`;
+      }).join("");
+      const basis = [...new Set(ms.map(m => m.basis).filter(Boolean))];
+      return `<div class="rvn-tbl"><table>
+        <thead><tr><th>Category</th><th>${period}</th><th>vs ${q || "—"}</th>
+        <th style="text-align:left">Definition</th></tr></thead>
+        <tbody>${body}</tbody></table></div>`
+        + (basis.length ? `<p class="rvn-caveat"><strong>Basis.</strong> ${basis.join(" ")}</p>` : "");
+    }
+
+    // donut / bars / growth
+    const unitHead = sp.unit === "share_pct" ? "% of revenue" : CUR;
+    const head = `<tr><th>Slice</th><th>${unitHead}</th><th>Share</th>
+      <th>YoY</th><th>Contribution</th>${!QUARTERLY ? "<th>CAGR</th>" : ""}
+      ${hasM ? "<th>Margin</th>" : ""}</tr>`;
+    const body = rows.map(s => {
+      const v = valAt(sp, s, period), sh = shareAt(sp, s, period);
+      const g = growthPct(sp, s, period), c = contribPP(sp, s, period);
+      const k = cagrPct(sp, s), m = mmap[s.name];
+      const mv = m ? num((m.values || {})[period]) : null;
+      return `<tr data-i="${s.rank}">
+        <td><i class="rvn-sw" style="background:${s.colour}"></i>${s.name}</td>
+        <td>${sp.unit === "share_pct" ? pct(v) : money(v)}</td>
+        <td>${pct(sh)}</td>
+        <td class="${dcls(g)}">${sg(g)}</td>
+        <td class="${dcls(c)}">${sg(c, "pp")}</td>
+        ${!QUARTERLY ? `<td>${sg(k)}</td>` : ""}
+        ${hasM ? `<td>${pct(mv)}</td>` : ""}</tr>`;
+    }).join("");
+    const t = totalAt(sp, period), tg = totalGrowth(sp, period);
+    const totRow = `<tr class="tot"><td>Total</td>
+      <td>${sp.unit === "share_pct" && t === null ? "100.0%" : money(t)}</td>
+      <td>100.0%</td>
+      <td class="${dcls(tg)}">${sg(tg)}</td>
+      <td class="${dcls(tg)}">${sg(tg, "pp")}</td>
+      ${!QUARTERLY ? "<td></td>" : ""}${hasM ? "<td></td>" : ""}</tr>`;
+    return `<div class="rvn-tbl"><table><thead>${head}</thead>
+      <tbody>${body}${totRow}</tbody></table>
+      <p class="rvn-caveat">Contribution is this slice's change as a share of LAST
+      period's total revenue, in percentage points — it adds up across slices,
+      which a growth rate does not.</p></div>`;
+  }
+
+  // ---- coverage: how much of reported revenue the split actually accounts for
+  function coverage(sp, rows) {
+    const period = effP(sp);
+    const bits = [];
+    const rep = num((sp.reported_total || {})[period]);
+    const sum = rows.map(s => moneyAt(sp, s, period)).filter(v => v !== null)
+                    .reduce((a, b) => a + b, 0);
+    let gap = false;
+    if (rep !== null && sum > 0) {
+      const cov = 100 * sum / rep;
+      gap = Math.abs(cov - 100) > 1.5;
+      bits.push(`These slices account for <b>${cov.toFixed(1)}%</b> of the `
+        + `${money(rep)} ${CUR} of revenue reported for ${period}`
+        + (gap ? ` — the ${money(Math.abs(rep - sum))} ${CUR} difference is `
+                 + `unallocated on this dimension, not missing revenue.` : `.`));
+    }
+    const absent = rows.filter(s => valAt(sp, s, period) === null).map(s => s.name);
+    if (absent.length) bits.push(`Not disclosed for ${period}: ${absent.join(", ")} — `
+      + `excluded from the pie rather than drawn as zero.`);
+    if (sp.source) bits.push(`Source: ${sp.source}.`);
+    return bits.length
+      ? `<p class="rvn-cov${gap ? " gap" : ""}">${bits.join(" ")}</p>` : "";
+  }
+
+  function qualBlock(sp) {
+    const qs = sp.qualitative || [];
+    if (!qs.length) return "";
+    const items = qs.map(q => `<li><b>${q.point}</b>${
+      q.figure ? ` ${q.figure}` : ""}${
+      q.kind ? ` <span class="rvn-kind ${q.kind}">${q.kind}</span>` : ""}
+      ${q.quote ? `<br><span class="rvn-q-src">“${q.quote}”</span>` : ""}
+      <br><span class="rvn-q-src">${[q.speaker, q.source, q.date].filter(Boolean).join(" · ")}</span></li>`).join("");
+    const hasNum = (sp.slices || []).length > 0;
+    return `<details class="rvn-qual"${hasNum ? "" : " open"}>
+      <summary>What management has actually said about this — ${qs.length} pointer${qs.length === 1 ? "" : "s"}${
+        hasNum ? "" : " (this dimension is not published as numbers)"}</summary>
+      <ul>${items}</ul></details>`;
+  }
+
+  function cardHTML(sp) {
+    const period = effP(sp);
+    const rows = ranked(sp);
+    const numeric = rows.length > 0 && sp.periods && sp.periods.length > 0;
+    const conf = sp.confidence || "reported";
+    let fig = "", tbl = "";
+    if (numeric) {
+      if (view === "donut") fig = donutSVG(sp, rows);
+      else if (view === "bars") fig = shareBars(sp, rows);
+      else if (view === "growth") fig = growthBars(sp, rows);
+      else if (view === "mix") fig = mixStack(sp, rows);
+      else if (view === "margin") fig = marginBars(sp, rows);
+      tbl = tableFor(sp, rows);
+    }
+    const wide = view !== "donut";
+    const readout = view === "donut"
+      ? `<p class="rvn-read" data-read="${sp.key}">Point at a slice — or tap one to pin it.</p>`
+      : "";
+    const sr = `<p class="rvn-sr" id="rvnSr-${sp.key}">${sp.label}, ${period}: ${
+      rows.map(s => `${s.name} ${pct(shareAt(sp, s, period))}`).join("; ")}</p>`;
+    return `<div class="rvn-card ${conf}" data-split="${sp.key}">
+      <div class="rvn-head"><h3>${sp.label}</h3>
+        ${sp.question ? `<span class="rvn-q">${sp.question}</span>` : ""}
+        <span class="rvn-chip ${conf}">${conf}</span>
+        ${period !== selected
+          ? `<span class="rvn-chip">not disclosed for ${selected} — showing ${period}</span>` : ""}</div>
+      ${numeric ? `<div class="rvn-body${wide ? " wide" : ""}">
+        <div class="rvn-fig">${fig}${sr}${readout}</div>
+        <div>${tbl}</div></div>` : ""}
+      ${numeric ? coverage(sp, rows) : ""}
+      ${sp.caveat ? `<p class="rvn-caveat">${sp.caveat}</p>` : ""}
+      ${sp.disclosure ? `<p class="rvn-caveat"><strong>What is not disclosed here.</strong> ${sp.disclosure}</p>` : ""}
+      ${qualBlock(sp)}
+    </div>`;
+  }
+
+  // ---- highlight wiring. Rebuilt with the cards, so listeners are attached
+  // after every render rather than delegated through stale nodes.
+  function wire(card, sp) {
+    const period = effP(sp);
+    const rows = ranked(sp);
+    const read = card.querySelector("[data-read]");
+    const holeV = card.querySelector('[data-hole="v"]');
+    const holeL = card.querySelector('[data-hole="l"]');
+    const wedges = [...card.querySelectorAll(".rvn-wedge, .rvn-stack i")];
+    const trs = [...card.querySelectorAll("tbody tr[data-i]")];
+    const bars = [...card.querySelectorAll(".rvn-bar[data-i]")];
+    const t = totalAt(sp, period);
+
+    function paint(i) {
+      wedges.forEach(w => w.classList.toggle("dim", i !== null && +w.dataset.i !== i));
+      trs.forEach(r => r.classList.toggle("on", +r.dataset.i === i));
+      bars.forEach(b => b.classList.toggle("on", +b.dataset.i === i));
+      if (holeV) {
+        if (i === null) {
+          holeV.textContent = t === null ? "100%" : money(t);
+          holeL.textContent = t === null ? period + " share" : period + " · " + CUR;
+        } else {
+          const s = rows[i];
+          holeV.textContent = pct(shareAt(sp, s, period));
+          holeL.textContent = s.name.length > 24 ? s.name.slice(0, 23) + "…" : s.name;
+        }
+      }
+      if (read) {
+        if (i === null) {
+          read.innerHTML = "Point at a slice — or tap one to pin it.";
+        } else {
+          const s = rows[i];
+          const g = growthPct(sp, s, period), c = contribPP(sp, s, period);
+          const tg = totalGrowth(sp, period), q = prevOf(sp, period);
+          read.innerHTML = `<b>${s.name}</b> — ${
+            sp.unit === "share_pct" ? pct(valAt(sp, s, period)) + " of revenue"
+              : money(moneyAt(sp, s, period)) + " " + CUR + " · " + pct(shareAt(sp, s, period)) + " of revenue"}`
+            + (g === null ? "" : ` · <b class="${dcls(g)}">${sg(g)}</b> vs ${q}`)
+            + (c === null ? "" : `<br>contributed <b class="${dcls(c)}">${sg(c, "pp")}</b>`
+               + (tg === null ? "" : ` of the ${sg(tg)} total change`))
+            + (pinned[sp.key] === i ? ` <span class="pin">pinned — tap again to release</span>` : "");
+        }
+      }
+    }
+    const enter = i => paint(i);
+    const leave = () => paint(pinned[sp.key] === undefined ? null : pinned[sp.key]);
+    [...wedges, ...trs, ...bars].forEach(el => {
+      const i = +el.dataset.i;
+      el.addEventListener("pointerenter", () => enter(i));
+      el.addEventListener("click", () => {
+        pinned[sp.key] = pinned[sp.key] === i ? undefined : i;
+        paint(pinned[sp.key] === undefined ? null : pinned[sp.key]);
+      });
+    });
+    card.addEventListener("pointerleave", leave);
+    leave();
+  }
+
+  function render() {
+    document.getElementById("rvnHint").textContent = HINTS[view];
+    cardsEl.innerHTML = SPLITS.map(cardHTML).join("");
+    SPLITS.forEach(sp => {
+      const card = cardsEl.querySelector(`[data-split="${sp.key}"]`);
+      if (card) wire(card, sp);
+    });
+  }
+
+  // What the company does NOT publish. An absence that is stated is a finding;
+  // an absence that is silent is a defect.
+  const miss = REVENUE.not_disclosed || [];
+  document.getElementById("rvnMissing").innerHTML = miss.length
+    ? `<h3>Splits this company does not publish</h3><ul>` + miss.map(d =>
+        `<li><b>${d.dimension}</b> — ${d.what_is_known || ""}
+         ${d.why_it_matters ? `<em>Why it matters:</em> ${d.why_it_matters}` : ""}
+         ${d.evidence ? `<span class="rvn-q-src">${d.evidence}</span>` : ""}</li>`).join("")
+      + `</ul>` : "";
+
+  document.querySelectorAll("#rvnModes button").forEach(b =>
+    b.addEventListener("click", () => {
+      view = b.dataset.view;
+      document.querySelectorAll("#rvnModes button").forEach(o =>
+        o.setAttribute("aria-pressed", o === b ? "true" : "false"));
+      render();
+    }));
+  pdBar.querySelectorAll("button").forEach(b =>
+    b.addEventListener("click", () => {
+      selected = b.dataset.pd;
+      pdBar.querySelectorAll("button").forEach(o =>
+        o.setAttribute("aria-pressed", o === b ? "true" : "false"));
+      render();
+    }));
+  render();
+})();
+
+// ---------------------------------------------------------------------------
 // OVERALL SCORECARD. Four axes, 0-10, banded.
 //
 // A radar was asked for and is the default, but it is NOT the form this data
@@ -3517,10 +4695,10 @@ const OVERALL = {
       "label": "Relative to its own past",
       "short": "Rel. past",
       "score": 5,
-      "why": "⚠️ Read the score before the numbers: <strong>every band held for this company covers 2.31 years</strong> — 121 weekly observations from 2024-05-06 to 2026-08-24 — and that is not enough to show a cycle. Inside that window the four measures agree, which is unusual, and they all say mildly expensive rather than cheap: price-to-earnings 40.1x at the 71st percentile and 10.0% above its own median; price-to-book 8.8x at the 70th; enterprise value to operating profit 35.3x at the 67th and 13.4% above median; enterprise value to sales at the 67th. There is no earnings-versus-enterprise contradiction to resolve here, because the share count has not changed and the balance sheet is net cash.",
-      "not_lower_because": "<strong>The re-rating that did happen was almost entirely earned.</strong> Between the first quarter of observations and the last the share price rose 59.5%, and on the identity that price equals earnings times the multiple that splits into 50.1% of published earnings and only 6.3% of multiple — the arithmetic reconciles exactly. The market did not change its mind about this company; it paid for more profit at roughly the same price for it. The drivers underneath are strikingly flat over the same window: return on capital 29.8% to 31.0%, return on equity 21.3% to 22.0%, operating margin 25.4% to 25.0%, on sales up 47%. A multiple that has barely moved while earnings grew by half is not the profile of a share carried by sentiment.",
-      "not_higher_because": "A percentile measured over 2.31 years is weak evidence and here it is weaker than usual. The deepest fall from a running peak inside the window is 17.6%, a correction inside an uptrend rather than the cyclical low a band needs in order to show a floor, and the price rose 73% across it. Drift between the first and second halves accounts for 41% to 49% of the entire range of every measure, and only 4 distinct annual earnings figures sit underneath 121 observations. So the honest reading is 'above the middle of a short uptrend', not 'above its long-run average' — and every one of the four measures is above its median rather than below it. Deeper history could not be obtained today at any price; the paging path was unavailable rather than expensive, which makes this a ceiling on the evidence and not a choice.",
-      "would_move_it": "A longer price record, ahead of everything else — this axis cannot improve on evidence, only on more of it, and the same scores measured across a genuine downturn would mean something the present ones cannot. Failing that, the enterprise-value multiple falling back toward the bottom of its own range while return on capital holds at 31% would be the combination that argues cheap; either alone is ambiguous.",
+      "why": "<strong>Every band held for this company covers 9.27 years</strong> — 483 weekly observations from 2017-06-02 to 2026-08-28, spanning a real cyclical drawdown, so these are distributions rather than one price trend. The measures now DISAGREE, and the spread is the finding: 40.1x at the 57th percentile and 5.5% above its own median; price-to-book 8.8x at the 76th; enterprise value to operating profit 35.3x at the 68th and 17.7% above median; enterprise value to sales at the 79th. The earnings multiple sits near its own median while the asset- and sales-based measures sit high, which is what a company earning less on each rupee of capital across a larger revenue base looks like. Believe the disagreement rather than averaging it. The band starts at FY2018 by design: the December 2014 result predates the truck joint venture being deconsolidated and is not comparable.",
+      "not_lower_because": "<strong>The entire move is earnings, and then some — the share has DE-rated while compounding.</strong> Between the first quarter of observations and the last the share price rose 162.1%, and on the identity that price equals earnings times the multiple that splits into 228.2% of published earnings against -20.1% of multiple — the arithmetic reconciles exactly. A price carried by earnings rather than by an expanding multiple is not the profile of a share running on sentiment, and that is why this score is not lower.",
+      "not_higher_because": "<strong>The de-rating tracks a genuine decline in returns, which is not an opportunity.</strong> Over the same window return on capital fell 53% to 31%, return on equity 31.2% to 22.0% and operating margin 31% to 25%, even as sales rose 233%. A cheaper multiple on deteriorating returns is the market repricing the business, not mispricing it. Two further caveats: the window opens at FY2018, a peak-margin year, so the de-rating's magnitude is sensitive to that start date even though its direction is not; and the price rose 176% across the window, with its deepest fall from a running peak 61.1%. Drift between the first and second halves accounts for only 2% to 19% of the range, so unlike the earlier short window these are oscillations rather than a trend and the percentiles can be read at face value: 10 distinct annual earnings figures sit underneath 483 observations. Every one of the four measures is at or above its own median rather than below it.",
+      "would_move_it": "The longer price record has now been obtained, which is what changed this axis from unreadable to readable. What would move it next is evidence on the returns question, because the de-rating and the fall in return on capital are the same story and it is unresolved whether returns stabilise here. The enterprise-value multiple falling back toward the bottom of its own range while return on capital holds at 31% would be the combination that argues cheap; either alone is ambiguous.",
       "band": "Bad"
     },
     {
@@ -3572,7 +4750,7 @@ const OVERALL = {
     "orderings_enumerated": 24,
     "text": "Two things to know before reading the shape. First, a radar encodes each score as a distance from the centre, so the enclosed AREA grows with the square of the scores — a score twice as good looks four times as big. Second, the area depends on the ORDER the axes are drawn in, which carries no information: enumerating all 24 orderings of these four scores gives two distinct shapes, whose areas run from 49.5 to 50.0 — a spread of 1% with every score identical, and the order drawn here happens to give the smallest of them (49.5). That artefact grows with how far apart the scores are, so it is measured per company rather than quoted once. Read the spokes, not the blob. The bar view below has neither problem and is the form this data actually wants."
   },
-  "interpretation": "These are interpretations of the evidence, not measurements, and not a recommendation. The three analytical axes agree that the shares are not cheap and disagree about how much that matters. <strong>The most important single finding is one that cuts in the company's favour and is easy to miss: the price does not require a re-rating.</strong> It needs 14.12% sales growth held flat for eleven years against a 14.50% nine-year median, and an exit multiple of 24.1x against the 33.1x the business carries today. That is a different position from a share whose price needs a record broken and then held. What it buys is a 10.2% annual return against a 6.85% government bond — a premium, but below the 12.0% this library requires, which is why the cash-flow axis sits where it does. Three warnings attach. About 81% of the modelled value is a year-eleven exit multiple rather than cash received inside the horizon. Every own-history band covers 2.31 years and can show no cycle, so no percentile here is a long-run position. And roughly 31% of pre-tax profit is other income mixing a treasury portfolio with an equity-accounted truck venture that cannot be separated from what is published — so a third of the earnings every multiple divides by is not the motorcycle business, and no peer has an equivalent. Note that three of these axes restate the same price from different angles, so they are not four independent votes. This is research and interpretation only; markets carry risk and a SEBI-registered adviser is the right person to ask about your own position.",
+  "interpretation": "These are interpretations of the evidence, not measurements, and not a recommendation. The three analytical axes agree that the shares are not cheap and disagree about how much that matters. <strong>The most important single finding is one that cuts in the company's favour and is easy to miss: the price does not require a re-rating.</strong> It needs 14.12% sales growth held flat for eleven years against a 14.50% nine-year median, and an exit multiple of 24.1x against the 33.1x the business carries today. That is a different position from a share whose price needs a record broken and then held. What it buys is a 10.2% annual return against a 6.85% government bond — a premium, but below the 12.0% this library requires, which is why the cash-flow axis sits where it does. Three warnings attach. About 81% of the modelled value is a year-eleven exit multiple rather than cash received inside the horizon. Every own-history band covers 9.27 years and can show no cycle, so no percentile here is a long-run position. And roughly 31% of pre-tax profit is other income mixing a treasury portfolio with an equity-accounted truck venture that cannot be separated from what is published — so a third of the earnings every multiple divides by is not the motorcycle business, and no peer has an equivalent. Note that three of these axes restate the same price from different angles, so they are not four independent votes. This is research and interpretation only; markets carry risk and a SEBI-registered adviser is the right person to ask about your own position.",
   "default_view": "radar"
 };
 
@@ -3740,6 +4918,29 @@ const MYNOTES = {
   "publication_note": "⚠️ This tab is PUBLISHED to a public site. Any entry carrying \"private\": true is dropped from the public build and stays visible only in a local private build — use it for anything that should not be read by strangers, including position sizing, price targets you are acting on, or personal circumstances.",
   "entries": [
     {
+      "date": "2026-08-30",
+      "title": "Decision: ACCUMULATE — and the three prices I would act at",
+      "author": "owner",
+      "tags": [
+        "decision",
+        "opinion",
+        "valuation"
+      ],
+      "body": "<strong>Decision: ACCUMULATE.</strong> Price &#8377;8,059 (28 August 2026); base case &#8377;7,010 at a 20&times; exit with a &plusmn;10% band of &#8377;6,309&ndash;7,711. This is the first view I have recorded on this company &mdash; the 6/10 on the Overall tab is the analyst's reading, not mine.<br><br><strong>Why accumulate at a price 13% above the base case, when the same arithmetic made me wait on Asian Paints.</strong> Two reasons, both checkable. Asian Paints was trading 39% above its base case; this is 13% above. And this price does not need a record broken: it needs a year-11 exit multiple of 24.1&times; against the 33.1&times; the business carries today, so a substantial de-rating is <em>already</em> priced in, and it needs 14.1% sales growth held flat for eleven years against a 14.5% nine-year median. A price that needs slightly less than the past decade delivered, at a lower multiple than it trades on, is a different proposition from one that needs a new record set and then held.<br><br><strong>&#8377;7,800&ndash;8,059 &mdash; start here, at or just under today's price.</strong> Underwrites 10.2%&ndash;10.6% a year on base operations at a 20&times; exit, and 15.3%&ndash;15.7% if the multiple never de-rates from today's 33.1&times;. That is below the 12% house rate and I want it stated plainly rather than dressed up: the first tranche is bought at a return I would refuse if I believed the price would come to me. I am paying it because a 100-basis-point move in growth is worth about &#8377;1,100 a share here against &#8377;565 for the same move in margin &mdash; growth compounds into the year-eleven profit the exit multiple is applied to, while a margin point scales it once. Being present for the growth therefore matters more than being precise about the entry.<br><br><strong>&#8377;7,200&ndash;7,400 &mdash; the main tranche.</strong> 8%&ndash;11% below today, in the upper half of the base band. Underwrites 11.3%&ndash;11.6%, which is roughly where the model and a starting position stop arguing.<br><br><strong>&#8377;6,300&ndash;6,500 &mdash; where I add heavily.</strong> Underwrites 13.0%&ndash;13.5%, clearing the house rate with room. &#8377;6,309 is the bottom of the base band and &#8377;6,070 is the 52-week low, so <em>this band asks for a price the stock actually traded at within the past year</em> &mdash; unlike the other two, it needs no new low, only a return to one.<br><br>Four facts to keep in view against all three. The price is 2.1% below its 52-week high of &#8377;8,230, so this is accumulation near the top of the year's range rather than into weakness. About 81% of the base case is the year-11 exit multiple rather than cash received inside the horizon &mdash; the cash flows do not pay for any of these prices, the eventual sale price does. Roughly 31% of pre-tax profit is other income mixing a treasury portfolio with an equity-accounted truck venture that cannot be separated from what is published, so a third of the earnings every multiple here divides by is not the motorcycle business. And the bear case is &#8377;3,781 at the same 20&times; exit: none of these bands is a floor. They are staging discipline, not protection.<br><br>What would move this, in order. The two-million-motorcycle capacity date, stated once and then met &mdash; it has already moved twice in six months, and it tests both halves of this view at once: whether the growth the price needs is available, and whether management's dates mean anything. Then the October-onward quarters against the post-tax-cut base. Then any disaggregation of the investment line, or a separate listing of the truck venture, either of which would turn the largest unmeasurable item in this file into a number. Recorded in public and in advance for my own accountability &mdash; so it can be checked later against what actually happened. It is my own reasoning about my own money and is not advice to anyone else."
+    },
+    {
+      "date": "2026-08-30",
+      "title": "The revenue split exists in four places, and none of them is a segment note",
+      "author": "Claude",
+      "tags": [
+        "revenue",
+        "accounting",
+        "disclosure",
+        "method"
+      ],
+      "body": "Eicher declares a SINGLE automotive segment under Ind AS 108 - the annual report states in as many words that the decision maker evaluates the group as one unit and that there is therefore no reportable segment. So the obvious place to look for motorcycles-versus-trucks does not exist, and the earlier finding on this company (that the two revenues ADD because the truck venture is equity-accounted) is now confirmed from the audited statements themselves rather than inferred from a call: reported revenue Rs 23,408cr, the venture's own revenue Rs 27,077cr, and the venture entering profit only as a Rs 798cr share of joint-venture profit. What the company does publish, once you stop looking for a segment note, is four separate cuts. The audited geography table gives domestic Rs 19,916cr against overseas Rs 3,491cr for FY26, three years deep, and domestic is IDENTICAL on the parent and consolidated bases in all three years - the whole consolidation difference is overseas subsidiaries. The Ind AS 115 disaggregation gives the product cut and adds to reported revenue to the rupee: the motorcycle itself is still 85% of revenue, spare parts Rs 1,541cr, traded accessories and apparel Rs 1,369cr. A management chart gives a six-year business-line series in which international revenue has gone from Rs 722cr in FY21 to Rs 3,288cr in FY26 and allied from Rs 1,091cr to Rs 3,351cr, with a real DIP in international in FY24 that is easy to mistake for a transcription error. And the venture's own profit and loss, appended to this year's report, is what makes a same-basis margin comparison possible at all: on one definition applied to both, the motorcycle business earned 24.7% in FY26 against the truck business's 9.2%, and the motorcycle margin has fallen for two consecutive years from 26.2% in FY24 while the truck margin rose. Two things could NOT be sourced and were left as stated absences rather than estimated. There is no revenue and no margin by engine-capacity family anywhere - not in the notes, not in three consecutive calls - even though the 350cc-versus-650cc margin gap is the whole premiumisation argument; asked directly, management answers with growth rates (350cc up about 34%) and 'both our 450 cc and 650 cc motorcycles are back at the pre-GST level'. And there is no country revenue: the tariff and quota risks that are quantified on the calls, including an 18% United States headline rate taken to roughly 41-42% by metals duties and a 10,000-unit Indonesian quota, cannot be sized against any disclosed denominator. One methodological note worth keeping: the FY2026 report's narrative pages extract with DISPLACED DIGITS (a 7 renders as a full stop), so no figure from that document was accepted unless it reconciled arithmetically or matched the cached statements - and the investor presentation for the same quarter extracts into fluent English with silently WRONG digits, which is why nothing on the tab comes from it."
+    },
+    {
       "date": "2026-08-28",
       "title": "The finding that surprised me: the price does not need a re-rating",
       "author": "analysis",
@@ -3792,13 +4993,16 @@ const MYNOTES = {
     },
     {
       "date": "2026-08-28",
-      "title": "Every valuation band here covers 2.3 years, and that is a ceiling on the evidence",
+      "title": "The 2.3-year price ceiling is gone — and the finding it supported was inverted",
       "author": "analysis",
       "tags": [
         "method",
         "limitations"
       ],
-      "body": "The own-history multiple bands rest on 121 weekly observations from May 2024 to August 2026 — two years and four months. Deeper history could not be obtained: the data service's paging path was unavailable and silently re-served the most recent window instead of the earlier one, so this is a hard ceiling rather than a choice, and it is stated on the page rather than smoothed over. Three specific reasons the percentiles are weak. The deepest fall from a running peak inside the window is 17.6%, which is a correction inside an uptrend and not the cyclical low a band needs in order to show a floor; the price rose 73% across the window, so drift between its first and second halves accounts for 41% to 49% of the entire range of every measure; and only four distinct annual earnings figures sit underneath 121 observations. So when the page says price-to-earnings is at the 71st percentile, that is a position within a short uptrend and not a long-run position, and I have tried to write it that way everywhere. The one genuinely useful thing this window does yield is the decomposition: the price rose 59.5% between the first quarter of observations and the last, which splits into +50.1% of published earnings and only +6.3% of multiple, and the two reconcile exactly. Almost the whole move is earnings. That is worth more than any of the percentiles."
+      "body": "**Resolved 2026-08-30.** The own-history bands used to rest on 121 weekly observations from May 2024 to August 2026 (2.3 years) because the market-data vendor's paging cursor was unavailable and silently re-served the most recent window. Screener's chart API supplies 21 years of weekly history in one anonymous request, so the bands now cover **483 bars, June 2017 to August 2026 (9.3 years)** against ten consecutive comparable annual results, including the 61.1% COVID drawdown.\n\n**This did not merely strengthen the old conclusion, it reversed it.** On 2.3 years the decomposition read price +59.5% = earnings +50.1% x multiple +6.3% — 'almost no re-rating, the market did not change its mind'. On 9.3 years it reads **price +176.2% = EPS +228.2% x multiple −20.1%**: a clear de-rating, and one that tracks a real fall in returns (ROCE 53%→31%, ROE 31.2%→22.0%, OPM 31%→25%). A cheap-ening multiple on deteriorating returns is repricing, not opportunity.\n\n**Two method traps found in the process, and the first is the more valuable:**\n\n1. Extending the price history pulled 117 bars onto the `Dec 2014` denominator, which predates the truck-JV deconsolidation. That put the historical PE maximum at **128.5x against 61.1x** on a comparable basis and made early EV/Sales read 5.03x — a spurious +64% 'de-rating' that was purely an accounting change. `Dec 2014` is now excluded and the band starts FY2018. A longer window is not automatically a better one; it can reach back past a basis break.\n2. The screener series carries **no `raw_close`**, so the split/bonus check that the old file relied on is impossible. `verify_adjustment` used to return a vacuous PASS at zero coverage (`0 == 0`); it now reports `verifiable: false`. The band rests on the independent share-count check instead.",
+      "superseded_title": "Every valuation band here covers 2.3 years, and that is a ceiling on the evidence",
+      "src": "own-history bands, screener chart API",
+      "updated_on": "2026-08-30"
     }
   ]
 };
@@ -3969,6 +5173,7 @@ measureBoardDelta();   // needs the board painted, so after the first render
 const TAB_SPEC = [
   { id: "overall", label: "Overall" },
   { id: "metrics", label: "Metrics" },
+  { id: "revenue", label: "Revenue" },
   { id: "dcf",     label: "DCF" },
   { id: "relval",  label: "Relative valuation" },
   { id: "calls",   label: "Concalls summary" },

@@ -21,6 +21,18 @@
     --capital:        #1baf7a;
     --delta-good:     #006300;
     --delta-bad:      #d03b3b;
+    /* Revenue-split ramp — see the "Revenue splits" CSS block for why this is
+       a rank ramp of ONE hue and not eight categorical colours. Rank 1 is the
+       largest slice and is the darkest here; dark mode inverts, so the largest
+       slice is always the most prominent against its own background. */
+    --rev-1:          #123f73;
+    --rev-2:          #1a5da8;
+    --rev-3:          #2a78d6;
+    --rev-4:          #5b9be2;
+    --rev-5:          #8fbaec;
+    --rev-6:          #b9d3f4;
+    --rev-7:          #dbe8fa;
+    --rev-other:      #b6b5ad;
   }
   @media (prefers-color-scheme: dark) {
     :root:where(:not([data-theme="light"])) .viz-root {
@@ -39,6 +51,14 @@
       --capital:        #199e70;
       --delta-good:     #0ca30c;
       --delta-bad:      #d03b3b;
+      --rev-1:          #cfe1fa;
+      --rev-2:          #a6c8f2;
+      --rev-3:          #7aade8;
+      --rev-4:          #4f8fdc;
+      --rev-5:          #3070bd;
+      --rev-6:          #23558f;
+      --rev-7:          #1a3e68;
+      --rev-other:      #55544f;
     }
   }
   :root[data-theme="dark"] .viz-root {
@@ -57,6 +77,14 @@
     --capital:        #199e70;
     --delta-good:     #0ca30c;
     --delta-bad:      #d03b3b;
+    --rev-1:          #cfe1fa;
+    --rev-2:          #a6c8f2;
+    --rev-3:          #7aade8;
+    --rev-4:          #4f8fdc;
+    --rev-5:          #3070bd;
+    --rev-6:          #23558f;
+    --rev-7:          #1a3e68;
+    --rev-other:      #55544f;
   }
 
   html, body { margin: 0; }
@@ -497,6 +525,120 @@
     .rv-bar { grid-template-columns: 104px 1fr auto; gap: 7px; }
   }
 
+  /* ---- Revenue splits ----------------------------------------------------
+     A pie is the form that was asked for, and it is a WEAK form for
+     comparison: the eye reads angle badly, and past ~7 slices it reads
+     nothing at all. Two consequences are built into these rules rather than
+     left to discipline.
+
+     1. Colour is a RANK RAMP of one hue, not a categorical scale. Only three
+        hues clear this store's all-pairs colour-blindness gate (see the
+        family legend), so eight categorical hues would be a fabrication of
+        separation that does not exist. Slices are sorted by size and shaded
+        dark-to-light by rank in light mode, light-to-dark in dark mode — so
+        luminance carries rank, which is the one thing a ramp encodes
+        honestly, and identity is carried by the printed label in the table
+        beside every wedge. Rank is fixed on the LATEST period so a wedge
+        keeps its colour as the reader steps back through time.
+     2. Every number the pie encodes is ALSO printed. The table is not a
+        fallback for screen readers, it is the primary read: share, the value,
+        year-on-year growth and the slice's contribution to total growth in
+        percentage points, which is the column that says which part of the
+        business actually moved the top line.
+
+     Bars, Growth, Mix-over-time and Margin views share this block's marks. */
+  .rvn-cards { display: grid; gap: 16px; margin: 4px 0 0; }
+  .rvn-card { border: 1px solid var(--border); border-radius: 9px; padding: 13px 14px 14px; background: var(--page); }
+  .rvn-card.estimated { border-style: dashed; }
+  .rvn-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+  .rvn-head h3 { margin: 0; font-size: 14px; }
+  .rvn-q { font-size: 11.5px; color: var(--text-muted); }
+  .rvn-chip { font-size: 10px; border-radius: 999px; padding: 1px 8px; border: 1px solid var(--border); color: var(--text-secondary); white-space: nowrap; }
+  .rvn-chip.reported { border-color: var(--capital); color: var(--capital); }
+  .rvn-chip.derived { border-style: solid; }
+  .rvn-chip.estimated { border-style: dashed; color: var(--leverage); border-color: var(--leverage); }
+  .rvn-body { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 16px; align-items: start; margin: 11px 0 0; }
+  /* minmax(0, …) on every track, always. A bare `1fr` carries a min-content
+     floor, and the widest bar row or table row then pushes the card past the
+     viewport — which is exactly what happened here, in the four non-donut views
+     only, because they are the ones that use this class. */
+  .rvn-body.wide { grid-template-columns: minmax(0, 1fr); }
+  .rvn-fig { min-width: 0; }
+  .rvn-fig svg { width: 100%; height: auto; overflow: visible; }
+  .rvn-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  /* the wedge readout. Reserved height, so pointing at a slice never reflows
+     the card under the pointer. */
+  .rvn-read { font-size: 11.5px; color: var(--text-secondary); line-height: 1.5; margin: 6px 0 0; min-height: 34px; }
+  .rvn-read b { color: var(--text-primary); font-variant-numeric: tabular-nums; }
+  .rvn-read .pin { color: var(--text-muted); font-size: 10.5px; }
+  .rvn-wedge { stroke: var(--surface-1); stroke-width: 1.5; cursor: pointer; }
+  .rvn-wedge.dim, .rvn-stack i.dim { opacity: 0.35; }
+  .rvn-bar.on .nm, .rvn-bar.on .vl { color: var(--text-primary); font-weight: 600; }
+  .rvn-hole-v { font-size: 19px; font-weight: 600; fill: var(--text-primary); font-variant-numeric: tabular-nums; }
+  .rvn-hole-l { font-size: 10.5px; fill: var(--text-muted); }
+  /* Table: the primary read, not the fallback. Seven nowrap columns have a
+     min-content width wider than a phone, and a grid track cannot shrink below
+     that — so the table scrolls on its own axis rather than pushing the card
+     (and the whole page) past the viewport. */
+  .rvn-tbl { overflow-x: auto; }
+  .rvn-tbl table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+  .rvn-tbl th, .rvn-tbl td { padding: 4px 7px; text-align: right; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  .rvn-tbl th { color: var(--text-muted); font-weight: 500; font-size: 10.5px; }
+  .rvn-tbl th:first-child, .rvn-tbl td:first-child { text-align: left; white-space: normal; }
+  .rvn-tbl td { font-variant-numeric: tabular-nums; }
+  .rvn-tbl tr.on td { background: var(--hover); }
+  .rvn-tbl tr.tot td { font-weight: 600; border-bottom: 0; }
+  .rvn-sw { width: 9px; height: 9px; border-radius: 2px; display: inline-block; margin-right: 6px; flex: none; }
+  /* horizontal bars — share, growth and margin all use this mark */
+  .rvn-bars { display: grid; gap: 7px; }
+  .rvn-bar { display: grid; grid-template-columns: 148px 1fr auto; gap: 10px; align-items: center; font-size: 11.5px; }
+  .rvn-bar .nm { color: var(--text-secondary); overflow-wrap: anywhere; }
+  .rvn-bar .tr { position: relative; height: 15px; border-radius: 3px; background: var(--grid); }
+  .rvn-bar .fill { position: absolute; top: 0; bottom: 0; border-radius: 3px; }
+  /* zero line for the diverging growth bars: growth can be negative, and a bar
+     that only ever grows rightward hides that */
+  .rvn-bar .zero { position: absolute; top: -2px; bottom: -2px; width: 1px; background: var(--baseline); }
+  .rvn-bar .vl { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  /* mix over time — 100% stacked columns, one per period */
+  .rvn-mix { display: grid; gap: 10px; }
+  .rvn-mixrow { display: grid; grid-template-columns: 62px 1fr; gap: 10px; align-items: center; font-size: 11px; }
+  .rvn-mixrow .pd { color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .rvn-stack { display: flex; height: 20px; border-radius: 3px; overflow: hidden; background: var(--grid); }
+  .rvn-stack i { display: block; height: 100%; border-right: 1px solid var(--surface-1); }
+  .rvn-stack i:last-child { border-right: 0; }
+  .rvn-cov { font-size: 11px; color: var(--text-muted); margin: 10px 0 0; line-height: 1.55; }
+  .rvn-cov.gap { color: var(--leverage); }
+  .rvn-caveat { font-size: 11px; color: var(--text-muted); margin: 6px 0 0; line-height: 1.55; }
+  .rvn-none { font-size: 11.5px; color: var(--text-muted); margin: 8px 0 0; line-height: 1.55; }
+  /* management commentary — the whole card when a company publishes no split
+     at all, and a supplement when it publishes one */
+  .rvn-qual { margin: 10px 0 0; }
+  .rvn-qual ul { margin: 8px 0 0; padding-left: 17px; }
+  .rvn-qual li { font-size: 11.5px; color: var(--text-secondary); margin: 0 0 7px; line-height: 1.55; }
+  .rvn-qual li b { color: var(--text-primary); }
+  .rvn-kind { font-size: 9.5px; border-radius: 999px; padding: 1px 6px; border: 1px solid var(--border); color: var(--text-muted); margin-left: 5px; white-space: nowrap; }
+  /* a refusal to quantify is a finding, so it is marked, not buried */
+  .rvn-kind.non-answer { border-color: var(--leverage); color: var(--leverage); }
+  .rvn-kind.guidance { border-color: var(--scale); color: var(--scale); }
+  .rvn-q-src { color: var(--text-muted); }
+  .rvn-missing { margin: 16px 0 0; }
+  .rvn-missing h3 { font-size: 13.5px; margin: 0 0 5px; }
+  .rvn-missing ul { margin: 0; padding-left: 17px; }
+  .rvn-missing li { font-size: 11.5px; color: var(--text-secondary); margin: 0 0 6px; line-height: 1.55; }
+  .rvn-note { font-size: 11px; color: var(--text-muted); margin: 14px 0 0; line-height: 1.6; }
+  .rvn-up { color: var(--delta-good); }
+  .rvn-dn { color: var(--delta-bad); }
+  @media (max-width: 860px) {
+    /* minmax(0, 1fr), never a bare 1fr: a bare track has a min-content floor,
+       which the widest table row then pushes the card past the viewport with */
+    .rvn-body { grid-template-columns: minmax(0, 1fr); }
+    .rvn-fig { max-width: 320px; }
+  }
+  @media (max-width: 660px) {
+    .rvn-bar { grid-template-columns: 104px 1fr auto; gap: 7px; }
+    .rvn-mixrow { grid-template-columns: 50px 1fr; }
+  }
+
   @media (max-width: 640px) {
     /* a sticky bar eats too much of a phone screen, and touch readouts are
        better placed at the finger — see the per-panel chip in the SVG */
@@ -621,6 +763,31 @@
     .rv-callout { font-size: 13.5px; }
     .rv-bar { font-size: 12.5px; grid-template-columns: 168px 1fr auto; }
     .rv-excl li { font-size: 12.5px; }
+
+    /* Revenue splits — same stepping. The donut column widens too, because a
+       200px pie with seven slices is unreadable however good the labels are. */
+    .revenue h2 { font-size: 21px; }
+    .revenue .lede { font-size: 13.5px; }
+    .rvn-card { padding: 15px 17px 16px; }
+    .rvn-head h3 { font-size: 16.5px; }
+    .rvn-q { font-size: 13px; }
+    .rvn-chip { font-size: 11px; }
+    .rvn-body { grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 22px; }
+    .rvn-read { font-size: 13px; min-height: 40px; }
+    .rvn-tbl table { font-size: 13px; }
+    .rvn-tbl th { font-size: 12px; }
+    .rvn-tbl th, .rvn-tbl td { padding: 5px 9px; }
+    .rvn-bar { font-size: 13px; grid-template-columns: 176px 1fr auto; }
+    .rvn-bar .tr { height: 17px; }
+    .rvn-mixrow { font-size: 12.5px; grid-template-columns: 74px 1fr; }
+    .rvn-stack { height: 24px; }
+    .rvn-cov, .rvn-caveat, .rvn-none, .rvn-note { font-size: 12.5px; }
+    .rvn-qual li { font-size: 13px; }
+    .rvn-kind { font-size: 11px; }
+    .rvn-missing h3 { font-size: 15.5px; }
+    .rvn-missing li { font-size: 13px; }
+    .rvn-hole-v { font-size: 23px; }
+    .rvn-hole-l { font-size: 12px; }
   }
 </style>
 </head>
@@ -693,6 +860,27 @@
       <summary>View as table</summary>
       <div class="tbl-scroll"><table id="table"></table></div>
     </details>
+    </section>
+
+    <section class="revenue tabpanel" data-section="revenue" id="tab-revenue" role="tabpanel" aria-labelledby="tabbtn-revenue" hidden>
+      <h2>Revenue — what it is made of, and what moved it</h2>
+      <p class="lede" id="rvnLede"></p>
+      <div class="controls">
+        <span class="label">View</span>
+        <span class="segmented" id="rvnModes" role="group" aria-label="Revenue split view">
+          <button type="button" data-view="donut" aria-pressed="true">Donut</button>
+          <button type="button" data-view="bars" aria-pressed="false">Bars</button>
+          <button type="button" data-view="growth" aria-pressed="false">Growth</button>
+          <button type="button" data-view="mix" aria-pressed="false">Mix over time</button>
+          <button type="button" data-view="margin" aria-pressed="false">Margin</button>
+        </span>
+        <span class="label">Period</span>
+        <span class="segmented" id="rvnPeriods" role="group" aria-label="Period"></span>
+      </div>
+      <p class="note" id="rvnHint"></p>
+      <div class="rvn-cards" id="rvnCards"></div>
+      <div class="rvn-missing" id="rvnMissing"></div>
+      <p class="rvn-note" id="rvnNote"></p>
     </section>
 
     <section class="dcf tabpanel" data-section="dcf" id="tab-dcf" role="tabpanel" aria-labelledby="tabbtn-dcf" hidden>
@@ -3391,6 +3579,1195 @@ const RELVAL = {
 })();
 
 // ---------------------------------------------------------------------------
+// REVENUE SPLITS. What the top line is made of, and what moved it.
+//
+// A donut was asked for and is the default. It is a WEAK form: the eye reads
+// angle poorly, and past ~7 slices it reads nothing at all. So every number
+// the wedge encodes is also printed in the table beside it, the slice count is
+// capped by the validator, and three stronger forms are one click away — Bars
+// (share on one scale), Growth (per-slice year-on-year, plus each slice's
+// contribution to the total in percentage points, which is the column that
+// says which part of the business actually moved revenue) and Mix over time
+// (share drift, where a story the latest pie cannot tell shows up).
+//
+// Colour is a RANK RAMP of one hue, not a categorical scale: only three hues
+// clear this store's colour-blindness gate, so eight would assert a separation
+// that does not exist. Rank is fixed on each split's LATEST period, so a slice
+// keeps its shade as the reader steps back through time.
+//
+// Where a company publishes no numbers on a dimension, the card carries dated
+// management commentary instead — including the refusals, which are marked as
+// non-answers because a refusal to quantify is itself a finding.
+// ---------------------------------------------------------------------------
+const REVENUE = {
+  "company": "Asian Paints Ltd",
+  "basis": "consolidated",
+  "generated_at": "2026-08-30",
+  "currency": "Rs crore",
+  "period_kind": "fy",
+  "periods": [
+    "FY24",
+    "FY25",
+    "FY26"
+  ],
+  "lede": "Asian Paints tells you <em>almost nothing</em> in its audited segment note. In FY2026 and FY2025 alike it reports a <strong>single operating segment</strong> &mdash; “Paints and Home Decor” &mdash; so there is no audited segment revenue and no audited segment result to read. Back in FY2015 it split Paints from Home Improvement and published a result for each, alongside a domestic-versus-international revenue split; that disclosure is gone. What survives is a three-line business table in the financial review, a regional break-up of the international business, per-business revenue in the investor presentation, and management's commentary. Everything below is built from those. Two things are worth arriving at before the charts: the <strong>industrial franchise is roughly twice as large as consolidated revenue admits</strong>, because the automotive joint venture is equity-accounted and its Rs 2,495 crore of income never enters the top line; and the fastest-growing line item in the whole business is not a product but the <strong>discount</strong> &mdash; trade discounts and rebates have gone from 17.2% of gross billing in FY2024 to 20.5% in FY2026.",
+  "splits": [
+    {
+      "key": "business_line",
+      "label": "By business",
+      "question": "Where does the consolidated top line actually come from?",
+      "unit": "inr_cr",
+      "confidence": "reported",
+      "periods": [
+        "FY24",
+        "FY25",
+        "FY26"
+      ],
+      "source": "FY2026 annual report, financial review (with FY2024 from the FY2025 annual report)",
+      "slices": [
+        {
+          "name": "Decorative and home decor",
+          "values": {
+            "FY24": 31205.1,
+            "FY25": 29545.3,
+            "FY26": 30830.4
+          },
+          "is_other": false
+        },
+        {
+          "name": "International",
+          "values": {
+            "FY24": 3061.5,
+            "FY25": 3066.4,
+            "FY26": 3353.6
+          },
+          "is_other": false
+        },
+        {
+          "name": "Industrial",
+          "values": {
+            "FY24": 1115.5,
+            "FY25": 1185.7,
+            "FY26": 1332.4
+          },
+          "is_other": false
+        }
+      ],
+      "reported_total": {
+        "FY24": 35494.7,
+        "FY25": 33905.6,
+        "FY26": 35583.5
+      },
+      "margins": [
+        {
+          "name": "Decorative and home decor",
+          "metric": "operating profit margin",
+          "basis": "standalone operating profit margin as published in the annual report's key financial ratios. The standalone entity IS the India decorative, kitchen and bath business, so it is a close proxy for this line but not identical to it: the standalone figure excludes the decorative-lighting and windows-and-doors subsidiaries, which are inside the consolidated business line and lose money.",
+          "kind": "reported",
+          "values": {
+            "FY24": 22.6,
+            "FY25": 18.8,
+            "FY26": 20.1
+          }
+        },
+        {
+          "name": "International",
+          "metric": "profit before tax margin",
+          "basis": "profit before exceptional items over international-business net sales, both as presented for the full year in the Q4 FY2026 investor presentation (Rs 266 crore on Rs 3,340 crore). Before tax, so not comparable with the operating margin on the decorative line.",
+          "kind": "computed",
+          "values": {
+            "FY26": 8.0
+          }
+        },
+        {
+          "name": "Industrial",
+          "metric": "profit before tax margin",
+          "basis": "profit before exceptional items over net sales for the industrial protective-and-powder-coatings joint venture, both as presented for the full year in the Q4 FY2026 investor presentation (Rs 107 crore on Rs 1,334 crore). Before tax.",
+          "kind": "computed",
+          "values": {
+            "FY26": 8.0
+          }
+        }
+      ],
+      "qualitative": [
+        {
+          "point": "FY2026 revenue growth was led by the two small businesses, not the large one. Industrial grew fastest, international next, and the decorative and home-decor line &mdash; 87% of revenue &mdash; is still below its FY2024 level.",
+          "figure": "FY2026 growth: industrial +12.4%, international +9.4%, decorative and home decor +4.4%. Decorative and home decor FY2026 Rs 30,830 crore versus FY2024 Rs 31,205 crore.",
+          "speaker": "computed from the company's own business table",
+          "source": "FY2026 annual report, financial review",
+          "date": "2026-03-31",
+          "kind": "fact"
+        },
+        {
+          "point": "Management expects the ranking of growth rates to persist: industrial coatings should keep growing faster than decorative.",
+          "figure": "“Industrial coatings will continue to grow much higher than decorative”",
+          "speaker": "Amit Syngle, MD & CEO",
+          "source": "Q4 FY26 earnings call",
+          "date": "2026-06-03",
+          "kind": "guidance",
+          "quote": "Industrial coatings will continue to grow much higher than decorative, given the investment happening in the infrastructure and Government spending that is happening in this area."
+        },
+        {
+          "point": "The India business is described in two registers that do not reconcile to each other: a volume-and-value pair for decorative alone, and a second pair for decorative plus industrial. The gap between them is the whole of the industrial contribution to India growth.",
+          "figure": "FY2026 decorative India: volume +8.7%, value +4.3%. Decorative plus industrial India: volume +9.0%, value +5.3%.",
+          "speaker": "Amit Syngle, MD & CEO",
+          "source": "Q4 FY26 investor presentation",
+          "date": "2026-06-03",
+          "kind": "fact"
+        },
+        {
+          "point": "In the first quarter of FY2027 the ordering reversed sharply, with international well ahead of India and industrial ahead of decorative.",
+          "figure": "Q1 FY27: India decorative value +16.6%, India coatings (decorative plus industrial) +16.5%, international +27% with PBT margin 7.9% (up 275 bps).",
+          "speaker": "Amit Syngle, MD & CEO",
+          "source": "Q1 FY27 earnings call",
+          "date": "2026-08-03",
+          "kind": "fact",
+          "quote": "We have grown at about 27% in Q1. This has been a very strong performance. The performance has been broad-based across regions."
+        }
+      ],
+      "caveat": "The three lines are “revenue from sale of products and services” and sum to Rs 35,516 crore in FY2026 against Rs 35,584 crore of revenue from operations; the Rs 67 crore difference is other operating revenue (state incentives, scrap, processing income), which the company does not allocate. The FY2024 column comes from the prior year's report and was restated there for the amalgamation of two wholly owned subsidiaries into the parent, so it is on the same basis as FY2025 and FY2026.",
+      "disclosure": "This is NOT an audited segment note &mdash; the company reports a single operating segment, so there is no assured revenue or result by business. More importantly, the “Industrial” line is only the protective-and-powder-coatings joint venture. The larger automotive joint venture is an associate accounted for by the equity method, so its revenue is excluded from consolidated revenue entirely. See the industrial joint ventures split for the size of what is missing."
+    },
+    {
+      "key": "industrial_jvs",
+      "label": "Industrial: the two joint ventures",
+      "question": "How big is the industrial business once the equity-accounted half is added back &mdash; and which half earns the margin?",
+      "unit": "inr_cr",
+      "confidence": "reported",
+      "periods": [
+        "FY24",
+        "FY25",
+        "FY26"
+      ],
+      "source": "FY2026 annual report, associate-company note and management discussion (with FY2024 from the FY2025 annual report)",
+      "slices": [
+        {
+          "name": "Automotive OE, refinish, packaging and marine",
+          "values": {
+            "FY24": 2050.5,
+            "FY25": 2165.5,
+            "FY26": 2495.1
+          },
+          "is_other": false
+        },
+        {
+          "name": "Industrial protective and powder coatings",
+          "values": {
+            "FY24": 1115.5,
+            "FY25": 1185.7,
+            "FY26": 1332.4
+          },
+          "is_other": false
+        }
+      ],
+      "total": {
+        "FY24": 3166.0,
+        "FY25": 3351.2,
+        "FY26": 3827.5
+      },
+      "margins": [
+        {
+          "name": "Automotive OE, refinish, packaging and marine",
+          "metric": "profit before tax margin",
+          "basis": "profit before exceptional items and tax, over total income, both taken from the associate's summarised income statement in the annual report. Total income includes the venture's other income, so the margin is very slightly flattered against a net-sales denominator.",
+          "kind": "computed",
+          "values": {
+            "FY24": 17.4,
+            "FY25": 17.3,
+            "FY26": 18.1
+          }
+        },
+        {
+          "name": "Industrial protective and powder coatings",
+          "metric": "profit before tax margin",
+          "basis": "profit before exceptional items over net sales for the full year, both as presented in the Q4 FY2026 investor presentation (Rs 107 crore on Rs 1,334 crore).",
+          "kind": "computed",
+          "values": {
+            "FY26": 8.0
+          }
+        }
+      ],
+      "qualitative": [
+        {
+          "point": "The two industrial ventures earn very different margins, and management describes the reason as pricing power rather than cost: the automotive venture can hold price, the protective-and-powder venture cannot.",
+          "figure": "Q4 FY26 profit-before-tax margins: automotive venture 12.2% (up 10 bps), protective and powder 7.3% (down 100 bps).",
+          "speaker": "Amit Syngle, MD & CEO",
+          "source": "Q4 FY26 earnings call",
+          "date": "2026-06-03",
+          "kind": "fact",
+          "quote": "The revenue growths have been very strong, double-digit both in the quarter and the year level, but even from the point of view of PBT, the margin has been a little bit affected, given the fact that there has been a little bit of competitive intensity."
+        },
+        {
+          "point": "Industrial price increases lag decorative ones because they are negotiated with key accounts rather than announced. Management named this as the cause of the FY2027 first-quarter margin compression in both ventures.",
+          "figure": "Q1 FY27: automotive venture revenue +13%, PBT margin 15.7% (down 119 bps); general industrial revenue +21%, PBT margin 6.9%.",
+          "speaker": "Amit Syngle, MD & CEO",
+          "source": "Q1 FY27 earnings call",
+          "date": "2026-08-03",
+          "kind": "fact",
+          "quote": "In the industrial segment the price increase actions are a little more deferred... It's not like in the decorative market that you can announce a price increase and from the next day it is implemented."
+        },
+        {
+          "point": "The protective-and-powder venture's FY2026 growth was one-sided within its own portfolio, and management flagged downtrading.",
+          "figure": "Revenue Rs 1,334 crore, +11.8%; “driven by strong performance of the protective segment”, powder coatings “adversely affected by weather conditions in the first half” and “remained subdued”.",
+          "speaker": "management discussion",
+          "source": "FY2026 annual report, management discussion and analysis",
+          "date": "2026-03-31",
+          "kind": "fact",
+          "quote": "Overall, the operating environment was characterised by intensified competition, pricing pressures and downtrading tendencies across segments."
+        }
+      ],
+      "caveat": "The two lines are on DIFFERENT measurement bases and must not be read as one pie of group revenue. The automotive venture's figure is total income from its own summarised income statement as an equity-accounted associate; the protective-and-powder figure is the consolidated “Industrial business” line, which is that venture's revenue as consolidated by the group. Only the second is inside group revenue. The annual report's own footnote to the business table says so explicitly: the industrial share of revenue excludes the automotive venture's revenues “as it is an Associate Company”.",
+      "disclosure": "Nothing here tells you the split within the automotive venture between automotive OE, refinish, packaging and marine. Management names all four as contributors and singles out auto OE, marine and packaging as strong and refinishes as slow, but publishes no revenue for any of them."
+    },
+    {
+      "key": "international_region",
+      "label": "By region, within the international business",
+      "question": "Which of the 13 overseas countries earn the money, and where is the margin?",
+      "unit": "inr_cr",
+      "confidence": "reported",
+      "periods": [
+        "FY25",
+        "FY26"
+      ],
+      "source": "FY2026 annual report, global footprint (with FY2025 from the FY2025 annual report)",
+      "slices": [
+        {
+          "name": "Asia",
+          "values": {
+            "FY25": 1253.7,
+            "FY26": 1410.5
+          },
+          "is_other": false
+        },
+        {
+          "name": "Middle East",
+          "values": {
+            "FY25": 1147.3,
+            "FY26": 1255.4
+          },
+          "is_other": false
+        },
+        {
+          "name": "Africa",
+          "values": {
+            "FY25": 560.0,
+            "FY26": 599.2
+          },
+          "is_other": false
+        },
+        {
+          "name": "South Pacific",
+          "values": {
+            "FY25": 158.6,
+            "FY26": 157.8
+          },
+          "is_other": false
+        },
+        {
+          "name": "Inter-company elimination",
+          "values": {
+            "FY25": -53.2,
+            "FY26": -69.3
+          },
+          "is_other": true
+        }
+      ],
+      "total": {
+        "FY25": 3066.4,
+        "FY26": 3353.6
+      },
+      "margins": [
+        {
+          "name": "South Pacific",
+          "metric": "profit before tax margin",
+          "basis": "full-year profit before exceptional items over full-year revenue, both read from the region columns of the Q4 FY2026 investor presentation (Rs 27 crore on Rs 158 crore). Those columns are rounded to whole crore, so on a base this small the margin carries roughly half a percentage point of rounding error.",
+          "kind": "computed",
+          "values": {
+            "FY26": 17.1
+          }
+        },
+        {
+          "name": "Africa",
+          "metric": "profit before tax margin",
+          "basis": "full-year profit before exceptional items over full-year revenue, both read from the region columns of the Q4 FY2026 investor presentation (Rs 60 crore on Rs 599 crore).",
+          "kind": "computed",
+          "values": {
+            "FY26": 10.0
+          }
+        },
+        {
+          "name": "Asia",
+          "metric": "profit before tax margin",
+          "basis": "full-year profit before exceptional items over full-year revenue, both read from the region columns of the Q4 FY2026 investor presentation (Rs 127 crore on Rs 1,410 crore).",
+          "kind": "computed",
+          "values": {
+            "FY26": 9.0
+          }
+        },
+        {
+          "name": "Middle East",
+          "metric": "profit before tax margin",
+          "basis": "full-year profit before exceptional items over full-year revenue, both read from the region columns of the Q4 FY2026 investor presentation (Rs 85 crore on Rs 1,223 crore). The presentation's revenue column for this region is Rs 1,223 crore against the annual report's Rs 1,255.4 crore, so the margin is struck on the presentation's own pair rather than mixing the two.",
+          "kind": "computed",
+          "values": {
+            "FY26": 7.0
+          }
+        }
+      ],
+      "qualitative": [
+        {
+          "point": "The largest overseas region is also the least profitable. The Middle East is 37% of international revenue on a 7.0% profit-before-tax margin; the South Pacific is 5% of revenue on 17.1%.",
+          "figure": "FY2026 shares of international revenue: Asia 41%, Middle East 37%, Africa 17%, South Pacific 5%.",
+          "speaker": "computed from the company's own regional columns",
+          "source": "FY2026 annual report, global footprint",
+          "date": "2026-03-31",
+          "kind": "fact"
+        },
+        {
+          "point": "International profitability improved sharply in FY2026 and management attributed part of it to exiting a loss-making country rather than to trading.",
+          "figure": "Q4 FY26 PBT margin 8.5%, up 370 bps year on year; full-year international PBT Rs 266 crore on Rs 3,340 crore of revenue.",
+          "speaker": "management",
+          "source": "Q4 FY26 investor presentation",
+          "date": "2026-06-03",
+          "kind": "fact",
+          "quote": "Profitability improved significantly due to material deflation, higher contribution of prelux aided by divestment of loss-making Indonesia operations."
+        },
+        {
+          "point": "Country-level performance inside the regions is not published, but management names winners and losers by country each quarter. Ethiopia is the one repeatedly called out as a currency problem.",
+          "figure": "FY2026 gains named in Sri Lanka, Egypt and UAE; Ethiopia flagged for currency devaluation and high inflation in both the annual report and the Q1 FY27 call.",
+          "speaker": "Amit Syngle, MD & CEO",
+          "source": "Q1 FY27 earnings call",
+          "date": "2026-08-03",
+          "kind": "fact",
+          "quote": "Every country performed well, except in Africa, where Ethiopia faced currency devaluation-related challenges."
+        },
+        {
+          "point": "The international business exports beyond the 13 countries it operates in, and that export tail is not sized anywhere.",
+          "figure": "“We also export from some of these markets to 60 other countries”",
+          "speaker": "Amit Syngle, MD & CEO",
+          "source": "Q4 FY26 earnings call",
+          "date": "2026-06-03",
+          "kind": "fact",
+          "quote": "This is the spread of our business across the world... We also export from some of these markets to 60 other countries."
+        }
+      ],
+      "caveat": "The company states that its regional break-up EXCLUDES inter-company elimination, so the four regions sum above the stated international total. The gap is shown here as a negative fifth slice (FY2026 Rs -69.3 crore, FY2025 Rs -53.2 crore) so the split reconciles; it is excluded from the pie because an angle cannot be negative. One basis change inside the series: FY2025's Asia included Indonesia, which was divested in March 2025, so FY2026's Asia is Bangladesh, Nepal and Sri Lanka only. Asia's growth is therefore understated relative to a like-for-like footprint. Regional revenue here is from the annual reports; the profit figures behind the margins are from the investor presentation, whose revenue column differs slightly for the Middle East.",
+      "disclosure": "No country-level revenue is published for any of the 13 markets, and no region-level revenue for FY2024 or earlier on this four-region basis."
+    },
+    {
+      "key": "home_decor",
+      "label": "Home decor, business by business",
+      "question": "Is the decor diversification actually growing, and is it making money?",
+      "unit": "inr_cr",
+      "confidence": "derived",
+      "periods": [
+        "FY25",
+        "FY26"
+      ],
+      "source": "FY2026 annual report, management discussion and analysis (with FY2025 figures from the FY2025 annual report)",
+      "slices": [
+        {
+          "name": "Kitchens and wardrobes",
+          "values": {
+            "FY25": 393.3,
+            "FY26": 400.0
+          },
+          "is_other": false
+        },
+        {
+          "name": "Bath fittings and sanitaryware",
+          "values": {
+            "FY25": 356.0,
+            "FY26": 347.0
+          },
+          "is_other": false
+        },
+        {
+          "name": "Decorative lighting",
+          "values": {
+            "FY25": 107.0,
+            "FY26": 99.0
+          },
+          "is_other": false
+        },
+        {
+          "name": "uPVC and aluminium windows and doors",
+          "values": {
+            "FY25": 53.0,
+            "FY26": 75.0
+          },
+          "is_other": false
+        }
+      ],
+      "total": {
+        "FY25": 909.3,
+        "FY26": 921.0
+      },
+      "qualitative": [
+        {
+          "point": "Only one of the four decor businesses grew meaningfully in FY2026. The two largest were roughly flat or shrank, and the growth came off the smallest base.",
+          "figure": "FY2026: windows and doors +42.1% to Rs 75 crore, kitchens +1.7% to Rs 400 crore, bath -2.5% to Rs 347 crore, decorative lighting -7.1% to Rs 99 crore.",
+          "speaker": "management discussion",
+          "source": "FY2026 annual report, management discussion and analysis",
+          "date": "2026-03-31",
+          "kind": "fact"
+        },
+        {
+          "point": "The two large decor businesses are only now approaching breakeven, and the company reports their profit quarterly rather than annually.",
+          "figure": "Q4 FY26: kitchen PBT loss narrowed to Rs 1 crore from Rs 16 crore; bath returned a Rs 4 crore profit against a Rs 4 crore loss a year earlier.",
+          "speaker": "management",
+          "source": "Q4 FY26 investor presentation",
+          "date": "2026-06-03",
+          "kind": "fact"
+        },
+        {
+          "point": "Management concedes the decor foray has been difficult and frames it as strategic rather than financial &mdash; it is defended on the grounds that it feeds the paint business, not on its own returns.",
+          "speaker": "Amit Syngle, MD & CEO",
+          "source": "Q4 FY26 earnings call",
+          "date": "2026-06-03",
+          "kind": "opinion",
+          "quote": "We have been struggling a little bit in this area over a period of time, and this is one strong zone which we are not leaving so easily... because it adds back to the original coatings category in the same manner."
+        },
+        {
+          "point": "Within kitchens, the only mix figure the company has ever published is the luxury share of value.",
+          "figure": "“Luxury kitchens and wardrobes continued to contribute more than 35% of the value”",
+          "speaker": "management discussion",
+          "source": "FY2025 annual report, management discussion and analysis",
+          "date": "2025-03-31",
+          "kind": "fact"
+        },
+        {
+          "point": "The first quarter of FY2027 split the four businesses the other way round from FY2026: the two that had been weak turned strong and vice versa. A one-quarter reversal in businesses this small is noise, and the profit tension is still there.",
+          "figure": "Q1 FY27: kitchen and windows-and-doors revenue “strong, double digits”; decorative lighting and bath “on a lower side”.",
+          "speaker": "Amit Syngle, MD & CEO",
+          "source": "Q1 FY27 earnings call",
+          "date": "2026-08-03",
+          "kind": "fact",
+          "quote": "Kitchen and Weatherseal revenues have been strong, double digits. However, White Teak and Bath have been on a lower side. Therefore, even the bottom line, there is some tension which is still continuing to exist."
+        }
+      ],
+      "caveat": "One of the eight values is not a published figure. The FY2025 kitchen revenue of Rs 393.3 crore is back-computed from the FY2026 report's stated Rs 400 crore at a stated growth of 1.7%; the FY2025 report described that year's kitchen performance only as “healthy growth” and gave no number. The other seven values are as published. Where both reports state a figure they agree: bath Rs 356 crore in FY2025 against Rs 347 crore less 2.5% in FY2026, and decorative lighting Rs 107 crore against Rs 99 crore less 7.1%. The whole split is therefore marked derived rather than reported.",
+      "disclosure": "These four businesses sit INSIDE the decorative and home-decor line, not alongside it; together they are about 2.6% of consolidated revenue. Two of them (kitchens, bath) are inside the parent company after amalgamation and two (decorative lighting, windows and doors) are subsidiaries, so no single audited figure for “home decor” exists. Wall coverings, textures, furniture, fabrics, furnishings and rugs are also sold as decor but are not broken out at all; the company only claims rank positions in them."
+    },
+    {
+      "key": "discount_wedge",
+      "label": "Gross billing versus what is recognised",
+      "question": "How much of what the company bills is given back as discount before it becomes revenue?",
+      "unit": "inr_cr",
+      "confidence": "reported",
+      "periods": [
+        "FY24",
+        "FY25",
+        "FY26"
+      ],
+      "source": "FY2026 annual report, note reconciling gross revenue to revenue from contracts with customers (with FY2024 from the FY2025 annual report)",
+      "slices": [
+        {
+          "name": "Net revenue recognised",
+          "values": {
+            "FY24": 35435.6,
+            "FY25": 33857.9,
+            "FY26": 35580.4
+          },
+          "is_other": false
+        },
+        {
+          "name": "Discounts, rebates, credits and incentives",
+          "values": {
+            "FY24": 7349.3,
+            "FY25": 8030.7,
+            "FY26": 9163.3
+          },
+          "is_other": false
+        }
+      ],
+      "total": {
+        "FY24": 42784.9,
+        "FY25": 41888.7,
+        "FY26": 44743.7
+      },
+      "margins": [
+        {
+          "name": "Discounts, rebates, credits and incentives",
+          "metric": "discounts as a share of gross revenue",
+          "basis": "discounts, rebates, credits and incentives divided by gross revenue, both as published in the consolidated note reconciling gross revenue to revenue from contracts with customers. Not a profit margin &mdash; it is the share of gross billing that never reaches the top line.",
+          "kind": "computed",
+          "values": {
+            "FY24": 17.2,
+            "FY25": 19.2,
+            "FY26": 20.5
+          }
+        }
+      ],
+      "qualitative": [
+        {
+          "point": "Gross billing has grown far faster than recognised revenue across all three years. Over FY2024 to FY2026 gross revenue rose 4.6% while the discount line rose 24.7%.",
+          "figure": "Gross revenue Rs 42,785 crore to Rs 44,744 crore; discounts Rs 7,349 crore to Rs 9,163 crore.",
+          "speaker": "computed from the company's own reconciliation",
+          "source": "FY2026 annual report, note on revenue from contracts with customers",
+          "date": "2026-03-31",
+          "kind": "fact"
+        },
+        {
+          "point": "Management confirms discounting is where the competitive intensity is showing up, and that price increases have not relieved it.",
+          "speaker": "Amit Syngle, MD & CEO",
+          "source": "Q4 FY26 earnings call",
+          "date": "2026-06-03",
+          "kind": "fact",
+          "quote": "Despite the inflationary environment that we are seeing and despite the price increases that we have taken, we have not seen any let-up in terms of the discounting in the market."
+        },
+        {
+          "point": "Asked directly whether the new entrant is still pricing below Asian Paints, management redirected the question from list price to discount and declined to quantify the gap.",
+          "speaker": "Amit Syngle, MD & CEO",
+          "source": "Q4 FY26 earnings call",
+          "date": "2026-06-03",
+          "kind": "non-answer",
+          "quote": "Everyone adjusts to the overall pricing at the same level... But finally, today, what matters is what discounts you are giving to various stakeholders. And as I said earlier, today, the differentials in terms of the discounting between the various players are the same as they were earlier."
+        },
+        {
+          "point": "Asked how FY2026 market share had moved, management declined to give a figure and pushed the calculation back to the analysts.",
+          "speaker": "Amit Syngle, MD & CEO",
+          "source": "Q4 FY26 earnings call",
+          "date": "2026-06-03",
+          "kind": "non-answer",
+          "quote": "All the results are out in the market, all of you can calculate the shares in terms of where we have moved from where we were."
+        }
+      ],
+      "caveat": "The net line here is net revenue recognised from contracts with customers (Rs 35,580.4 crore in FY2026), which is not identical to revenue from operations (Rs 35,583.5 crore): the contracts-with-customers total adds royalty received and drops part of other operating revenue. The gap is under 0.02% and does not affect the discount ratio. No reported revenue total is attached to this split because the pie deliberately sums to GROSS billing, which is larger than revenue.",
+      "disclosure": "The reconciliation is a single line. It does not say how the discount divides between trade schemes to dealers, contractor incentives, consumer promotions and volume rebates, and it does not distinguish discounting in decorative from discounting in industrial or overseas."
+    },
+    {
+      "key": "product_category",
+      "label": "By product category and price tier",
+      "question": "What does Asian Paints actually sell, and which categories carry the margin?",
+      "confidence": "reported",
+      "source": "Q3 FY26, Q4 FY26 and Q1 FY27 earnings calls, and the FY2026 annual report",
+      "qualitative": [
+        {
+          "point": "This is the dimension Asian Paints does not disclose. There is no revenue or volume figure for any product family &mdash; emulsions, putty, undercoats, waterproofing, wood finishes, enamels, adhesives &mdash; and none for any price tier. What exists is a running commentary on the direction of mix, quantified only as the gap between volume growth and value growth.",
+          "figure": "FY2026 decorative India: volume +8.7% against value +4.3%, a 4.4 percentage point adverse mix-and-price gap for the full year.",
+          "speaker": "management",
+          "source": "Q4 FY26 investor presentation",
+          "date": "2026-06-03",
+          "kind": "fact"
+        },
+        {
+          "point": "The volume-to-value gap is the company's own proxy for mix, and management has narrowed the guided range twice &mdash; from 6-8% historically, to 5%, to 3-4%. That is management's way of saying premiumisation is working without publishing a premium share.",
+          "figure": "“Earlier, the volume and the value gap used to be about 6% to 8%. So, the gap has come down”",
+          "speaker": "Amit Syngle, MD & CEO",
+          "source": "Q3 FY26 earnings call",
+          "date": "2026-02-02",
+          "kind": "fact",
+          "quote": "Earlier, the volume and the value gap used to be about 6% to 8%. So, the gap has come down, which is an indication of the fact, that possibly there is a premiumization which we are attempting."
+        },
+        {
+          "point": "Asked to separate the gap into pure price and pure mix, management did give a number &mdash; the only clean mix figure on record. In the first quarter of FY2027 mix contributed a POSITIVE 3 percentage points, having been guided as negative 4% one quarter earlier.",
+          "figure": "Q1 FY27: weighted price increase about 7%, mix contribution about +3%, total value-volume gap about 7%.",
+          "speaker": "Amit Syngle, MD & CEO",
+          "source": "Q1 FY27 earnings call",
+          "date": "2026-08-03",
+          "kind": "fact",
+          "quote": "There is almost about 3% impact, which is coming higher because of the better mix of what we have been able to sell."
+        },
+        {
+          "point": "New products are the one category-like share the company does publish, on a rolling three-year definition. It is a mix-quality claim, not a product family.",
+          "figure": "New products contributed about 17% of overall revenues in FY2026 and again in Q1 FY2027; “something which is in a three-year time frame is what we look at defining our new products”.",
+          "speaker": "Amit Syngle, MD & CEO",
+          "source": "Q1 FY27 earnings call",
+          "date": "2026-08-03",
+          "kind": "fact",
+          "quote": "New products within the portfolio contribute 17% of our overall revenues. That's a pretty high number in terms of contribution."
+        },
+        {
+          "point": "Asked point blank where the gross and EBITDA margins on those new products sit against the company average, management gave no number in either register &mdash; only that they “corroborate” overall margins. This is the closest anyone has got to a category margin and it is not a number.",
+          "speaker": "Amit Syngle, MD & CEO",
+          "source": "Q1 FY27 earnings call",
+          "date": "2026-08-03",
+          "kind": "non-answer",
+          "quote": "Given the fact that a lot of them are coming across various categories, especially in premium-luxury, they possibly corroborate our overall margins. Therefore, they would be a propellant of keeping our margins overall healthy in that space."
+        },
+        {
+          "point": "Management explicitly refuses the premise that premium is being grown at the expense of economy, and says both tiers are strategic. So even the DIRECTION of the tier mix is not one-way.",
+          "speaker": "Amit Syngle, MD & CEO",
+          "source": "Q4 FY26 earnings call",
+          "date": "2026-06-03",
+          "kind": "opinion",
+          "quote": "The contribution from the economy range remains significant. It is not a trade-off where growth comes only from the premium or PreLux segment at the expense of the economy range."
+        },
+        {
+          "point": "An analyst tried to infer the category mix from the gross-margin surprise &mdash; specifically whether putty sales had gone negligible. Management neither confirmed nor denied and answered on strategy instead.",
+          "speaker": "Amit Syngle, MD & CEO",
+          "source": "Q1 FY27 earnings call",
+          "date": "2026-08-03",
+          "kind": "non-answer",
+          "quote": "The strategy going forward is that we really get growth in every segment which is there, because while the overall premium segment is important to us, the economy segment is also large."
+        },
+        {
+          "point": "The one place the company does quantify a category-level margin effect is prospective and it has already been widened. The backward-integration project's promised gross-margin benefit was guided at 400-500 bps at announcement and is now a 300-500 bps band, applying only to the part of the portfolio using in-house emulsion.",
+          "figure": "“for the category of products it would translate into that 300-500 basis points band”",
+          "speaker": "Amit Syngle, MD & CEO",
+          "source": "Q1 FY27 earnings call",
+          "date": "2026-08-03",
+          "kind": "guidance",
+          "quote": "Very difficult to say that it will maintain at 400 or 500 basis points or between 300-400 basis points... Generally, overall, for the category of products it would translate into that 300-500 basis points band."
+        },
+        {
+          "point": "For the standalone company, the statutory filing does give one crude product concentration figure: essentially everything is paint.",
+          "figure": "94.7% of standalone turnover is “manufacture of paints, varnishes, enamels and thinners”.",
+          "speaker": "business responsibility and sustainability report",
+          "source": "FY2026 annual report, business responsibility and sustainability report",
+          "date": "2026-03-31",
+          "kind": "fact"
+        }
+      ],
+      "caveat": "This card carries no chart because there is nothing to chart. Every figure in it is a growth rate, a share of a growth rate, or a share of revenue attached to a definition the company controls (“new products”, three-year window). None of it can be converted into rupees of revenue by product family or price tier without inventing the denominator, and that has not been done.",
+      "disclosure": "No revenue, volume, price or margin is published for any product family or price tier, in any year, on either basis. The tier language (economy, premium, PreLux, luxury) is used constantly and defined nowhere."
+    }
+  ],
+  "not_disclosed": [
+    {
+      "dimension": "Audited operating segments",
+      "what_is_known": "The FY2026 annual report states, in both the standalone and the consolidated accounts, that the company is “primarily engaged in the business of Paints and Home Decor” and that “there is no separate reportable segment as per Ind AS 108 - Operating Segments”. The same wording appears in FY2025. Until FY2015 the company reported Paints and Home Improvement as two business segments with a segment result for each, plus a secondary geographical segment splitting domestic from international revenue &mdash; in FY2015, domestic Rs 12,414.8 crore against international Rs 1,785.5 crore. That disclosure was discontinued.",
+      "why_it_matters": "There is no audited revenue or profit by business anywhere in the accounts. Every business-line figure on this tab comes from management's own financial review or investor presentation, which sit outside the audited financial statements and outside the auditor's opinion. A reader cannot check them against an assured note, and management can redefine the lines between years without a restatement.",
+      "evidence": "Checked the segment note in both the standalone and consolidated accounts of the FY2026 and FY2025 annual reports, and the corresponding note in the FY2015 annual report for the historical basis."
+    },
+    {
+      "dimension": "India versus overseas revenue in the accounts",
+      "what_is_known": "The only geographic disaggregation inside the audited accounts is home market against exports. Consolidated FY2026: home market Rs 35,309.8 crore, exports Rs 270.7 crore. That classifies each subsidiary's sales inside its OWN country as home market, so 99.2% of group revenue is “home market” even though 9.4% is earned outside India. Standalone exports are 0.3% of turnover. The genuine India-versus-overseas answer has to be assembled from the unaudited business table: international Rs 3,353.6 crore against Rs 32,162.8 crore for the two India lines in FY2026.",
+      "why_it_matters": "An investor reading only the notes would conclude the business is essentially single-country with a trivial export tail. The reported split is technically correct and practically useless, and it is the only geographic figure that carries an audit opinion.",
+      "evidence": "Read the revenue-from-contracts-with-customers note in both the standalone and consolidated accounts of the FY2026 and FY2025 annual reports."
+    },
+    {
+      "dimension": "Premium versus economy revenue mix",
+      "what_is_known": "Management talks about tiers constantly &mdash; economy, premium, PreLux, luxury &mdash; and quantifies only the mix contribution to value growth (about +3% in Q1 FY2027, guided at negative 4% one quarter earlier, with a 3-4% volume-to-value gap expected to persist). It has never published a rupee or percentage share by tier, nor a margin by tier. Asked directly where new-product margins sit against the company's 43% gross and 20% EBITDA margins, management said only that they “corroborate our overall margins”.",
+      "why_it_matters": "Premiumisation is the central plank of the response to the new entrant and to raw-material inflation. Without a tier split, an investor cannot tell whether reported mix improvement is genuine trade-up or simply the arithmetic of a price increase landing unevenly, and cannot size how much margin a further shift would be worth.",
+      "evidence": "Checked the last three earnings calls (Q3 FY26, Q4 FY26, Q1 FY27), the Q4 FY26 investor presentation, and the FY2026 and FY2025 annual reports."
+    },
+    {
+      "dimension": "Product-family revenue within decorative",
+      "what_is_known": "Nothing quantitative. Damp Proof is described as “singularly the largest product” without a figure; waterproofing, construction chemicals, wood finishes, adhesives, undercoats and putty are all discussed by name with no revenue attached. Volume and value growth are published for the whole of decorative India and for decorative plus industrial India, and for nothing narrower.",
+      "why_it_matters": "The margin structure across these families is very different &mdash; putty and undercoats are the entry price point, waterproofing and construction chemicals are the growth categories management is defending its price with. Without the split, a change in gross margin cannot be attributed between input costs, price and family mix.",
+      "evidence": "Checked the management discussion in the FY2026 annual report, the Q4 FY26 investor presentation, and the last three earnings calls."
+    },
+    {
+      "dimension": "Customer concentration",
+      "what_is_known": "No top-customer or major-customer disclosure exists, which under Ind AS 108 is consistent with no single customer reaching 10% of revenue. The statutory filing describes customer types only: “homeowners, large projects, dealers, corporates, architects, interior designers, contractors and influencers”. The B2B business is repeatedly named as the main growth engine &mdash; builders, housing societies, factories, hospitality and government projects, with “more than 100 key accounts” in the cross-selling programme &mdash; and is never sized.",
+      "why_it_matters": "B2B carries different pricing mechanics from retail: management says industrial and project price increases are “more deferred” because they are negotiated with key accounts. As B2B grows, the company's ability to pass on input inflation quickly falls, and there is no disclosure that lets an investor track how far that has already gone.",
+      "evidence": "Checked the FY2026 annual report including the business responsibility report, and the last three earnings calls. No revenue figure for B2B, projects or government appears in any of them."
+    },
+    {
+      "dimension": "Channel mix",
+      "what_is_known": "Only counts, never revenue. India retail touchpoints were stated at over 169,000 in FY2025 with nearly 6,000 added during FY2026; there are 74 Beautiful Homes Stores across 20 states, 305 kitchen stores across 160 cities, and 80 windows-and-doors stores. The statutory filing lists the channels as “wholesalers, distributors, retail outlets and e-commerce platforms”. No revenue is attributed to retail, projects, own stores, e-commerce or the painting service.",
+      "why_it_matters": "Own-store and service-led channels are the stated route to premiumisation and carry different economics from a dealer counter. Counting stores says nothing about whether they sell, and the same-store commentary is qualitative.",
+      "evidence": "Checked the FY2026 and FY2025 annual reports and the Q4 FY26 investor presentation."
+    },
+    {
+      "dimension": "Revenue split within the automotive joint venture",
+      "what_is_known": "The venture serves automotive OEMs, automotive refinish, general industrial, packaging and marine. The annual report gives it one revenue line (Rs 2,468 crore, +15.5% in FY2026) and one summarised income statement. Management characterises the pieces &mdash; auto OE “extremely well”, marine and packaging good, refinishes “a little bit slow” &mdash; with no figures.",
+      "why_it_matters": "This venture earns an 18% profit-before-tax margin, more than double the other industrial venture and above the group operating margin, yet none of its revenue is in consolidated revenue. Knowing which of its five end-markets carries that margin would matter for judging how durable it is against the automotive cycle.",
+      "evidence": "Checked the associate-company note and management discussion in the FY2026 annual report, the Q4 FY26 investor presentation, and the Q4 FY26 and Q1 FY27 earnings calls."
+    }
+  ],
+  "source_note": "Business lines, regional revenue, the home-decor businesses, the discount reconciliation and the associate's income statement are from the FY2026 annual report, with the FY2024 and FY2025 comparatives from the FY2025 annual report. Full-year profit by region and by industrial venture is from the Q4 FY2026 investor presentation. All commentary and quotes are from the Q3 FY2026, Q4 FY2026 and Q1 FY2027 earnings calls. Consolidated basis throughout. The company reports a single operating segment, so none of the business-line figures here are audited segment disclosures."
+};
+
+(function () {
+  const cardsEl = document.getElementById("rvnCards");
+  if (!cardsEl || !REVENUE) return;
+
+  const SPLITS = REVENUE.splits || [];
+  const CUR = REVENUE.currency || "₹ crore";
+  const QUARTERLY = REVENUE.period_kind === "quarter";
+  // one definition of "present", as everywhere else in this page
+  const num = v => (typeof v === "number" && isFinite(v)) ? v : null;
+  const RAMP = 7;
+
+  const money = v => v === null ? "—"
+    : (Math.abs(v) >= 100 ? Math.round(v).toLocaleString("en-IN") : v.toFixed(1));
+  const pct = (v, d) => v === null ? "—" : v.toFixed(d === undefined ? 1 : d) + "%";
+  const sg = (v, unit, d) => v === null ? "—"
+    : (v > 0 ? "+" : "") + v.toFixed(d === undefined ? 1 : d) + (unit || "%");
+  const dcls = v => v === null ? "" : v > 0 ? "rvn-up" : v < 0 ? "rvn-dn" : "";
+  const shade = (rank, other) => other ? "var(--rev-other)"
+    : "var(--rev-" + Math.min(rank + 1, RAMP) + ")";
+
+  // ---- per-split arithmetic. `unit` is either money in CUR, or a published
+  // share of revenue; a share is converted to money only when the split also
+  // states the period's total, and that conversion is labelled `derived`.
+  const valAt = (sp, sl, p) => num((sl.values || {})[p]);
+  function totalAt(sp, p) {
+    const t = num((sp.total || {})[p]);
+    if (t !== null) return t;
+    if (sp.unit === "share_pct") return null;
+    const v = (sp.slices || []).map(s => valAt(sp, s, p)).filter(x => x !== null);
+    return v.length ? v.reduce((a, b) => a + b, 0) : null;
+  }
+  function moneyAt(sp, sl, p) {
+    const v = valAt(sp, sl, p);
+    if (v === null) return null;
+    if (sp.unit !== "share_pct") return v;
+    const t = num((sp.total || {})[p]);
+    return t === null ? null : v * t / 100;
+  }
+  function shareAt(sp, sl, p) {
+    if (sp.unit === "share_pct") return valAt(sp, sl, p);
+    const v = valAt(sp, sl, p), t = totalAt(sp, p);
+    return (v === null || !t) ? null : 100 * v / t;
+  }
+  const prevOf = (sp, p) => {
+    const ps = sp.periods || [];
+    const i = ps.indexOf(p);
+    return i > 0 ? ps[i - 1] : null;
+  };
+  function growthPct(sp, sl, p) {
+    const q = prevOf(sp, p);
+    if (!q) return null;
+    const a = moneyAt(sp, sl, p), b = moneyAt(sp, sl, q);
+    return (a === null || b === null || b <= 0) ? null : 100 * (a - b) / b;
+  }
+  // Contribution to total growth, in percentage points OF THE TOTAL. Additive
+  // across slices, unlike a per-slice growth rate — which is why a small,
+  // fast-growing slice stops looking like the story when it isn't.
+  function contribPP(sp, sl, p) {
+    const q = prevOf(sp, p);
+    if (!q) return null;
+    const a = moneyAt(sp, sl, p), b = moneyAt(sp, sl, q), tb = totalAt(sp, q);
+    return (a === null || b === null || !tb) ? null : 100 * (a - b) / tb;
+  }
+  function cagrPct(sp, sl) {
+    if (QUARTERLY) return null;
+    const all = sp.periods || [];
+    const ps = all.filter(p => moneyAt(sp, sl, p) !== null);
+    if (ps.length < 2) return null;
+    const a = moneyAt(sp, sl, ps[ps.length - 1]), b = moneyAt(sp, sl, ps[0]);
+    const n = all.indexOf(ps[ps.length - 1]) - all.indexOf(ps[0]);
+    return (b <= 0 || n < 1) ? null : 100 * (Math.pow(a / b, 1 / n) - 1);
+  }
+  function totalGrowth(sp, p) {
+    const q = prevOf(sp, p);
+    if (!q) return null;
+    const a = totalAt(sp, p), b = totalAt(sp, q);
+    return (a === null || b === null || b <= 0) ? null : 100 * (a - b) / b;
+  }
+  // rank order: largest first at the split's latest period, `is_other` last —
+  // fixed once per split so a slice keeps its shade across periods
+  function ranked(sp) {
+    const ps = sp.periods || [];
+    const last = ps[ps.length - 1];
+    const key = sl => {
+      const v = shareAt(sp, sl, last);
+      return v === null ? -1 : v;
+    };
+    return (sp.slices || [])
+      .map((sl, i) => ({ sl, i }))
+      .sort((a, b) => (!!a.sl.is_other - !!b.sl.is_other) || (key(b.sl) - key(a.sl)))
+      .map((o, rank) => ({ ...o.sl, rank, colour: shade(rank, o.sl.is_other) }));
+  }
+  const marginsOf = sp => sp.margins || [];
+
+  // ---- period control: one canonical ordered list, oldest first
+  const PERIODS = (REVENUE.periods && REVENUE.periods.length)
+    ? REVENUE.periods
+    : [...new Set(SPLITS.flatMap(s => s.periods || []))];
+  let selected = PERIODS[PERIODS.length - 1];
+  let view = "donut";
+  // Not every dimension is disclosed every period — a customer-concentration
+  // note may exist for one year only. Rather than render an empty pie whenever
+  // the reader is standing on a later period, each card falls back to the most
+  // recent period it HAS at or before the selection, and says so in its header.
+  function effP(sp) {
+    const ps = sp.periods || [];
+    if (ps.includes(selected)) return selected;
+    const upto = ps.filter(p => PERIODS.indexOf(p) <= PERIODS.indexOf(selected));
+    // Nothing at or before the selection means the reader has stepped back
+    // BEFORE this dimension was ever disclosed — show the earliest it exists,
+    // not the latest. Showing FY26 to someone standing on FY21 is honest only
+    // in the chip; the nearest disclosed period is what they meant to ask for.
+    return (upto.length ? upto[upto.length - 1] : ps[0]) || selected;
+  }
+  // pinned wedge per split key, so a tap survives a re-render
+  const pinned = {};
+
+  document.getElementById("rvnLede").innerHTML = REVENUE.lede
+    || ("What the top line is made of, on every dimension the company actually "
+        + "publishes. <strong>Shares are the weak half of this tab</strong> — the "
+        + "column worth reading is each slice's contribution to total growth in "
+        + "percentage points, because that is what says which part of the business "
+        + "moved revenue. Where a split is not disclosed, the card carries dated "
+        + "management commentary instead of a number.");
+  document.getElementById("rvnNote").innerHTML = REVENUE.source_note || "";
+
+  const pdBar = document.getElementById("rvnPeriods");
+  pdBar.innerHTML = PERIODS.map(p =>
+    `<button type="button" data-pd="${p}" aria-pressed="${p === selected}">${p}</button>`).join("");
+
+  const HINTS = {
+    donut: "Donut: angle is a poor comparison — the table beside each pie carries the same numbers, plus growth.",
+    bars: "Bars: share on one shared scale, which is the honest form for comparing slices.",
+    growth: "Growth: year-on-year per slice, and each slice's contribution to total growth in percentage points (additive; growth rates are not).",
+    mix: "Mix over time: share drift across every period held. A mix shift is invisible in a single pie.",
+    margin: "Margin: profitability by category, where the company publishes or indicates it. Levels are shaded by revenue rank, not by good/bad.",
+  };
+
+  // ---- marks -------------------------------------------------------------
+  function donutSVG(sp, rows) {
+    const period = effP(sp);
+    const W = 300, C = 150, R = 128, r = 76;
+    const drawn = rows.map(s => ({ s, v: shareAt(sp, s, period) }))
+                      .filter(o => o.v !== null && o.v > 0);
+    const sum = drawn.reduce((a, o) => a + o.v, 0);
+    if (!drawn.length || sum <= 0) return "";
+    const pol = (rad, a) => [C + rad * Math.cos(a), C + rad * Math.sin(a)];
+    let a0 = -Math.PI / 2;
+    const arcs = drawn.map(o => {
+      const a1 = a0 + 2 * Math.PI * (o.v / sum);
+      let d;
+      if (drawn.length === 1) {
+        // a single 100% slice degenerates as an arc — draw the ring instead
+        d = null;
+      } else {
+        const big = (a1 - a0) > Math.PI ? 1 : 0;
+        const [x0, y0] = pol(R, a0), [x1, y1] = pol(R, a1);
+        const [x2, y2] = pol(r, a1), [x3, y3] = pol(r, a0);
+        d = `M${x0.toFixed(1)},${y0.toFixed(1)} A${R},${R} 0 ${big} 1 ${x1.toFixed(1)},${y1.toFixed(1)}`
+          + ` L${x2.toFixed(1)},${y2.toFixed(1)} A${r},${r} 0 ${big} 0 ${x3.toFixed(1)},${y3.toFixed(1)} Z`;
+      }
+      a0 = a1;
+      return d === null
+        ? `<circle class="rvn-wedge" data-i="${o.s.rank}" cx="${C}" cy="${C}" r="${(R + r) / 2}"
+                   fill="none" stroke="${o.s.colour}" stroke-width="${R - r}"></circle>`
+        : `<path class="rvn-wedge" data-i="${o.s.rank}" d="${d}" fill="${o.s.colour}"></path>`;
+    }).join("");
+    const t = totalAt(sp, period);
+    return `<svg viewBox="0 0 ${W} ${W}" role="img" aria-labelledby="rvnSr-${sp.key}">
+      <g aria-hidden="true">${arcs}</g>
+      <text class="rvn-hole-v" x="${C}" y="${C - 2}" text-anchor="middle" data-hole="v">${
+        t === null ? "100%" : money(t)}</text>
+      <text class="rvn-hole-l" x="${C}" y="${C + 15}" text-anchor="middle" data-hole="l">${
+        t === null ? period + " share" : period + " · " + CUR}</text>
+    </svg>`;
+  }
+
+  function shareBars(sp, rows) {
+    const period = effP(sp);
+    return `<div class="rvn-bars">` + rows.map(s => {
+      const v = shareAt(sp, s, period);
+      return `<div class="rvn-bar" data-i="${s.rank}">
+        <span class="nm">${s.name}</span>
+        <span class="tr" role="img" aria-label="${s.name}: ${pct(v)} of revenue">
+          ${v === null ? "" : `<i class="fill" style="left:0;width:${Math.max(0, Math.min(100, v))}%;background:${s.colour}"></i>`}
+        </span>
+        <span class="vl">${pct(v)}</span></div>`;
+    }).join("") + `</div>`;
+  }
+
+  function growthBars(sp, rows) {
+    const period = effP(sp);
+    const gs = rows.map(s => growthPct(sp, s, period));
+    const maxAbs = Math.max(...gs.filter(g => g !== null).map(Math.abs), 1);
+    const anyNeg = gs.some(g => g !== null && g < 0);
+    const half = anyNeg ? 50 : 0;
+    return `<div class="rvn-bars">` + rows.map((s, i) => {
+      const g = gs[i];
+      const w = g === null ? 0 : (Math.abs(g) / maxAbs) * (anyNeg ? 50 : 100);
+      const left = g === null ? half : (g >= 0 ? half : half - w);
+      const col = g === null ? "var(--grid)" : (g >= 0 ? "var(--delta-good)" : "var(--delta-bad)");
+      return `<div class="rvn-bar" data-i="${s.rank}">
+        <span class="nm">${s.name}</span>
+        <span class="tr" role="img" aria-label="${s.name}: ${sg(g)} year on year">
+          ${anyNeg ? `<i class="zero" style="left:50%"></i>` : ""}
+          ${g === null ? "" : `<i class="fill" style="left:${left}%;width:${w}%;background:${col}"></i>`}
+        </span>
+        <span class="vl ${dcls(g)}">${sg(g)}</span></div>`;
+    }).join("") + `</div>`;
+  }
+
+  function mixStack(sp, rows) {
+    return `<div class="rvn-mix">` + (sp.periods || []).map(p => {
+      const parts = rows.map(s => ({ s, v: shareAt(sp, s, p) })).filter(o => o.v !== null && o.v > 0);
+      const sum = parts.reduce((a, o) => a + o.v, 0) || 1;
+      return `<div class="rvn-mixrow"><span class="pd">${p}</span>
+        <span class="rvn-stack" role="img" aria-label="${p}: ${
+          parts.map(o => `${o.s.name} ${pct(o.v)}`).join(", ")}">${
+          parts.map(o => `<i data-i="${o.s.rank}" style="width:${100 * o.v / sum}%;background:${o.s.colour}"></i>`).join("")
+        }</span></div>`;
+    }).join("") + `</div>`;
+  }
+
+  function marginBars(sp, rows) {
+    const period = effP(sp);
+    const ms = marginsOf(sp);
+    if (!ms.length) {
+      return `<p class="rvn-none">No margin is published or indicated for this
+        dimension. Where management has said something qualitative about it, it is
+        under the commentary below rather than turned into a number here.</p>`;
+    }
+    const rankOf = name => {
+      const hit = rows.find(s => s.name === name);
+      return hit ? hit.colour : "var(--rev-other)";
+    };
+    const vals = ms.map(m => num((m.values || {})[period]));
+    const max = Math.max(...vals.filter(v => v !== null).map(Math.abs), 1);
+    return `<div class="rvn-bars">` + ms.map((m, i) => {
+      const v = vals[i], q = prevOf(sp, period);
+      const pv = q ? num((m.values || {})[q]) : null;
+      const d = (v === null || pv === null) ? null : v - pv;
+      return `<div class="rvn-bar">
+        <span class="nm">${m.name}</span>
+        <span class="tr" role="img" aria-label="${m.name}: ${pct(v)} ${m.metric || "margin"}">
+          ${v === null ? "" : `<i class="fill" style="left:0;width:${(Math.abs(v) / max) * 100}%;background:${rankOf(m.name)}"></i>`}
+        </span>
+        <span class="vl">${pct(v)}${d === null ? "" : ` <span class="${dcls(d)}">${sg(d, "pp")}</span>`}</span>
+      </div>`;
+    }).join("") + `</div>`;
+  }
+
+  // ---- table: the primary read in every view ------------------------------
+  function tableFor(sp, rows) {
+    const period = effP(sp);
+    const q = prevOf(sp, period);
+    const mmap = {};
+    marginsOf(sp).forEach(m => { mmap[m.name] = m; });
+    const hasM = Object.keys(mmap).length > 0;
+
+    if (view === "mix") {
+      const ps = sp.periods || [];
+      const head = `<tr><th>Slice</th>${ps.map(p => `<th>${p}</th>`).join("")}
+        <th>Change, ${ps[0]}→${ps[ps.length - 1]}</th></tr>`;
+      const body = rows.map(s => {
+        const a = shareAt(sp, s, ps[0]);
+        const b = shareAt(sp, s, ps[ps.length - 1]);
+        const d = (a === null || b === null) ? null : b - a;
+        return `<tr data-i="${s.rank}"><td><i class="rvn-sw" style="background:${s.colour}"></i>${s.name}</td>
+          ${ps.map(p => `<td>${pct(shareAt(sp, s, p))}</td>`).join("")}
+          <td class="${dcls(d)}">${sg(d, "pp")}</td></tr>`;
+      }).join("");
+      return `<div class="rvn-tbl"><table><thead>${head}</thead><tbody>${body}</tbody></table></div>`;
+    }
+
+    if (view === "margin") {
+      const ms = marginsOf(sp);
+      if (!ms.length) return "";
+      const body = ms.map(m => {
+        const v = num((m.values || {})[period]);
+        const pv = q ? num((m.values || {})[q]) : null;
+        const d = (v === null || pv === null) ? null : v - pv;
+        return `<tr><td>${m.name}</td><td>${pct(v)}</td>
+          <td class="${dcls(d)}">${sg(d, "pp")}</td>
+          <td style="text-align:left">${m.metric || "margin"}${
+            m.kind ? ` <span class="rvn-kind ${m.kind}">${m.kind}</span>` : ""}</td></tr>`;
+      }).join("");
+      const basis = [...new Set(ms.map(m => m.basis).filter(Boolean))];
+      return `<div class="rvn-tbl"><table>
+        <thead><tr><th>Category</th><th>${period}</th><th>vs ${q || "—"}</th>
+        <th style="text-align:left">Definition</th></tr></thead>
+        <tbody>${body}</tbody></table></div>`
+        + (basis.length ? `<p class="rvn-caveat"><strong>Basis.</strong> ${basis.join(" ")}</p>` : "");
+    }
+
+    // donut / bars / growth
+    const unitHead = sp.unit === "share_pct" ? "% of revenue" : CUR;
+    const head = `<tr><th>Slice</th><th>${unitHead}</th><th>Share</th>
+      <th>YoY</th><th>Contribution</th>${!QUARTERLY ? "<th>CAGR</th>" : ""}
+      ${hasM ? "<th>Margin</th>" : ""}</tr>`;
+    const body = rows.map(s => {
+      const v = valAt(sp, s, period), sh = shareAt(sp, s, period);
+      const g = growthPct(sp, s, period), c = contribPP(sp, s, period);
+      const k = cagrPct(sp, s), m = mmap[s.name];
+      const mv = m ? num((m.values || {})[period]) : null;
+      return `<tr data-i="${s.rank}">
+        <td><i class="rvn-sw" style="background:${s.colour}"></i>${s.name}</td>
+        <td>${sp.unit === "share_pct" ? pct(v) : money(v)}</td>
+        <td>${pct(sh)}</td>
+        <td class="${dcls(g)}">${sg(g)}</td>
+        <td class="${dcls(c)}">${sg(c, "pp")}</td>
+        ${!QUARTERLY ? `<td>${sg(k)}</td>` : ""}
+        ${hasM ? `<td>${pct(mv)}</td>` : ""}</tr>`;
+    }).join("");
+    const t = totalAt(sp, period), tg = totalGrowth(sp, period);
+    const totRow = `<tr class="tot"><td>Total</td>
+      <td>${sp.unit === "share_pct" && t === null ? "100.0%" : money(t)}</td>
+      <td>100.0%</td>
+      <td class="${dcls(tg)}">${sg(tg)}</td>
+      <td class="${dcls(tg)}">${sg(tg, "pp")}</td>
+      ${!QUARTERLY ? "<td></td>" : ""}${hasM ? "<td></td>" : ""}</tr>`;
+    return `<div class="rvn-tbl"><table><thead>${head}</thead>
+      <tbody>${body}${totRow}</tbody></table>
+      <p class="rvn-caveat">Contribution is this slice's change as a share of LAST
+      period's total revenue, in percentage points — it adds up across slices,
+      which a growth rate does not.</p></div>`;
+  }
+
+  // ---- coverage: how much of reported revenue the split actually accounts for
+  function coverage(sp, rows) {
+    const period = effP(sp);
+    const bits = [];
+    const rep = num((sp.reported_total || {})[period]);
+    const sum = rows.map(s => moneyAt(sp, s, period)).filter(v => v !== null)
+                    .reduce((a, b) => a + b, 0);
+    let gap = false;
+    if (rep !== null && sum > 0) {
+      const cov = 100 * sum / rep;
+      gap = Math.abs(cov - 100) > 1.5;
+      bits.push(`These slices account for <b>${cov.toFixed(1)}%</b> of the `
+        + `${money(rep)} ${CUR} of revenue reported for ${period}`
+        + (gap ? ` — the ${money(Math.abs(rep - sum))} ${CUR} difference is `
+                 + `unallocated on this dimension, not missing revenue.` : `.`));
+    }
+    const absent = rows.filter(s => valAt(sp, s, period) === null).map(s => s.name);
+    if (absent.length) bits.push(`Not disclosed for ${period}: ${absent.join(", ")} — `
+      + `excluded from the pie rather than drawn as zero.`);
+    if (sp.source) bits.push(`Source: ${sp.source}.`);
+    return bits.length
+      ? `<p class="rvn-cov${gap ? " gap" : ""}">${bits.join(" ")}</p>` : "";
+  }
+
+  function qualBlock(sp) {
+    const qs = sp.qualitative || [];
+    if (!qs.length) return "";
+    const items = qs.map(q => `<li><b>${q.point}</b>${
+      q.figure ? ` ${q.figure}` : ""}${
+      q.kind ? ` <span class="rvn-kind ${q.kind}">${q.kind}</span>` : ""}
+      ${q.quote ? `<br><span class="rvn-q-src">“${q.quote}”</span>` : ""}
+      <br><span class="rvn-q-src">${[q.speaker, q.source, q.date].filter(Boolean).join(" · ")}</span></li>`).join("");
+    const hasNum = (sp.slices || []).length > 0;
+    return `<details class="rvn-qual"${hasNum ? "" : " open"}>
+      <summary>What management has actually said about this — ${qs.length} pointer${qs.length === 1 ? "" : "s"}${
+        hasNum ? "" : " (this dimension is not published as numbers)"}</summary>
+      <ul>${items}</ul></details>`;
+  }
+
+  function cardHTML(sp) {
+    const period = effP(sp);
+    const rows = ranked(sp);
+    const numeric = rows.length > 0 && sp.periods && sp.periods.length > 0;
+    const conf = sp.confidence || "reported";
+    let fig = "", tbl = "";
+    if (numeric) {
+      if (view === "donut") fig = donutSVG(sp, rows);
+      else if (view === "bars") fig = shareBars(sp, rows);
+      else if (view === "growth") fig = growthBars(sp, rows);
+      else if (view === "mix") fig = mixStack(sp, rows);
+      else if (view === "margin") fig = marginBars(sp, rows);
+      tbl = tableFor(sp, rows);
+    }
+    const wide = view !== "donut";
+    const readout = view === "donut"
+      ? `<p class="rvn-read" data-read="${sp.key}">Point at a slice — or tap one to pin it.</p>`
+      : "";
+    const sr = `<p class="rvn-sr" id="rvnSr-${sp.key}">${sp.label}, ${period}: ${
+      rows.map(s => `${s.name} ${pct(shareAt(sp, s, period))}`).join("; ")}</p>`;
+    return `<div class="rvn-card ${conf}" data-split="${sp.key}">
+      <div class="rvn-head"><h3>${sp.label}</h3>
+        ${sp.question ? `<span class="rvn-q">${sp.question}</span>` : ""}
+        <span class="rvn-chip ${conf}">${conf}</span>
+        ${period !== selected
+          ? `<span class="rvn-chip">not disclosed for ${selected} — showing ${period}</span>` : ""}</div>
+      ${numeric ? `<div class="rvn-body${wide ? " wide" : ""}">
+        <div class="rvn-fig">${fig}${sr}${readout}</div>
+        <div>${tbl}</div></div>` : ""}
+      ${numeric ? coverage(sp, rows) : ""}
+      ${sp.caveat ? `<p class="rvn-caveat">${sp.caveat}</p>` : ""}
+      ${sp.disclosure ? `<p class="rvn-caveat"><strong>What is not disclosed here.</strong> ${sp.disclosure}</p>` : ""}
+      ${qualBlock(sp)}
+    </div>`;
+  }
+
+  // ---- highlight wiring. Rebuilt with the cards, so listeners are attached
+  // after every render rather than delegated through stale nodes.
+  function wire(card, sp) {
+    const period = effP(sp);
+    const rows = ranked(sp);
+    const read = card.querySelector("[data-read]");
+    const holeV = card.querySelector('[data-hole="v"]');
+    const holeL = card.querySelector('[data-hole="l"]');
+    const wedges = [...card.querySelectorAll(".rvn-wedge, .rvn-stack i")];
+    const trs = [...card.querySelectorAll("tbody tr[data-i]")];
+    const bars = [...card.querySelectorAll(".rvn-bar[data-i]")];
+    const t = totalAt(sp, period);
+
+    function paint(i) {
+      wedges.forEach(w => w.classList.toggle("dim", i !== null && +w.dataset.i !== i));
+      trs.forEach(r => r.classList.toggle("on", +r.dataset.i === i));
+      bars.forEach(b => b.classList.toggle("on", +b.dataset.i === i));
+      if (holeV) {
+        if (i === null) {
+          holeV.textContent = t === null ? "100%" : money(t);
+          holeL.textContent = t === null ? period + " share" : period + " · " + CUR;
+        } else {
+          const s = rows[i];
+          holeV.textContent = pct(shareAt(sp, s, period));
+          holeL.textContent = s.name.length > 24 ? s.name.slice(0, 23) + "…" : s.name;
+        }
+      }
+      if (read) {
+        if (i === null) {
+          read.innerHTML = "Point at a slice — or tap one to pin it.";
+        } else {
+          const s = rows[i];
+          const g = growthPct(sp, s, period), c = contribPP(sp, s, period);
+          const tg = totalGrowth(sp, period), q = prevOf(sp, period);
+          read.innerHTML = `<b>${s.name}</b> — ${
+            sp.unit === "share_pct" ? pct(valAt(sp, s, period)) + " of revenue"
+              : money(moneyAt(sp, s, period)) + " " + CUR + " · " + pct(shareAt(sp, s, period)) + " of revenue"}`
+            + (g === null ? "" : ` · <b class="${dcls(g)}">${sg(g)}</b> vs ${q}`)
+            + (c === null ? "" : `<br>contributed <b class="${dcls(c)}">${sg(c, "pp")}</b>`
+               + (tg === null ? "" : ` of the ${sg(tg)} total change`))
+            + (pinned[sp.key] === i ? ` <span class="pin">pinned — tap again to release</span>` : "");
+        }
+      }
+    }
+    const enter = i => paint(i);
+    const leave = () => paint(pinned[sp.key] === undefined ? null : pinned[sp.key]);
+    [...wedges, ...trs, ...bars].forEach(el => {
+      const i = +el.dataset.i;
+      el.addEventListener("pointerenter", () => enter(i));
+      el.addEventListener("click", () => {
+        pinned[sp.key] = pinned[sp.key] === i ? undefined : i;
+        paint(pinned[sp.key] === undefined ? null : pinned[sp.key]);
+      });
+    });
+    card.addEventListener("pointerleave", leave);
+    leave();
+  }
+
+  function render() {
+    document.getElementById("rvnHint").textContent = HINTS[view];
+    cardsEl.innerHTML = SPLITS.map(cardHTML).join("");
+    SPLITS.forEach(sp => {
+      const card = cardsEl.querySelector(`[data-split="${sp.key}"]`);
+      if (card) wire(card, sp);
+    });
+  }
+
+  // What the company does NOT publish. An absence that is stated is a finding;
+  // an absence that is silent is a defect.
+  const miss = REVENUE.not_disclosed || [];
+  document.getElementById("rvnMissing").innerHTML = miss.length
+    ? `<h3>Splits this company does not publish</h3><ul>` + miss.map(d =>
+        `<li><b>${d.dimension}</b> — ${d.what_is_known || ""}
+         ${d.why_it_matters ? `<em>Why it matters:</em> ${d.why_it_matters}` : ""}
+         ${d.evidence ? `<span class="rvn-q-src">${d.evidence}</span>` : ""}</li>`).join("")
+      + `</ul>` : "";
+
+  document.querySelectorAll("#rvnModes button").forEach(b =>
+    b.addEventListener("click", () => {
+      view = b.dataset.view;
+      document.querySelectorAll("#rvnModes button").forEach(o =>
+        o.setAttribute("aria-pressed", o === b ? "true" : "false"));
+      render();
+    }));
+  pdBar.querySelectorAll("button").forEach(b =>
+    b.addEventListener("click", () => {
+      selected = b.dataset.pd;
+      pdBar.querySelectorAll("button").forEach(o =>
+        o.setAttribute("aria-pressed", o === b ? "true" : "false"));
+      render();
+    }));
+  render();
+})();
+
+// ---------------------------------------------------------------------------
 // OVERALL SCORECARD. Four axes, 0-10, banded.
 //
 // A radar was asked for and is the default, but it is NOT the form this data
@@ -3669,6 +5046,18 @@ const MYNOTES = {
   "lede": "A dated log of observations and open questions on this company. Newest first. Each entry records what was actually established on that date, so a later reading can tell what was known when.",
   "publication_note": "⚠️ This tab is PUBLISHED to a public site. Any entry carrying \"private\": true is dropped from the public build and stays visible only in a local private build. Decisions and the price bands behind them ARE published deliberately — recorded in advance so a later reading can check them against what actually happened, and stated as one person's own reasoning rather than as advice. What stays private is position sizing, holdings, and personal circumstances.",
   "entries": [
+    {
+      "date": "2026-08-30",
+      "title": "Revenue splits: no audited segments, an off-balance-sheet industrial business, and a discount line growing 5x faster than revenue",
+      "author": "Claude",
+      "tags": [
+        "revenue",
+        "segments",
+        "disclosure",
+        "analysis"
+      ],
+      "body": "<strong>The revenue tab is now built &mdash; and the biggest thing on it is an absence.</strong> Asian Paints reports a <strong>single operating segment</strong>. The FY2026 annual report says, in both the standalone and the consolidated accounts, that the company is &ldquo;primarily engaged in the business of Paints and Home Decor&rdquo; and that &ldquo;there is no separate reportable segment as per Ind AS 108&rdquo;. Same wording in FY2025. Until FY2015 it split Paints from Home Improvement <em>with a segment result for each</em>, plus a domestic-versus-international revenue split. That went away from FY2016. So there is no audited revenue and no audited profit by business anywhere in the accounts, and every business-line figure on the tab comes from the unaudited financial review or the investor presentation.<br><br><strong>What could be built.</strong> Six splits, 16 slices, 10 category margins, 29 dated pointers, 7 stated absences. The one clean three-year series is the business table: decorative and home d&eacute;cor Rs 31,205 &rarr; 29,545 &rarr; 30,830 crore, international 3,061 &rarr; 3,066 &rarr; 3,354, industrial 1,116 &rarr; 1,186 &rarr; 1,332. It reconciles to revenue from operations to the rupee in all three years, the residual being other operating revenue &mdash; 99.8% coverage. The 87% line is still <em>below</em> its FY2024 level; all the growth is in the two small ones.<br><br><strong>Two findings I did not expect.</strong> First, the industrial franchise is about twice as large as consolidated revenue admits: the automotive joint venture is a 50% associate, equity-accounted, so its Rs 2,495 crore of income never enters the top line. It also earns an 18.1% profit-before-tax margin &mdash; the highest margin anywhere in the group, and entirely invisible in revenue. The annual report's own footnote to the business table concedes it: the industrial share of revenue excludes those revenues &ldquo;as it is an Associate Company&rdquo;. Second, the fastest-growing line item in the whole business is the <strong>discount</strong>. The gross-to-net reconciliation shows gross billing up 4.6% over two years while discounts, rebates, credits and incentives rose 24.7% &mdash; from 17.2% of gross billing in FY2024 to <strong>20.5% in FY2026</strong>. That is the competitive intensity showing up in the audited accounts rather than in the commentary, and it sits alongside management's refusal to quantify the discount gap against the new entrant.<br><br><strong>What could not be sourced, and was not invented.</strong> No premium-versus-economy split exists in any year, on either basis &mdash; the tier language (economy, premium, PreLux, luxury) is used constantly and defined nowhere. No product-family revenue: Damp Proof is called &ldquo;singularly the largest product&rdquo; with no figure attached, and putty, waterproofing, wood finishes and enamels are all discussed without one. No customer concentration and no channel mix &mdash; store and touchpoint <em>counts</em> only. Asked point blank where new-product gross and EBITDA margins sit against the company's ~43% and ~20%, management said they &ldquo;possibly corroborate our overall margins&rdquo;. That is the closest anyone has got to a category margin at this company, and it is not a number, so no number was written. The only mix metric that exists is the gap between volume and value growth, which management has quietly narrowed from 6-8% to 3-4% as its way of claiming premiumisation without publishing a premium share.<br><br><strong>The geographic trap.</strong> The only geographic disaggregation inside the audited accounts is home market against exports, and it classifies each subsidiary's sales in its own country as home market &mdash; so 99.2% of group revenue is &ldquo;home market&rdquo; for a group that earns 9.4% of revenue outside India. It is recorded as a stated absence rather than charted, because a 99.2/0.8 donut misleads even with a caveat. The real answer had to be assembled from the unaudited table: Rs 32,163 crore India against Rs 3,354 crore overseas in FY2026, with the international business split four ways &mdash; Asia 41%, Middle East 37%, Africa 17%, South Pacific 5%. The largest region is the least profitable (Middle East 7.0% before tax) and the smallest is by far the most (South Pacific 17.1%).<br><br>Three new documents were fetched (FY2026 and FY2025 annual reports, Q4 FY2026 investor presentation), all reached through the exchange filing links; five cached documents reused; no market-data requests spent."
+    },
     {
       "date": "2026-08-29",
       "title": "Decision: WAIT — and the three prices I would act at",
@@ -3958,6 +5347,7 @@ measureBoardDelta();   // needs the board painted, so after the first render
 const TAB_SPEC = [
   { id: "overall", label: "Overall" },
   { id: "metrics", label: "Metrics" },
+  { id: "revenue", label: "Revenue" },
   { id: "dcf",     label: "DCF" },
   { id: "relval",  label: "Relative valuation" },
   { id: "calls",   label: "Concalls summary" },

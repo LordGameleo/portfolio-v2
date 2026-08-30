@@ -142,9 +142,27 @@ const all = fs.readdirSync(SRC, { withFileTypes: true })
   .map(d => d.name)
   .sort()
 
-const slugs = all.filter(s => !s.startsWith('_'))
+// `hidden: true` in report.json withdraws a company from the library index in
+// both build modes. It has to withdraw it from PUBLICATION too, or the page
+// stays live at its own URL with nothing linking to it — hidden from the reader
+// who browses and not from the one who has the link. The flag had never been
+// exercised on a company with charts (Paras Defence, the only user, has none),
+// so this gap was latent until TVS Motor was hidden.
+const hidden = s => {
+  try {
+    return JSON.parse(fs.readFileSync(path.join(SRC, s, 'report.json'), 'utf8')).hidden === true
+  } catch (e) {
+    console.error(`[research] ${s}: report.json unreadable (${e.message})`)
+    process.exit(1)
+  }
+}
+
+const slugs = all.filter(s => !s.startsWith('_') && !hidden(s))
 for (const s of all.filter(s => s.startsWith('_'))) {
   console.log(`[research] skipping ${s} (underscore-prefixed, not for publication)`)
+}
+for (const s of all.filter(s => !s.startsWith('_') && hidden(s))) {
+  console.log(`[research] skipping ${s} (report.json hidden: true — withdrawn from the site)`)
 }
 
 if (!slugs.length) {

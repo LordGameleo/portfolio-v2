@@ -21,6 +21,18 @@
     --capital:        #1baf7a;
     --delta-good:     #006300;
     --delta-bad:      #d03b3b;
+    /* Revenue-split ramp — see the "Revenue splits" CSS block for why this is
+       a rank ramp of ONE hue and not eight categorical colours. Rank 1 is the
+       largest slice and is the darkest here; dark mode inverts, so the largest
+       slice is always the most prominent against its own background. */
+    --rev-1:          #123f73;
+    --rev-2:          #1a5da8;
+    --rev-3:          #2a78d6;
+    --rev-4:          #5b9be2;
+    --rev-5:          #8fbaec;
+    --rev-6:          #b9d3f4;
+    --rev-7:          #dbe8fa;
+    --rev-other:      #b6b5ad;
   }
   @media (prefers-color-scheme: dark) {
     :root:where(:not([data-theme="light"])) .viz-root {
@@ -39,6 +51,14 @@
       --capital:        #199e70;
       --delta-good:     #0ca30c;
       --delta-bad:      #d03b3b;
+      --rev-1:          #cfe1fa;
+      --rev-2:          #a6c8f2;
+      --rev-3:          #7aade8;
+      --rev-4:          #4f8fdc;
+      --rev-5:          #3070bd;
+      --rev-6:          #23558f;
+      --rev-7:          #1a3e68;
+      --rev-other:      #55544f;
     }
   }
   :root[data-theme="dark"] .viz-root {
@@ -57,6 +77,14 @@
     --capital:        #199e70;
     --delta-good:     #0ca30c;
     --delta-bad:      #d03b3b;
+    --rev-1:          #cfe1fa;
+    --rev-2:          #a6c8f2;
+    --rev-3:          #7aade8;
+    --rev-4:          #4f8fdc;
+    --rev-5:          #3070bd;
+    --rev-6:          #23558f;
+    --rev-7:          #1a3e68;
+    --rev-other:      #55544f;
   }
 
   html, body { margin: 0; }
@@ -497,6 +525,120 @@
     .rv-bar { grid-template-columns: 104px 1fr auto; gap: 7px; }
   }
 
+  /* ---- Revenue splits ----------------------------------------------------
+     A pie is the form that was asked for, and it is a WEAK form for
+     comparison: the eye reads angle badly, and past ~7 slices it reads
+     nothing at all. Two consequences are built into these rules rather than
+     left to discipline.
+
+     1. Colour is a RANK RAMP of one hue, not a categorical scale. Only three
+        hues clear this store's all-pairs colour-blindness gate (see the
+        family legend), so eight categorical hues would be a fabrication of
+        separation that does not exist. Slices are sorted by size and shaded
+        dark-to-light by rank in light mode, light-to-dark in dark mode — so
+        luminance carries rank, which is the one thing a ramp encodes
+        honestly, and identity is carried by the printed label in the table
+        beside every wedge. Rank is fixed on the LATEST period so a wedge
+        keeps its colour as the reader steps back through time.
+     2. Every number the pie encodes is ALSO printed. The table is not a
+        fallback for screen readers, it is the primary read: share, the value,
+        year-on-year growth and the slice's contribution to total growth in
+        percentage points, which is the column that says which part of the
+        business actually moved the top line.
+
+     Bars, Growth, Mix-over-time and Margin views share this block's marks. */
+  .rvn-cards { display: grid; gap: 16px; margin: 4px 0 0; }
+  .rvn-card { border: 1px solid var(--border); border-radius: 9px; padding: 13px 14px 14px; background: var(--page); }
+  .rvn-card.estimated { border-style: dashed; }
+  .rvn-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+  .rvn-head h3 { margin: 0; font-size: 14px; }
+  .rvn-q { font-size: 11.5px; color: var(--text-muted); }
+  .rvn-chip { font-size: 10px; border-radius: 999px; padding: 1px 8px; border: 1px solid var(--border); color: var(--text-secondary); white-space: nowrap; }
+  .rvn-chip.reported { border-color: var(--capital); color: var(--capital); }
+  .rvn-chip.derived { border-style: solid; }
+  .rvn-chip.estimated { border-style: dashed; color: var(--leverage); border-color: var(--leverage); }
+  .rvn-body { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 16px; align-items: start; margin: 11px 0 0; }
+  /* minmax(0, …) on every track, always. A bare `1fr` carries a min-content
+     floor, and the widest bar row or table row then pushes the card past the
+     viewport — which is exactly what happened here, in the four non-donut views
+     only, because they are the ones that use this class. */
+  .rvn-body.wide { grid-template-columns: minmax(0, 1fr); }
+  .rvn-fig { min-width: 0; }
+  .rvn-fig svg { width: 100%; height: auto; overflow: visible; }
+  .rvn-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  /* the wedge readout. Reserved height, so pointing at a slice never reflows
+     the card under the pointer. */
+  .rvn-read { font-size: 11.5px; color: var(--text-secondary); line-height: 1.5; margin: 6px 0 0; min-height: 34px; }
+  .rvn-read b { color: var(--text-primary); font-variant-numeric: tabular-nums; }
+  .rvn-read .pin { color: var(--text-muted); font-size: 10.5px; }
+  .rvn-wedge { stroke: var(--surface-1); stroke-width: 1.5; cursor: pointer; }
+  .rvn-wedge.dim, .rvn-stack i.dim { opacity: 0.35; }
+  .rvn-bar.on .nm, .rvn-bar.on .vl { color: var(--text-primary); font-weight: 600; }
+  .rvn-hole-v { font-size: 19px; font-weight: 600; fill: var(--text-primary); font-variant-numeric: tabular-nums; }
+  .rvn-hole-l { font-size: 10.5px; fill: var(--text-muted); }
+  /* Table: the primary read, not the fallback. Seven nowrap columns have a
+     min-content width wider than a phone, and a grid track cannot shrink below
+     that — so the table scrolls on its own axis rather than pushing the card
+     (and the whole page) past the viewport. */
+  .rvn-tbl { overflow-x: auto; }
+  .rvn-tbl table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+  .rvn-tbl th, .rvn-tbl td { padding: 4px 7px; text-align: right; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  .rvn-tbl th { color: var(--text-muted); font-weight: 500; font-size: 10.5px; }
+  .rvn-tbl th:first-child, .rvn-tbl td:first-child { text-align: left; white-space: normal; }
+  .rvn-tbl td { font-variant-numeric: tabular-nums; }
+  .rvn-tbl tr.on td { background: var(--hover); }
+  .rvn-tbl tr.tot td { font-weight: 600; border-bottom: 0; }
+  .rvn-sw { width: 9px; height: 9px; border-radius: 2px; display: inline-block; margin-right: 6px; flex: none; }
+  /* horizontal bars — share, growth and margin all use this mark */
+  .rvn-bars { display: grid; gap: 7px; }
+  .rvn-bar { display: grid; grid-template-columns: 148px 1fr auto; gap: 10px; align-items: center; font-size: 11.5px; }
+  .rvn-bar .nm { color: var(--text-secondary); overflow-wrap: anywhere; }
+  .rvn-bar .tr { position: relative; height: 15px; border-radius: 3px; background: var(--grid); }
+  .rvn-bar .fill { position: absolute; top: 0; bottom: 0; border-radius: 3px; }
+  /* zero line for the diverging growth bars: growth can be negative, and a bar
+     that only ever grows rightward hides that */
+  .rvn-bar .zero { position: absolute; top: -2px; bottom: -2px; width: 1px; background: var(--baseline); }
+  .rvn-bar .vl { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  /* mix over time — 100% stacked columns, one per period */
+  .rvn-mix { display: grid; gap: 10px; }
+  .rvn-mixrow { display: grid; grid-template-columns: 62px 1fr; gap: 10px; align-items: center; font-size: 11px; }
+  .rvn-mixrow .pd { color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .rvn-stack { display: flex; height: 20px; border-radius: 3px; overflow: hidden; background: var(--grid); }
+  .rvn-stack i { display: block; height: 100%; border-right: 1px solid var(--surface-1); }
+  .rvn-stack i:last-child { border-right: 0; }
+  .rvn-cov { font-size: 11px; color: var(--text-muted); margin: 10px 0 0; line-height: 1.55; }
+  .rvn-cov.gap { color: var(--leverage); }
+  .rvn-caveat { font-size: 11px; color: var(--text-muted); margin: 6px 0 0; line-height: 1.55; }
+  .rvn-none { font-size: 11.5px; color: var(--text-muted); margin: 8px 0 0; line-height: 1.55; }
+  /* management commentary — the whole card when a company publishes no split
+     at all, and a supplement when it publishes one */
+  .rvn-qual { margin: 10px 0 0; }
+  .rvn-qual ul { margin: 8px 0 0; padding-left: 17px; }
+  .rvn-qual li { font-size: 11.5px; color: var(--text-secondary); margin: 0 0 7px; line-height: 1.55; }
+  .rvn-qual li b { color: var(--text-primary); }
+  .rvn-kind { font-size: 9.5px; border-radius: 999px; padding: 1px 6px; border: 1px solid var(--border); color: var(--text-muted); margin-left: 5px; white-space: nowrap; }
+  /* a refusal to quantify is a finding, so it is marked, not buried */
+  .rvn-kind.non-answer { border-color: var(--leverage); color: var(--leverage); }
+  .rvn-kind.guidance { border-color: var(--scale); color: var(--scale); }
+  .rvn-q-src { color: var(--text-muted); }
+  .rvn-missing { margin: 16px 0 0; }
+  .rvn-missing h3 { font-size: 13.5px; margin: 0 0 5px; }
+  .rvn-missing ul { margin: 0; padding-left: 17px; }
+  .rvn-missing li { font-size: 11.5px; color: var(--text-secondary); margin: 0 0 6px; line-height: 1.55; }
+  .rvn-note { font-size: 11px; color: var(--text-muted); margin: 14px 0 0; line-height: 1.6; }
+  .rvn-up { color: var(--delta-good); }
+  .rvn-dn { color: var(--delta-bad); }
+  @media (max-width: 860px) {
+    /* minmax(0, 1fr), never a bare 1fr: a bare track has a min-content floor,
+       which the widest table row then pushes the card past the viewport with */
+    .rvn-body { grid-template-columns: minmax(0, 1fr); }
+    .rvn-fig { max-width: 320px; }
+  }
+  @media (max-width: 660px) {
+    .rvn-bar { grid-template-columns: 104px 1fr auto; gap: 7px; }
+    .rvn-mixrow { grid-template-columns: 50px 1fr; }
+  }
+
   @media (max-width: 640px) {
     /* a sticky bar eats too much of a phone screen, and touch readouts are
        better placed at the finger — see the per-panel chip in the SVG */
@@ -621,6 +763,31 @@
     .rv-callout { font-size: 13.5px; }
     .rv-bar { font-size: 12.5px; grid-template-columns: 168px 1fr auto; }
     .rv-excl li { font-size: 12.5px; }
+
+    /* Revenue splits — same stepping. The donut column widens too, because a
+       200px pie with seven slices is unreadable however good the labels are. */
+    .revenue h2 { font-size: 21px; }
+    .revenue .lede { font-size: 13.5px; }
+    .rvn-card { padding: 15px 17px 16px; }
+    .rvn-head h3 { font-size: 16.5px; }
+    .rvn-q { font-size: 13px; }
+    .rvn-chip { font-size: 11px; }
+    .rvn-body { grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 22px; }
+    .rvn-read { font-size: 13px; min-height: 40px; }
+    .rvn-tbl table { font-size: 13px; }
+    .rvn-tbl th { font-size: 12px; }
+    .rvn-tbl th, .rvn-tbl td { padding: 5px 9px; }
+    .rvn-bar { font-size: 13px; grid-template-columns: 176px 1fr auto; }
+    .rvn-bar .tr { height: 17px; }
+    .rvn-mixrow { font-size: 12.5px; grid-template-columns: 74px 1fr; }
+    .rvn-stack { height: 24px; }
+    .rvn-cov, .rvn-caveat, .rvn-none, .rvn-note { font-size: 12.5px; }
+    .rvn-qual li { font-size: 13px; }
+    .rvn-kind { font-size: 11px; }
+    .rvn-missing h3 { font-size: 15.5px; }
+    .rvn-missing li { font-size: 13px; }
+    .rvn-hole-v { font-size: 23px; }
+    .rvn-hole-l { font-size: 12px; }
   }
 </style>
 </head>
@@ -693,6 +860,27 @@
       <summary>View as table</summary>
       <div class="tbl-scroll"><table id="table"></table></div>
     </details>
+    </section>
+
+    <section class="revenue tabpanel" data-section="revenue" id="tab-revenue" role="tabpanel" aria-labelledby="tabbtn-revenue" hidden>
+      <h2>Revenue — what it is made of, and what moved it</h2>
+      <p class="lede" id="rvnLede"></p>
+      <div class="controls">
+        <span class="label">View</span>
+        <span class="segmented" id="rvnModes" role="group" aria-label="Revenue split view">
+          <button type="button" data-view="donut" aria-pressed="true">Donut</button>
+          <button type="button" data-view="bars" aria-pressed="false">Bars</button>
+          <button type="button" data-view="growth" aria-pressed="false">Growth</button>
+          <button type="button" data-view="mix" aria-pressed="false">Mix over time</button>
+          <button type="button" data-view="margin" aria-pressed="false">Margin</button>
+        </span>
+        <span class="label">Period</span>
+        <span class="segmented" id="rvnPeriods" role="group" aria-label="Period"></span>
+      </div>
+      <p class="note" id="rvnHint"></p>
+      <div class="rvn-cards" id="rvnCards"></div>
+      <div class="rvn-missing" id="rvnMissing"></div>
+      <p class="rvn-note" id="rvnNote"></p>
     </section>
 
     <section class="dcf tabpanel" data-section="dcf" id="tab-dcf" role="tabpanel" aria-labelledby="tabbtn-dcf" hidden>
@@ -4172,6 +4360,1135 @@ const RELVAL = {
 })();
 
 // ---------------------------------------------------------------------------
+// REVENUE SPLITS. What the top line is made of, and what moved it.
+//
+// A donut was asked for and is the default. It is a WEAK form: the eye reads
+// angle poorly, and past ~7 slices it reads nothing at all. So every number
+// the wedge encodes is also printed in the table beside it, the slice count is
+// capped by the validator, and three stronger forms are one click away — Bars
+// (share on one scale), Growth (per-slice year-on-year, plus each slice's
+// contribution to the total in percentage points, which is the column that
+// says which part of the business actually moved revenue) and Mix over time
+// (share drift, where a story the latest pie cannot tell shows up).
+//
+// Colour is a RANK RAMP of one hue, not a categorical scale: only three hues
+// clear this store's colour-blindness gate, so eight would assert a separation
+// that does not exist. Rank is fixed on each split's LATEST period, so a slice
+// keeps its shade as the reader steps back through time.
+//
+// Where a company publishes no numbers on a dimension, the card carries dated
+// management commentary instead — including the refusals, which are marked as
+// non-answers because a refusal to quantify is itself a finding.
+// ---------------------------------------------------------------------------
+const REVENUE = {
+  "company": "Varun Beverages Ltd",
+  "basis": "consolidated",
+  "generated_at": "2026-08-30",
+  "currency": "Rs crore",
+  "period_kind": "fy",
+  "periods": [
+    "CY2023",
+    "CY2024",
+    "CY2025"
+  ],
+  "lede": "<p>Varun Beverages reports on a <strong>calendar</strong> year: CY2025 is the twelve months to 31 December 2025, and every period below is a December year end, not an Indian March fiscal year. The company runs a <strong>single reportable business segment</strong> &mdash; manufacturing and sale of beverages &mdash; so there is no segment note that splits revenue by drink. The only revenue split it reports is <strong>geographical: India versus outside India</strong>. Everything on this tab is built from that note, from the revenue note beneath it, and from the statement of subsidiaries, which is the one place the annual report puts a turnover figure against each country.</p><p>Two things are worth reading twice. India's <em>reported</em> revenue grew 1.9% in CY2025, but India's sale of products and services was <em>flat</em> &mdash; the growth came from government incentive income sitting in other operating revenue, which rose 61%. And the category mix the company publishes is a mix of <strong>volume</strong>, not of revenue: it is recorded here as commentary rather than converted into rupees, because the realisation per case differs by category and the company does not publish it.</p>",
+  "splits": [
+    {
+      "key": "geography",
+      "label": "By geography — India vs international",
+      "question": "Where does the money come from?",
+      "unit": "inr_cr",
+      "confidence": "reported",
+      "periods": [
+        "CY2023",
+        "CY2024",
+        "CY2025"
+      ],
+      "source": "CY2025 annual report, geographical segment note; CY2023 from the CY2024 annual report",
+      "slices": [
+        {
+          "name": "India",
+          "values": {
+            "CY2023": 12576.3,
+            "CY2024": 14175.6,
+            "CY2025": 14449.2
+          },
+          "is_other": false
+        },
+        {
+          "name": "Outside India",
+          "values": {
+            "CY2023": 3744.7,
+            "CY2024": 6305.7,
+            "CY2025": 7776.3
+          },
+          "is_other": false
+        }
+      ],
+      "total": {
+        "CY2023": 16321.1,
+        "CY2024": 20481.3,
+        "CY2025": 22225.6
+      },
+      "reported_total": {
+        "CY2023": 16321.1,
+        "CY2024": 20481.3,
+        "CY2025": 22225.6
+      },
+      "caveat": "Calendar-year periods: CY2025 is the year to 31 December 2025. This is the only geographical split the company reports and it is struck on revenue from operations, which is GROSS of excise duty and includes other operating revenue. The revenue series plotted elsewhere on this dashboard is NET of excise (Rs 16,043 / 20,008 / 21,685 crore), i.e. 1.7% to 2.5% lower — a basis difference, not a discrepancy. All the excise duty arises in the overseas subsidiaries (Rs 540.2 crore in CY2025), so on the net basis the shares become roughly 67% India and 33% international, which is the split the company itself quotes. India's own share of revenue has fallen from 77.1% (CY2023) to 65.0% (CY2025) on the gross basis.",
+      "disclosure": "It says nothing about profitability by geography: the company reports a single business segment and publishes no segment result, so there is no reported India-versus-international margin. It also cannot be read as a customer-location split — the note is drawn on where the Group operates.",
+      "qualitative": [
+        {
+          "point": "International volumes reached 30.8% of group volume in CY2025 while international revenue was 35.0% of revenue from operations, so a case sold abroad fetches more than a case sold in India. Management repeatedly attributes improving consolidated realisation to international territories rather than to India.",
+          "figure": "374 of 1,213 million cases; Rs 7,776 crore of Rs 22,226 crore",
+          "speaker": "computed from the group's own volume and revenue disclosures",
+          "source": "Q2 CY2026 investor presentation and CY2025 annual report",
+          "date": "2026-07-28",
+          "kind": "fact"
+        },
+        {
+          "point": "Group volume by geography, as published: India 737, 821 and 839 million cases in CY2023, CY2024 and CY2025 against international 176, 303 and 374 million. India volume growth was 2.2% in CY2025 against 23.3% internationally — the entire volume growth of the group came from abroad.",
+          "figure": "India +2.2%, international +23.3% in CY2025",
+          "source": "Q2 CY2026 investor presentation; volume decomposition also in the April 2026 credit rating rationale",
+          "date": "2026-07-28",
+          "kind": "fact"
+        },
+        {
+          "point": "The international mix is now large enough to move the group's gross margin. In Q2 CY2026 gross margin improved 44 bps to 55.0% and management credited the higher mix of international business, while the group EBITDA margin fell 76 bps because the newly consolidated Twizza business in South Africa runs at lower margins.",
+          "figure": "gross margin 55.0%, EBITDA margin 27.7% in Q2 CY2026",
+          "speaker": "Raj Gandhi, President & Whole-Time Director",
+          "source": "Q2 CY2026 earnings call",
+          "date": "2026-07-28",
+          "kind": "fact",
+          "quote": "EBITDA margin declined by 76 basis points year-on-year primarily due to consolidation of Twizza business which currently operates at lower margins."
+        },
+        {
+          "point": "Asked which international geographies were driving growth, management named Zambia as the laggard and said every other territory was growing fast — but gave no revenue or margin figure for any single country, in three consecutive calls.",
+          "speaker": "Ravi Jaipuria, Chairman",
+          "source": "Q2 CY2026 earnings call",
+          "date": "2026-07-28",
+          "kind": "non-answer",
+          "quote": "Internationally, all our countries except Zambia, which is slightly slower and a very small market for us, are growing at a reasonably fast pace."
+        },
+        {
+          "point": "The international footprint is still being bought rather than only grown, so this series is not a clean like-for-like: the South African business was acquired in March 2024, the Democratic Republic of the Congo operation started up in 2024, Twizza (South Africa) was consolidated from March 2026 and an agreement for a Kenyan business was signed in July 2026.",
+          "figure": "Twizza added 11.8 million cases in Q2 CY2026 alone",
+          "source": "Q2 CY2026 investor presentation and earnings call",
+          "date": "2026-07-28",
+          "kind": "fact"
+        }
+      ]
+    },
+    {
+      "key": "geography_product_sales",
+      "label": "By geography — product sales only",
+      "question": "Strip out government incentives: where is the business actually selling more?",
+      "unit": "inr_cr",
+      "confidence": "reported",
+      "periods": [
+        "CY2023",
+        "CY2024",
+        "CY2025"
+      ],
+      "source": "CY2025 annual report, revenue note — disaggregation of revenue from contracts with customers by geographical area; CY2023 from the CY2024 annual report",
+      "slices": [
+        {
+          "name": "India",
+          "values": {
+            "CY2023": 12159.5,
+            "CY2024": 13617.4,
+            "CY2025": 13604.6
+          },
+          "is_other": false
+        },
+        {
+          "name": "Outside India",
+          "values": {
+            "CY2023": 3740.7,
+            "CY2024": 6301.3,
+            "CY2025": 7770.2
+          },
+          "is_other": false
+        }
+      ],
+      "total": {
+        "CY2023": 15900.2,
+        "CY2024": 19918.7,
+        "CY2025": 21374.8
+      },
+      "reported_total": {
+        "CY2023": 16321.1,
+        "CY2024": 20481.3,
+        "CY2025": 22225.6
+      },
+      "margins": [
+        {
+          "name": "India",
+          "metric": "share of India revenue that is not product or service sales",
+          "basis": "India revenue from operations in the geographical segment note less India sale of products and rendering of services in the revenue note, over India revenue from operations. It is the weight of other operating revenue — overwhelmingly state industrial-promotion incentives — inside the India number, NOT a profit margin.",
+          "kind": "computed",
+          "values": {
+            "CY2023": 3.3,
+            "CY2024": 3.9,
+            "CY2025": 5.8
+          }
+        }
+      ],
+      "caveat": "This is the same India-versus-international dimension as the card above, but on the narrower Ind AS 115 basis: sale of products and rendering of services only, so it EXCLUDES other operating revenue (mainly government incentives) and therefore covers about 96% of revenue from operations. It is still gross of excise duty, and the total it is measured against — revenue from operations of Rs 22,225.6 crore in CY2025 — is the gross figure from the statements, which is 2.5% above the net-of-excise revenue series plotted elsewhere on this dashboard; that is a basis difference, not an error. The finding it exists to show: India product and service sales were 13,617.4 crore in CY2024 and 13,604.6 crore in CY2025 — FLAT, in fact fractionally down — while India's reported revenue rose 1.9%. Essentially all of the difference is other operating revenue, which is almost entirely India (Rs 844.7 crore of the Rs 850.8 crore group total in CY2025).",
+      "disclosure": "It does not tell you why India product sales stalled. The company's own account is weather: unusually heavy and prolonged rain through the CY2025 season, plus pack upsizing and discounting that cut realisation per case even as volume grew 2.2%.",
+      "qualitative": [
+        {
+          "point": "Government incentive income booked inside other operating revenue — state industrial-promotion tax exemption schemes — rose 61% in CY2025 and is now larger than the group's entire international revenue was in 2016. It is the reason reported India revenue grew at all in CY2025.",
+          "figure": "Rs 346.3 crore (CY2023), Rs 482.9 crore (CY2024), Rs 776.1 crore (CY2025)",
+          "source": "CY2025 and CY2024 annual reports, revenue note",
+          "date": "2026-03-09",
+          "kind": "fact"
+        },
+        {
+          "point": "Asked directly why India volume grew 10.5% in Q4 CY2025 while India sales grew only about 6%, management said the gap was not mix but discounting and deliberate pack upsizing, and declined to break the mix down further.",
+          "speaker": "Raj Gandhi, President & Whole-Time Director",
+          "source": "Q4 CY2025 earnings call",
+          "date": "2026-02-03",
+          "kind": "non-answer",
+          "quote": "The difference of 4% is not because of the mix as it did not change that much. The year was challenging, and given the competitive scenario, everyone was trying to discount the product."
+        },
+        {
+          "point": "Discounts and rebates deducted before revenue is recognised have grown far faster than revenue: 2.0% of the contracted price in CY2023, 3.6% in CY2024, 4.0% in CY2025. Gross contracted price for CY2025 was Rs 22,267.7 crore against Rs 21,374.8 crore recognised.",
+          "figure": "Rs 332.7 crore, Rs 752.8 crore, Rs 892.9 crore of discounts and rebates",
+          "source": "CY2025 and CY2024 annual reports, revenue note",
+          "date": "2026-03-09",
+          "kind": "fact"
+        },
+        {
+          "point": "India realisation per case is being given away deliberately to buy volume, and has been negative for several quarters: down 1.5% in Q1 CY2026 and down 0.6% in Q2 CY2026 even as consolidated realisation rose, because of pack upsizing from 250 ml to 400 ml at the Rs 20 price point.",
+          "figure": "India realisation Rs 169.6 per case in Q2 CY2026 vs Rs 170.6 a year earlier",
+          "source": "Q2 CY2026 investor presentation and Q1 CY2026 earnings call",
+          "date": "2026-07-28",
+          "kind": "fact"
+        }
+      ]
+    },
+    {
+      "key": "international_territory",
+      "label": "International revenue by territory",
+      "question": "Which country is the international growth, and what does each one earn?",
+      "unit": "inr_cr",
+      "confidence": "derived",
+      "periods": [
+        "CY2024",
+        "CY2025"
+      ],
+      "source": "CY2025 annual report, statement of subsidiaries; CY2024 from the CY2024 annual report",
+      "slices": [
+        {
+          "name": "South Africa",
+          "values": {
+            "CY2024": 1576.3,
+            "CY2025": 2583.6
+          },
+          "is_other": false
+        },
+        {
+          "name": "Zimbabwe",
+          "values": {
+            "CY2024": 1627.8,
+            "CY2025": 1608.3
+          },
+          "is_other": false
+        },
+        {
+          "name": "Morocco",
+          "values": {
+            "CY2024": 1236.4,
+            "CY2025": 1425.9
+          },
+          "is_other": false
+        },
+        {
+          "name": "Nepal",
+          "values": {
+            "CY2024": 680.8,
+            "CY2025": 734.6
+          },
+          "is_other": false
+        },
+        {
+          "name": "Zambia",
+          "values": {
+            "CY2024": 343.1,
+            "CY2025": 514.1
+          },
+          "is_other": false
+        },
+        {
+          "name": "Sri Lanka",
+          "values": {
+            "CY2024": 398.5,
+            "CY2025": 418.5
+          },
+          "is_other": false
+        },
+        {
+          "name": "DR Congo",
+          "values": {
+            "CY2024": 294.5,
+            "CY2025": 414.7
+          },
+          "is_other": false
+        }
+      ],
+      "total": {
+        "CY2024": 6305.7,
+        "CY2025": 7776.3
+      },
+      "reported_total": {
+        "CY2024": 20481.3,
+        "CY2025": 22225.6
+      },
+      "margins": [
+        {
+          "name": "South Africa",
+          "metric": "profit before tax margin",
+          "basis": "each subsidiary's own profit before tax over its own turnover, both as printed for that entity in the annual report's statement of subsidiaries. These are STANDALONE entity figures before consolidation eliminations, struck after local interest, depreciation and lease charges, and stated for 100% of the entity regardless of the group's ownership share — so they are not comparable with the group EBITDA margin and not additive to group profit.",
+          "kind": "computed",
+          "values": {
+            "CY2024": -1.5,
+            "CY2025": 1.2
+          }
+        },
+        {
+          "name": "Zimbabwe",
+          "metric": "profit before tax margin",
+          "basis": "subsidiary profit before tax over that subsidiary's turnover, from the statement of subsidiaries; standalone, after local interest and depreciation, 100% of the entity.",
+          "kind": "computed",
+          "values": {
+            "CY2024": 13.0,
+            "CY2025": 7.3
+          }
+        },
+        {
+          "name": "Morocco",
+          "metric": "profit before tax margin",
+          "basis": "subsidiary profit before tax over that subsidiary's turnover, from the statement of subsidiaries; standalone, after local interest and depreciation, 100% of the entity.",
+          "kind": "computed",
+          "values": {
+            "CY2024": 2.9,
+            "CY2025": 4.3
+          }
+        },
+        {
+          "name": "Nepal",
+          "metric": "profit before tax margin",
+          "basis": "subsidiary profit before tax over that subsidiary's turnover, from the statement of subsidiaries; standalone, after local interest and depreciation, 100% of the entity. Nepal's own financial year ends in mid-July, so its figures are not a December-to-December year.",
+          "kind": "computed",
+          "values": {
+            "CY2024": 22.4,
+            "CY2025": 17.9
+          }
+        },
+        {
+          "name": "Zambia",
+          "metric": "profit before tax margin",
+          "basis": "subsidiary profit before tax over that subsidiary's turnover, from the statement of subsidiaries; standalone, after local interest and depreciation, 100% of the entity (the group held 90% in CY2024 and 95% in CY2025).",
+          "kind": "computed",
+          "values": {
+            "CY2024": -4.9,
+            "CY2025": 11.2
+          }
+        },
+        {
+          "name": "Sri Lanka",
+          "metric": "profit before tax margin",
+          "basis": "subsidiary profit before tax over that subsidiary's turnover, from the statement of subsidiaries; consolidated for the Sri Lankan sub-group, after local interest and depreciation.",
+          "kind": "computed",
+          "values": {
+            "CY2024": 18.7,
+            "CY2025": 23.8
+          }
+        },
+        {
+          "name": "DR Congo",
+          "metric": "profit before tax margin",
+          "basis": "subsidiary profit before tax over that subsidiary's turnover, from the statement of subsidiaries; standalone, after local interest and depreciation, 100% of the entity. The plant was still ramping up through both years.",
+          "kind": "computed",
+          "values": {
+            "CY2024": 1.8,
+            "CY2025": 9.1
+          }
+        }
+      ],
+      "caveat": "DERIVED, and the composition is ours, not the company's: the annual report publishes no revenue-by-country table, so each slice is the turnover printed against that legal entity in the statement of subsidiaries, converted at 1 crore = 10 million and grouped by the country the entity trades in. Three consequences. (1) The slices cover 99.0% of CY2025 and 97.6% of CY2024 international revenue; the remainder is two dormant entities, a Mozambican start-up and consolidation eliminations. (2) The group's Dubai-based international trading subsidiary is EXCLUDED (Rs 721.4 crore of turnover in CY2025, Rs 795.8 crore in CY2024): including it would push the total 8% above the reported international revenue, which is only possible if most of its sales are to other group companies. (3) South Africa was acquired on 26 March 2024, so CY2024 carries roughly nine months and its 64% CY2025 growth is not like-for-like; Twizza, consolidated from March 2026, is in neither year. The whole-company figure this pie is measured against is revenue from operations, gross of excise, which is 2.4-2.5% above the net-of-excise revenue series plotted elsewhere on this dashboard — a basis difference, not an error.",
+      "disclosure": "It does not tell you what the group earns from each country after group-level financing, royalties and central costs, and the margins are not the segment results a multi-segment company would report — there are none, because the group reports one segment.",
+      "qualitative": [
+        {
+          "point": "The shape of the international book changed sharply in CY2025 even though the total grew 23%: South Africa went from a fifth of international revenue to a third, while Zimbabwe — the second largest international unit — went slightly backwards and its profit before tax nearly halved.",
+          "figure": "South Africa Rs 1,576 crore to Rs 2,584 crore; Zimbabwe Rs 1,628 crore to Rs 1,608 crore with profit before tax down from Rs 212 crore to Rs 118 crore",
+          "speaker": "computed from the statement of subsidiaries",
+          "source": "CY2025 and CY2024 annual reports",
+          "date": "2026-03-09",
+          "kind": "fact"
+        },
+        {
+          "point": "Management's own explanation of the Zimbabwe setback and its recovery is a sugar tax, given a year late and only when an analyst pressed on which geographies were firing.",
+          "speaker": "Ravi Jaipuria, Chairman",
+          "source": "Q2 CY2026 earnings call",
+          "date": "2026-07-28",
+          "kind": "fact",
+          "quote": "Last year we had some issue with Zimbabwe, which has also started firing now because of sugar tax and all that."
+        },
+        {
+          "point": "South Africa is the declared priority and the one territory with a quantified growth ambition, on capacity bought rather than built: the Twizza acquisition was said to add 70-80% to capacity there.",
+          "figure": "growth of around 80% or higher in South Africa guided for CY2026",
+          "speaker": "Raj Gandhi, President & Whole-Time Director",
+          "source": "Q4 CY2025 earnings call",
+          "date": "2026-02-03",
+          "kind": "guidance",
+          "quote": "With the total organic and inorganic capex, we should see the growth of somewhere around 80% or higher in South Africa this year."
+        },
+        {
+          "point": "It is the lowest-margin territory that is growing fastest. On these entity figures South Africa earned a 1.2% profit-before-tax margin in CY2025 against 23.8% in Sri Lanka and 17.9% in Nepal, and management, asked for Twizza's margin run-rate, said only that it was too early and that they intended to fix it.",
+          "figure": "Twizza revenue about Rs 800 crore, bought for about Rs 1,140 crore",
+          "speaker": "Ravi Jaipuria, Chairman",
+          "source": "Q1 CY2026 earnings call",
+          "date": "2026-04-27",
+          "kind": "non-answer",
+          "quote": "On the margins, we think it is a bit too early. Let us take it over properly. It has been 10-15 days only or a month. We are going to correct the margins."
+        },
+        {
+          "point": "Africa is where the currency and geopolitical exposure now sits, and the rating agency named it a monitorable while reaffirming the top rating. The group hedges naturally rather than financially — revenue, most costs and the debt are in the same local currency.",
+          "source": "April 2026 credit rating rationale",
+          "date": "2026-04-21",
+          "kind": "opinion",
+          "quote": "However, currency fluctuations and geopolitical scenario in Africa remain monitorable."
+        }
+      ]
+    },
+    {
+      "key": "revenue_line",
+      "label": "By revenue line",
+      "question": "How much of the top line is actually selling drinks?",
+      "unit": "inr_cr",
+      "confidence": "reported",
+      "periods": [
+        "CY2023",
+        "CY2024",
+        "CY2025"
+      ],
+      "source": "CY2025 annual report, revenue from operations note; CY2023 from the CY2024 annual report",
+      "slices": [
+        {
+          "name": "Sale of products",
+          "values": {
+            "CY2023": 15868.7,
+            "CY2024": 19839.4,
+            "CY2025": 21307.4
+          },
+          "is_other": false
+        },
+        {
+          "name": "Other operating revenue",
+          "values": {
+            "CY2023": 420.8,
+            "CY2024": 562.6,
+            "CY2025": 850.8
+          },
+          "is_other": false
+        },
+        {
+          "name": "Rendering of services",
+          "values": {
+            "CY2023": 31.5,
+            "CY2024": 79.3,
+            "CY2025": 67.4
+          },
+          "is_other": false
+        }
+      ],
+      "total": {
+        "CY2023": 16321.1,
+        "CY2024": 20481.3,
+        "CY2025": 22225.6
+      },
+      "reported_total": {
+        "CY2023": 16321.1,
+        "CY2024": 20481.3,
+        "CY2025": 22225.6
+      },
+      "caveat": "Calendar years, and gross of excise duty — sale of products is stated inclusive of the excise collected in the overseas subsidiaries (Rs 278.5, 473.7 and 540.2 crore in CY2023, CY2024 and CY2025). Sale of products mixes beverages with non-beverage sales such as packing material and the African snacks business, which the company does not separate in the annual report. Other operating revenue is 91% government incentive income in CY2025.",
+      "disclosure": "Sale of products is one line for the whole group: it is not split by drink category anywhere in the annual report, because the group reports a single business segment.",
+      "qualitative": [
+        {
+          "point": "Other operating revenue has grown from 2.6% of the top line in CY2023 to 3.8% in CY2025 and is the fastest-growing line on the statement. It is not a customer-facing revenue stream: it is state industrial-promotion tax exemption income earned on the Indian plants, so it will move with where new plants are built, not with how many drinks are sold.",
+          "figure": "government grants of Rs 776.1 crore within Rs 850.8 crore of other operating revenue in CY2025",
+          "source": "CY2025 annual report, revenue note",
+          "date": "2026-03-09",
+          "kind": "fact"
+        },
+        {
+          "point": "The quarterly investor presentation does split revenue into beverage and non-beverage — the only reported revenue split by product the company gives — but only for the quarter, never for the year. In Q2 CY2026 non-beverage revenue was flat while beverage revenue grew 21.2%, and India's non-beverage revenue fell 12.9%.",
+          "figure": "Q2 CY2026 beverage Rs 8,181.9 crore (+21.2%), non-beverage Rs 269.4 crore (+0.2%)",
+          "source": "Q2 CY2026 investor presentation",
+          "date": "2026-07-28",
+          "kind": "fact"
+        }
+      ]
+    },
+    {
+      "key": "product_category",
+      "label": "By product category",
+      "question": "Carbonated drinks, juice, water, energy — which of them is the money?",
+      "confidence": "reported",
+      "source": "CY2025 annual report and the CY2025, Q1 CY2026 and Q2 CY2026 earnings calls and investor presentation",
+      "caveat": "NO SLICES ON PURPOSE. The company publishes its category mix as a share of VOLUME, never of revenue, and realisation per case differs materially between carbonated drinks, juice, water and energy drinks. Converting a volume mix into a revenue mix would require a per-category realisation the company has never given, so the figures below are recorded as commentary instead. Every percentage in this card is a share of unit cases, not of rupees.",
+      "disclosure": "Because the mix is volumetric, it tells you nothing about which category earns the profit. Packaged water is a fifth of volume but management describes it as a commodity it deliberately does not push; carbonated drinks carry a 40% GST rate against 5% on the juice-based launches, which changes the economics of the same case.",
+      "qualitative": [
+        {
+          "point": "Category mix of consolidated sales VOLUME for CY2025: carbonated soft drinks 73.9%, non-carbonated beverages 5.9%, packaged drinking water 20.2%. The mix has been stable for years and management says explicitly that it is not what moves realisation.",
+          "figure": "CSD 73.9% / NCB 5.9% / water 20.2% of 1,213.1 million cases",
+          "source": "CY2025 annual report, management discussion, and the Q4 CY2025 earnings call",
+          "date": "2026-02-03",
+          "kind": "fact"
+        },
+        {
+          "point": "The same volume mix quarter by quarter, which is where the seasonality shows: carbonated drinks have run at 72-75% of cases in every quarter since Q3 CY2024, water at 18-24% and non-carbonated at 4-7%, with water heaviest in the off-season and non-carbonated heaviest in the summer quarters.",
+          "figure": "Q2 CY2026: CSD 351 million cases (75%), non-carbonated 30 (7%), water 85 (18%)",
+          "source": "Q2 CY2026 investor presentation",
+          "date": "2026-07-28",
+          "kind": "fact"
+        },
+        {
+          "point": "Asked point blank for growth by category and whether the newer categories behave differently from carbonated drinks, management refused the numbers and offered a multiple instead. This is the closest thing to a category growth disclosure the company has given.",
+          "speaker": "Varun Jaipuria, Executive Vice Chairman",
+          "source": "Q2 CY2026 earnings call",
+          "date": "2026-07-28",
+          "kind": "non-answer",
+          "quote": "In terms of growth, we cannot give you the specifics here, but at least we are seeing 3x-4x growth compared to our overall business."
+        },
+        {
+          "point": "Pressed again in the same exchange, the Chairman gave two growth rates with no base attached, so they cannot be turned into rupees: value-added dairy growing over 40% and the Nimbooz hydration range over 30%.",
+          "figure": "value-added dairy +40%, Nimbooz +30%",
+          "speaker": "Ravi Jaipuria, Chairman",
+          "source": "Q2 CY2026 earnings call",
+          "date": "2026-07-28",
+          "kind": "fact",
+          "quote": "We can also give you some numbers for your comfort that VAD is growing at over 40% for us and Nimbooz is growing at more than 30% for us."
+        },
+        {
+          "point": "The one product category the company has put a rupee figure against is the African snacks business, disclosed only in answer to a question. It is small but tripling, and it sits inside the international revenue line while being excluded from the case volumes.",
+          "figure": "about Rs 340 crore in CY2025; Rs 112 crore in Q1 CY2026 against Rs 52 crore a year earlier; growing about 50% by Q2 CY2026",
+          "speaker": "Ravi Jaipuria, Chairman",
+          "source": "Q4 CY2025 and Q1 CY2026 earnings calls",
+          "date": "2026-02-03",
+          "kind": "fact",
+          "quote": "The snack food revenue was ~ Rs. 340 crores in the year CY2025."
+        },
+        {
+          "point": "Energy drinks are the category investors ask about most and the only one with a live regulatory question, and the company has never sized it. Management said a labelling directive requiring the word energy to be dropped caused a temporary dip whose volume moved into carbonated drinks — which is a mix shift no published figure would show.",
+          "speaker": "Varun Jaipuria, Executive Vice Chairman",
+          "source": "Q2 CY2026 earnings call",
+          "date": "2026-07-28",
+          "kind": "fact",
+          "quote": "Even though there has been a temporary dip in the mix of energy, we are seeing all of that volume has shifted to CSD."
+        },
+        {
+          "point": "Management does put a profitability judgement on one part of the portfolio without giving its size: the Rs 10 price point that a new competitor is pushing. It says it is unprofitable, is being held below 5-7% of the portfolio, and is deliberately not being chased while growth is above 20% without it.",
+          "speaker": "Varun Jaipuria, Executive Vice Chairman",
+          "source": "Q2 CY2026 earnings call",
+          "date": "2026-07-28",
+          "kind": "opinion",
+          "quote": "We have not scaled up Rs. 10 significantly as it is a non-profitable category for us."
+        },
+        {
+          "point": "The portfolio is being reformulated faster than it is being re-priced: low-sugar and no-sugar products were about 59% of consolidated volume in CY2025 and about 73% in the first half of CY2026, which management credits for holding gross margin as sugar and resin costs rose.",
+          "figure": "low-sugar / no-sugar mix ~59% of CY2025 volume, ~73% of H1 CY2026 volume",
+          "source": "Q2 CY2026 investor presentation and CY2025 annual report",
+          "date": "2026-07-28",
+          "kind": "fact"
+        }
+      ]
+    },
+    {
+      "key": "channel",
+      "label": "By channel and route to market",
+      "question": "Who actually buys it — and does the company say what each channel is worth?",
+      "confidence": "reported",
+      "source": "CY2025 annual report and the Q4 CY2025, Q1 CY2026 and Q2 CY2026 earnings calls",
+      "caveat": "No revenue is attributed to any channel, in any document. What the company publishes is the physical scale of the route to market — outlets and chilling equipment — and in CY2025 it stopped publishing even that on a regular basis. There is nothing here to draw a pie from.",
+      "disclosure": "Nothing on general trade versus modern trade versus e-commerce, nothing on the split between company-owned distribution and third-party distributors, and no revenue per outlet.",
+      "qualitative": [
+        {
+          "point": "The scale of the route to market, as given on a call rather than in a filing: a base of about 4 million outlets, with more than 10% added during CY2026 so far, and over a million visi-coolers placed in the trade. Management calls the go-to-market expansion the direct cause of the volume growth.",
+          "figure": "about 4 million outlets, adding close to half a million; visi-coolers over one million",
+          "speaker": "Ravi Jaipuria, Chairman",
+          "source": "Q1 CY2026 earnings call",
+          "date": "2026-04-27",
+          "kind": "fact",
+          "quote": "That is why we are hoping to add close to half a million outlets with a base of about 4 million."
+        },
+        {
+          "point": "The company deliberately WITHDREW its distribution disclosure. Asked why the CY2025 results deck no longer carried the distribution-expansion and visi-cooler numbers it had always given, management said publishing them would help competitors. This is a disclosure that got worse, not a gap that was never filled.",
+          "speaker": "Ravi Jaipuria, Chairman",
+          "source": "Q4 CY2025 earnings call",
+          "date": "2026-02-03",
+          "kind": "non-answer",
+          "quote": "We do not feel it is necessary to disclose these figures every time, as doing so would only provide additional information to our competitors, which we would prefer to avoid."
+        },
+        {
+          "point": "The company describes its customers as end consumers served through distributors, retailers, modern trade, hotels and restaurants, and states that no single external customer accounts for 10% or more of group revenue. That is the whole of the published customer disclosure.",
+          "source": "CY2025 annual report, revenue note and sustainability report",
+          "date": "2026-03-09",
+          "kind": "fact"
+        },
+        {
+          "point": "The structural point about the channel that does have a hard number: the licence itself. The India bottling and trademark agreement with the brand owner was extended to April 2049 and the clause requiring the company to act solely as that brand's vehicle was removed, which is what allows the group to sell categories beyond the franchise through the same route to market.",
+          "figure": "agreement extended from April 2039 to April 2049, revised 21 May 2026",
+          "source": "Q2 CY2026 investor presentation",
+          "date": "2026-07-28",
+          "kind": "fact"
+        },
+        {
+          "point": "Management will not discuss market share in the channels it serves at all, including when an analyst quoted the brand owner's own published claim about Indian share.",
+          "speaker": "Ravi Jaipuria, Chairman",
+          "source": "Q2 CY2026 earnings call",
+          "date": "2026-07-28",
+          "kind": "non-answer",
+          "quote": "We do not go into market share."
+        }
+      ]
+    }
+  ],
+  "not_disclosed": [
+    {
+      "dimension": "Revenue or margin by drink category",
+      "what_is_known": "Category mix is published only as a share of unit-case VOLUME (carbonated 73.9%, non-carbonated 5.9%, packaged water 20.2% in CY2025), plus one rupee figure for the African snacks business (about Rs 340 crore in CY2025) and a quarterly beverage-versus-non-beverage revenue split in the results presentation. There is no revenue, gross margin or EBITDA by category anywhere.",
+      "why_it_matters": "Carbonated drinks, juice, water and energy drinks carry different realisations per case, different GST rates (40% on carbonated against 5% on the juice-based launches) and, on management's own description, very different economics — water is called a commodity it will not push, the Rs 10 pack is called unprofitable. Without a revenue split, a reader cannot tell whether the growth being reported is profitable growth, and cannot check the claim that the newer categories are growing 3-4 times faster than the group.",
+      "evidence": "The CY2025 and CY2024 annual reports state a single reportable business segment (manufacturing and sale of beverages) with no product disaggregation; the revenue note says explicitly that there is no further disaggregation of revenue; and in the Q2 CY2026 call management declined to give category growth when asked."
+    },
+    {
+      "dimension": "Energy-drink and individual brand contribution",
+      "what_is_known": "Nothing quantitative. The energy portfolio is discussed on every call — the flagship energy brand, a new mid-priced launch that management says outran its own can supply, and a labelling directive requiring the word energy to be removed within 90 days — but no volume, revenue or margin figure has been given for it, and it is not separated from carbonated drinks in the volume mix.",
+      "why_it_matters": "Energy is the highest-realisation, highest-growth part of the Indian portfolio and the one with an open regulatory question. Its size determines how much of the group's realisation per case and gross margin is at risk from a relabelling, and whether the volume that shifted into carbonated drinks came back.",
+      "evidence": "Searched all three earnings calls held in 2026, the CY2025 annual report and the Q2 CY2026 investor presentation: the energy brands appear only in the brand-portfolio lists and in qualitative answers."
+    },
+    {
+      "dimension": "Customer concentration and the distributor network",
+      "what_is_known": "The annual report states, in both CY2024 and CY2025, that no single external customer accounts for 10% or more of group revenue, and the sustainability report describes customers as end consumers reached through distributors, retailers, modern trade, hotels and restaurants. The number of distributors, revenue per distributor, and any top-ten customer share are not published. Trade receivables are 18 days of revenue.",
+      "why_it_matters": "It settles the obvious risk — there is no single dominant customer — but leaves the real one open. The group's own concentration is not in customers but in a single brand licensor, whose India agreement now runs to 2049 and whose concentrate pricing is a variable cost management describes as moving with the selling price.",
+      "evidence": "Revenue note in the CY2025 and CY2024 annual reports; the sustainability report's customer description; three earnings calls, in which no analyst asked about customer concentration."
+    },
+    {
+      "dimension": "India versus international profitability as a level",
+      "what_is_known": "Management gives only the CHANGE in the India EBITDA margin, in basis points — up 112 bps in Q1 CY2026, up 38 bps in Q2 CY2026 — and never the level, and describes newly acquired South African businesses as lower-margin without saying by how much. The per-territory profit-before-tax margins on this tab are the closest available substitute and are struck on a different basis.",
+      "why_it_matters": "International revenue has gone from 23% of the top line in CY2023 to 35% in CY2025 and is growing five to ten times faster than India. Whether that mix shift is good for the group depends entirely on the margin gap, and the only reported evidence that the gap is negative is a 76 bps consolidated margin decline attributed to one acquisition.",
+      "evidence": "The group reports a single operating segment, so there is no segment result to divide; checked the segment note in both annual reports and the margin commentary in all three 2026 earnings calls and the Q2 CY2026 presentation."
+    },
+    {
+      "dimension": "Channel mix in revenue",
+      "what_is_known": "Physical route-to-market scale only: about 4 million outlets, over a million visi-coolers, 53 production facilities (38 in India, 15 international). No revenue by channel, and the regular disclosure of annual distribution and visi-cooler additions was discontinued in the CY2025 results deck by explicit management decision.",
+      "why_it_matters": "Outlet additions of more than 10% a year are management's own stated explanation for volume growth, so the productivity of new outlets is the swing factor in the India growth story. Without either revenue per outlet or a channel split, the claim cannot be tested, and the disclosure that would have allowed it was withdrawn.",
+      "evidence": "Q4 CY2025 earnings call, where the withdrawal was raised by an analyst and confirmed by the Chairman; the Q2 CY2026 investor presentation, which carries no channel or outlet table."
+    }
+  ],
+  "source_note": "Transcribed from the CY2025 annual report (filed March 2026) and the CY2024 annual report (filed March 2025) — the geographical segment note, the revenue-from-contracts note and the statement of subsidiaries — together with the Q2 CY2026 investor presentation and the three earnings calls of February, April and July 2026, and the April 2026 credit rating rationale. Varun Beverages reports on a CALENDAR year: every period label CY2023-CY2025 is a year ended 31 December, not an Indian March fiscal year, and the annual results are published in February. Figures converted from the reported Rs million at 1 crore = 10 million."
+};
+
+(function () {
+  const cardsEl = document.getElementById("rvnCards");
+  if (!cardsEl || !REVENUE) return;
+
+  const SPLITS = REVENUE.splits || [];
+  const CUR = REVENUE.currency || "₹ crore";
+  const QUARTERLY = REVENUE.period_kind === "quarter";
+  // one definition of "present", as everywhere else in this page
+  const num = v => (typeof v === "number" && isFinite(v)) ? v : null;
+  const RAMP = 7;
+
+  const money = v => v === null ? "—"
+    : (Math.abs(v) >= 100 ? Math.round(v).toLocaleString("en-IN") : v.toFixed(1));
+  const pct = (v, d) => v === null ? "—" : v.toFixed(d === undefined ? 1 : d) + "%";
+  const sg = (v, unit, d) => v === null ? "—"
+    : (v > 0 ? "+" : "") + v.toFixed(d === undefined ? 1 : d) + (unit || "%");
+  const dcls = v => v === null ? "" : v > 0 ? "rvn-up" : v < 0 ? "rvn-dn" : "";
+  const shade = (rank, other) => other ? "var(--rev-other)"
+    : "var(--rev-" + Math.min(rank + 1, RAMP) + ")";
+
+  // ---- per-split arithmetic. `unit` is either money in CUR, or a published
+  // share of revenue; a share is converted to money only when the split also
+  // states the period's total, and that conversion is labelled `derived`.
+  const valAt = (sp, sl, p) => num((sl.values || {})[p]);
+  function totalAt(sp, p) {
+    const t = num((sp.total || {})[p]);
+    if (t !== null) return t;
+    if (sp.unit === "share_pct") return null;
+    const v = (sp.slices || []).map(s => valAt(sp, s, p)).filter(x => x !== null);
+    return v.length ? v.reduce((a, b) => a + b, 0) : null;
+  }
+  function moneyAt(sp, sl, p) {
+    const v = valAt(sp, sl, p);
+    if (v === null) return null;
+    if (sp.unit !== "share_pct") return v;
+    const t = num((sp.total || {})[p]);
+    return t === null ? null : v * t / 100;
+  }
+  function shareAt(sp, sl, p) {
+    if (sp.unit === "share_pct") return valAt(sp, sl, p);
+    const v = valAt(sp, sl, p), t = totalAt(sp, p);
+    return (v === null || !t) ? null : 100 * v / t;
+  }
+  const prevOf = (sp, p) => {
+    const ps = sp.periods || [];
+    const i = ps.indexOf(p);
+    return i > 0 ? ps[i - 1] : null;
+  };
+  function growthPct(sp, sl, p) {
+    const q = prevOf(sp, p);
+    if (!q) return null;
+    const a = moneyAt(sp, sl, p), b = moneyAt(sp, sl, q);
+    return (a === null || b === null || b <= 0) ? null : 100 * (a - b) / b;
+  }
+  // Contribution to total growth, in percentage points OF THE TOTAL. Additive
+  // across slices, unlike a per-slice growth rate — which is why a small,
+  // fast-growing slice stops looking like the story when it isn't.
+  function contribPP(sp, sl, p) {
+    const q = prevOf(sp, p);
+    if (!q) return null;
+    const a = moneyAt(sp, sl, p), b = moneyAt(sp, sl, q), tb = totalAt(sp, q);
+    return (a === null || b === null || !tb) ? null : 100 * (a - b) / tb;
+  }
+  function cagrPct(sp, sl) {
+    if (QUARTERLY) return null;
+    const all = sp.periods || [];
+    const ps = all.filter(p => moneyAt(sp, sl, p) !== null);
+    if (ps.length < 2) return null;
+    const a = moneyAt(sp, sl, ps[ps.length - 1]), b = moneyAt(sp, sl, ps[0]);
+    const n = all.indexOf(ps[ps.length - 1]) - all.indexOf(ps[0]);
+    return (b <= 0 || n < 1) ? null : 100 * (Math.pow(a / b, 1 / n) - 1);
+  }
+  function totalGrowth(sp, p) {
+    const q = prevOf(sp, p);
+    if (!q) return null;
+    const a = totalAt(sp, p), b = totalAt(sp, q);
+    return (a === null || b === null || b <= 0) ? null : 100 * (a - b) / b;
+  }
+  // rank order: largest first at the split's latest period, `is_other` last —
+  // fixed once per split so a slice keeps its shade across periods
+  function ranked(sp) {
+    const ps = sp.periods || [];
+    const last = ps[ps.length - 1];
+    const key = sl => {
+      const v = shareAt(sp, sl, last);
+      return v === null ? -1 : v;
+    };
+    return (sp.slices || [])
+      .map((sl, i) => ({ sl, i }))
+      .sort((a, b) => (!!a.sl.is_other - !!b.sl.is_other) || (key(b.sl) - key(a.sl)))
+      .map((o, rank) => ({ ...o.sl, rank, colour: shade(rank, o.sl.is_other) }));
+  }
+  const marginsOf = sp => sp.margins || [];
+
+  // ---- period control: one canonical ordered list, oldest first
+  const PERIODS = (REVENUE.periods && REVENUE.periods.length)
+    ? REVENUE.periods
+    : [...new Set(SPLITS.flatMap(s => s.periods || []))];
+  let selected = PERIODS[PERIODS.length - 1];
+  let view = "donut";
+  // Not every dimension is disclosed every period — a customer-concentration
+  // note may exist for one year only. Rather than render an empty pie whenever
+  // the reader is standing on a later period, each card falls back to the most
+  // recent period it HAS at or before the selection, and says so in its header.
+  function effP(sp) {
+    const ps = sp.periods || [];
+    if (ps.includes(selected)) return selected;
+    const upto = ps.filter(p => PERIODS.indexOf(p) <= PERIODS.indexOf(selected));
+    // Nothing at or before the selection means the reader has stepped back
+    // BEFORE this dimension was ever disclosed — show the earliest it exists,
+    // not the latest. Showing FY26 to someone standing on FY21 is honest only
+    // in the chip; the nearest disclosed period is what they meant to ask for.
+    return (upto.length ? upto[upto.length - 1] : ps[0]) || selected;
+  }
+  // pinned wedge per split key, so a tap survives a re-render
+  const pinned = {};
+
+  document.getElementById("rvnLede").innerHTML = REVENUE.lede
+    || ("What the top line is made of, on every dimension the company actually "
+        + "publishes. <strong>Shares are the weak half of this tab</strong> — the "
+        + "column worth reading is each slice's contribution to total growth in "
+        + "percentage points, because that is what says which part of the business "
+        + "moved revenue. Where a split is not disclosed, the card carries dated "
+        + "management commentary instead of a number.");
+  document.getElementById("rvnNote").innerHTML = REVENUE.source_note || "";
+
+  const pdBar = document.getElementById("rvnPeriods");
+  pdBar.innerHTML = PERIODS.map(p =>
+    `<button type="button" data-pd="${p}" aria-pressed="${p === selected}">${p}</button>`).join("");
+
+  const HINTS = {
+    donut: "Donut: angle is a poor comparison — the table beside each pie carries the same numbers, plus growth.",
+    bars: "Bars: share on one shared scale, which is the honest form for comparing slices.",
+    growth: "Growth: year-on-year per slice, and each slice's contribution to total growth in percentage points (additive; growth rates are not).",
+    mix: "Mix over time: share drift across every period held. A mix shift is invisible in a single pie.",
+    margin: "Margin: profitability by category, where the company publishes or indicates it. Levels are shaded by revenue rank, not by good/bad.",
+  };
+
+  // ---- marks -------------------------------------------------------------
+  function donutSVG(sp, rows) {
+    const period = effP(sp);
+    const W = 300, C = 150, R = 128, r = 76;
+    const drawn = rows.map(s => ({ s, v: shareAt(sp, s, period) }))
+                      .filter(o => o.v !== null && o.v > 0);
+    const sum = drawn.reduce((a, o) => a + o.v, 0);
+    if (!drawn.length || sum <= 0) return "";
+    const pol = (rad, a) => [C + rad * Math.cos(a), C + rad * Math.sin(a)];
+    let a0 = -Math.PI / 2;
+    const arcs = drawn.map(o => {
+      const a1 = a0 + 2 * Math.PI * (o.v / sum);
+      let d;
+      if (drawn.length === 1) {
+        // a single 100% slice degenerates as an arc — draw the ring instead
+        d = null;
+      } else {
+        const big = (a1 - a0) > Math.PI ? 1 : 0;
+        const [x0, y0] = pol(R, a0), [x1, y1] = pol(R, a1);
+        const [x2, y2] = pol(r, a1), [x3, y3] = pol(r, a0);
+        d = `M${x0.toFixed(1)},${y0.toFixed(1)} A${R},${R} 0 ${big} 1 ${x1.toFixed(1)},${y1.toFixed(1)}`
+          + ` L${x2.toFixed(1)},${y2.toFixed(1)} A${r},${r} 0 ${big} 0 ${x3.toFixed(1)},${y3.toFixed(1)} Z`;
+      }
+      a0 = a1;
+      return d === null
+        ? `<circle class="rvn-wedge" data-i="${o.s.rank}" cx="${C}" cy="${C}" r="${(R + r) / 2}"
+                   fill="none" stroke="${o.s.colour}" stroke-width="${R - r}"></circle>`
+        : `<path class="rvn-wedge" data-i="${o.s.rank}" d="${d}" fill="${o.s.colour}"></path>`;
+    }).join("");
+    const t = totalAt(sp, period);
+    return `<svg viewBox="0 0 ${W} ${W}" role="img" aria-labelledby="rvnSr-${sp.key}">
+      <g aria-hidden="true">${arcs}</g>
+      <text class="rvn-hole-v" x="${C}" y="${C - 2}" text-anchor="middle" data-hole="v">${
+        t === null ? "100%" : money(t)}</text>
+      <text class="rvn-hole-l" x="${C}" y="${C + 15}" text-anchor="middle" data-hole="l">${
+        t === null ? period + " share" : period + " · " + CUR}</text>
+    </svg>`;
+  }
+
+  function shareBars(sp, rows) {
+    const period = effP(sp);
+    return `<div class="rvn-bars">` + rows.map(s => {
+      const v = shareAt(sp, s, period);
+      return `<div class="rvn-bar" data-i="${s.rank}">
+        <span class="nm">${s.name}</span>
+        <span class="tr" role="img" aria-label="${s.name}: ${pct(v)} of revenue">
+          ${v === null ? "" : `<i class="fill" style="left:0;width:${Math.max(0, Math.min(100, v))}%;background:${s.colour}"></i>`}
+        </span>
+        <span class="vl">${pct(v)}</span></div>`;
+    }).join("") + `</div>`;
+  }
+
+  function growthBars(sp, rows) {
+    const period = effP(sp);
+    const gs = rows.map(s => growthPct(sp, s, period));
+    const maxAbs = Math.max(...gs.filter(g => g !== null).map(Math.abs), 1);
+    const anyNeg = gs.some(g => g !== null && g < 0);
+    const half = anyNeg ? 50 : 0;
+    return `<div class="rvn-bars">` + rows.map((s, i) => {
+      const g = gs[i];
+      const w = g === null ? 0 : (Math.abs(g) / maxAbs) * (anyNeg ? 50 : 100);
+      const left = g === null ? half : (g >= 0 ? half : half - w);
+      const col = g === null ? "var(--grid)" : (g >= 0 ? "var(--delta-good)" : "var(--delta-bad)");
+      return `<div class="rvn-bar" data-i="${s.rank}">
+        <span class="nm">${s.name}</span>
+        <span class="tr" role="img" aria-label="${s.name}: ${sg(g)} year on year">
+          ${anyNeg ? `<i class="zero" style="left:50%"></i>` : ""}
+          ${g === null ? "" : `<i class="fill" style="left:${left}%;width:${w}%;background:${col}"></i>`}
+        </span>
+        <span class="vl ${dcls(g)}">${sg(g)}</span></div>`;
+    }).join("") + `</div>`;
+  }
+
+  function mixStack(sp, rows) {
+    return `<div class="rvn-mix">` + (sp.periods || []).map(p => {
+      const parts = rows.map(s => ({ s, v: shareAt(sp, s, p) })).filter(o => o.v !== null && o.v > 0);
+      const sum = parts.reduce((a, o) => a + o.v, 0) || 1;
+      return `<div class="rvn-mixrow"><span class="pd">${p}</span>
+        <span class="rvn-stack" role="img" aria-label="${p}: ${
+          parts.map(o => `${o.s.name} ${pct(o.v)}`).join(", ")}">${
+          parts.map(o => `<i data-i="${o.s.rank}" style="width:${100 * o.v / sum}%;background:${o.s.colour}"></i>`).join("")
+        }</span></div>`;
+    }).join("") + `</div>`;
+  }
+
+  function marginBars(sp, rows) {
+    const period = effP(sp);
+    const ms = marginsOf(sp);
+    if (!ms.length) {
+      return `<p class="rvn-none">No margin is published or indicated for this
+        dimension. Where management has said something qualitative about it, it is
+        under the commentary below rather than turned into a number here.</p>`;
+    }
+    const rankOf = name => {
+      const hit = rows.find(s => s.name === name);
+      return hit ? hit.colour : "var(--rev-other)";
+    };
+    const vals = ms.map(m => num((m.values || {})[period]));
+    const max = Math.max(...vals.filter(v => v !== null).map(Math.abs), 1);
+    return `<div class="rvn-bars">` + ms.map((m, i) => {
+      const v = vals[i], q = prevOf(sp, period);
+      const pv = q ? num((m.values || {})[q]) : null;
+      const d = (v === null || pv === null) ? null : v - pv;
+      return `<div class="rvn-bar">
+        <span class="nm">${m.name}</span>
+        <span class="tr" role="img" aria-label="${m.name}: ${pct(v)} ${m.metric || "margin"}">
+          ${v === null ? "" : `<i class="fill" style="left:0;width:${(Math.abs(v) / max) * 100}%;background:${rankOf(m.name)}"></i>`}
+        </span>
+        <span class="vl">${pct(v)}${d === null ? "" : ` <span class="${dcls(d)}">${sg(d, "pp")}</span>`}</span>
+      </div>`;
+    }).join("") + `</div>`;
+  }
+
+  // ---- table: the primary read in every view ------------------------------
+  function tableFor(sp, rows) {
+    const period = effP(sp);
+    const q = prevOf(sp, period);
+    const mmap = {};
+    marginsOf(sp).forEach(m => { mmap[m.name] = m; });
+    const hasM = Object.keys(mmap).length > 0;
+
+    if (view === "mix") {
+      const ps = sp.periods || [];
+      const head = `<tr><th>Slice</th>${ps.map(p => `<th>${p}</th>`).join("")}
+        <th>Change, ${ps[0]}→${ps[ps.length - 1]}</th></tr>`;
+      const body = rows.map(s => {
+        const a = shareAt(sp, s, ps[0]);
+        const b = shareAt(sp, s, ps[ps.length - 1]);
+        const d = (a === null || b === null) ? null : b - a;
+        return `<tr data-i="${s.rank}"><td><i class="rvn-sw" style="background:${s.colour}"></i>${s.name}</td>
+          ${ps.map(p => `<td>${pct(shareAt(sp, s, p))}</td>`).join("")}
+          <td class="${dcls(d)}">${sg(d, "pp")}</td></tr>`;
+      }).join("");
+      return `<div class="rvn-tbl"><table><thead>${head}</thead><tbody>${body}</tbody></table></div>`;
+    }
+
+    if (view === "margin") {
+      const ms = marginsOf(sp);
+      if (!ms.length) return "";
+      const body = ms.map(m => {
+        const v = num((m.values || {})[period]);
+        const pv = q ? num((m.values || {})[q]) : null;
+        const d = (v === null || pv === null) ? null : v - pv;
+        return `<tr><td>${m.name}</td><td>${pct(v)}</td>
+          <td class="${dcls(d)}">${sg(d, "pp")}</td>
+          <td style="text-align:left">${m.metric || "margin"}${
+            m.kind ? ` <span class="rvn-kind ${m.kind}">${m.kind}</span>` : ""}</td></tr>`;
+      }).join("");
+      const basis = [...new Set(ms.map(m => m.basis).filter(Boolean))];
+      return `<div class="rvn-tbl"><table>
+        <thead><tr><th>Category</th><th>${period}</th><th>vs ${q || "—"}</th>
+        <th style="text-align:left">Definition</th></tr></thead>
+        <tbody>${body}</tbody></table></div>`
+        + (basis.length ? `<p class="rvn-caveat"><strong>Basis.</strong> ${basis.join(" ")}</p>` : "");
+    }
+
+    // donut / bars / growth
+    const unitHead = sp.unit === "share_pct" ? "% of revenue" : CUR;
+    const head = `<tr><th>Slice</th><th>${unitHead}</th><th>Share</th>
+      <th>YoY</th><th>Contribution</th>${!QUARTERLY ? "<th>CAGR</th>" : ""}
+      ${hasM ? "<th>Margin</th>" : ""}</tr>`;
+    const body = rows.map(s => {
+      const v = valAt(sp, s, period), sh = shareAt(sp, s, period);
+      const g = growthPct(sp, s, period), c = contribPP(sp, s, period);
+      const k = cagrPct(sp, s), m = mmap[s.name];
+      const mv = m ? num((m.values || {})[period]) : null;
+      return `<tr data-i="${s.rank}">
+        <td><i class="rvn-sw" style="background:${s.colour}"></i>${s.name}</td>
+        <td>${sp.unit === "share_pct" ? pct(v) : money(v)}</td>
+        <td>${pct(sh)}</td>
+        <td class="${dcls(g)}">${sg(g)}</td>
+        <td class="${dcls(c)}">${sg(c, "pp")}</td>
+        ${!QUARTERLY ? `<td>${sg(k)}</td>` : ""}
+        ${hasM ? `<td>${pct(mv)}</td>` : ""}</tr>`;
+    }).join("");
+    const t = totalAt(sp, period), tg = totalGrowth(sp, period);
+    const totRow = `<tr class="tot"><td>Total</td>
+      <td>${sp.unit === "share_pct" && t === null ? "100.0%" : money(t)}</td>
+      <td>100.0%</td>
+      <td class="${dcls(tg)}">${sg(tg)}</td>
+      <td class="${dcls(tg)}">${sg(tg, "pp")}</td>
+      ${!QUARTERLY ? "<td></td>" : ""}${hasM ? "<td></td>" : ""}</tr>`;
+    return `<div class="rvn-tbl"><table><thead>${head}</thead>
+      <tbody>${body}${totRow}</tbody></table>
+      <p class="rvn-caveat">Contribution is this slice's change as a share of LAST
+      period's total revenue, in percentage points — it adds up across slices,
+      which a growth rate does not.</p></div>`;
+  }
+
+  // ---- coverage: how much of reported revenue the split actually accounts for
+  function coverage(sp, rows) {
+    const period = effP(sp);
+    const bits = [];
+    const rep = num((sp.reported_total || {})[period]);
+    const sum = rows.map(s => moneyAt(sp, s, period)).filter(v => v !== null)
+                    .reduce((a, b) => a + b, 0);
+    let gap = false;
+    if (rep !== null && sum > 0) {
+      const cov = 100 * sum / rep;
+      gap = Math.abs(cov - 100) > 1.5;
+      bits.push(`These slices account for <b>${cov.toFixed(1)}%</b> of the `
+        + `${money(rep)} ${CUR} of revenue reported for ${period}`
+        + (gap ? ` — the ${money(Math.abs(rep - sum))} ${CUR} difference is `
+                 + `unallocated on this dimension, not missing revenue.` : `.`));
+    }
+    const absent = rows.filter(s => valAt(sp, s, period) === null).map(s => s.name);
+    if (absent.length) bits.push(`Not disclosed for ${period}: ${absent.join(", ")} — `
+      + `excluded from the pie rather than drawn as zero.`);
+    if (sp.source) bits.push(`Source: ${sp.source}.`);
+    return bits.length
+      ? `<p class="rvn-cov${gap ? " gap" : ""}">${bits.join(" ")}</p>` : "";
+  }
+
+  function qualBlock(sp) {
+    const qs = sp.qualitative || [];
+    if (!qs.length) return "";
+    const items = qs.map(q => `<li><b>${q.point}</b>${
+      q.figure ? ` ${q.figure}` : ""}${
+      q.kind ? ` <span class="rvn-kind ${q.kind}">${q.kind}</span>` : ""}
+      ${q.quote ? `<br><span class="rvn-q-src">“${q.quote}”</span>` : ""}
+      <br><span class="rvn-q-src">${[q.speaker, q.source, q.date].filter(Boolean).join(" · ")}</span></li>`).join("");
+    const hasNum = (sp.slices || []).length > 0;
+    return `<details class="rvn-qual"${hasNum ? "" : " open"}>
+      <summary>What management has actually said about this — ${qs.length} pointer${qs.length === 1 ? "" : "s"}${
+        hasNum ? "" : " (this dimension is not published as numbers)"}</summary>
+      <ul>${items}</ul></details>`;
+  }
+
+  function cardHTML(sp) {
+    const period = effP(sp);
+    const rows = ranked(sp);
+    const numeric = rows.length > 0 && sp.periods && sp.periods.length > 0;
+    const conf = sp.confidence || "reported";
+    let fig = "", tbl = "";
+    if (numeric) {
+      if (view === "donut") fig = donutSVG(sp, rows);
+      else if (view === "bars") fig = shareBars(sp, rows);
+      else if (view === "growth") fig = growthBars(sp, rows);
+      else if (view === "mix") fig = mixStack(sp, rows);
+      else if (view === "margin") fig = marginBars(sp, rows);
+      tbl = tableFor(sp, rows);
+    }
+    const wide = view !== "donut";
+    const readout = view === "donut"
+      ? `<p class="rvn-read" data-read="${sp.key}">Point at a slice — or tap one to pin it.</p>`
+      : "";
+    const sr = `<p class="rvn-sr" id="rvnSr-${sp.key}">${sp.label}, ${period}: ${
+      rows.map(s => `${s.name} ${pct(shareAt(sp, s, period))}`).join("; ")}</p>`;
+    return `<div class="rvn-card ${conf}" data-split="${sp.key}">
+      <div class="rvn-head"><h3>${sp.label}</h3>
+        ${sp.question ? `<span class="rvn-q">${sp.question}</span>` : ""}
+        <span class="rvn-chip ${conf}">${conf}</span>
+        ${period !== selected
+          ? `<span class="rvn-chip">not disclosed for ${selected} — showing ${period}</span>` : ""}</div>
+      ${numeric ? `<div class="rvn-body${wide ? " wide" : ""}">
+        <div class="rvn-fig">${fig}${sr}${readout}</div>
+        <div>${tbl}</div></div>` : ""}
+      ${numeric ? coverage(sp, rows) : ""}
+      ${sp.caveat ? `<p class="rvn-caveat">${sp.caveat}</p>` : ""}
+      ${sp.disclosure ? `<p class="rvn-caveat"><strong>What is not disclosed here.</strong> ${sp.disclosure}</p>` : ""}
+      ${qualBlock(sp)}
+    </div>`;
+  }
+
+  // ---- highlight wiring. Rebuilt with the cards, so listeners are attached
+  // after every render rather than delegated through stale nodes.
+  function wire(card, sp) {
+    const period = effP(sp);
+    const rows = ranked(sp);
+    const read = card.querySelector("[data-read]");
+    const holeV = card.querySelector('[data-hole="v"]');
+    const holeL = card.querySelector('[data-hole="l"]');
+    const wedges = [...card.querySelectorAll(".rvn-wedge, .rvn-stack i")];
+    const trs = [...card.querySelectorAll("tbody tr[data-i]")];
+    const bars = [...card.querySelectorAll(".rvn-bar[data-i]")];
+    const t = totalAt(sp, period);
+
+    function paint(i) {
+      wedges.forEach(w => w.classList.toggle("dim", i !== null && +w.dataset.i !== i));
+      trs.forEach(r => r.classList.toggle("on", +r.dataset.i === i));
+      bars.forEach(b => b.classList.toggle("on", +b.dataset.i === i));
+      if (holeV) {
+        if (i === null) {
+          holeV.textContent = t === null ? "100%" : money(t);
+          holeL.textContent = t === null ? period + " share" : period + " · " + CUR;
+        } else {
+          const s = rows[i];
+          holeV.textContent = pct(shareAt(sp, s, period));
+          holeL.textContent = s.name.length > 24 ? s.name.slice(0, 23) + "…" : s.name;
+        }
+      }
+      if (read) {
+        if (i === null) {
+          read.innerHTML = "Point at a slice — or tap one to pin it.";
+        } else {
+          const s = rows[i];
+          const g = growthPct(sp, s, period), c = contribPP(sp, s, period);
+          const tg = totalGrowth(sp, period), q = prevOf(sp, period);
+          read.innerHTML = `<b>${s.name}</b> — ${
+            sp.unit === "share_pct" ? pct(valAt(sp, s, period)) + " of revenue"
+              : money(moneyAt(sp, s, period)) + " " + CUR + " · " + pct(shareAt(sp, s, period)) + " of revenue"}`
+            + (g === null ? "" : ` · <b class="${dcls(g)}">${sg(g)}</b> vs ${q}`)
+            + (c === null ? "" : `<br>contributed <b class="${dcls(c)}">${sg(c, "pp")}</b>`
+               + (tg === null ? "" : ` of the ${sg(tg)} total change`))
+            + (pinned[sp.key] === i ? ` <span class="pin">pinned — tap again to release</span>` : "");
+        }
+      }
+    }
+    const enter = i => paint(i);
+    const leave = () => paint(pinned[sp.key] === undefined ? null : pinned[sp.key]);
+    [...wedges, ...trs, ...bars].forEach(el => {
+      const i = +el.dataset.i;
+      el.addEventListener("pointerenter", () => enter(i));
+      el.addEventListener("click", () => {
+        pinned[sp.key] = pinned[sp.key] === i ? undefined : i;
+        paint(pinned[sp.key] === undefined ? null : pinned[sp.key]);
+      });
+    });
+    card.addEventListener("pointerleave", leave);
+    leave();
+  }
+
+  function render() {
+    document.getElementById("rvnHint").textContent = HINTS[view];
+    cardsEl.innerHTML = SPLITS.map(cardHTML).join("");
+    SPLITS.forEach(sp => {
+      const card = cardsEl.querySelector(`[data-split="${sp.key}"]`);
+      if (card) wire(card, sp);
+    });
+  }
+
+  // What the company does NOT publish. An absence that is stated is a finding;
+  // an absence that is silent is a defect.
+  const miss = REVENUE.not_disclosed || [];
+  document.getElementById("rvnMissing").innerHTML = miss.length
+    ? `<h3>Splits this company does not publish</h3><ul>` + miss.map(d =>
+        `<li><b>${d.dimension}</b> — ${d.what_is_known || ""}
+         ${d.why_it_matters ? `<em>Why it matters:</em> ${d.why_it_matters}` : ""}
+         ${d.evidence ? `<span class="rvn-q-src">${d.evidence}</span>` : ""}</li>`).join("")
+      + `</ul>` : "";
+
+  document.querySelectorAll("#rvnModes button").forEach(b =>
+    b.addEventListener("click", () => {
+      view = b.dataset.view;
+      document.querySelectorAll("#rvnModes button").forEach(o =>
+        o.setAttribute("aria-pressed", o === b ? "true" : "false"));
+      render();
+    }));
+  pdBar.querySelectorAll("button").forEach(b =>
+    b.addEventListener("click", () => {
+      selected = b.dataset.pd;
+      pdBar.querySelectorAll("button").forEach(o =>
+        o.setAttribute("aria-pressed", o === b ? "true" : "false"));
+      render();
+    }));
+  render();
+})();
+
+// ---------------------------------------------------------------------------
 // OVERALL SCORECARD. Four axes, 0-10, banded.
 //
 // A radar was asked for and is the default, but it is NOT the form this data
@@ -4452,6 +5769,17 @@ const MYNOTES = {
   "lede": "A dated log of observations and open questions on this company. Newest first. Each entry records what was actually established on that date, so a later reading can tell what was known when.",
   "publication_note": "⚠️ This tab is PUBLISHED to a public site. Any entry carrying \"private\": true is dropped from the public build and stays visible only in a local private build. Decisions and the price bands behind them ARE published deliberately — recorded in advance so a later reading can check them against what actually happened, and stated as one person's own reasoning rather than as advice. What stays private is position sizing, holdings, and personal circumstances.",
   "entries": [
+    {
+      "date": "2026-08-30",
+      "title": "India's growth in CY2025 was government incentives, not drinks",
+      "author": "Claude",
+      "tags": [
+        "revenue",
+        "accounting",
+        "open-question"
+      ],
+      "body": "Building the revenue tab turned up something the top line hides. The company reports revenue by geography — the only split it publishes, because it treats itself as a single business segment — and on that basis India grew 1.9% in CY2025. But the revenue note underneath splits the same India figure into sale of products and everything else, and <strong>India's sale of products and services was flat: ₹13,617cr in CY2024 against ₹13,605cr in CY2025</strong>. The whole of the reported increase is other operating revenue, which is <strong>state industrial-promotion incentive income, up 61% to ₹776cr</strong>. That line has trebled in three years and is now 3.8% of the group top line.<br><br>Why it matters for what happens next: incentive income tracks <em>where new plants are built</em>, not how many cases are sold. Four greenfield plants were commissioned in CY2025 and India capex is now guided down to under ₹500–600cr for CY2026 — so the fastest-growing line on the statement should decelerate in exactly the year the India volume recovery is supposed to carry the business. The CY2026 revenue note is the test.<br><br>The same exercise also put a number on each international country for the first time, out of the statement of subsidiaries. The growth engine is the <strong>least profitable territory</strong>: South Africa is a third of international revenue on a 1.2% profit-before-tax margin, against 23.8% in Sri Lanka and 17.9% in Nepal, and Zimbabwe — the second-largest unit — went slightly backwards in CY2025 with its profit before tax down 44%. Those margins are entity-level and struck before consolidation adjustments, so they are not group segment results; there are none, because there is no second segment.<br><br>What could not be built, and this is the finding rather than a gap: <strong>there is no revenue split by drink category anywhere</strong>. Carbonated soft drinks, juice, water and the energy portfolio are given only as shares of <em>volume</em> (73.9% / 5.9% / 20.2% in CY2025), and the only per-category rupee figure management has ever offered is about ₹340cr for the African snacks business. Asked directly for growth by category on the July 2026 call, management said it could not give specifics. Converting the volume mix into a revenue mix would have needed a per-category realisation nobody publishes, so the tab records the volume figures as commentary and states the absence instead."
+    },
     {
       "date": "2026-08-29",
       "title": "Decision: START ACCUMULATING — and the three prices I would act at",
@@ -4746,6 +6074,7 @@ measureBoardDelta();   // needs the board painted, so after the first render
 const TAB_SPEC = [
   { id: "overall", label: "Overall" },
   { id: "metrics", label: "Metrics" },
+  { id: "revenue", label: "Revenue" },
   { id: "dcf",     label: "DCF" },
   { id: "relval",  label: "Relative valuation" },
   { id: "calls",   label: "Concalls summary" },
