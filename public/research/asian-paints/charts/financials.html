@@ -265,7 +265,12 @@
   .points h2 { font-size: 15px; font-weight: 600; margin: 0 0 3px; }
   .points .lede { font-size: 12px; color: var(--text-muted); margin: 0 0 14px; line-height: 1.5; }
   .quads { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-  @media (max-width: 720px) { .quads { grid-template-columns: 1fr; } }
+  /* ⚠️ `minmax(0, 1fr)`, NOT `1fr`, in the single-column case too. A bare `1fr`
+     track has an automatic minimum of MIN-CONTENT, so one unwrappable child
+     sets the track width and the whole page scrolls sideways. This override
+     used to say `1fr` and dropped the floor the two-column rule above was
+     careful to remove: on a 375px phone the one column measured 709px. */
+  @media (max-width: 720px) { .quads { grid-template-columns: minmax(0, 1fr); } }
   .quad {
     border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px 13px;
     border-left-width: 3px;
@@ -284,7 +289,16 @@
   .pt-src {
     display: inline-block; font-size: 10px; padding: 1px 5px; margin-left: 4px;
     border: 1px solid var(--border); border-radius: 4px; color: var(--text-muted);
-    white-space: nowrap; vertical-align: 1px;
+    vertical-align: 1px;
+    /* ⚠️ NOT `white-space: nowrap`. This pill renders whatever `src` a company's
+       points file supplies, and that is free text — the store's median is ~30
+       characters but it runs past 130. Nowrap made its min-content the full
+       string width (675px on one Waaree point), which propagated up through the
+       grid track above and pushed the whole phone layout to 730px on a 375px
+       screen. `overflow-wrap: anywhere` is the right tool rather than a wider
+       layout: unlike `break-word` it also SHRINKS min-content, so a long source
+       can never widen its parent again. */
+    white-space: normal; overflow-wrap: anywhere; max-width: 100%;
   }
   .pt-src.unver { border-style: dashed; }
   .refs { margin: 18px 0 0; }
