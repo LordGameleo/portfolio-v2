@@ -914,6 +914,17 @@
         <p class="cap" id="dcfScnCap"></p>
         <div class="tbl-scroll"><table id="dcfScnTable"></table></div>
       </div>
+
+      <!-- THE ASSUMPTIONS, IN PROSE. A calculator without its argument is a
+           toy: the knobs above let a reader move a number, and this is where
+           they find out which numbers are load-bearing and why. Fed from every
+           `*_note` key in the panel, so a model can add a note without anyone
+           touching this template. Removes itself when the panel has none, which
+           is why it degrades cleanly for companies built before it existed. -->
+      <div id="dcfNotesWrap" hidden>
+        <h3 class="rv-h">The assumptions, and which of them carry the answer</h3>
+        <div id="dcfNotes"></div>
+      </div>
     </section>
 
     <section class="relval tabpanel" data-section="relval" id="tab-relval" role="tabpanel" aria-labelledby="tabbtn-relval" hidden>
@@ -949,7 +960,7 @@
     <section class="calls tabpanel" data-section="calls" id="tab-calls" role="tabpanel" aria-labelledby="tabbtn-calls" hidden>
       <div class="calls-head">
         <h2>Recent earnings calls</h2>
-        <span class="more"><a href="concalls">Full pointer list, all three calls →</a></span>
+        <span class="more"><a href="concalls" id="callsMoreLink">Full pointer list →</a></span>
       </div>
       <p class="lede">One row per call, newest first. <strong>Headlines</strong> are what management led with; <strong>analyst Q&amp;A</strong> is what they were pushed on and what they would not answer — often the more informative half. The <a href="concalls">detailed page</a> carries every pointer, filterable by call, theme and type.</p>
       <div class="call-rows" id="callCols"></div>
@@ -1244,12 +1255,22 @@ const DATA = [
 // Derived fields, computed only where the inputs exist — a company without
 // dividend or cash-flow data simply won't get those metrics rather than NaN.
 const has = (d, ...keys) => keys.every(k => typeof d[k] === "number");
+// 🚨 A DENOMINATOR THAT EXISTS IS NOT A DENOMINATOR THAT DIVIDES.
+// `has` only asks whether a value is a number, and 0 is a number. Waaree
+// Renewable's FY18 is a pre-operational shell with cfo 0 and profit 0, so
+// `has(d,"cfo","profit")` passed and 0/0 wrote a literal NaN into the row —
+// which then printed as "NaN" in the table, because `typeof NaN === "number"`
+// survives every downstream guard. The Python side already refuses this (it
+// tests `if row.get("profit")`, and 0 is falsy); this recompute did not, so the
+// two disagreed and the browser won. Every ratio below now checks its
+// DENOMINATOR is non-zero as well as present.
+const div = (d, k) => typeof d[k] === "number" && d[k] !== 0;
 DATA.forEach(d => {
-  if (has(d, "debt", "sales"))    d.debtToSales = +(100 * d.debt / d.sales).toFixed(1);
-  if (has(d, "profit", "sales"))  d.netMargin   = +(100 * d.profit / d.sales).toFixed(1);
+  if (has(d, "debt", "sales")   && div(d, "sales"))  d.debtToSales = +(100 * d.debt / d.sales).toFixed(1);
+  if (has(d, "profit", "sales") && div(d, "sales"))  d.netMargin   = +(100 * d.profit / d.sales).toFixed(1);
   if (has(d, "profit", "payout")) d.paidOut     = Math.round(d.profit * d.payout / 100);
   if (has(d, "profit") && typeof d.paidOut === "number") d.retained = d.profit - d.paidOut;
-  if (has(d, "cfo", "profit"))    d.cfoToPat    = +(d.cfo / d.profit).toFixed(2);
+  if (has(d, "cfo", "profit")   && div(d, "profit")) d.cfoToPat    = +(d.cfo / d.profit).toFixed(2);
 });
 
 // Only three hues clear the all-pairs CVD gate for small multiples (violet, magenta
@@ -2897,6 +2918,60 @@ const DCF = {
         + `<td>${s.return_at_30x === null ? "—" : pct(s.return_at_30x)}</td>`
         + `</tr>`).join("")
     + `</tbody>`;
+
+  // ---- the prose behind the dials.
+  //
+  // 🚨 THIS BLOCK EXISTS BECAUSE THE PROSE WAS BEING WRITTEN AND SILENTLY
+  // DISCARDED. Adani Ports' model emitted NINE `*_note` fields — about 7,700
+  // characters explaining the tax normalisation, the concession expiring inside
+  // the forecast, the capital-efficiency assumption that carries a third of the
+  // value — and the DCF tab rendered none of it, because this template read a
+  // fixed key list and `other_income_note` was the only prose hook in it. The
+  // tab was 4,234 characters of calculator with the entire argument missing,
+  // and nothing failed: no error, no empty box, no warning. Found by diffing
+  // the panel's keys against the template's.
+  //
+  // So render whatever notes exist, generically. A model can add a note without
+  // anyone editing this file, which is the property that stops the same bug
+  // recurring. `other_income_note` is excluded because it is already consumed
+  // above, and the wrapper hides itself when there is nothing — which is how
+  // this degrades for companies whose panels predate it.
+  const NOTE_TITLES = {
+    // First, and open by default: turning the model around is the question a
+    // reader actually arrived with ("is it expensive at today's price?"), and
+    // it needs no belief in the forecast to be useful.
+    reverse_note: "What today's price already requires",
+    returns_note: "What the returns say",
+    tax_note: "The tax rate",
+    concession_note: "The operating licence",
+    defaults_note: "Where growth and margin come from",
+    house_convention_note: "The discount rate",
+    acquisition_note: "The acquisition in the base year",
+    capex_note: "Capital spending",
+    debt_note: "Debt, and how it is treated",
+    capacity_note: "Capacity",
+    two_businesses_note: "Two businesses in one company",
+    note: "How to read the calculator",
+  };
+  const noteKeys = Object.keys(DCF)
+    .filter(k => /_note$|^note$/.test(k) && k !== "other_income_note")
+    .filter(k => typeof DCF[k] === "string" && DCF[k].trim())
+    // Titled notes first, in the order above; anything unrecognised after.
+    .sort((a, b) => {
+      const order = Object.keys(NOTE_TITLES);
+      const ia = order.indexOf(a), ib = order.indexOf(b);
+      return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+    });
+  const notesWrap = document.getElementById("dcfNotesWrap");
+  if (notesWrap && noteKeys.length) {
+    const titleOf = k => NOTE_TITLES[k]
+      || k.replace(/_note$/, "").replace(/_/g, " ").replace(/^./, c => c.toUpperCase());
+    document.getElementById("dcfNotes").innerHTML = noteKeys.map(k =>
+      `<details class="dcf-scn"${k === "reverse_note" ? " open" : ""}>`
+      + `<summary>${titleOf(k)}</summary>`
+      + `<p class="rv-note">${DCF[k]}</p></details>`).join("");
+    notesWrap.hidden = false;
+  }
 
   render();
 })();
@@ -5301,6 +5376,25 @@ const CALL_HEADLINES = [
     ]
   }
 ];
+
+// 🚨 THE CALL COUNT IN THE LINK IS DERIVED, NEVER WRITTEN INTO THE MARKUP.
+// It was hardcoded as a spelled-out number for months and was correct only by
+// coincidence — every company in the library happened to hold exactly the same
+// number of calls. The first company that held more shipped a wrong count to
+// the live site, and nothing failed, because a stale number in prose is a true-
+// looking sentence rather than a broken one. Same class of bug as a hardcoded
+// base year in an axis label: a count is a claim about data and must come from
+// the data. (This comment is in the JS, not the HTML, because template comments
+// ship in page source.) Spelled out to nine, numerals past that.
+const callsMoreLink = document.getElementById("callsMoreLink");
+if (callsMoreLink && CALL_HEADLINES.length) {
+  const words = ["", "", "both", "all three", "all four", "all five", "all six",
+                 "all seven", "all eight", "all nine"];
+  const n = CALL_HEADLINES.length;
+  const many = words[n] || `all ${n}`;
+  callsMoreLink.textContent =
+    n === 1 ? "Full pointer list →" : `Full pointer list, ${many} calls →`;
+}
 
 const callColsEl = document.getElementById("callCols");
 if (callColsEl) callColsEl.innerHTML = CALL_HEADLINES.map((c, i) => `

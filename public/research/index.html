@@ -128,6 +128,60 @@
 <script>
 const COMPANIES = [
   {
+    "slug": "waaree-renewable",
+    "company": "Waaree Renewable Technologies Ltd",
+    "symbol": "WAAREERTL",
+    "period_long": "FY2018–FY2026",
+    "periods": 9,
+    "latest_fy": "FY26",
+    "latest": {
+      "sales": 3331,
+      "profit": 479,
+      "roce": 84,
+      "roe": 51.3
+    },
+    "prev": {
+      "sales": 1598,
+      "profit": 229,
+      "roce": 82,
+      "roe": 50.2
+    },
+    "panels": 13,
+    "swot_points": 16,
+    "revenue_splits": 1,
+    "revenue_pointers": 5,
+    "calls": 3,
+    "call_pointers": 250,
+    "fetched_at": "2026-09-20"
+  },
+  {
+    "slug": "suzlon-energy",
+    "company": "Suzlon Energy Ltd",
+    "symbol": "SUZLON",
+    "period_long": "FY2015–FY2026",
+    "periods": 12,
+    "latest_fy": "FY26",
+    "latest": {
+      "sales": 16732,
+      "profit": 3163,
+      "roce": 34,
+      "roe": 33.4
+    },
+    "prev": {
+      "sales": 10890,
+      "profit": 2072,
+      "roce": 33,
+      "roe": 33.9
+    },
+    "panels": 12,
+    "swot_points": 17,
+    "revenue_splits": 2,
+    "revenue_pointers": 6,
+    "calls": 2,
+    "call_pointers": 160,
+    "fetched_at": "2026-09-20"
+  },
+  {
     "slug": "eicher-motors",
     "company": "Eicher Motors Ltd",
     "symbol": "EICHERMOT",
@@ -182,6 +236,33 @@ const COMPANIES = [
     "fetched_at": "2026-08-30"
   },
   {
+    "slug": "adani-ports",
+    "company": "Adani Ports and Special Economic Zone Ltd",
+    "symbol": "ADANIPORTS",
+    "period_long": "FY2015–FY2026",
+    "periods": 12,
+    "latest_fy": "FY26",
+    "latest": {
+      "sales": 38736,
+      "profit": 12782,
+      "roce": 14,
+      "roe": 13.3
+    },
+    "prev": {
+      "sales": 30475,
+      "profit": 11061,
+      "roce": 15,
+      "roe": 17.8
+    },
+    "panels": 13,
+    "swot_points": 21,
+    "revenue_splits": 3,
+    "revenue_pointers": 13,
+    "calls": 6,
+    "call_pointers": 380,
+    "fetched_at": "2026-08-30"
+  },
+  {
     "slug": "varun-beverages",
     "company": "Varun Beverages Ltd",
     "symbol": "VBL",
@@ -209,7 +290,7 @@ const COMPANIES = [
     "fetched_at": "2026-08-25"
   }
 ];
-const TODAY = "2026-08-30";
+const TODAY = "2026-09-20";
 
 const nf = v => typeof v === "number" ? v.toLocaleString("en-IN") : "—";
 const money = v => typeof v === "number" ? "₹" + nf(v) + "cr" : "—";

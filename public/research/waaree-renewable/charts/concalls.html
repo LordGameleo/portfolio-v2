@@ -1,0 +1,2196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Waaree Renewable Technologies Ltd — earnings-call pointers (detailed)</title>
+<style>
+  .viz-root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --grid:           #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --hover:          rgba(11,11,11,0.05);
+    --scale:          #2a78d6;
+    --leverage:       #eb6834;
+    --capital:        #1baf7a;
+    --delta-good:     #006300;
+    --delta-bad:      #d03b3b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .viz-root {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page:           #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --grid:           #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --hover:          rgba(255,255,255,0.07);
+      --scale:          #3987e5;
+      --leverage:       #d95926;
+      --capital:        #199e70;
+      --delta-good:     #0ca30c;
+      --delta-bad:      #d03b3b;
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --page:           #0d0d0d;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --grid:           #2c2c2a;
+    --baseline:       #383835;
+    --border:         rgba(255,255,255,0.10);
+    --hover:          rgba(255,255,255,0.07);
+    --scale:          #3987e5;
+    --leverage:       #d95926;
+    --capital:        #199e70;
+    --delta-good:     #0ca30c;
+    --delta-bad:      #d03b3b;
+  }
+
+  html, body { margin: 0; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--page, #f9f9f7); }
+  .viz-root { background: var(--page); color: var(--text-primary); min-height: 100vh; padding: 32px 20px 64px; box-sizing: border-box; }
+  /* capped deliberately: this page is prose, and a very long line hurts reading */
+  .card {
+    max-width: min(1180px, 94vw); margin: 0 auto; background: var(--surface-1);
+    border: 1px solid var(--border); border-radius: 10px; padding: 24px 24px 20px;
+  }
+  @media (max-width: 640px) {
+    .viz-root { padding: 14px 8px 40px; }
+    .card { max-width: 100%; padding: 14px 12px 14px; border-radius: 8px; }
+    h1 { font-size: 17px; }
+    .controls { gap: 6px; }
+    .count { margin-left: 0; flex-basis: 100%; }
+    select { max-width: 100%; }
+    li.pt { grid-template-columns: 1fr; }        /* figure drops below the text */
+    .pt-fig { white-space: normal; }
+    .call-src { margin-left: 0; flex-basis: 100%; }
+  }
+
+  .crumb { font-size: 12px; margin: 0 0 10px; }
+  .crumb a { color: var(--scale); text-decoration: none; }
+  .crumb a:hover { text-decoration: underline; }
+  .crumb span { color: var(--text-muted); }
+
+  h1 { font-size: 19px; font-weight: 600; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 2px; line-height: 1.5; }
+  .note { font-size: 12px; color: var(--text-muted); margin: 6px 0 0; line-height: 1.5; }
+
+  /* filters: one row above the content */
+  .controls { display: flex; align-items: center; gap: 8px; margin: 18px 0 4px; flex-wrap: wrap; }
+  .controls .label { font-size: 11.5px; color: var(--text-muted); margin-right: 2px; }
+  .segmented { display: inline-flex; border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+  .segmented button {
+    font: inherit; font-size: 12px; padding: 5px 10px; border: 0; cursor: pointer;
+    background: transparent; color: var(--text-secondary); border-right: 1px solid var(--border);
+  }
+  .segmented button:last-child { border-right: 0; }
+  .segmented button:hover { background: var(--hover); }
+  .segmented button[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); font-weight: 600; }
+  select {
+    font: inherit; font-size: 12px; padding: 5px 8px; border: 1px solid var(--border);
+    border-radius: 7px; background: var(--surface-1); color: var(--text-secondary);
+  }
+  .count { font-size: 11.5px; color: var(--text-muted); margin-left: auto; font-variant-numeric: tabular-nums; }
+
+  /* one block per call */
+  .call { margin: 26px 0 0; }
+  .call-head {
+    position: sticky; top: 0; z-index: 3; background: var(--surface-1);
+    padding: 9px 0 8px; border-bottom: 1px solid var(--grid);
+    display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap;
+  }
+  .call-q { font-size: 14px; font-weight: 600; }
+  .call-date { font-size: 11.5px; color: var(--text-muted); }
+  .call-src { font-size: 11px; margin-left: auto; }
+  .call-src a { color: var(--scale); }
+
+  .theme-group { margin: 15px 0 0; }
+  .theme-name {
+    font-size: 11.5px; font-weight: 600; color: var(--text-secondary);
+    text-transform: uppercase; letter-spacing: .04em; margin: 0 0 7px;
+  }
+  .theme-summary {
+    font-size: 12.5px; color: var(--text-secondary); line-height: 1.6;
+    margin: 0 0 10px; padding: 9px 12px 10px 13px;
+    background: var(--hover); border-left: 2px solid var(--capital); border-radius: 0 6px 6px 0;
+  }
+  .theme-summary .lbl {
+    display: block; font-size: 9.5px; font-weight: 600; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--text-muted); margin-bottom: 3px;
+  }
+  ul.pts { margin: 0; padding: 0; list-style: none; }
+  li.pt {
+    font-size: 12.5px; color: var(--text-secondary); line-height: 1.55;
+    padding: 8px 0 9px; border-bottom: 1px solid var(--grid);
+    display: grid; grid-template-columns: 1fr auto; gap: 3px 10px;
+  }
+  li.pt:last-child { border-bottom: 0; }
+  .pt-body { min-width: 0; }
+  .pt-fig {
+    font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums;
+    white-space: nowrap; font-size: 12px;
+  }
+  .pt-meta { grid-column: 1 / -1; display: flex; gap: 7px; align-items: center; flex-wrap: wrap; margin-top: 3px; }
+  .badge {
+    font-size: 10px; padding: 1px 6px; border-radius: 4px; border: 1px solid var(--border);
+    color: var(--text-muted); white-space: nowrap;
+  }
+  .badge.fact     { border-color: var(--capital); color: var(--capital); }
+  .badge.guidance { border-color: var(--scale);   color: var(--scale); }
+  .badge.qna      { border-color: var(--leverage); color: var(--leverage); }
+  .badge.opinion  { border-style: dashed; }
+  .who { font-size: 10.5px; color: var(--text-muted); }
+  blockquote {
+    margin: 5px 0 0; padding: 4px 0 4px 10px; border-left: 2px solid var(--border);
+    font-size: 11.5px; color: var(--text-muted); font-style: italic;
+  }
+  .empty { font-size: 12.5px; color: var(--text-muted); padding: 24px 0; text-align: center; }
+  .src { font-size: 11.5px; color: var(--text-muted); margin: 24px 0 0; padding-top: 14px; border-top: 1px solid var(--grid); line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="viz-root">
+  <div class="card">
+    <p class="crumb"><a href="/research/">← All analyses</a> <span>/</span>
+      <a href="financials">Waaree Renewable Technologies Ltd dashboard</a> <span>/ earnings-call pointers</span></p>
+
+    <h1>Waaree Renewable Technologies Ltd — earnings-call pointers, detailed</h1>
+    <p class="sub">Every substantive pointer from the last 3 calls, Q3 FY26 (2026-01-16) through Q1 FY27 (2026-07-23). The dashboard carries only the headline items — this is the full set.</p>
+    <p class="note">Badges separate <span class="badge fact">fact</span> reported results from <span class="badge guidance">guidance</span> forward-looking statements, <span class="badge opinion">opinion</span> management views, and <span class="badge qna">Q&amp;A</span> pushback from questioners or non-answers. Treat guidance as a claim, not a result. Figures are quoted as stated — nothing rounded or inferred. Each theme opens with a <strong>plain-language summary</strong> of that theme for that call — jargon expanded, figures kept. The pointers beneath it are the precise layer, in the company’s own terms. A summary covers the whole theme and does not narrow when you filter.</p>
+
+    <div class="controls">
+      <span class="label">Call</span>
+      <span class="segmented" id="fCall" role="group" aria-label="Filter by call"></span>
+      <span class="label" style="margin-left:6px">Type</span>
+      <span class="segmented" id="fKind" role="group" aria-label="Filter by kind"></span>
+      <select id="fTheme" aria-label="Filter by theme"></select>
+      <span class="count" id="count"></span>
+    </div>
+
+    <div id="out"></div>
+
+    <p class="src">Source: company earnings-call transcripts filed with BSE/NSE. Figures are quoted as management stated them and were transcribed by machine, so treat anything that reads like a table as indicative. Commentary is management's own; inclusion here is not endorsement. Not investment advice.</p>
+  </div>
+</div>
+
+<script>
+const CALLS = [
+  {
+    "quarter": "Q1 FY27",
+    "call_date": "2026-07-23",
+    "detailed": [
+      {
+        "theme": "Order book & inflow",
+        "point": "Consolidated unexecuted order book of ₹5,300cr, explicitly stated as including the newly acquired T&D business; management never gave the T&D portion separately in rupees",
+        "figure": "₹5,300cr consolidated unexecuted order book 'including T&D'",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "During Q1 FY '27, we executed 888.81 megawatt peak of projects and our consolidated unexecuted order book stood at INR5,300 crores, including T&D"
+      },
+      {
+        "theme": "Order book & inflow",
+        "point": "THE ORDER-BOOK COMPOSITION, after two contradictory answers in the same exchange: the standalone book is ₹2,600cr, of which ₹2,400cr is pure solar EPC and ₹200cr is battery-storage EPC",
+        "figure": "₹2,400cr pure solar EPC + ₹200cr BESS EPC = ₹2,600cr standalone",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "Just let me clarify. Let me clarify. This INR2,400 crores is the pure solar EPC and remaining INR200 crores is from the BESS EPC."
+      },
+      {
+        "theme": "Order book & inflow",
+        "point": "The first answer to the same question said the opposite — that the book was purely solar and excluded battery storage",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "No, it is not really because around a small portion of BESS we have executed. This -- whatever the order book which we are showing is purely from the EPC, solar EPC."
+      },
+      {
+        "theme": "Order book & inflow",
+        "point": "The second answer reversed again before the clarification landed",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "No, it is BESS EPC is already included in the entire order book of..."
+      },
+      {
+        "theme": "Order book & inflow",
+        "point": "FOURTH CONSECUTIVE DECLINE IN THE SOLAR ORDER BOOK, masked by the T&D consolidation. The solar book is 2.4 GW against 2.83 GWp at March 2026, 2.92 GWp at December 2025 and 3.2 GW at March 2025. No analyst placed the series side by side",
+        "figure": "3.2 GW (Mar-25) → 2.92 GWp (Dec-25) → 2.83 GWp (Mar-26) → 2.4 GW (Jun-26)",
+        "speaker": "Manmohan Sharma (CFO), across three calls",
+        "kind": "fact",
+        "quote": "For the year-end our unexecuted order book stood at 2.83 gigawatt peak"
+      },
+      {
+        "theme": "Order book & inflow",
+        "point": "FIRST-EVER RUPEE QUANTIFICATION OF THE ORDER BOOK. On 17 Apr 2026 the same CFO declined to give one, offering only a ₹1.0–1.25cr per MW range. The ₹2,400cr now given on 2.4 GW sits at the bottom of that range (arithmetic, not stated on the call)",
+        "figure": "'INR1 crores to INR1.25 crores or INR1.2 crores megawatt' (17 Apr 2026) vs ₹2,400cr on 2.4 GW (23 Jul 2026)",
+        "speaker": "Manmohan Sharma (CFO), Q4 FY26 call",
+        "kind": "fact",
+        "quote": "So normally, we don't quantify this thing because even if I tell for this quarter also, it will vary"
+      },
+      {
+        "theme": "Order book & inflow",
+        "point": "Execution horizon for the ₹5,300cr is 12 to 15 months, not the nine months remaining in FY27 — corrected under a direct follow-up",
+        "figure": "12 to 15 months, later 'maybe 12 to 15 months or 18 months'",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "Not 9 months. It will range from 12 to 15 months."
+      },
+      {
+        "theme": "Order book & inflow",
+        "point": "An analyst raised the visibility problem directly — the book covers only a little beyond a year — and asked for order-inflow guidance for both businesses; no inflow number was given",
+        "speaker": "Ninad Sarpotdar (InCred Research)",
+        "kind": "qna",
+        "quote": "my only concern about the performance is the visibility. Like INR5,300 crores of order book gives us a visibility of only beyond a year."
+      },
+      {
+        "theme": "Order book & inflow",
+        "point": "Solar order pipeline being chased: 27 GW domestic plus ~10 GW international. Domestic is up from 23 GW in April; international is down from 12 GW",
+        "figure": "27 GW domestic + ~10 GW international (Jul-26) vs 23 GW + 12 GW = 36 GW (Apr-26) vs 29 GW total (Jan-26)",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "we are already chasing this order pipeline maybe 27 gigawatt of around domestically plus around 10 gigawatt international order pipeline which we are chasing"
+      },
+      {
+        "theme": "Order book & inflow",
+        "point": "NON-ANSWER, THIRD CALL RUNNING: asked for firm guidance on how much pipeline converts, no conversion rate or hit ratio was given. Refused in identical terms in Jan 2026 ('difficult to give any kind of number') and Apr 2026 ('difficult to quantify any kind of hit ratio')",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "our endeavour is to get maximum out of it because some of the existing customers, which we are discussing, negotiating, so that also likely to get converted"
+      },
+      {
+        "theme": "Order book & inflow",
+        "point": "Analyst's claim that Q1 order inflow was 20% above the prior quarter and had therefore bottomed was neither confirmed nor corrected; management answered on pipeline instead of on acceleration",
+        "figure": "'1Q order inflows are up 20% Q-o-Q over 4Q '26' (Paras Kulkarni's figure). FY25 inflow 2.4 GW, FY26 inflow 2.3 GW (Ishita Lodha's figures, 17 Apr 2026)",
+        "speaker": "Paras Kulkarni (Ignite Capital)",
+        "kind": "qna",
+        "quote": "So does that mean sort of now that our order inflows have bottomed out, I mean, the 1Q order inflows are up 20% Q-o-Q over 4Q '26."
+      },
+      {
+        "theme": "EPC execution",
+        "point": "888.81 MWp of projects executed in the quarter — a sharp step up from the ~497 MWp implied for Q4 FY26 by subtracting the nine-month figure from the full year",
+        "figure": "888.81 MWp (Q1 FY27); FY26 total 2,727 MWp, 9M FY26 2,230 MWp",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "During Q1 FY '27, we executed 888.81 megawatt peak of projects"
+      },
+      {
+        "theme": "EPC execution",
+        "point": "MORE MEGAWATTS, LESS REVENUE: 888.81 MWp produced ₹924.25cr against ₹1,102.40cr from roughly 497 MWp in Q4 FY26. The with-module / without-module mix that explains this was disclosed on both prior calls and neither given nor asked for here",
+        "figure": "Q4 FY26: ₹1,102.40cr, ~50% of execution revenue 'with module' (called an aberration). Q1 FY27: ₹924.25cr, mix not disclosed",
+        "speaker": "Manmohan Sharma (CFO), Q4 FY26 call",
+        "kind": "fact",
+        "quote": "for this quarter actually, around, if I say any rough idea is around 50% of the execution revenue numbers are coming from with module"
+      },
+      {
+        "theme": "EPC execution",
+        "point": "UNQUALIFIED CAPACITY CLAIM: asked whether 5 GW could be executed in a single year, the answer was an unconditional yes, against a best-ever year of 2,727 MWp",
+        "figure": "'5 gigawatts... in a year' vs FY26 actual 2,727 MWp",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "opinion",
+        "quote": "Yes, sir. Yes, sir. We'll be happy to execute, sir."
+      },
+      {
+        "theme": "EPC execution",
+        "point": "Execution capability described as size-agnostic, with no constraint, hiring need or capital requirement named",
+        "figure": "projects from 50 MW to 2 GW; operating in 7 to 8 states",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "opinion",
+        "quote": "we can take up any size of the projects, which are available, maybe 2 gigawatts and 1 gigawatt we are executing right now"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Revenue grew 53.23% but profit after tax grew only 37.7% — profit expanding at roughly two-thirds the pace of sales",
+        "figure": "Revenue ₹924.25cr (+53.23%); EBITDA ₹173.48cr; PAT ₹118.97cr (+37.7%)",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "our revenue from operations stood at INR924.25 crores, reflecting a healthy growth of 53.23%... EBITDA for the quarter comes at INR173.48 crores, while profit after tax stood at INR118.97 crores"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "The consolidated margin dip was attributed entirely to consolidating the lower-margin T&D business; the standalone solar EPC margin improved",
+        "figure": "standalone margin +20bps (Ninad Sarpotdar's figure, accepted 'to some extent')",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "But while consolidating this T&D business, there is a slightly drop in the margin that is purely because of that."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Management reframed the decline as a percentage-only issue, pointing to rupee growth instead",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "opinion",
+        "quote": "the margin also, if you see the -- in monetary term, it has improved significantly. But in percentage terms, there is a slight drop."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "COMPETING EXPLANATION NEITHER CONFIRMED NOR DENIED: an analyst attributed the profit-margin contraction to interest on the acquisition debt plus the 12-day consolidation; management answered on strategic rationale instead",
+        "speaker": "Paras Kulkarni (Ignite Capital)",
+        "kind": "qna",
+        "quote": "now given that the consolidated PAT margins have sort of contracted on a year-on-year basis, I see that the interest cost has sort of played a role in sort of compressing the margins"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "NON-ANSWER: asked twice whether T&D can drag group margins meaningfully lower in coming quarters, management would not say and deferred to the next results",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "So, these are the -- things will evolve over a period of time, maybe in the coming quarter, etcetera, we will be able to tell you more precisely."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Management confirmed the interest burden is not a one-quarter event and will recur",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "So definitely, this all -- the interest portion will also come in the coming quarters, etcetera."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "PRIOR CALL FOR CONTEXT: FY26 delivered a 19.24% margin and FY25 was also above 19%, with the 15% figure described then as a threshold, not a target",
+        "figure": "FY26 EBITDA margin 19.24%; Q4 FY26 18.76%; Q3 FY26 18.66%, 9M FY26 19.48% vs 16.48% prior year",
+        "speaker": "Manmohan Sharma (CFO), Q4 FY26 call",
+        "kind": "fact",
+        "quote": "for the entire financial year, we are able to maintain EBITDA margin more than 19.24%"
+      },
+      {
+        "theme": "T&D acquisition (APSPL)",
+        "point": "Acquisition of a 55% equity stake in Associated Power Structures Private Limited, Vadodara — an integrated EPC provider for substations and transmission lines, with 108,000 MTPA of fabrication and galvanization capacity",
+        "figure": "55% equity stake; 108,000 MTPA fabrication and galvanization",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "we have successfully completed the acquisition of a 55% equity stake in Associated Power Structures Private Limited based out of Vadodara, Gujarat"
+      },
+      {
+        "theme": "T&D acquisition (APSPL)",
+        "point": "APSPL track record: over two decades in transmission and distribution, 10,461+ circuit kilometres of transmission line executed, supplying towers and structures in India and internationally",
+        "figure": "10,461+ circuit km; 2+ decades",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "The company has executed over 10,461+ circuit kilometers of transmission line and supplies tower and structure across India as well as international market."
+      },
+      {
+        "theme": "T&D acquisition (APSPL)",
+        "point": "FUNDING: roughly 75% of the acquisition was debt-funded — which contradicts the asset-light, debt-free framing given nine weeks earlier",
+        "figure": "~75% debt",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "So, this acquisition is through self-funding or plus debt component is there. So, we have taken around 75% debt for the entire acquisition."
+      },
+      {
+        "theme": "T&D acquisition (APSPL)",
+        "point": "PRIOR CALL CONTRADICTED: on 17 Apr 2026 the same CFO described the company as asset-light and carrying no significant debt",
+        "speaker": "Manmohan Sharma (CFO), Q4 FY26 call",
+        "kind": "fact",
+        "quote": "As you rightly said, we are the asset light company and we are not carrying any significant debt in our books as of now for these projects."
+      },
+      {
+        "theme": "T&D acquisition (APSPL)",
+        "point": "NON-ANSWER: asked what steps will lift APSPL's low margins and low returns on invested capital against the standalone 15% threshold, no plan, target or date was given",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "Definitely, this margin improvement will be an ongoing exercise for the entire company for Waaree Renewable Technologies and our subsidiaries."
+      },
+      {
+        "theme": "T&D acquisition (APSPL)",
+        "point": "QUESTION NEVER ANSWERED, ASKED TWICE: whether APSPL executes any high-voltage direct current work",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "So, this company -- transmission company is doing all kind of projects, which are -- which I mentioned in my opening remarks."
+      },
+      {
+        "theme": "T&D acquisition (APSPL)",
+        "point": "The only APSPL profitability figures on the record are the analyst's own, taken from the company's prospectus; management neither confirmed nor corrected them and gave no trajectory",
+        "figure": "FY25 ~9.7%, now ~11% (Ninad Sarpotdar's figures, from the DRHP)",
+        "speaker": "Ninad Sarpotdar (InCred Research)",
+        "kind": "qna",
+        "quote": "What we saw from the DRHP of the company, the margins for the FY '25 financials were around 9.7%. And now if you look at it, they are around 11%."
+      },
+      {
+        "theme": "T&D acquisition (APSPL)",
+        "point": "NON-ANSWER: asked for APSPL profit-and-loss or balance-sheet highlights going forward, the analyst was referred to the segment-wise exchange filing rather than given anything on the call",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "So, we have already uploaded this segment-wise reporting, and we've done the exchange uploading. You may kindly refer that"
+      },
+      {
+        "theme": "T&D acquisition (APSPL)",
+        "point": "T&D order pipeline being chased is about ₹20,000cr, with negotiations under way in some cases",
+        "figure": "~₹20,000cr T&D pipeline",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "for the T&D also, we are following around INR20,000 crores of the order pipeline, which are actively we are following"
+      },
+      {
+        "theme": "T&D acquisition (APSPL)",
+        "point": "T&D execution timelines are longer than solar — 18 to 24 months, or 9 to 12 months for shorter lines, depending on distance and terrain",
+        "figure": "18–24 months, 9–12 months for short lines",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "So, T&D business, I think it is relatively a little higher, but maybe around 18 months to 24 months is there."
+      },
+      {
+        "theme": "T&D acquisition (APSPL)",
+        "point": "Stated rationale is a complete value chain — solar EPC customers become transmission leads and vice versa. No cross-sell target, revenue figure or date attached",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "opinion",
+        "quote": "It will give complete value chain for the transmission. So that is the part where we have an opportunity to get orders for transmission line as well as in this subsidiary or vice versa."
+      },
+      {
+        "theme": "BESS, data centres & new segments",
+        "point": "Unexecuted battery-storage EPC work is ₹200cr — the same ₹200cr already inside the ₹2,600cr standalone book, not additive",
+        "figure": "₹200cr unexecuted BESS EPC",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "we have around INR200 crores of the unexecuted BESS order"
+      },
+      {
+        "theme": "BESS, data centres & new segments",
+        "point": "NON-ANSWER, THIRD CALL RUNNING: asked how to size a battery order at all — by power capacity or storage hours — no rule of thumb was given. Sizing was similarly refused in Jan 2026 and Apr 2026",
+        "figure": "order cited as ~300 MW / 1,400 MWh (Ninad Sarpotdar's figures)",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "it is difficult to give this number because the BESS is also may be required for 2 hours or 4 hours... It is difficult to give any kind of thumb rule or some numbers."
+      },
+      {
+        "theme": "BESS, data centres & new segments",
+        "point": "The reported battery portfolio rose from 1,400 MWh announced to ~1,520 MWh; management said this is several orders aggregated, not one order enlarged",
+        "figure": "1,400 MWh announced → ~1,520 MWh reported",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "it is a combination of orders. It's not a single order enhancement, sir."
+      },
+      {
+        "theme": "BESS, data centres & new segments",
+        "point": "Battery EPC margins asserted to be in line with the company overall — the same unevidenced assurance given on 16 Jan 2026 ('The margin profile will remain the same')",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "the margin, which you have mentioned that margin is likely to be -- I will keep in the same range with the overall margin of the company, which we decide when we take the order"
+      },
+      {
+        "theme": "BESS, data centres & new segments",
+        "point": "No execution timeline was given for the battery order despite being asked for explicitly alongside value and margin",
+        "speaker": "Sahil Sheth (Anand Rathi Institutional Equities)",
+        "kind": "qna",
+        "quote": "my question was on the 1.5 gigawatt hour of BESS order. What is the value of that order, the execution timeline? And how does BESS EPC margin would be in comparison to the solar EPC margin?"
+      },
+      {
+        "theme": "BESS, data centres & new segments",
+        "point": "DATA CENTRES: still no order, on the third consecutive call. Inquiries and negotiations only",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "as far as data center is concerned, so far, we have not received any kind of order, but negotiations are there with the customers so that if we get the order, we'll announce through exchange"
+      },
+      {
+        "theme": "BESS, data centres & new segments",
+        "point": "Data-centre capability does not yet exist — management confirmed it is still hiring and building it",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "Yes, we are building the capability and required people we are taking on board so that this can be developed over a period of time."
+      },
+      {
+        "theme": "BESS, data centres & new segments",
+        "point": "REFUSED AND REDIRECTED: a question about a group affiliate's tolling model was pushed to the parent's own earnings call, then denied as unrelated",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "this question is related to Waaree Energy or Indosolar. So kindly send that question to IR team or maybe asked in the conference call of Waaree Energy."
+      },
+      {
+        "theme": "IPP portfolio & O&M",
+        "point": "Owned generating assets are now 82 MWp in the financials, up from 54 MWp at March 2026, with some added during Q1",
+        "figure": "82 MWp operational (Jun-26) vs 54 MWp (Mar-26); FY26 IPP revenue ~₹26cr",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "See, IPP pipeline, we have already 82-megawatt peak of IPP as of now in the financials. And some of them is created in this Q1 also."
+      },
+      {
+        "theme": "IPP portfolio & O&M",
+        "point": "IPP pipeline of ~198.6 MWp, down from the 227.1 MWp disclosed in April — the total plan is unchanged at roughly 281 MWp, with the shrinkage explained by 28 MW moving into operation",
+        "figure": "198.6 MWp pipeline (Jun-26) vs 227.1 MWp (Mar-26); 54+227.1 ≈ 82+198.6 ≈ 281 MWp",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "Pipeline we have around 198-megawatt peak."
+      },
+      {
+        "theme": "IPP portfolio & O&M",
+        "point": "Owned plants are deliberately small (10–25 MW each), sited where land and grid connectivity are available, and are confirmed to be for WRTL itself, not for group companies",
+        "figure": "₹3–3.5cr per MWp capex indication given on the Apr 2026 call",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "No for our -- for Waaree Renewable Technologies only for this -- the entity which we are discussing. Waaree Renewable Technologies."
+      },
+      {
+        "theme": "IPP portfolio & O&M",
+        "point": "The return earned on owned plants was refused on both prior calls and not asked at all on this one — an unclosed gap across three calls",
+        "figure": "'Fine detail is not available with me as of now' (16 Jan 2026); no IRR given 17 Apr 2026",
+        "speaker": "Manmohan Sharma (CFO), Q3 FY26 call",
+        "kind": "fact",
+        "quote": "Fine detail is not available with me as of now, but we are -- whatever this suiting our -- this revenue stream plus overall the company, we are exiting only those projects."
+      },
+      {
+        "theme": "IPP portfolio & O&M",
+        "point": "O&M PORTFOLIO FELL FOR THE FIRST TIME — down 24 MW, in a quarter when 888.81 MWp of new projects were completed and should have fed into it",
+        "figure": "1.154 GWp (Jun-26) vs 1,180 MWp (Mar-26 and Dec-25)",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "as of now, we have 1.154 gigawatt of O&M portfolio"
+      },
+      {
+        "theme": "IPP portfolio & O&M",
+        "point": "The O&M decline was explained away rather than accounted for",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "No, it's a small part. It can be -- whatever we are reporting can sometimes get increased sometimes maybe contract may be over, but it is to be renewed, etcetera."
+      },
+      {
+        "theme": "Related-party & parent dependence",
+        "point": "FIRST-EVER QUANTIFICATION OF GROUP-ENTITY DEPENDENCE: 30% to 40% of the order book — given with an explicit admission that the number had not been checked",
+        "figure": "~30–40% of the 2.4 GW order book from group entities",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "So as of now, we have around -- maybe I need to check those real number, maybe around 30% to 40% of the order book is from the group entities."
+      },
+      {
+        "theme": "Related-party & parent dependence",
+        "point": "The analyst's premise, uncorrected: recent large orders — 450 MW and a 350 MW battery order — came from group companies",
+        "figure": "450 MW and 350 MW BESS order cited as group-sourced (Manish More's figures)",
+        "speaker": "Manish More (More Murarka)",
+        "kind": "qna",
+        "quote": "recently, many orders, 450 megawatts, that BESS order 350 megawatts, all these have been from our subsidiary company. So, what is that bifurcation?"
+      },
+      {
+        "theme": "Related-party & parent dependence",
+        "point": "THE CENTRAL QUESTION WAS NOT ANSWERED: whether group orders are genuine third-party contracts routed through affiliates or the group building its own capacity. The reply addressed consolidation accounting, not economics",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "whatever orders if I'm getting within my -- let's say, from my own subsidiary, that will get eliminated, sir, okay? So that will not form part of the revenue at a consol level."
+      },
+      {
+        "theme": "Related-party & parent dependence",
+        "point": "PUSHED OFF THE RECORD ON THE THIRD ASK — the most valuation-relevant question on the call was moved to email",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "What I -- what we suggest, sir, you can send us the query on our Investor Relations, we will reply there."
+      },
+      {
+        "theme": "Related-party & parent dependence",
+        "point": "Management declined to characterise the end use of group orders, framing them purely as execution work for WRTL",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "it depends upon the like group initiative, what they are doing and what is the end use of that, that we are not -- but as far as we are concerned, these are the orders for us for the execution"
+      },
+      {
+        "theme": "Related-party & parent dependence",
+        "point": "A QUESTION THAT DISAPPEARED: the split of module procurement between the listed parent and third parties was asked on both prior calls and refused in Apr 2026; on this call it was neither asked nor volunteered",
+        "figure": "'it is difficult to quantify because we don't have any kind of ready number with us how much from the parent and otherwise' (17 Apr 2026)",
+        "speaker": "Manmohan Sharma (CFO), Q4 FY26 call",
+        "kind": "fact",
+        "quote": "it is difficult to quantify because we don't have any kind of ready number with us how much from the parent and otherwise"
+      },
+      {
+        "theme": "Competition",
+        "point": "The competition answer is unchanged across three calls and carries no evidence — no win rate, no price trend, no market share",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "opinion",
+        "quote": "competition is always good for the industry. But as far as we are concerned, we are only taking those projects which are really profitable and suits our risk/reward metrics."
+      },
+      {
+        "theme": "Competition",
+        "point": "IMPLICIT ADMISSION: asked about industry overcapacity fears, management's answer arrived at the T&D acquisition as the response to crowding — a franker rationale than the value-chain framing in the prepared remarks, and one no analyst followed up",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "opinion",
+        "quote": "a lot of players are entering. So therefore, we also like entered into another area that is transmission and distribution. So, to make and consolidate this company, we have taken this step."
+      },
+      {
+        "theme": "Competition",
+        "point": "PRIOR CALL BASELINE: government and PSU work was quantified twice in Jan 2026 at under 10% by capacity and 20–22% by value. That split was not given or requested on this call or in April",
+        "figure": "'less than 10% government and value term is around 20%, 22%' (16 Jan 2026)",
+        "speaker": "Manmohan Sharma (CFO), Q3 FY26 call",
+        "kind": "fact",
+        "quote": "In terms of megawatt size around less than 10% government and value term is around 20%, 22%."
+      },
+      {
+        "theme": "Policy & industry demand",
+        "point": "India's installed renewable capacity at 288 GW with solar over 162 GW — 121 GW ground-mounted, ~30 GW rooftop, ~11 GW hybrid and off-grid",
+        "figure": "288 GW renewable; 162 GW solar (121 ground-mounted / 30 rooftop / 11 other) as of 30 June 2026",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "India's total installed renewable energy capacity stood at around 288 gigawatts, while cumulative solar capacity crossed 162 gigawatts"
+      },
+      {
+        "theme": "Policy & industry demand",
+        "point": "National battery-storage requirement projected at ~208 GWh by 2030",
+        "figure": "208 GWh by 2030",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "India's battery energy storage requirement is projected at around 208 gigawatt hours by 2030."
+      },
+      {
+        "theme": "Policy & industry demand",
+        "point": "The transmission opportunity underpinning the acquisition, from the Central Electricity Authority's national plan for 2027–2032",
+        "figure": "76,787 circuit km of lines, 4,97,855 MVA of substations, 32,250 MW of HVDC, ₹4,90,920cr of investment",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "76,787 circuit kilometers of transmission lines, 4,97,855 MVA of substation and 32,250 megawatts of HVDC during 2027 to 2032 with an estimated investment of INR4,90,920 crores"
+      },
+      {
+        "theme": "Policy & industry demand",
+        "point": "NON-ANSWER: asked what the extension of the ALMM-II approved-list rule to the December quarter does to order inflows, execution timelines and margins, none of the three was addressed",
+        "figure": "ALMM-II extended to the December quarter (Paras Kulkarni's framing, uncorrected)",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "we are the EPC player, doing the EPC execution work of those solar projects. So, more and more projects is likely to come before we go nearer to these deadlines."
+      },
+      {
+        "theme": "Balance sheet & working capital",
+        "point": "FIRST NUMERIC ANSWER ON THE PAYMENT CYCLE across three calls — 60 to 90 days, on progressive billing against project milestones rather than payment at completion. Twice hedged inside one sentence",
+        "figure": "~60 to 90 days",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "So, the working capital is maybe around from maybe 60 to 90 days actually when we receive because all these are the progressive payments."
+      },
+      {
+        "theme": "Balance sheet & working capital",
+        "point": "NON-ANSWER, FIRST OF THREE: asked whether the asset-light cash-generating model survives the acquisition, the reply asserted cash flow without addressing the question",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "No, operational cash flow will definitely be there because of our business, the way we are doing the business, not only in our Waaree Renewable but also in associates."
+      },
+      {
+        "theme": "Balance sheet & working capital",
+        "point": "NON-ANSWER, SECOND: pressed specifically on T&D's known cash-conversion problem, the answer was APSPL's maturity and two-decade history, not its cash cycle",
+        "speaker": "Umang Adatia (individual investor)",
+        "kind": "qna",
+        "quote": "in T&D business, there is a question about operating cash flow. So, I was asking you about that."
+      },
+      {
+        "theme": "Balance sheet & working capital",
+        "point": "NON-ANSWER, THIRD: asked what concrete structural advantage lets WRTL escape T&D economics, the answer was unspecified process improvement",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "because of the improvement in the process or maybe wherever that we can bring down the overall cost for the company, that will be resulted in the upcoming quarters"
+      },
+      {
+        "theme": "Balance sheet & working capital",
+        "point": "Receivables, which had roughly doubled by March 2026 and drew questions on the April call, were not raised at all here, and no operating cash-flow figure was given on this call",
+        "figure": "Apr 2026: 'mostly our receivables are less than 6 months only', LC-secured; OCF decline acknowledged for FY26",
+        "speaker": "Manmohan Sharma (CFO), Q4 FY26 call",
+        "kind": "fact",
+        "quote": "No, mostly our most of our receivables are less than 6 months only. And in many of the contracts, we are secured by way of letter of credits also."
+      },
+      {
+        "theme": "Guidance",
+        "point": "GUIDANCE REFUSED AND GIVEN IN THE SAME BREATH: asked for FY27 margin guidance, the CFO declined and then named 15% for the year",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "So, margin, we are not giving any kind of guidance."
+      },
+      {
+        "theme": "Guidance",
+        "point": "THE KEY CHANGE VERSUS APRIL: the 15% number is unchanged but its status is not. In Jan and Apr it was a conservative internal threshold against 19%+ delivery; here it is the target for the year, explicitly because APSPL will not match the old level",
+        "figure": "'we'll try to maintain around 15% of the margin for the financial year' vs FY26 delivered 19.24%",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "by considering this Associated power, that also will maybe not in the same line. But definitely, we'll try to maintain around 15% of the margin for the financial year."
+      },
+      {
+        "theme": "Guidance",
+        "point": "PRIOR CALL: on 17 Apr 2026 the 15% was framed as a floor the company keeps beating, and explicitly as a bidding threshold rather than an expectation",
+        "figure": "'the 15% which we are mentioning is a calculation or a guiding number. This is some threshold which we are maintaining' (17 Apr 2026)",
+        "speaker": "Manmohan Sharma (CFO), Q4 FY26 call",
+        "kind": "fact",
+        "quote": "always we are mentioning that the EBITDA margin should remain around 15%, but definitely we are delivering on a continuous basis."
+      },
+      {
+        "theme": "Guidance",
+        "point": "Even the 15% was then deferred, with the real answer pushed to the next results",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "But all these things will come up with the next quarter when we are presenting the financial results."
+      },
+      {
+        "theme": "Guidance",
+        "point": "GUIDANCE DENIED OUTRIGHT LATER IN THE SAME CALL: asked to repeat what had been guided, the CFO said none had been given — minutes after naming 15%",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "No, we have not given any guidance, sort of guidance."
+      },
+      {
+        "theme": "Guidance",
+        "point": "The only quantitative forward frame offered is last year's revenue as a capability benchmark, with no FY27 revenue or execution target attached",
+        "figure": "FY26 revenue ₹3,300cr cited as the demonstrated capability; FY26 execution 2,727 MWp",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "our revenue for the last financial year was INR3,300 crores. So, we have similar line of capability. We can enhance it further also because there is no capacity concerns"
+      },
+      {
+        "theme": "Management & disclosure",
+        "point": "THE MANAGEMENT PANEL HAS SHRUNK FROM FIVE TO FOUR TO ONE across three calls. Hitesh Mehta, Whole-Time Director on both prior calls, is absent and speaks no words; both investor-relations officers are also gone. No explanation, and no analyst asked",
+        "figure": "Jan 2026: Mehta, Sharma, Pareek, Vinayak, Wade (5). Apr 2026: Mehta, Sharma, Vinayak, Wade (4). Jul 2026: Sharma only (1)",
+        "speaker": "Nikunj Jain (MUFG Intime, moderator)",
+        "kind": "fact",
+        "quote": "Today on the call, we have from the management, Mr. Manmohan Sharma, Chief Financial Officer, along with the other management team."
+      },
+      {
+        "theme": "Management & disclosure",
+        "point": "Three separate questions were moved off the record in one hour — group-order substance to investor relations, APSPL financials to an exchange filing, and the affiliate question to the parent's own call",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Management & disclosure",
+        "point": "An analyst closed the call with an explicit request for better disclosure on the acquired business — a polite statement that the quarter was reported without enough information to judge the largest change in the company's history",
+        "speaker": "Ninad Sarpotdar (InCred Research)",
+        "kind": "qna",
+        "quote": "Just last one feedback that if you can give us some APSPL numbers or some key highlights of the P&L or the balance sheet would be helpful going forward, especially."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "CLUSTER: the effect of the T&D acquisition on profitability and cash was raised by four different questioners in five forms and drew no figure on any of them — only process improvement, APSPL's maturity, and deferral to next quarter",
+        "figure": "Paras Kulkarni (margins, returns), Umang Adatia (cash conversion ×3), Ninad Sarpotdar (financials), Ashray Sheth (working capital)",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "CLUSTER: three standing refusals now visible across all three calls — the conversion rate on the order pipeline, the per-unit economics of a battery order, and the return earned on owned generating assets",
+        "figure": "pipeline conversion refused Jan/Apr/Jul; BESS sizing refused Jan/Apr/Jul; IPP return refused Jan/Apr, not asked Jul",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "COUNTER-EXAMPLE WORTH KEEPING: the group-entity share of the order book, refused in April in its module-sourcing form, was given a number here for the first time — so the disclosure record is not uniformly worsening",
+        "figure": "'around 30% to 40%' (Jul 2026) vs 'we don't have any kind of ready number' (Apr 2026)",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Two questions drew no substantive answer at all: high-voltage direct current work at APSPL (asked twice), and the effect of the delayed approved-list rule on order timing and margins (both parts ignored)",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "A DISCLOSURE THAT VANISHED: the with-module versus without-module split of revenue and order book, given on both prior calls, was neither offered nor requested — in the very quarter when megawatts executed rose sharply while revenue fell",
+        "figure": "Jan 2026: order book 'majority... pure EPC'. Apr 2026: ~50% of Q4 execution revenue with module, ~20% of order book. Jul 2026: not disclosed",
+        "kind": "qna"
+      }
+    ],
+    "theme_summaries": {
+      "Order book & inflow": "The headline number looks like a step change and is not one. Management reported an unfinished order book of ₹5,300 crore, described as a group-level figure that includes the newly bought transmission business. The solar side alone is ₹2,600 crore — ₹2,400 crore of ordinary solar project building and ₹200 crore of battery-storage project building — and in megawatt terms it is 2.4 gigawatts. That is the fourth consecutive fall: 3.2 gigawatts in March 2025, 2.92 in December 2025, 2.83 in March 2026, 2.4 now. Nobody on the call put those four numbers side by side, and management did not volunteer the transmission portion in rupees either, so the reader has to subtract to see that roughly half the headline book is a business the company has owned for twelve days. The work in hand takes 12 to 15 months to complete, which one analyst pointed out gives visibility of 'only beyond a year'. The pipeline being chased is 27 gigawatts of solar at home plus about 10 to 11 gigawatts abroad, and separately about ₹20,000 crore of transmission work — the solar figure at home is up from 23 gigawatts in April, while the overseas figure has slipped from 12. How much of any pipeline converts has now been refused on three consecutive calls; here it was 'our endeavour is to get maximum out of it'. One analyst said new orders in the quarter were 20% higher than the previous quarter and asked whether the decline had bottomed; management neither confirmed his figure nor claimed a bottom, and recited the pipeline instead.",
+      "EPC execution": "The company built 888.81 megawatts of projects in the quarter, a sharp jump — the whole of last year was 2,727 megawatts and the final quarter of it was roughly 497 megawatts by subtraction. But revenue fell from ₹1,102.40 crore in that final quarter to ₹924.25 crore here, so far more megawatts produced less money. The reason is almost certainly the mix of contracts that include solar panels versus those that do not — management said in April that half of the January-to-March revenue came from panel-inclusive work and called it an aberration. Nobody on this call asked about that mix, and management did not give it, so a figure disclosed in both prior calls has quietly gone missing exactly when it would explain the revenue drop. On capacity, the answer was expansive to the point of being untestable: asked whether the company could handle 5 gigawatts in a single year if the orders arrived, the reply was 'Yes, sir. Yes, sir. We'll be happy to execute, sir' — against a best-ever year of 2,727 megawatts, with no mention of what hiring or spending that would need. Work is spread across seven to eight states.",
+      "Pricing & margins": "Sales grew 53.23% to ₹924.25 crore, but net profit grew only 37.7%, to ₹118.97 crore — so profit grew at roughly two-thirds the pace of sales. Operating profit, meaning sales less running costs before interest, tax and wear-and-tear charges, was ₹173.48 crore. An analyst pointed out that the parent-only solar business actually got slightly more profitable, by two-tenths of a percentage point, and that the fall at group level must therefore come from folding in the lower-earning transmission business; management agreed, 'to some extent', and added that in rupee terms profit 'has improved significantly. But in percentage terms, there is a slight drop.' A second analyst offered a different explanation — that interest on the money borrowed to buy the transmission company was compressing profit — and that was neither confirmed nor denied; the reply moved to why the acquisition matters strategically. Asked twice whether the transmission business can drag group profitability down meaningfully in future quarters, management would not say, promising to 'come back in the next quarter'. Every plan to lift the acquired company's profitability was described without a number, a target or a date: 'an ongoing exercise'.",
+      "T&D acquisition (APSPL)": "The quarter's real event is that Waaree Renewable stopped being a pure solar contractor. It bought 55% of Associated Power Structures, a Vadodara company that has been building transmission lines and substations for over two decades, has made and erected more than 10,461 circuit kilometres of line, and can fabricate and galvanise 108,000 tonnes of steel a year for towers and mounting structures. The strategic case is that solar plants are useless without wires to carry the power away, so owning both ends creates one chain. The financial case is much less clear, and the call did not fill it in. About 75% of the purchase was funded with borrowed money, which directly contradicts the picture given three months earlier of a company carrying no meaningful debt. It was consolidated for only about twelve days of the quarter and still pulled group profitability down. No profit-and-loss or balance-sheet detail for the acquired company was given — an analyst who asked was pointed to the segment disclosure filed with the exchanges. The only profitability figures on the record are that analyst's own, taken from the company's share-sale prospectus: about 9.7% in the year to March 2025, now about 11%. Management neither confirmed nor corrected them. Transmission jobs take 18 to 24 months, or 9 to 12 for a short line. The pipeline being chased is about ₹20,000 crore. Whether any of it involves high-voltage direct current — asked twice — was never answered.",
+      "BESS, data centres & new segments": "Two adjacent businesses were discussed and neither has become measurable yet. On batteries, the company holds ₹200 crore of unfinished work, which is the ₹200 crore already counted inside the ₹2,600 crore solar book, and the reported size rose from 1,400 megawatt-hours announced earlier to about 1,520 now — management said that is not one order growing but several orders added together. Asked how an outsider should even size a battery order, by power capacity or by hours of storage, the answer was that it depends on whether the customer wants two hours or four, and 'It is difficult to give any kind of thumb rule or some numbers.' That is the third consecutive call on which battery economics have been declined. The profitability claim is that battery work sits 'in the same range with the overall margin of the company', which is the same assurance given in January, still with no evidence attached. On data centres, the position is unchanged across three calls: inquiries and discussions, no order. Management confirmed it is still hiring and 'building the capability', so this remains an intention rather than a business. A question about a group affiliate's tolling arrangement was refused outright and redirected to the parent's own call.",
+      "IPP portfolio & O&M": "These are the two streams meant to give steady income between contracts, and one of them went backwards. The company now owns 82 megawatts of solar plants generating electricity it sells, up from 54 megawatts in April, with a further 198.6 megawatts being built — so the total plan is unchanged at roughly 281 megawatts, with the built portion simply moving across from the pipeline. These are deliberately small plants of 10 to 25 megawatts each, put up where land and a grid connection happen to be available, and management confirmed they are for Waaree Renewable itself and not for group companies. What nobody asked on this call, and what was refused on both prior calls, is what return these plants earn. The maintenance business, where the company looks after plants it has built, actually shrank — from 1,180 megawatts at the end of March to 1,154 now, a 24-megawatt fall. That is the first decline, and it happened in a quarter when the company finished 888.81 megawatts of new projects that were supposed to feed into it. The explanation was that a contract may have ended and is 'to be renewed'.",
+      "Related-party & parent dependence": "This is where the call produced its most useful and its most evasive moment, in the same exchange. Asked what share of the 2.4 gigawatt solar order book comes from group companies, management gave a figure for the first time ever: 'around 30% to 40%' — while admitting in the same sentence that he had not checked it. Set against the two prior calls, that is real progress: in April the equivalent question about buying solar panels from the parent was refused with 'we don't have any kind of ready number with us', and in January it drew only a vague 'these modules are from the Waaree only'. But the analyst's real question was whether those group orders are genuine third-party projects that happen to be routed through affiliates, or the Waaree group simply building capacity for itself and booking it as revenue here. That got an accounting answer — work from wholly owned subsidiaries is cancelled out in the group accounts, work from wider group companies is not — which addresses the bookkeeping and not the economics. Asked a third time, the analyst was told to email investor relations. So an investor now knows that between a third and two-fifths of the order book depends on the parent group, and still cannot tell whether that revenue is won or allocated. Separately, the question of how much of the panel purchasing goes to the listed parent was not raised at all this time, and management volunteered nothing.",
+      "Competition": "Management's answer to more rivals entering solar contracting has not changed in three calls and still contains no evidence: 'competition is always good for the industry. But as far as we are concerned, we are only taking those projects which are really profitable and suits our risk/reward metrics.' No win rate, no price trend, no share figure. What did change is the implicit admission. Asked about fears that the industry is building more capacity than it can use, management's answer arrived at the acquisition: 'a lot of players are entering. So therefore, we also like entered into another area that is transmission and distribution.' Read plainly, that is the company saying it diversified because its core market is getting crowded — a franker account of the acquisition than the value-chain framing given in the prepared remarks, and one no analyst picked up on.",
+      "Policy & industry demand": "The demand case is presented as very large and very general. India now has about 288 gigawatts of renewable capacity installed, of which solar is over 162 gigawatts — 121 gigawatts on the ground, about 30 on rooftops and about 11 in hybrid and off-grid form. Battery storage needs are put at about 208 gigawatt-hours by 2030. On the transmission side, the national plan calls for 76,787 circuit kilometres of new lines, 497,855 units of substation handling capacity and 32,250 megawatts of long-distance direct-current links between 2027 and 2032, costing an estimated ₹4,90,920 crore — which is the number underpinning the acquisition. On the government's approved-list rule for solar equipment, whose second phase has been pushed back to the October-to-December quarter, the answer sidestepped the two things actually asked, which were the effect on order timing and on profitability: management said only that as a contractor, 'more and more projects is likely to come before we go nearer to these deadlines'. None of this was tied to any Waaree Renewable number.",
+      "Balance sheet & working capital": "The balance sheet story changed materially this quarter and was barely examined. In April management said the company was asset-light and carried no significant debt; in July it disclosed that roughly three-quarters of the price of the transmission acquisition was borrowed. An individual investor asked directly whether the cash the business generates will now convert less well, given that transmission contracting is notoriously slow to pay, and got three non-answers in a row — assurance that cash flow 'will definitely be there', a reference to the acquired company's two decades of history, and a promise of process improvements. The one number given is that payment comes in over roughly 60 to 90 days, because customers pay against progress bills rather than on completion, and that is the first time any figure of this kind has been put on the record; it was hedged twice inside one sentence. Receivables, which had roughly doubled by March and prompted questions then, were not raised at all this time, and no figure for cash generated by the business was given.",
+      "Guidance": "In plain terms, management committed to very little and explicitly said so. Asked twice for guidance it said none was being given — 'we are not giving any kind of guidance' on profitability, and later, flatly, 'No, we have not given any guidance, sort of guidance.' What did get stated is this. The ₹5,300 crore of unfinished work will be completed over roughly 12 to 15 months, not the nine months remaining in the year, with new orders won during the year executed alongside it. Profitability will be 'around 15%' of sales for the year — the same figure quoted in January and April, but on those calls it was a floor sitting well below a delivered 19.24%, and here it is the target, explicitly because the acquired transmission business will 'maybe not' match the old level. That is a step down of roughly four percentage points in what shareholders should expect, dressed as an unchanged number, and no analyst named it as a change. Battery work is claimed to earn the same as the rest of the company. Transmission jobs run 18 to 24 months. The acquired company's profitability will improve through 'an ongoing exercise' with no target and no date. Everything else was deferred to the next quarter's results.",
+      "Management & disclosure": "The people on the call are themselves a finding. In January five executives were named — the Whole-Time Director, the chief financial officer, the group head of finance and two investor-relations officers. In April it was four; the group head of finance had gone. On this call there is exactly one named executive, the chief financial officer, introduced as being 'along with the other management team', with nobody else identified and nobody else speaking. Hitesh Mehta, the Whole-Time Director present on both prior calls, is absent without explanation, and not one analyst asked why. Alongside that, three questions were pushed off the record in a single hour: whether group-company orders are real external work, what the acquired company's financials look like, and an affiliate's arrangement. The first two were referred to investor relations or to an exchange filing; the third to the parent's own earnings call. An analyst's closing request was explicitly for better disclosure — 'if you can give us some APSPL numbers or some key highlights of the P&L or the balance sheet would be helpful going forward' — which is a polite way of saying the quarter was reported without enough information to judge the largest change in the company's history.",
+      "Analyst Q&A concerns": "Thirteen questioners, and the pressure clustered on exactly three things. First, what the transmission acquisition does to profitability and to cash: asked by four separate people in five different forms, and answered with process improvements, promises to revert next quarter, and no figure at any point. Second, the group-company share of the order book: a number finally arrived at 30% to 40%, self-declared as unchecked, but the question of whether that revenue is genuinely won from outsiders was refused three times and moved to email. Third, guidance: refused, then given as 15%, then denied again in the same call. Standing refusals now visible across three calls are the conversion rate on the order pipeline, the economics of a battery order, and the return earned on the plants the company owns. Two questions got no substantive answer at all: high-voltage direct current work, asked twice, and the effect of the delayed equipment rule on timing and profitability. One answer is worth flagging for the opposite reason — asked whether 5 gigawatts could be built in a single year, management said yes without qualification, against a best-ever year of 2,727 megawatts. And one disclosure disappeared: the split of revenue between contracts that include solar panels and those that do not, given in both prior calls, was neither offered nor requested, in the very quarter when megawatts built rose sharply while revenue fell."
+    }
+  },
+  {
+    "quarter": "Q4 FY26",
+    "call_date": "2026-04-17",
+    "detailed": [
+      {
+        "theme": "Demand & volumes",
+        "point": "FY26 execution of 2,727 MWp described as the highest in the company's history",
+        "figure": "2,727 MWp executed in FY26",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "During FY '2026, we have successfully executed 2,727 megawatt peak of projects, which is highest for any year."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Year-end unexecuted order book 2.83 GWp and the maintenance portfolio 1.18 GWp, presented as visibility and recurring revenue",
+        "figure": "Order book 2.83 GWp; O&M portfolio 1.18 GWp",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "For the year-end our unexecuted order book stood at 2.83 gigawatt peak, providing us with strong visibility... our O&M portfolio stood at 1.18 gigawatt peak"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "ANALYST CHALLENGE: the order book has fallen year-on-year and management was asked why. The decline was never explained — the answer was that the book is being 'maintained'",
+        "figure": "3.2 GW (Mar-25) → 2.8 GW (Mar-26), analyst's framing, uncorrected",
+        "speaker": "Ishita Lodha (SVAN Investments)",
+        "kind": "qna",
+        "quote": "The order book has declined from 3.2 gigawatt to 2.8 gigawatt on a Y-o-Y basis as March versus March. So why has this happened and how do you see the order inflow outlook going forward?"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "NON-ANSWER: the CFO substituted the 36 GW pipeline and a claim of maintaining the book for an explanation of the decline",
+        "figure": "36 GW pipeline: ~23 GW domestic, ~12 GW international",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "in spite of our execution and achieving revenue number of more than INR3,300 crores, in spite of that, we are able to maintain our order book."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "FY26 order inflow was lower than FY25 on the analyst's numbers, and the competition hypothesis she offered was never addressed. She had to interrupt to redirect the answer from execution back to inflow",
+        "figure": "FY25 inflow 2.4 GW → FY26 inflow 2.3 GW, '5%' decline (Ishita Lodha's figures, uncorrected)",
+        "speaker": "Ishita Lodha (SVAN Investments)",
+        "kind": "qna",
+        "quote": "previous financial year order inflow was 2.4 gigawatt and this time it was 2.3 gigawatt, slight decrease, 5%. But is this because of competition or like why this happened?"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "The only forward statement on inflow is that bilateral discussions may convert, with no quantum and no date",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "we are discussing bilaterally the order pipeline which I mentioned to you and probably some of them will get converted in coming quarters."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "NON-ANSWER: asked for the historical conversion rate on the 36 GW pipeline, the CFO declined to quantify it",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "it's difficult to quantify any kind of hit ratio because these are the bilateral discussion with the customers."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Quarterly execution rate has fallen through the year on the analyst's figures; management attributed it entirely to order type rather than to demand or resourcing",
+        "figure": "H1 ~700–900 MW per quarter → Q4 'less than 500' or 600 MW (Hiten Boricha's figures, uncorrected)",
+        "speaker": "Hiten Boricha (Sequent Investments)",
+        "kind": "qna",
+        "quote": "in the first half, our execution was roughly of 700 megawatt to 900 megawatt, which has declined to 600 or less than 500 in Q4."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "The stated cause of the falling megawatt run-rate is scope: balance-of-system orders carry high megawatts but low revenue per megawatt",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "If it is a BOS order, maybe with only megawatt is higher but my scope is less. So, it will give you that kind of number."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "NON-ANSWER ON FY27 EXECUTION: asked what volume the company targets in FY27, the CFO gave no number",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "So it depends actually. As of now what the order book which I have is around 2.8 gigawatt. So that we are going to execute in next quarters which we mentioned 12 to 15 months."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "ANALYST ARITHMETIC UNREBUTTED: the existing book at the company's own per-MW value implies almost no FY27 growth. Management neither contested the maths nor supplied a growth figure",
+        "figure": "~3,000 MW × ₹1.2cr/MW ≈ flat versus FY26 revenue of ₹3,331.42cr",
+        "speaker": "Hiten Boricha (Sequent Investments)",
+        "kind": "qna",
+        "quote": "Assuming we execute around 3,000 megawatts at INR1.2 crore realization per megawatt, we still won't see much growth this year."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Industry context given by management: record solar additions and solar dominating renewable capacity growth",
+        "figure": "India RE installed >274 GW; solar >150 GW (ground-mount 114.87 GW, rooftop 25.73 GW, other 9.66 GW); FY26 solar additions >44 GW vs 23.83 GW in FY25; solar ~82% of RE additions",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "In FY '2026, over 44 gigawatt of solar capacity was added, representing a substantial increase from 23.83 gigawatt in the previous year."
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Execution on the ground reported as unimpeded by grid, land or transmission delays, on the argument that those are cleared by the developer before the contract is awarded",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "opinion",
+        "quote": "when it comes to us for execution, by that time all the previous points have been cross-verified, checked, then only the contract is awarded."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Q4 FY26 results: revenue more than doubled but profit grew at half that rate",
+        "figure": "Revenue ₹1,102.40cr (+131.31%); EBITDA ₹206.82cr, margin 18.76%; PAT ₹155.72cr (+66.08%)",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "our revenue from operations stood at INR 1,102.40 crores, reflecting a growth of 131.31%... EBITDA comes at INR 206.82 crores with a margin of 18.76%. PAT for the quarter reached INR155.72 crores"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "FY26 full-year results",
+        "figure": "Revenue ₹3,331.42cr (+108.51%); EBITDA ₹641.10cr (+106.21%); PAT ₹478.65cr (+109.09%)",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "we reported revenue of INR3,331.42 crores, a growth of 108.51% over FY2025. EBITDA stood at INR641.10 crores, up 106.21%... While PAT reached INR478.65 crores, showing growth of 109.09%"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "ANALYST FLAGGED THE INFLATED REALISATION: implied Q4 revenue per MW of ~₹2cr, and asked whether it was one-time or recurring",
+        "figure": "~INR20 million (₹2cr) per MW implied in Q4",
+        "speaker": "Sahil Sheth (Anand Rathi Institutional Equities)",
+        "kind": "qna",
+        "quote": "the implied realization is quite high, coming to approx INR20 million per megawatt. Is this due to any different types of project execution or will this be a one-time event or will it be recurring in nature?"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "KEY MIX DISCLOSURE: ~50% of Q4 execution revenue came from with-module orders, which is what lifted revenue per megawatt",
+        "figure": "~50% of Q4 execution revenue from with-module orders",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "for this quarter actually, around, if I say any rough idea is around 50% of the execution revenue numbers are coming from with module."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "THE ONE-OFF IS CONFIRMED: asked directly whether the 50% with-module revenue mix is an aberration, management said 'Correct' — so the quarter's revenue is not a clean run-rate",
+        "figure": "Q4 with-module ~50% vs order-book norm ~20%",
+        "speaker": "Deepak Poddar (Sapphire Capital), confirmed by Manmohan Sharma",
+        "kind": "qna",
+        "quote": "this quarter, 50% revenue mix was with module. So that we can see as an aberration, right? — Correct."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "NON-ANSWER: the CFO declined to value the order book in rupees, offering only a per-MW range and warning that any calculation from it would be unreliable",
+        "figure": "₹1cr to ₹1.25cr (or ₹1.2cr) per MW",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "normally, we don't quantify this thing... it is broadly this range in between INR1 crores to INR1.25 crores or INR1.2 crores megawatt... any calculation by this method may not give the correct result for the future."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Order-book module content put at ~20% in megawatt terms, with a wide hedge attached",
+        "figure": "~20% with module; 'could vary between 10% to 15% or maybe 20%'",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "Maybe actually in this around 20% or something like that with module... And remaining like megawatt term it could vary between 10% to 15% or maybe 20%."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "ANALYST CHALLENGE ON MARGIN DIRECTION: Q4 margins have compressed versus prior fourth quarters, and he asked whether 18–20% is the new structural band",
+        "figure": "'every Q4, we have a 25% plus kind of margins' vs 'nearly 19% to 20%' now (Balasubramanian's figures)",
+        "speaker": "Balasubramanian (Arihant Capital)",
+        "kind": "qna",
+        "quote": "if you look at every Q4, we have a 25% plus kind of margins, but right now we end up nearly 19% to 20% kind of margins. So, I am trying to understand this is a new normal margin band 18% to 20%"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "NON-ANSWER: neither the 'new normal' nor the return to 25% was addressed. The CFO redirected to customer mix and the full-year figure",
+        "figure": "FY26 EBITDA margin 19.24%; FY25 also >19%",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "margin for a particular quarter depend upon which customer's order I am executing in any particular quarter. As far as if you will notice that for the entire financial year, we are able to maintain EBITDA margin more than 19.24%."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "GUIDANCE ANCHORED WELL BELOW DELIVERY: asked whether current margins persist for 2–3 years, the CFO fell back to ~15% — 425bps below FY26 actual — while claiming continuous delivery above it",
+        "figure": "guided ~15% vs FY26 delivered 19.24%",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "always we are mentioning that the EBITDA margin should remain around 15%, but definitely we are delivering on a continuous basis."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "The 15% is a bidding threshold, not a forecast — and management explicitly denied that results will normalise down to it, without saying what they will normalise to",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "the 15% which we are mentioning is a calculation or a guiding number. This is some threshold which we are maintaining... It is not like that it will get normalized at some point of level."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "All contracts are fixed-price, so cost inflation and execution overruns sit with Waaree rather than the customer",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "we have all kind of fixed price contract."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "NON-ANSWER: asked for the margin profile of pure EPC versus turnkey work and the revenue split between them, the CFO gave neither split nor differential",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "margin, it cannot be said like this particular segment has a higher margin. It can be a lower margin."
+      },
+      {
+        "theme": "Competition",
+        "point": "Tendering activity slowed in FY26 versus FY25 (the analyst's premise, unchallenged); management's answer was selectivity rather than a view on the slowdown",
+        "speaker": "Sahil Sheth (Anand Rathi Institutional Equities)",
+        "kind": "qna",
+        "quote": "there has been a slowdown in tendering activity if you compare FY25 with FY26. what kind of impact could we see on new orders coming in for Waaree Renewable?"
+      },
+      {
+        "theme": "Competition",
+        "point": "Stated bidding discipline: participation only where margin and risk-reward clear an internal bar. Offered as the explanation for flat order intake, but never reconciled with the 3.2→2.8 GW decline",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "opinion",
+        "quote": "we are only participating when it is suitable to our margin or suitable to risk reward metrics, which we prefer, that if it is suiting our requirement and the margin, then only we are participating."
+      },
+      {
+        "theme": "Competition",
+        "point": "ANALYST CHALLENGE: industry ordering is rising while Waaree's inflow is not — is this market-share loss or negotiation lag?",
+        "speaker": "Avnish Tiwari (Vaikarya Change LLP)",
+        "kind": "qna",
+        "quote": "aggregate basis on your slide, you say ordering has been overall increasing, but the order flow to you is not increasing. So, is it something to do with the market share we have in the new order booking"
+      },
+      {
+        "theme": "Competition",
+        "point": "CLOSEST THING TO A SHARE-LOSS CONCESSION ON THE CALL: management allowed that market share could be a contributing cause, then declined to size it",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "So maybe, like, what you said is correct. It can contribute, but it is difficult to quantify how much is on each count."
+      },
+      {
+        "theme": "Competition",
+        "point": "QUESTION CUT OFF AND NEVER PUT AGAIN: whether margins embedded in newly booked orders are better or worse than those in the existing order book. The moderator interrupted and the analyst did not return to the queue",
+        "speaker": "Avnish Tiwari (Vaikarya Change LLP) / Moderator",
+        "kind": "qna",
+        "quote": "And the margin wise, incremental margin... — I'm sorry to interrupt you, sir, but please rejoin the queue for more questions."
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Module price risk is asserted to be fully passed through to the customer, because turnkey quotes are priced at the prevailing module rate and procured immediately",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "if somebody wants the complete turnkey project from our side, we provide the pricing considering the current prevailing module price... even if it goes up also, it is passed through to the customer."
+      },
+      {
+        "theme": "Raw materials",
+        "point": "ANALYST'S OWN COST ESTIMATE under the new content rules, offered as a stress test on revenue and margin",
+        "figure": "module cost ~₹14/watt rising to ~₹23/watt (Ashray Sheth's figures, uncorrected)",
+        "speaker": "Ashray Sheth (Ventura Securities)",
+        "kind": "qna",
+        "quote": "current cost per module per watt comes out to be INR14 and it is expected to rise to INR23 per module per watt. So, do you see any impact on the top line or the margins"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "QUESTION IGNORED ENTIRELY: the same analyst asked whether the 1 June 2026 enforcement date for the content rules might be deferred. Management answered only the pass-through half and never mentioned the date; nobody returned to it",
+        "figure": "enforcement date 1 June 2026",
+        "speaker": "Ashray Sheth (Ventura Securities)",
+        "kind": "qna",
+        "quote": "And any update on the enforcement pushback if maybe that's possible from 1st June 2026 to later on date?"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "NON-ANSWER: asked twice for current module pricing including the premium on domestic-content modules, the CFO first said modules are usually the developer's to buy, then refused a range",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "the DCR module will always have the higher price. That is what we understand... — All right, but any range if you can give? — Difficult to give any kind of range for this."
+      },
+      {
+        "theme": "Raw materials",
+        "point": "No direct exposure claimed to the global oil-and-gas disruption because sourcing and orders are entirely domestic; the disruption is framed as a demand positive",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "opinion",
+        "quote": "we have all domestic orders and all domestic supply chains... directly, we are not having any kind of impact. And there is an opportunity for a company like us because everybody wanted to have solar power"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Three revenue streams confirmed — EPC, O&M and IPP — with EPC explicitly dominant and expected to remain so",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "it will be dominated by the EPC only because we are the EPC company."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "IPP fleet operational at 54 MWp with a further 200+ MWp under construction; the announced pipeline is 227.1 MWp on top of 54.8 MWp operational (analyst's figures)",
+        "figure": "54 MWp operational; 227.1 MWp under construction",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "as of now we have operational 54 megawatt peak of solar power projects that is IPP. And additionally, we are setting up around more than 200 megawatt IPP projects for our own."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "IPP revenue quantified for the first time on this call — small relative to the group",
+        "figure": "~₹26cr IPP revenue in FY26, against group revenue of ₹3,331.42cr",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "we have current around 54 megawatts of IPP assets which are running and generating revenue. The revenue is around INR26 crores for this financial year."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "IPP is guided to stay immaterial as a share of revenue, positioned as a 20–25 year annuity rather than a growth engine",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "in overall revenue stream, the percentage will be very less actually."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "NON-ANSWER: the IRR question — for both the IPP and the EPC business — was asked plainly and never answered anywhere in the reply",
+        "speaker": "Balasubramanian (Arihant Capital)",
+        "kind": "qna",
+        "quote": "I'm trying to understand what is the IRR on the IPP side and our regular EPC side?"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "BESS contributes no revenue today; one small project is in execution and management expects the stream to open in FY27, with no order value",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "there is no order or revenue from these two segments... However, we are executing one of the BESS project, relatively smaller size... this revenue stream will open up during the current financial year."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "The only BESS cost figure given was hedged as a guess and immediately qualified as project-specific",
+        "figure": "~₹0.5cr–₹0.75cr per MW for the EPC scope",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "maybe around if I guess, it could be around between 0.5 to between 0.5 to 0.75 per megawatt. But again I…"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "NON-ANSWER ×2: the battery-versus-balance-of-plant cost split, and the all-in per-MW cost if the whole chain were ordered through Waaree, were both declined",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "it depend upon the size, where you want, what kind of project, it's difficult to answer in this forum."
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Data centres: enquiries only, no firm order and no revenue",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "with respect to data center, as of now we are working with the various like maybe inquiries etcetera. But as of now there is no immediately firm order which is available to us"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "Rooftop solar and the national household scheme are explicitly not pursued — the business is ground-mounted utility-scale",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "Rooftop is hardly contributing any revenue in this... Waaree Renewable Technologies, is not actively doing this kind of project under PM's Surya Ghar Muft Bijli Yojana."
+      },
+      {
+        "theme": "International",
+        "point": "No overseas project is being executed, confirmed directly",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "As of now, we are not executing anything, sir. But we have this pipeline or in pipeline, which we are chasing for the overseas projects also."
+      },
+      {
+        "theme": "International",
+        "point": "A third of the sales pipeline is international, with no country, customer, expected order or timeline given — and no analyst asked for one",
+        "figure": "~12 GW of the 36 GW pipeline is international; ~23 GW domestic",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "we are also chasing the order pipeline of around 36 gigawatt, which is around 23 gigawatt is from domestic and maybe another 12 gigawatt from the international market."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "IPP build-out is funded entirely from internal accruals with no debt tied up — the clearest positive statement on the call",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "is under construction, is funded through internal accruals only. So far, we have not tied up any kind of debt for this. We are funding it internally."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Indicative solar build cost given as a rule of thumb, not as a project budget",
+        "figure": "₹3cr–₹3.5cr per MWp; analyst's earlier reference: 120 MW at ₹3.5cr/MW ≈ ₹420cr",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "for any kind of solar capacity which you want to install. If you put anything between it, it comes to INR3 crores to INR3.5 crores per megawatt peak."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "NON-ANSWER: asked twice for the budgeted capital cost of the 227.1 MWp project so the balance sheet could be modelled, the CFO gave only the accounting treatment",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "as and when we are incurring the cost, we are capitalizing CWIP as of now is we are seeing in the financials. So, as soon as we incur, it will get capitalized during this current financial year."
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "The 227 MWp under construction is expected to be commissioned during FY27",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "the additional IPP project which we are undertaking, on account of that, this is CWIP, sir. So, probably during this current financial year, they will get commission"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Asset-light positioning restated: the listed entity carries no significant debt, and IPP is deliberately kept to smaller projects",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "opinion",
+        "quote": "we are the asset light company and we are not carrying any significant debt in our books as of now for these projects."
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "RECEIVABLES MORE THAN DOUBLED and management confirmed the analyst's framing, attributing it to year-end billing concentration",
+        "figure": "from ~₹500cr to 'more than doubled' (Karan Gupta's framing, confirmed)",
+        "speaker": "Karan Gupta (ACMIL) / Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "Because from 500 to now the double, more than doubled? — Correct. That's right. Because the last quarter, maybe last month that will get accumulated to this number."
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Collection period asserted as under six months with letter-of-credit backing on many contracts — no days-outstanding figure was given",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "mostly our most of our receivables are less than 6 months only. And in many of the contracts, we are secured by way of letter of credits also."
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Payment stretch from government customers denied flatly, with no supporting number",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "Nothing as of now or significant."
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "NON-ANSWER: asked whether the sharp inventory build is a new structural level of working capital or normalises in FY27, management described what the inventory is and never answered the question",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "inventory whatever inventory we are procuring, whatever components we are offering, mostly almost all are for the specific project requirements only... it will get billed subsequently to the customer"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "OPERATING CASH FLOW FELL IN FY26 despite profit more than doubling — the analyst's observation went unrebutted, and no figure or recovery timeline was offered",
+        "speaker": "Paras Kulkarni (Ignite Capital)",
+        "kind": "qna",
+        "quote": "I see a slight bit of drop in OCF generation for full year FY26... historically speaking, we have had a much better cash conversion as compared to FY26. So how do we go back to what we have done historically"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "The cash-flow answer named uses of cash but no amounts and no conversion target",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "all cash are mostly conserved and like it is going in the like either development of our own IPP projects or maybe like whenever some margin requirement is there with the banks"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "The jump in non-current other financial assets explained as GST balances held with government authorities plus supplier advances — no amounts given",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "balance with government authorities because certain amount of money like GST receivables, etc., those will remain with the government and some is advanced to supplier will be there."
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Order book is geographically concentrated, with Rajasthan the heaviest state and work spread across roughly seven to eight states",
+        "figure": "Rajasthan, Gujarat, MP, Andhra Pradesh, Maharashtra; 'Most of them are in Rajasthan'",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "as of now like Rajasthan is heavy weight on this order book."
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "ANALYST-SOURCED RISK: a CERC order of 10 April records ~60 GW of Rajasthan RE projects awaiting substation-coordinate clarity, which could delay EPC awards in Waaree's heaviest state",
+        "figure": "~60 GW awaiting evacuation clarity in Rajasthan; Rajasthan and Gujarat ~65% of RE potential (Sumit Kishore's figures)",
+        "speaker": "Sumit Kishore (Axis Capital)",
+        "kind": "qna",
+        "quote": "almost 60 gigawatt of RE projects in Rajasthan are awaiting clarity of coordinates of the associated power substation for RE evacuation. Could this possibly impact the award of new EPC projects"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Management conceded the concern is valid in principle but asserted its own backlog is unaffected, on the argument that developers resolve evacuation before awarding the contract",
+        "figure": "project cycle 12 to 15 months",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "your thoughts are correct, but if you see that somebody want to install, let's say 500 megawatt or 1 gigawatt, 2 gigawatt project... it definitely takes a little time, maybe 12 to 15 months"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "Land acquisition acknowledged as an industry-wide constraint but pushed onto the developer, and denied as a constraint on Waaree's own order inflow",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "opinion",
+        "quote": "acquisition of land, as you rightly said, it is a challenge. But mostly it is in the scope of developer."
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "No regulatory obstacle claimed on long-gestation projects; remaining approvals described as process-driven",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "opinion",
+        "quote": "there is no regulatory requirement because the permission which are necessary for the installation of solar projects is already in place."
+      },
+      {
+        "theme": "Related party & group structure",
+        "point": "Module sourcing from the parent is described as optional and at arm's length, with most work being balance-of-system only",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "mostly, if you see that whatever order we are getting is a pure BOS order. If at all, we are getting these orders with the module... it could be on arms basis from the Waaree also, or it could be from the other source also."
+      },
+      {
+        "theme": "Related party & group structure",
+        "point": "CENTRAL NON-ANSWER OF THE CALL: asked three times for the split of module procurement between parent Waaree Energies and third parties, management said no such number is held. No related-party revenue, purchase or margin figure appears anywhere in the transcript",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "it is difficult to quantify because we don't have any kind of ready number with us how much from the parent and otherwise."
+      },
+      {
+        "theme": "Related party & group structure",
+        "point": "Parent group's announced power-infrastructure capex raised by an analyst; management confined its answer to the listed entity and deferred the rest to group disclosures",
+        "figure": "group power-infrastructure capex ~₹2,250cr (Neerav Dalal's figure, uncorrected)",
+        "speaker": "Neerav Dalal (MIB Securities India)",
+        "kind": "qna",
+        "quote": "the group is talking about power infrastructure assets of about capex of about INR2,250 crores. So, what are our plans on that or is there any clarity in terms of how our IPP assets are going to increase"
+      },
+      {
+        "theme": "Related party & group structure",
+        "point": "The listed company's capital plan is limited to the announced 54 MWp plus 227 MWp; anything beyond belongs to the group",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "whatever the capex which is existing by 54 megawatt plus 227 megawatt which we have mentioned and presented, these are the only capex as far as the Waaree Renewable Technologies is concerned."
+      },
+      {
+        "theme": "Related party & group structure",
+        "point": "CONFIRMED OPEN QUESTION: whether the group's future power assets will be housed in this listed entity or elsewhere. Management's entire answer was 'Correct' to the analyst's statement that there is no clarity",
+        "speaker": "Neerav Dalal (MIB Securities India) / Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "whether in the future, the power assets would be housed under technologies or it would be housed under any other company... There is not much clarity on that, right? — Correct."
+      },
+      {
+        "theme": "Related party & group structure",
+        "point": "Management declined to comment on how the group's consolidated capital plan relates to the listed entity's own figures",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "when it gets consolidated, so I will not be able to comment actually what figure you saw and asking me the question."
+      },
+      {
+        "theme": "Guidance",
+        "point": "NO FY27 REVENUE, VOLUME OR GROWTH GUIDANCE WAS GIVEN AT ALL. The only forward statement on execution is that the existing book plus new orders will be worked through, with some slipping into later quarters",
+        "figure": "order book 2.83 GWp, executable over 12–15 months",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "whatever the existing order plus which the orders which you are going to get in current financial year will get executed sir."
+      },
+      {
+        "theme": "Guidance",
+        "point": "Margin guidance is the ~15% internal threshold — not a forecast of the 19.24% delivered — with an explicit refusal to say whether the current level persists",
+        "figure": "guided ~15%; FY26 actual 19.24%; Q4 FY26 18.76%",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "the 15% which we are mentioning is a calculation or a guiding number. This is some threshold which we are maintaining."
+      },
+      {
+        "theme": "Guidance",
+        "point": "Order-inflow pace asserted to continue at roughly the level of execution, on the strength of policy support — no megawatt or rupee target attached",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "whatever the amount of orders we have executed, maybe equivalent or same kind of order we have already received. So, I think the pace will continue going forward because of the renewable push from the government."
+      },
+      {
+        "theme": "Guidance",
+        "point": "BESS revenue guided to begin in FY27; 227 MWp of own generation guided to be commissioned in FY27 and funded without debt; IPP guided to remain a very small share of revenue",
+        "figure": "227 MWp commissioning in FY27; IPP FY26 revenue ~₹26cr",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "this revenue stream will open up during the current financial year. That is what we are maybe expectations."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "REFUSAL CLUSTER — segment economics. No IRR for IPP or EPC, no margin differential between turnkey and pure EPC, no rupee value for the order book, no BESS cost breakdown, no pipeline conversion rate. Every question that would allow a piece of the business to be valued separately drew a refusal",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "normally, we don't quantify this thing"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "REFUSAL CLUSTER — the parent. The module-sourcing split with Waaree Energies drew 'we don't have any kind of ready number', and the ownership of future group power assets was confirmed unclear. No related-party quantification of any kind was provided",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "we don't have any kind of ready number with us how much from the parent and otherwise"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "REFUSAL CLUSTER — the forward view. No FY27 volume or revenue number ('So it depends actually'), no view on whether 19–20% margins persist, no answer on whether inventory and receivables normalise, and no path back to prior cash conversion",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "So it depends actually."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "TWO QUESTIONS WENT WHOLLY UNANSWERED rather than answered thinly: the possible deferral of the 1 June 2026 content-rule enforcement date, and the IRR on IPP and EPC. Neither was revisited by management or by any later analyst",
+        "speaker": "Ashray Sheth (Ventura Securities); Balasubramanian (Arihant Capital)",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "ONE QUESTION WAS CUT OFF BY THE MODERATOR and never put again — whether incremental order margins are better or worse than the existing book. That is the single most decision-relevant unanswered item on the call",
+        "speaker": "Moderator / Avnish Tiwari (Vaikarya Change LLP)",
+        "kind": "qna",
+        "quote": "I'm sorry to interrupt you, sir, but please rejoin the queue for more questions."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "COUNTER-EXAMPLES worth recording: management conceded without hedging that the quarter's 50% with-module revenue mix was 'an aberration' rather than defending the inflated topline, and allowed that market-share loss could be contributing to flat order inflow",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "So that we can see as an aberration, right? — Correct."
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "DISCLOSURE NOTE: four executives were introduced — Hitesh Mehta (Whole-Time Director), Manmohan Sharma (CFO), Neeraj Vinayak (VP IR) and Rohit Wade (GM IR) — and the CFO answered every single question. The Whole-Time Director does not speak once in the transcript",
+        "speaker": "Transcript record",
+        "kind": "fact"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "The first analyst called (Paras Kulkarni, Ignite Capital) gave no response and was skipped; he rejoined later in the queue and did ask his questions",
+        "speaker": "Moderator",
+        "kind": "qna",
+        "quote": "As there's no response from Paras, we'll move forward to the next participant."
+      }
+    ],
+    "theme_summaries": {
+      "Demand & volumes": "Waaree Renewable built and handed over 2,727 megawatts of solar projects in the year to March 2026, its highest ever, and that is what drove sales. The problem sits in the pipe behind it. Work in hand at the year end was 2.83 gigawatts, down from 3.2 gigawatts a year earlier — an analyst put the fall on the record and management never explained it, answering instead that the company 'more or less' wins back what it builds. New orders won during the year were 2.3 gigawatts against 2.4 gigawatts the year before, a 5% fall (the analyst's figures, never corrected). Asked directly whether competition caused it, the finance chief began talking about installations until the analyst interrupted — 'Execution is strong. I'm talking about order inflows, sir' — and then said only that private talks with customers are on and 'probably some of them will get converted in coming quarters'. The quarterly build rate is falling too: another analyst said the company put up 700 to 900 megawatts a quarter in the first half of the year and under 500 to 600 in the January-to-March quarter, which management blamed on the type of contract rather than on slowing work. Against that, the company points to a 36 gigawatt sales pipeline — 23 gigawatts in India, 12 gigawatts abroad — but would not say what share of such a pipeline has historically turned into signed orders: 'it's difficult to quantify any kind of hit ratio'. The industry backdrop is genuinely strong — India added over 44 gigawatts of solar in the year against 23.83 gigawatts the year before, and solar was about 82% of all clean-energy capacity added — which makes a shrinking order book harder to explain, not easier. The gap that matters most: with 2.8 gigawatts in hand, worth roughly Rs 1 crore to Rs 1.25 crore a megawatt on management's own numbers, an analyst calculated on the call that the coming year shows little growth, and management gave no growth figure in reply.",
+      "Pricing & margins": "Sales in the January-to-March quarter were Rs 1,102.40 crore, 131.31% higher than the same quarter a year earlier, but profit before interest, tax and wear-and-tear charges was Rs 206.82 crore, or 18.76% of sales, and net profit of Rs 155.72 crore was only 66.08% higher — profit grew at half the rate of sales. The reason came out under questioning: about 50% of the quarter's sales came from contracts where Waaree also bought and supplied the solar panels, against a normal level of about 20%. Panels are bought in and charged on at close to cost, so they swell sales without adding much profit, and the implied price of about Rs 2 crore a megawatt for the quarter was confirmed as a one-off when an analyst asked whether it was 'an aberration' and management answered 'Correct.' For the full year, profit on that same measure was Rs 641.10 crore, or 19.24% of sales, similar to the year before. The awkward exchange was about direction. One analyst pointed out that January-to-March quarters used to deliver over 25% and this one delivered 19% to 20%, and asked whether 18% to 20% is the new normal or whether the old level returns. He got neither — only that profitability 'depend upon which customer's order I am executing'. Asked whether the current level holds for two to three years, management retreated to a much lower figure, saying this profit measure 'should remain around 15%' — the internal threshold it bids to, four to five percentage points below what it is actually earning. Pushed on why 15%, it called that 'a guiding number... some threshold which we are maintaining' and insisted results will not settle down to it. So the only number management will stand behind is well below the reported one, and the gap between the two was never explained. Every contract is fixed-price, so any cost overrun is Waaree's to absorb. Management also refused to say whether supplying a complete plant earns more than construction work alone: 'it cannot be said like this particular segment has a higher margin.'",
+      "Competition": "Two analysts came at competition from different directions and neither got a number. The first asked whether new entrants are bidding aggressively and whether that is why January-to-March profitability fell from over 25% in earlier years to 19-20%; the answer was that it depends which customer's contract is being built in a given quarter. The second put it more sharply: the industry is ordering more, yet Waaree's own new orders are flat to slightly down, so is the company losing share, or is it simply that very large contracts take longer to negotiate? Management conceded the share point could be part of it — 'maybe, like, what you said is correct. It can contribute, but it is difficult to quantify how much is on each count' — which is as close to an admission of lost share as the call contains. That same analyst then started on the most valuable question of the session, whether the profit built into newly won orders is better or worse than the profit sitting in the existing order book, and the moderator cut him off mid-sentence and asked him to rejoin the queue. He never got back on, and nobody else asked it. The company's own framing is that it bids selectively — it takes part 'only... when it is suitable to our margin or suitable to risk reward metrics' — which is a defensible reason for a flat order book, but it was never reconciled with the fall from 3.2 gigawatts to 2.8.",
+      "Raw materials": "Waaree Renewable's position is that panel prices are not its risk. Most of its work is construction only, with the customer buying the panels; where a customer wants a finished plant, Waaree quotes at the panel price of the day and buys immediately, so 'even if it goes up also, it is passed through to the customer'. An analyst tested that with a specific number — that the new local-content rules would take panel cost from about Rs 14 a watt to about Rs 23 a watt — and asked two things: whether sales or profit would be hit, and whether the 1 June 2026 start date for those rules might be pushed back. He got an answer to the first and nothing at all on the second; the start date was never mentioned again by anyone. Another analyst asked what panels currently cost, both the dearer ones built from Indian-made cells and ordinary ones, and was told 'Difficult to give any kind of range for this' — a company that buys panels on roughly a fifth of its work declining to say what it pays for them. On the wider disruption in oil and gas markets, management said everything it buys is sourced inside India, so there is no direct effect on its costs or its build timelines, and framed the disruption as a reason more customers will want solar.",
+      "Segments & products": "The company has three income streams and put a number on each. Building solar plants for other people is the overwhelming bulk and management says it stays that way, because that is what the company is. Maintaining plants for customers covers 1.18 gigawatts and is described as recurring income, with no revenue figure attached. Owning solar plants and selling the electricity is the new leg: 54 megawatts are running and earned about Rs 26 crore over the year, with a further 227 megawatts being built. Management was explicit that this stays small — 'in overall revenue stream, the percentage will be very less' — and that the point is steady income 'for another next 20, 25 years'. An analyst asked what annual return those owned plants earn, and what the contracting business earns, and got no return figure for either; the question was passed over entirely. Battery storage earns nothing today. One small battery project is being built and management expects 'this revenue stream will open up during the current financial year', but three attempts to get a cost per megawatt produced one hedged guess — roughly Rs 0.5 crore to Rs 0.75 crore a megawatt for the construction portion — and then refusals: the split between the battery itself and everything else, and the all-in cost if Waaree supplied the whole chain, were both declined as 'difficult to answer in this forum'. Data centres produce no revenue and no firm order, only enquiries. Rooftop solar, including the national household scheme, is not a business the company pursues at all: 'Rooftop is hardly contributing any revenue.'",
+      "International": "There is no overseas business yet. Asked plainly whether any project abroad is being built, the answer was 'As of now, we are not executing anything.' What exists is 12 gigawatts of the 36 gigawatt sales pipeline described as international, against 23 gigawatts in India. No country, no customer, no expected first order and no timeline were given for any of it, and no analyst pressed for one. So a third of the pipeline the company uses to reassure investors about future orders sits in markets it has never worked in, and the call contains nothing to test it against.",
+      "Capex & projects": "All of the company's spending on plant is going into solar farms it will own itself: 54 megawatts already running and 227 megawatts under construction, which sit in the accounts as unfinished work and are expected to be completed and switched on during the year to March 2027. Management gave a rule-of-thumb build cost of Rs 3 crore to Rs 3.5 crore per megawatt for solar generally — on 227 megawatts that implies several hundred crore — but declined to state the actual budgeted figure for the project even after the analyst explained he needed it to model the balance sheet; the reply was that costs are being added to the books as they are incurred. All of it is being paid for out of money the business generates: 'So far, we have not tied up any kind of debt for this.' An earlier announcement of 120 megawatts at Rs 3.5 crore a megawatt, which the analyst put at about Rs 420 crore, was not contested. The more interesting exchange was about the group. The parent group has announced about Rs 2,250 crore of spending on power infrastructure, and an analyst asked what part of that sits inside the listed company and, more pointedly, whether future generation assets will be housed here or elsewhere in the group. Management confirmed only the 54 plus 227 megawatts belong to the listed company, pointed to the group's own presentations for the rest, and when the analyst summarised that there was 'not much clarity on that', answered 'Correct.' For a minority shareholder that leaves open where the group's generation assets, and their profits, will end up.",
+      "Balance sheet & capital allocation": "The company carries essentially no borrowings — 'we are not carrying any significant debt in our books' — and is funding its own solar farms from the cash the business throws off. Underneath that, two lines moved a long way with the doubling of sales. Money owed by customers for work already done roughly doubled, from about Rs 500 crore (the analyst's figure, which management confirmed with 'Correct'), and stock on hand also rose sharply. Management's defence was that most bills are collected within six months, that many contracts are backed by bank payment guarantees, and that the build-up reflects the last month or two of a very large quarter. Asked whether government customers are paying late, the answer was 'Nothing as of now or significant' — a flat denial with no number of days behind it. Asked whether the stock build is a permanent step up or reverses in the coming year, management described what the stock is, components bought for specific projects, but never answered whether it normalises. Cash generated from day-to-day operations FELL for the year even though profit more than doubled; asked to explain it and to say how the company gets back to the better cash conversion it used to manage, management gave no figure and no timeline, saying only that cash is being conserved and put into its own solar farms and into deposits the banks require. A large jump in longer-dated financial assets was explained as sales-tax refunds still sitting with the government plus advances paid to suppliers, with no amount attached to either.",
+      "Strategy & outlook": "Management's case is that the market does the work: India's installed clean-energy capacity has passed 274 gigawatts with solar above 150 gigawatts, over 44 gigawatts of solar went up in the year against 23.83 gigawatts the year before, and solar was about 82% of everything added. Within that, ground-mounted plants account for 114.87 gigawatts, rooftop for 25.73 gigawatts and other formats 9.66 gigawatts — and Waaree works almost entirely in the ground-mounted part. The sharpest risk raised on the call came from an analyst, not from management. He cited a regulator's April order recording that around 60 gigawatts of clean-energy projects in Rajasthan are waiting for clarity on where the substations that will carry their power will be sited, and asked whether that delays new construction contracts being awarded — Rajasthan being where most of Waaree's work in hand is. Management agreed the concern was valid in general, argued that a large project takes 12 to 15 months anyway so the queue clears within that, and asserted that none of its own work in hand is affected because contracts only reach Waaree after the customer has done those studies. That is a real answer, but it also describes the company as insulated from a bottleneck that, if it bites, shows up as fewer new orders rather than as stalled existing ones — which is precisely the trend the order book already shows. The same logic was used on land: getting land is an industry-wide problem, management said, but it is the customer's job, not Waaree's. On permissions, management said there is no regulatory obstacle to executing its projects.",
+      "Guidance": "What management actually committed to is thin for a year in which sales more than doubled. There is no growth forecast for the year to March 2027 at all: asked what volume would be built, the answer was 'So it depends actually', and when an analyst worked out that 2.8 gigawatts of work in hand at the company's own Rs 1.2 crore a megawatt implies almost no growth, management replied only that more orders will come in and be built within the year. The work in hand is described as running off over 12 to 15 months. On profitability, the only forward number offered was the internal 15% threshold, explicitly labelled 'a guiding number' rather than a forecast, against 19.24% of sales actually delivered for the year — coupled with a refusal to say whether the recent 19-20% level is the new normal or whether the 25%-plus quarters return, and an assertion that results will not settle down to 15%. Battery storage is expected to start producing revenue during the year to March 2027, with one small project already under construction and no order value given. The 227 megawatts of the company's own solar farms are expected to be finished and generating during the same year, funded without borrowing. Owned generation is guided to stay a very small share of total revenue, with the business remaining a contractor. Nothing at all was guided on order inflow, on how much of the 36 gigawatt pipeline converts, on overseas orders, on data centres, on collection times, or on cash generation.",
+      "Analyst Q&A concerns": "The questioning was persistent and the answers were, with few exceptions, unquantified. The refusals cluster in three places. First, anything that would let an outsider value a piece of the business on its own: no annual return figure for the owned solar farms or for the contracting business, no profit difference between supplying a finished plant and doing construction alone, no rupee value for the 2.8 gigawatts of work in hand ('normally, we don't quantify this thing'), no cost per megawatt for battery projects beyond one guessed range, and no share of the sales pipeline that historically converts. Second, anything touching the parent: the split of panel buying between the parent company and outside suppliers was refused for want of 'any kind of ready number', and where the group's future power assets will sit was confirmed as unclear. Third, the forward view: no volume or sales forecast for the coming year, no answer on whether recent profitability persists, no answer on whether the swollen stock and unpaid bills normalise, and no route back to the better cash generation of earlier years. Two questions were not answered at all rather than answered thinly — whether the 1 June 2026 start date for the local-content panel rules might be deferred, and what annual return the owned plants earn. One more was cut off by the moderator: whether newly won orders carry better or worse profit than the existing book, which nobody put again. The counterweights are worth keeping. Management agreed without hedging that the quarter's 50% panel-inclusive sales mix was 'an aberration' rather than defending the inflated sales figure, and it conceded that losing share could be part of why order inflow is flat. Finally, a note about the record itself: four managers were introduced, including the whole-time director, and the chief financial officer answered every single question on the call — no one else spoke.",
+      "Related party & group structure": "This is the largest unanswered question on the call. Waaree Renewable is majority-owned by Waaree Energies, India's biggest solar panel maker, and roughly a fifth of its contracting work involves buying and supplying panels. An analyst asked exactly the right question: when a contract includes panels, is the company obliged to buy them from its parent, or can it buy anywhere? Management said it is free to do either, buying from Waaree at ordinary commercial terms or from other suppliers, depending on what the customer wants. He then asked, three times over, for the split between the parent and outside suppliers, and got: 'it is difficult to quantify because we don't have any kind of ready number with us how much from the parent and otherwise.' No percentage of purchases, no rupee value, and no share of sales attributable to the group was given anywhere in the eighteen-page transcript. A second analyst approached the group relationship from the other side, asking how the parent group's roughly Rs 2,250 crore of power-infrastructure spending relates to this company and whether future generation assets will be owned here; management confined itself to the 54 plus 227 megawatts already announced, said it could not comment on what happens when group accounts are combined, and confirmed there is no clarity on the rest. So on the two things a minority shareholder most needs to know — how much of this business depends on its parent, and whether the group's growth will be routed through this listed entity — the call produced no number and no commitment."
+    }
+  },
+  {
+    "quarter": "Q3 FY26",
+    "call_date": "2026-01-16",
+    "detailed": [
+      {
+        "theme": "Order book & inflow",
+        "point": "Unexecuted order book stands at 2.92 GWp, providing what management calls clear visibility for upcoming quarters",
+        "figure": "2.92 GWp unexecuted order book as of Dec 2025",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "our order book remains healthy, providing clear visibility for the upcoming quarters with unexecuted order book of 2.92 gigawatt peak"
+      },
+      {
+        "theme": "Order book & inflow",
+        "point": "THE ORDER BOOK SHRANK. An analyst noted it fell from ~3.2 GW to 2.9 GW and asked whether a downward revision to one order explains it; management confirmed the revision is 'partially' the cause without sizing it",
+        "figure": "~3.2 GW → 2.9 GW (Deepak Krishnan's figures)",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "That is also partially included in this. But this order book is like not like every quarter, we are getting a good amount of order."
+      },
+      {
+        "theme": "Order book & inflow",
+        "point": "Order intake defence rests on H1 inflow and on 9M inflow matching 9M execution — the quarter itself is not defended with a number",
+        "figure": "~1.8 GW of orders in H1 FY26",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "Last -- in H1, if you've seen, we have got, I think, around 1.8 gigawatt of orders. So, this pace will continue. Whatever we have executed during the nine months, that amount of order we have already there in our hand."
+      },
+      {
+        "theme": "Order book & inflow",
+        "point": "Order pipeline claimed at ~29 GW including 5–6 GW of live tenders, some with battery storage, across domestic and international enquiries",
+        "figure": "~29 GW pipeline; 5–6 GW live tenders at any time",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "we are also following up 29 gigawatt of order pipeline, which includes around 5 to 6 gigawatt of tender and that some of them is with BESS also"
+      },
+      {
+        "theme": "Order book & inflow",
+        "point": "NON-ANSWER: asked the hit rate on the 29 GW pipeline, management named no percentage and no amount",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "Definitely, we are in discussion with our customers, and we'll try to get some of them into a firm order in next few quarters."
+      },
+      {
+        "theme": "Order book & inflow",
+        "point": "NON-ANSWER: asked where the order book stands at year end, management declined",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "So, at the year end, like -- it is difficult to give any right answer at this stage because we keep on getting the order."
+      },
+      {
+        "theme": "Order book & inflow",
+        "point": "NON-ANSWER: asked how much of the bid pipeline converts by the end of the financial year, management declined to quantify",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "it's difficult to give any kind of number that will be added in the next quarter or like this. Maybe -- but we are hopeful that out of this entire pipeline we should be getting good amount of order"
+      },
+      {
+        "theme": "Order book & inflow",
+        "point": "Government/PSU exposure quantified consistently and twice, unprompted the second time: <10% of the book by capacity, ~20–22% by value",
+        "figure": "government share: <10% by MW, ~20–22% by value",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "In terms of megawatt size around less than 10% government and value term is around 20%, 22%. So that is what it is as of now."
+      },
+      {
+        "theme": "Order book & inflow",
+        "point": "Award velocity disclosed: 4 to 6 months from first discussion to notice-to-proceed, with no slowdown observed despite module-price and policy concerns",
+        "figure": "4–6 months discussion to NTP",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "we have not sensed this kind of slowdown, et cetera. But typically, it takes time from when we start discussion to the like NTP stage. So, it takes definitely 4 to 6 months to get at this stage."
+      },
+      {
+        "theme": "EPC execution",
+        "point": "9M FY26 execution of 2,230 MWp of EPC projects, presented as proof of leadership in Indian solar EPC",
+        "figure": "2,230 MWp executed in 9M FY26",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "During this nine month of FY 2026, we executed 2,230 megawatt peak of EPC project, reinforcing our execution capability and enabling us to sustain our leadership in India's solar EPC space."
+      },
+      {
+        "theme": "EPC execution",
+        "point": "Execution timeline for the 2.92 GWp book is 12 to 15 months — the clearest revenue-visibility figure on the call",
+        "figure": "12–15 months to execute 2.9 GW",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "So, execution timeline for the existing 2.9 gigawatt is around 12 to 15 months actually. So, this will get executed in the next few quarters."
+      },
+      {
+        "theme": "EPC execution",
+        "point": "Q3 execution was below Q2 — raised by two analysts. Management denied any slowdown by answering on the nine-month aggregate rather than the quarter",
+        "figure": "quarter execution ~610 MW (Deepak Krishnan's figure)",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "No, no. Actually, if you see that over a period of 9 months, we have got more or less the same amount of order which we have executed. So, it is not like that there is any kind of slowdown."
+      },
+      {
+        "theme": "EPC execution",
+        "point": "NON-ANSWER: asked twice for a sustainable quarterly execution run rate, management gave a geographic description and no figure",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "these are the projects are spread over various geographies in various states. So, the execution will keep on happening... We'll be executing orders throughout the year."
+      },
+      {
+        "theme": "EPC execution",
+        "point": "Management attributes the entire margin advantage to execution discipline, confirming under follow-up that nothing else explains it",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "opinion",
+        "quote": "we are executing large-scale projects in different geography within the time -- completion time, budgetary and monitoring control and financial discipline. These are the few key parameters actually on which we operate."
+      },
+      {
+        "theme": "EPC execution",
+        "point": "A question on the execution target for this year and next out of the 3 GW book was cut off by the moderator before management answered",
+        "speaker": "Deepak Poddar (Sapphire Capital)",
+        "kind": "qna",
+        "quote": "we have around 3 gigawatts of unexecuted order book, right? So, anything on the execution front? I mean this year and next year, what's our execution target"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Q3 FY26 headline results: revenue ₹851.06cr (+136.18%), EBITDA ₹158.80cr (+120.79%), EBITDA margin 18.66%, PAT ₹120.19cr (+124.74%)",
+        "figure": "Revenue ₹851.06cr; EBITDA ₹158.80cr; EBITDA margin 18.66%; PAT ₹120.19cr",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "our revenue from operations stood at INR851.06 crores, a growth of 136.18%... EBITDA comes at INR158.80 crores, up 120.79%... EBITDA margin for the quarter stood at 18.66%, PAT reached to INR120.19 crores"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "9M FY26: revenue ₹2,229.03cr (+98.81%), EBITDA ₹434.28cr (+135.29%), PAT ₹322.93cr (+138.92%), attributed to operating leverage",
+        "figure": "9M revenue ₹2,229.03cr; EBITDA ₹434.28cr; PAT ₹322.93cr",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "For the nine months of FY 2026, we recorded total revenue from operations of INR2,229.03 crores, up 98.81%... These results reflect our consistent performance and strong operating leverage"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "9M EBITDA margin 19.48% against 16.48% a year earlier — so the 18.66% quarter is BELOW the nine-month average, implying H1 was stronger",
+        "figure": "9M FY26 19.48% vs 9M FY25 16.48% (stated as 16.46% later in the call); ~300bps improvement",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "EBITDA margin as compared Y-o-Y for 9 months as against 16.48% we have done 19.48%. So, this has significantly improved over a period of 9 months."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "NON-ANSWER (twice, two analysts): asked why margins contracted sequentially and whether pricing pressure is the cause, management answered on the nine-month improvement and called the quarter budgeted",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "And for this particular case, it's slightly lower than what is of previous quarter. So, it is all in line with our budget and estimates."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "GUIDANCE — a floor, not a band, given in response to a question about revenue per MW rather than volunteered",
+        "figure": "EBITDA margin 'over and above 15%, close to that'",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "we have always guided that our margin -- EBITDA margin should be over and above 15%, close to that"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "GUIDANCE SOFTENED WITHIN THE CALL: 'over and above 15%' became 'in the range of around 15% going forward', dropping the 'over and above'",
+        "figure": "'around 15%' vs delivered 9M 19.48%",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "For the quarter, there is a slight dip in this margin. But what we are saying that we'll try to maintain EBITDA margin in the range of around 15% going forward as well."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "GUIDANCE SOFTENED AGAIN UNDER DIRECT PRESSURE: asked whether the threshold is a 15% minimum, the answer degraded to an intention with no figure",
+        "figure": "'So, your threshold margin will be 15% or so minimum?' (Surya Narayan Nayak)",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "We'll try to maintain. That is what we are saying that we'll try to maintain this kind of margin."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Realisation per MW is disputed between analysts and unexplained. Deepak Krishnan computed it UP to ~₹1.3–1.4cr/MW; Sahil Sheth said it had COME DOWN; Paras Kulkarni said it increased versus Q2. Management reconciled none of the three",
+        "figure": "'INR1.3 crores or INR1.4 crores against a run rate of INR86 crores -- INR85 crores' (Deepak Krishnan's figures, as transcribed — the second is evidently a lakh/crore transcription error)",
+        "speaker": "Deepak Krishnan (Kotak Institutional Equities)",
+        "kind": "qna",
+        "quote": "it seems that the realization per megawatt has gone up to about, say, INR1.3 crores or INR1.4 crores against a run rate of INR86 crores -- INR85 crores"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Management's explanation of per-MW movement is mix between pure-EPC and module-inclusive turnkey orders — unfalsifiable externally, because the mix itself is never disclosed",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "some of them are turnkey orders, some of them the pure EPC orders, and the combining coming to you. So, it will keep on changing."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "ANALYST CHALLENGE ON THE CENTRAL QUESTION: with ~97% of revenue from EPC, how does Waaree earn 19% when the analyst puts industry solar EPC margins at ~10%? Asked twice; the answer was execution discipline only, with no mention of module sourcing or scope",
+        "figure": "'my understanding is 10% is the margin for EPC of solar projects' (Raman KV's figure) vs 19% delivered",
+        "speaker": "Raman KV (Sequent Investments)",
+        "kind": "qna",
+        "quote": "So how are we able to do around 19% margin in the -- despite the majority of the revenue is from EPC... how are we able to do like 2x the normal industry average margins?"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Under follow-up, management confirmed there is nothing beyond execution behind the margin — a claim worth testing against the related-party module question it never answered",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "So, all that purely -- is coming from the EPC. And what I mentioned is a small portion that is coming from the IPP and O&M."
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Sequential fall in other expenses is a base effect, not an efficiency gain — the prior quarter carried CSR outlays",
+        "figure": "other expenses ₹12cr → ₹6cr/₹5.6cr (Deepak Krishnan's figures)",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "in the last quarter, there were certain expense related to CSR activities that was paid and included in the last quarter. So that is the only exception which is there."
+      },
+      {
+        "theme": "Module sourcing & related-party dependence",
+        "point": "NON-ANSWER, THE MOST IMPORTANT ON THE CALL: asked to quantify how much of the quarter's ~610 MW execution carried modules, and what share of the 2.9 GW backlog does, management confirmed the mix and refused to size it",
+        "figure": "no figure given; order book 2.9 GW 'includes some portion of the orders which have module as well'",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "this is difficult to give you any number as of now out of this mix, how much is contributed by that supplied module, et cetera"
+      },
+      {
+        "theme": "Module sourcing & related-party dependence",
+        "point": "RELATED-PARTY DEPENDENCE NOT QUANTIFIED: asked point blank whether the quarter's modules came from parent Waaree Energies or were externally procured, and to quantify it, the only answer was 'some' are from Waaree, gated on customer approved-vendor lists",
+        "figure": "no percentage, no rupee value, no related-party figure given anywhere on the call",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "So mostly actually based on the customer requirement at approved list, some -- these modules are from the Waaree only. And based on the customer requirement, if they want a specific other modules also"
+      },
+      {
+        "theme": "Module sourcing & related-party dependence",
+        "point": "The transfer price at which the parent sells modules to its own subsidiary was never raised by any analyst — a notable absence, given the same analysts could not explain the 19% margin",
+        "kind": "qna"
+      },
+      {
+        "theme": "Module sourcing & related-party dependence",
+        "point": "Asked a third time for the split between module-inclusive turnkey and BOS/service-only scope, and whether module prices are contracted, management gave only a direction — 'majority of the order is pure EPC' — before the analyst was cut off",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "So, my order book includes this module also. So, majority of the order is pure EPC, if I would say in that sense... but there are certain orders which includes modules also."
+      },
+      {
+        "theme": "Module sourcing & related-party dependence",
+        "point": "Price risk on modules is claimed to be neutralised by back-to-back procurement immediately on order confirmation — asserted, not demonstrated",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "opinion",
+        "quote": "as and when the order is confirmed and firm, we immediately book our raw material component, which are supplied for the execution of solar power. So, we don't see any kind of this kind of situation going forward as well."
+      },
+      {
+        "theme": "Module sourcing & related-party dependence",
+        "point": "NON-ANSWER: asked how DCR and non-DCR module prices are trending, management described its pricing process instead of giving any price direction",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "based on the prevailing price, we calculate our cost, et cetera. And once the order is firmed, we just place the order so that there should not be any effect of any price variation upward"
+      },
+      {
+        "theme": "Module sourcing & related-party dependence",
+        "point": "Management asserts no balance-sheet exposure to module or component price movement, because modules are either passed through or supplied free-issue by the customer",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "opinion",
+        "quote": "either the module is procured through us, or module is supplied by the respective customer for us to execute the project. So, there is no sale kind of effect in our balance sheet."
+      },
+      {
+        "theme": "Battery storage & new segments",
+        "point": "BESS EPC is framed as the next growth vector, driven by storage being written into renewable tenders for peak supply and grid stability",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "opinion",
+        "quote": "Storage solutions are now being included in the renewable tenders to ensure reliable peak power supply, which opens new opportunity for us to expand into BESS EPC."
+      },
+      {
+        "theme": "Battery storage & new segments",
+        "point": "THE ACTUAL BESS POSITION IS ONE SMALL ORDER. The 2.92 GWp book is purely solar EPC; battery work is a ~45 MWh order in execution",
+        "figure": "~45 MWh BESS order; 0% of the 2.92 GWp book",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "this 2.9 gigawatts, which I mentioned is only purely of EPC and there is a small order, which we are executing maybe 45 megawatt hours. So that is also we are executing which of BESS."
+      },
+      {
+        "theme": "Battery storage & new segments",
+        "point": "NON-ANSWER: asked for the value of the BESS order or any data point on it, the answer trailed off mid-sentence and no figure was ever supplied",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "No, it's around..."
+      },
+      {
+        "theme": "Battery storage & new segments",
+        "point": "GUIDANCE: BESS margins claimed equal to solar, on the basis that Waaree only bids what clears its risk-reward test",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "The margin profile will remain the same, whether it is BESS or solar, we do business whenever it suits our risk reward metrics. So that kind of EBITDA we are looking and that should be there in the BESS as well."
+      },
+      {
+        "theme": "Battery storage & new segments",
+        "point": "NON-ANSWER: asked for a BESS revenue guideline for the next two to three years, management gave demand narrative only — no target, no order value, no timeline",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "we are getting a lot of inquiry for 1 hour, 2-hour BESS project along with the solar project. So, in all terms, we are going to get this EPC opportunity also."
+      },
+      {
+        "theme": "Battery storage & new segments",
+        "point": "QUESTION DODGED: asked how it handles cell price risk on 18–24 month BESS contracts with no price-variation clause and Chinese cell prices rising, management first denied Chinese procurement, then declared cells out of scope and answered about solar modules instead",
+        "figure": "analyst's premise: 18–24 month execution, Chinese quotes valid ~6 months, 'no price variation clause in the BESS orders'",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "almost all the supplies are domestic only. We are not procuring anything directly from China, what you have said."
+      },
+      {
+        "theme": "Battery storage & new segments",
+        "point": "Pressed that lithium-ion cells are not made in India, management put cells outside its scope entirely and pivoted to solar modules",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "No, no. Actually, this is not in our scope actually. Whenever we are doing the EPC work of the solar power project."
+      },
+      {
+        "theme": "Battery storage & new segments",
+        "point": "ANALYST CHALLENGE ON STRATEGIC POSITION: an individual investor said Waaree has won no significant hybrid/firm-dispatch orders and is not in the top two or three in BESS, pumped storage or green hydrogen. The gap was not disputed",
+        "speaker": "Jigar (Individual Investor)",
+        "kind": "qna",
+        "quote": "is our company at a disadvantage in getting the business growth because we do not have a significant foothold in either BESS or pump storage or green hydrogen. We have not won any significant orders"
+      },
+      {
+        "theme": "Battery storage & new segments",
+        "point": "The answer to the hybrid gap was capability plus a soft, dateable promise — worth checking against the next two calls",
+        "figure": "'next few quarters, maybe a year'",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "We have our execution capability, and the team is there to execute. So that will also be there in next few quarters, maybe a year."
+      },
+      {
+        "theme": "Battery storage & new segments",
+        "point": "Data-centre EPC is at the enquiry stage only, with nothing finalised and disclosure deferred to exchange filings",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "as far as data center is also concerned, we are getting inquiry about the data center EPC work. But as and when something gets finalized, definitely, we'll announce through exchange"
+      },
+      {
+        "theme": "Battery storage & new segments",
+        "point": "MANAGEMENT CONTRADICTED AN ANALYST'S RECOLLECTION: asked for updates on a subsidiary created to execute sub-100 kW rooftop projects, management said no such subsidiary was added. Nobody pursued it",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "Small rooftop size project, we actually we have not added any kind of subsidiary."
+      },
+      {
+        "theme": "Battery storage & new segments",
+        "point": "A CLAIM THAT HAS GONE NOWHERE: the 5B Maverick tie-up announced a couple of years ago has 'no significant development as of now'",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "No, there is no significant development as of now in that."
+      },
+      {
+        "theme": "Battery storage & new segments",
+        "point": "No wind EPC capability — stated explicitly when asked about complex/hybrid projects in the pipeline",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "As of now, we don't have any kind of wind projects that is to be executed."
+      },
+      {
+        "theme": "IPP & O&M portfolio",
+        "point": "Three revenue streams confirmed — EPC, O&M and own IPP generation — with BESS and data-centre EPC as additions being pursued",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "we have, as of now, three revenue stream actually. That is one EPC, then O&M and then our own IPP generation."
+      },
+      {
+        "theme": "IPP & O&M portfolio",
+        "point": "REVENUE CONCENTRATION: ~97–98% of 9M revenue is EPC; IPP and O&M together are 2–3%. An earlier answer in the same call put EPC at 'more than 95%'",
+        "figure": "EPC ~97–98% of ₹2,229cr 9M revenue; IPP + O&M 2–3%",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "if you see my total 9 months is INR2,229 crores, majority of is coming from the EPC, maybe in percentage terms, if you see around 97% to 98% is coming out of these two in this EPC."
+      },
+      {
+        "theme": "IPP & O&M portfolio",
+        "point": "IPP capex disclosed at roughly ₹3.5cr per MW for the announced 120 MW, to be added next financial year — the only IPP economics given",
+        "figure": "120 MW IPP at ~₹3.5cr/MW, added in FY27",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "we have just recently said that 120 megawatt of this project. So that will add in this next financial year... all projects are in ranges between INR3.5 crores per megawatt based on the where the project is"
+      },
+      {
+        "theme": "IPP & O&M portfolio",
+        "point": "NON-ANSWER: asked for budgeted IRRs, whether PPAs are in place, and whether the IPP build is funded from unencumbered cash, management refused all three and left financing open",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "all fine details which you asked, definitely, we cannot share immediately instantly on the call... if required, we need to raise term loan, et cetera, that we'll see all kind of financing we'll see going forward"
+      },
+      {
+        "theme": "IPP & O&M portfolio",
+        "point": "NON-ANSWER, SECOND ANALYST, SAME QUESTION: asked for the base-level target IRR on IPP projects, management said the detail was not available",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "Fine detail is not available with me as of now, but we are -- whatever this suiting our -- this revenue stream plus overall the company, we are exiting only those projects."
+      },
+      {
+        "theme": "IPP & O&M portfolio",
+        "point": "IPP commissioning timeline: some capacity connects around March, the rest next financial year; build time 12 to 15 months. The analyst's 54 MW commissioned / 27 MW pending figures were neither confirmed nor corrected",
+        "figure": "'around 54 megawatts and looking for to 27 megawatts' (Pawan Kumar's figures); 12–15 months build",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "So, this -- some of them will get added during March and some of them are planned for the next financial year."
+      },
+      {
+        "theme": "IPP & O&M portfolio",
+        "point": "Strategy stated as EPC-led with surplus cash recycled into owned generation — a genuine shift away from the asset-light model, acknowledged in response to a question about the model changing",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "going forward also, we will be more in the EPC, maybe this solar EPC plus BESS EPC. And whatever the cash we conserve, that we are adding as the IPP. So, this will give a continuous revenue stream for this company."
+      },
+      {
+        "theme": "IPP & O&M portfolio",
+        "point": "MANAGEMENT EXPECTS THE DIVERSIFICATION SHARE TO FALL, NOT RISE — O&M and IPP may shrink as a percentage because EPC grows faster",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "as my EPC turnover goes, this percentage will come down in any case, even though I will increase it further. But in the percentage term, if you see, it may come down also"
+      },
+      {
+        "theme": "IPP & O&M portfolio",
+        "point": "O&M portfolio at ~1,180 MWp as of December 2025, fed by projects the company has itself built",
+        "figure": "~1,180 MWp O&M portfolio",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "our O&M portfolio is also growing and stood at approximately 1,180 megawatt peak as of December 2025"
+      },
+      {
+        "theme": "IPP & O&M portfolio",
+        "point": "IPP justified on duration rather than return — a 20-to-25 year revenue stream, with the margin impact dismissed as small because the segment is small",
+        "figure": "'next 20 years, 25 years'",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "opinion",
+        "quote": "whatever I am adding to the IPP business, it is getting into more profitable and giving a revenue stream for the company for next 20 years, 25 years"
+      },
+      {
+        "theme": "IPP & O&M portfolio",
+        "point": "A question about northern fog reducing sunshine hours and hitting IPP revenue and margins was raised and not addressed on its merits",
+        "speaker": "Hardik Sharda (Mavira AMC)",
+        "kind": "qna",
+        "quote": "since recent developments in North due to the fog, the availability of the sun time has reduced, which could eventually hit the revenues and margins. So, are we well protected?"
+      },
+      {
+        "theme": "Balance sheet & working capital",
+        "point": "THE STRONGEST DISCLOSURE ON THE CALL: no fund-based working capital facility has been drawn from banks at all; the company operates on non-fund-based limits only",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "as of now, we have not availed any kind of fund-based working capital from the banks. So that gives you some sense on this. And we are operating with a non-fund-based limit."
+      },
+      {
+        "theme": "Balance sheet & working capital",
+        "point": "NON-ANSWER: asked where the ₹600cr of Q2 receivables now stands and what the working-capital cycle is, no receivables figure and no days were given; the analyst was then cut off",
+        "figure": "₹600cr receivables at Q2 (Namril Shah's figure); no current figure, no cycle in days",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "So mostly, our receivables are in line with our expectations. We are getting money from our receivables also. And maybe using this credit period, et cetera, we are operating this company."
+      },
+      {
+        "theme": "Balance sheet & working capital",
+        "point": "Supplier credit is acknowledged as a funding source alongside customer collections — the only comment on the payables side",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "maybe using this credit period, et cetera, we are operating this company"
+      },
+      {
+        "theme": "Balance sheet & working capital",
+        "point": "No debt, cash or net-cash figure was disclosed anywhere on the call, and none was asked for. IPP funding was left contingent on a possible term loan",
+        "kind": "fact"
+      },
+      {
+        "theme": "Policy & industry demand",
+        "point": "India's non-fossil capacity above 265 GW against the 500 GW by 2030 target; ~30 GW of solar added in the current financial year against cumulative solar of over 135 GW",
+        "figure": "non-fossil >265 GW (later 'already crossed 266 gigawatt'); cumulative solar >135 GW (later 'around 136 gigawatt'); +30 GW in 9M FY26; target 500 GW by 2030",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "India's renewable energy transition continued to accelerate with non-fossil fuel capacity now more than 265 gigawatts, marking a significant milestone towards the national target of 500 gigawatts by 2030"
+      },
+      {
+        "theme": "Policy & industry demand",
+        "point": "Utility-scale is 76% of installations, with rooftop, open access, hybrid and off-grid the balance, supported by the PM Surya Ghar and PM-KUSUM schemes",
+        "figure": "utility scale 76% of total installation",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "Out of this, utility scale projects contributing 76% of total installation and balance are contributed by rooftop, open access, hybrid and off-grid systems together."
+      },
+      {
+        "theme": "Policy & industry demand",
+        "point": "Annual Indian solar installation run rate put at 30 to 40 GW a year",
+        "figure": "30–40 GW per annum",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "fact",
+        "quote": "Per annum is same only. Like what we did 30 to 40 gigawatts should be the per annum."
+      },
+      {
+        "theme": "Policy & industry demand",
+        "point": "Overcapacity risk dismissed, and under a leading question management agreed the 500 GW target 'can be a possibility' by 2028 or 2029 — two years early. Volunteered under prompting, not presented as a forecast",
+        "figure": "500 GW by 2028–29 vs official 2030",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "opinion",
+        "quote": "Maybe it could be because that is kind of the demand is there because a lot of industries are there, a lot of people need green energy. So, all this factors putting together, it should -- it can be a possibility."
+      },
+      {
+        "theme": "Policy & industry demand",
+        "point": "THE 44 GW OF STRANDED SOLAR PROJECTS — asked once, and passed entirely to the government. No view on the impact on Waaree's pipeline, order conversion or module demand, and no analyst followed up",
+        "figure": "44 GW stranded (Sahil Sheth's figure, uncontested)",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "So that is, again, that depend upon the government initiative, I think they should be -- we also expect that those should be completed with the government support."
+      },
+      {
+        "theme": "Policy & industry demand",
+        "point": "QUESTION NOT ENGAGED: asked whether the lack of transmission capacity will slow tendering, management restated the 29 GW pipeline and live tender volume without addressing transmission at all",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "qna",
+        "quote": "with the current order book unexecuted, we have a pipeline -- order pipeline of around 29 gigawatts. And the tendering also is -- at any point of time, the tender business is around 5 to 6 gigawatt."
+      },
+      {
+        "theme": "Policy & industry demand",
+        "point": "Battery storage framed as becoming a de facto compliance requirement alongside solar, which management reads as incremental EPC scope rather than a cost risk",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "opinion",
+        "quote": "I think this will be a compliance, needed requirement going forward to have the BESS also along with the solar."
+      },
+      {
+        "theme": "Competition",
+        "point": "New entrants acknowledged; margin threat denied, with execution capability and on-time delivery offered as the defence",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "opinion",
+        "quote": "as long as the new player is entering, so there will be always competition in the industry. So, because of our execution capability, timely delivering of the project, this will be edge on us to get orders actually."
+      },
+      {
+        "theme": "Competition",
+        "point": "Falling tender prices acknowledged as a permanent feature, but pressure on Waaree denied on the logic that once an order is awarded the EPC scope follows",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "opinion",
+        "quote": "this cost optimization or all this will continue because of the competition, it will keep on continuing a regular phenomenon... So, we don't see any kind of pressure on this."
+      },
+      {
+        "theme": "Competition",
+        "point": "ANALYST'S PEER BENCHMARK LEFT UNADDRESSED: competitors focused on government and PSU tenders were said to run margins 500–600bps lower. Management neither confirmed nor denied, answering only on bid selectivity",
+        "figure": "'their margin is nearly 500 to 600 bps lower' (Surya Narayan Nayak's figure)",
+        "speaker": "Surya Narayan Nayak (Sunidhi Securities)",
+        "kind": "qna",
+        "quote": "Because your competitors who are majorly participating in government tenders or, let's say, PSU tenders, their margin is nearly 500 to 600 bps lower?"
+      },
+      {
+        "theme": "Competition",
+        "point": "Bid selectivity is the stated margin defence — Waaree claims to walk away from tenders that do not clear its own return threshold",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "opinion",
+        "quote": "as I said that we only participate when it suits our risk reward materials. The tender is not suitable as per our guidelines, then we don't participate in that, sir."
+      },
+      {
+        "theme": "Competition",
+        "point": "Stated competitive edge for the next phase rests on three claims, none of them quantified",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "opinion",
+        "quote": "we believe our edge will rest on three key strengths: operational efficiency, timely delivery and the ability to provide complete end-to-end solutions"
+      },
+      {
+        "theme": "Guidance",
+        "point": "MARGIN — the only quantified forward commitment, and it is a floor roughly 450bps below the delivered nine-month figure: 'over and above 15%', later 'around 15%', finally 'We'll try to maintain'",
+        "figure": "guided ~15% EBITDA margin floor vs 9M FY26 actual 19.48% and Q3 18.66%",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "we have always guided that our margin -- EBITDA margin should be over and above 15%, close to that"
+      },
+      {
+        "theme": "Guidance",
+        "point": "GROWTH — no target, only that the historic pace continues, anchored on FY25 revenue of ₹1,597cr already exceeded in nine months",
+        "figure": "FY25 revenue ₹1,597cr; 9M FY26 >₹2,200cr",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "We have already achieved INR1,597 crores was my revenue for March 2025. We have already achieved revenue of more than INR2,200 crores. So, this pace will continue."
+      },
+      {
+        "theme": "Guidance",
+        "point": "EXECUTION — the 2.92 GWp book converts over 12 to 15 months; no quarterly run rate, no year-end order book and no pipeline conversion rate were given despite repeated requests",
+        "figure": "12–15 months on 2.9 GW",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "execution timeline for the existing 2.9 gigawatt is around 12 to 15 months actually"
+      },
+      {
+        "theme": "Guidance",
+        "point": "ORDER BOOK — the forward commitment is qualitative only: the book stays 'healthy', supported by the pipeline and international enquiries",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "geographically also from the domestic as well as internationally also, we are getting a lot of inquiries for the order. So, we think that this order book will remain healthy going forward as well."
+      },
+      {
+        "theme": "Guidance",
+        "point": "IPP — 120 MW added in FY27 at ~₹3.5cr/MW, with no target return, no PPA confirmation and financing left open",
+        "figure": "120 MW; ~₹3.5cr/MW",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "120 megawatt of this project. So that will add in this next financial year."
+      },
+      {
+        "theme": "Guidance",
+        "point": "BESS — no revenue, order or capacity target for the next two to three years; only that margins match solar and the opportunity grows",
+        "kind": "guidance"
+      },
+      {
+        "theme": "Guidance",
+        "point": "HYBRID / FIRM-DISPATCH — a soft dated promise to be present in the space within 'next few quarters, maybe a year', made in response to a challenge that Waaree is not in the top two or three",
+        "figure": "'next few quarters, maybe a year'",
+        "speaker": "Manmohan Sharma (CFO)",
+        "kind": "guidance",
+        "quote": "that will also be there in next few quarters, maybe a year"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "REFUSAL CLUSTER 1 — module content and related-party sourcing: four analysts (Deepak Krishnan, Sarang Joglekar, Yash Jhurani, Paras Kulkarni) asked for the module-inclusive share of the order book or of execution. No figure was given on any attempt, and the parent-sourcing share was answered only with the word 'some'",
+        "figure": "0 of 4 attempts quantified",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "REFUSAL CLUSTER 2 — every forward number: year-end order book (Paras Kulkarni), sustainable execution run rate (Paras Kulkarni, twice), pipeline hit rate (Anushka Vora), pipeline conversion by year end (Raman KV), BESS two-to-three year outlook (Saurabh Banik). All declined, two with the phrase 'difficult to give any'",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "REFUSAL CLUSTER 3 — IPP economics: target return refused to two different analysts on the same call, PPA status and funding plan both left open. Only the per-MW investment figure survived",
+        "figure": "IRR refused 2/2 attempts",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "DEFLECTION PATTERN — the quarter was answered with the nine months, three times: on the margin dip (Sahil Sheth and Saurabh Banik), and on slowing execution and order inflow (Raman KV). The sequential deterioration in all three was never explained on its own terms",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "FOUR QUESTIONERS WERE CUT OFF BY THE MODERATOR MID-LINE — Deepak Poddar on the execution target, Yash Jhurani on the module share of the book, Namril Shah on working capital, and Paras Kulkarni on the run rate. Several of the call's refusals therefore never faced a follow-up",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "COUNTER-EXAMPLES worth keeping: management volunteered that it uses no fund-based bank working capital, stated the government-versus-private order-book split twice and consistently (the second time unprompted), and corrected an analyst's belief that a rooftop subsidiary had been created",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "The call ran entirely through the CFO. Hitesh Mehta (Whole-Time Director), Abhishek Pareek (Group Head, Finance), Neeraj Vinayak (VP, IR) and Rohit Wade (GM, IR) were all introduced and none of them spoke a single word in the transcript",
+        "figure": "5 management attendees listed; 1 answered every question",
+        "kind": "fact"
+      }
+    ],
+    "theme_summaries": {
+      "Order book & inflow": "The work Waaree has won but not yet built stands at 2.92 gigawatts, and this is the awkward part of the quarter: it is DOWN from about 3.2 gigawatts three months earlier. Two things pushed it lower — building out more than it won, and a downward revision to one existing order. Asked whether that revision explains the drop, the finance chief said it was 'partially included', which confirms a customer order was cut without saying by how much, for whom, or why. Management's defence is the nine-month picture: about 1.8 gigawatts of new work won in the first half, and roughly as much new work won over nine months as was built over nine months, so the book is being replaced rather than run down. Beyond the signed book, the company says it is chasing a pipeline of about 29 gigawatts of possible work, of which 5 to 6 gigawatts is live competitive bidding at any moment, some of it including battery storage, and that enquiries come from both India and abroad. But the pipeline figure is doing a lot of work and nothing was attached to it: asked what proportion of that 29 gigawatts Waaree actually expects to win, management named no percentage; asked where the order book will stand at the financial year end, it said that is 'difficult to give any right answer at this stage'. One useful timing disclosure did come out — from first discussion to the customer's formal go-ahead to start work takes 4 to 6 months, and management says it has seen no slowdown in that conversion despite the concerns raised about module prices, policy and grid-connection capacity.",
+      "EPC execution": "Designing and building solar plants for other people is essentially the whole company. Over nine months Waaree built 2,230 megawatts of solar projects, and one analyst put the quarter's own figure at about 610 megawatts. The signed 2.92 gigawatt book is expected to be built out over roughly 12 to 15 months, so the visible revenue runway is a little over a year, not several years. Two analysts separately pointed out that the company built LESS in this quarter than the previous one; management denied any slowdown and answered on the nine-month total instead of the quarter. Asked twice to name a sustainable quarterly building rate for the coming quarters, it declined — the answer described projects being spread across several states and said 'the execution will keep on happening', with no number. Management's own explanation of why it earns what it earns is entirely about execution: large projects in many locations, finished on time, tight budget monitoring and financial discipline. Maintaining finished plants for customers is a growing second stream, now covering about 1,180 megawatts as of December 2025.",
+      "Pricing & margins": "Operating profit — sales less running costs, before interest, tax and wear-and-tear charges — was ₹158.80 crore in the quarter, 18.66% of sales, on revenue of ₹851.06 crore. Net profit was ₹120.19 crore. Every one of those numbers is more than double a year ago (sales +136.18%, operating profit +120.79%, net profit +124.74%), which is management's headline. The uncomfortable detail is that 18.66% is BELOW the 19.48% earned across the nine months, meaning the first half was better and profitability slipped in this quarter. Two analysts said so directly. Neither got an explanation of the quarter: both were answered with the nine-month improvement from 16.48% to 19.48% — roughly three percentage points better than last year — and told it is 'all in line with our budget and estimates'. Revenue booked per megawatt built is also disputed and unexplained: one analyst calculated it had risen to about ₹1.3-1.4 crore per megawatt, another said it had fallen, and management's answer to both was that the book mixes plain build-only contracts with contracts where Waaree also supplies the solar panels, and the proportions change every quarter, so the number will keep moving. That is true and also unfalsifiable — because the proportions themselves have never been disclosed, nobody outside the company can tell a pricing change from a mix change. On what profitability should be going forward, the only commitment is a floor of roughly 15% of sales, and the company is currently earning 19.48%, so the guidance implies the ability to give up about a fifth of current profitability and still be inside it. One small clean-up: costs booked under other expenses fell from about ₹12 crore to roughly ₹5.6-6 crore quarter on quarter purely because the prior quarter carried mandatory social-spending outlays, not because of any operating improvement.",
+      "Module sourcing & related-party dependence": "This is the biggest gap in the disclosure, and it matters because Waaree Renewable is majority-owned by Waaree Energies, one of India's largest solar panel makers, so who supplies the panels is also a question about how much of the profit is being moved around inside a group. Some of Waaree Renewable's contracts are build-only — the customer buys the panels — and some are full-scope, where Waaree buys the panels too. Asked how much of the quarter's building work carried panels, and what share of the 2.92 gigawatt book does, the finance chief confirmed the mix exists and refused to size it: it is 'difficult to give you any number as of now'. Asked whether those panels came from the parent or from outside suppliers, the whole answer was that 'some' of them are from Waaree, with customers free to specify other brands from their approved lists. So: no percentage, no rupee value, no related-party figure of any kind, and — notably — not one analyst asked what price the parent charges its own subsidiary, even though that price sits directly on top of the 19% profitability the same analysts were struggling to explain. Four different analysts asked for the panel-inclusive share of the book in four different ways across the call and none got a number; the closest management came was 'majority of the order is pure EPC', which is a direction, not a figure. On panel prices themselves — China withdrawing its export support for panels and cells, and the different pricing of domestically-made versus imported panels — management's answer is that it prices each enquiry at prevailing cost plus its own profit and locks in the purchase the moment an order is firm, so price movements after that point are not its risk. That is a genuine protection if the back-to-back timing works as described, and it was asserted rather than demonstrated.",
+      "Battery storage & new segments": "Battery storage is the growth story management is telling and it is almost entirely prospective. The argument is sound: as solar grows, the grid needs storage to supply evening peaks, so government and private tenders now routinely require 1 or 2 hours of batteries bolted onto a solar plant, and whoever builds the solar plant gets the battery work too. What exists today is one order of roughly 45 megawatt-hours being built, and management confirmed the 2.92 gigawatt order book is purely solar building work with that small battery order alongside — so the battery share of the signed book is effectively nil. No revenue target, no order target and no timeline for the battery business were given for the next two to three years when asked directly. Management does claim profitability on battery work will be the same as on solar, because it only takes work that clears its own return test. Asked what happens to its costs given that lithium cells are not made in India and Chinese cell prices are rising after subsidies were withdrawn, management first said its purchases are essentially all domestic and then, when pressed, said cell procurement is 'not in our scope' and switched the discussion back to solar panels — the multi-year price risk on storage contracts was never actually addressed. Two adjacent ambitions are at an even earlier stage: building power infrastructure for data centres is at the enquiry stage with nothing signed, and a tie-up announced a couple of years ago with 5B Maverick has 'no significant development as of now'. An analyst also recalled a subsidiary set up to do small rooftop systems for households and small businesses; management replied that no such subsidiary was in fact added — a flat contradiction of an analyst's recollection that went unexamined. The most serious challenge came from a retail investor: as projects shift to guaranteed round-the-clock supply, Waaree has won no significant work in combined solar-plus-storage, pumped storage or green hydrogen and is not among the top two or three in hybrid projects. The entire reply was that the capability and team exist and it 'will also be there in next few quarters, maybe a year'.",
+      "IPP & O&M portfolio": "Waaree is starting to own solar plants itself and sell the electricity, rather than only building plants for others — a genuine change of business model, because building for others needs little of the company's own money and owning plants needs a lot. It has announced 120 megawatts of its own generation, which management says will be added next financial year at roughly ₹3.5 crore per megawatt depending on location, implying something in the order of ₹420 crore of investment, though management never did that arithmetic out loud. An analyst said about 54 megawatts is already running with another 27 megawatts coming; management confirmed only that some will be connected around March and some next year, and that projects take 12 to 15 months to build. Everything else about the economics was refused: asked what return the projects are budgeted to earn, whether electricity sale contracts are signed, and whether the company is funded for it without new borrowing, the finance chief said the fine details 'we cannot share immediately instantly on the call' and that a term loan may be raised if needed. A second analyst asked for the target return later in the call and was told 'fine detail is not available with me as of now'. So the company's first capital-heavy business has been sized in money but not in return, twice. The justification offered is duration, not return: an owned plant pays for 20 to 25 years. Maintaining plants for customers covers about 1,180 megawatts. Together, owning plants and maintaining them are only 2% to 3% of revenue — roughly 97% to 98% is building for others — and management was candid that this share may FALL rather than rise, because the building business is growing faster: 'if my EPC revenue goes up significantly, then this will also grow at a certain pace'. The diversification is real in intent and negligible in the numbers.",
+      "Balance sheet & working capital": "The single best disclosure on the call: Waaree says it has not drawn any bank borrowing at all to fund day-to-day operations. The only bank facilities it uses are ones where the bank guarantees Waaree's promise to a customer or supplier rather than lending it any cash. For a contractor, which normally spends heavily before being paid, running with no cash borrowing is a strong statement about how quickly it collects, and management said so plainly: 'that will give you a sense of the operating cycle of this company', and 'mostly, our receivables are in line with our expectations'. What is missing is the number. The question it was answering was specific — ₹600 crore of customer money owed at the half-year mark, where does that now stand — and no current figure was given, the collection period in days was not stated, and the analyst was cut off before he could ask again. The company also acknowledged it uses supplier credit to fund itself. There is nothing on the call about total debt, cash on hand, or how the roughly ₹3.5 crore per megawatt of owned-plant investment will be financed beyond the possibility of a term loan.",
+      "Policy & industry demand": "Management's demand case is that India's build-out is running well ahead of what was expected. Non-fossil generating capacity is now above 265 gigawatts against a national target of 500 gigawatts by 2030; cumulative solar capacity is over 135 gigawatts (management later said around 136), with more than 30 gigawatts added in this financial year alone, and management said the annual rate should stay at 30 to 40 gigawatts. Large projects account for 76% of installations, with rooftop, open-access, hybrid and off-grid making up the rest, helped by the government's household rooftop and farm solar schemes. Pushed on whether all this capacity risks a glut, management said no, and went further — agreeing the 500 gigawatt target 'can be a possibility' by 2028 or 2029, two years early, because industrial buyers want green power. That is a striking claim and it was volunteered under a leading question rather than presented as a forecast, which is how it should be read. Two live policy risks were raised by analysts and neither was engaged with properly. The first is 44 gigawatts of solar projects that are built or contracted but stranded and not delivering power; management's entire answer was that this depends on the government and 'we also expect that those should be completed with the government support' — no view on whether those stranded projects are work Waaree could win, whether they clog the tender pipeline, or what happens if the government does not step in. The second is a shortage of power transmission capacity that analysts said may slow down new tenders; management simply restated its 29 gigawatt pipeline and said tendering continues, without addressing transmission at all.",
+      "Competition": "Management's position is that competition intensifies but does not reach its own profitability. Asked whether the arrival of new bidders threatens margins, the answer was that competition is permanent and Waaree's edge is execution capability and on-time delivery, so it will keep winning work. Asked whether prices falling with each successive tender squeezes it, the answer was that cost reduction is 'a regular phenomenon' and that once an order is awarded the building work follows, so 'we don't see any kind of pressure on this'. The sharpest competitive datapoint came from an analyst, not management: competitors who bid mainly government and state-owned tenders earn roughly 5 to 6 percentage points less profit on sales than Waaree does. That comparison was neither confirmed nor denied — the reply was that Waaree bids only where the return justifies it. This is consistent with the shape of its book: measured in megawatts, government work is less than 10% of the order book, and measured in money it is around 20% to 22%, so a large majority of Waaree's work comes from private buyers. That is the real explanation of why its profitability differs from the peers the analyst named, and management stated the split twice without ever connecting it to the margin question. The one place a competitive gap was conceded is combined solar-and-storage and other firm-supply projects, where an investor said Waaree is not in the top two or three and has won nothing significant — and the reply promised capability rather than disputing the gap.",
+      "Guidance": "What management actually committed to, in plain terms, is thin. On profitability: operating profit should stay at or a little above 15% of sales — phrased first as 'over and above 15%, close to that', then later in the same call as 'in the range of around 15% going forward', and when an analyst asked whether 15% is the minimum threshold, reduced to 'We'll try to maintain'. Against a nine-month figure of 19.48%, that floor allows profitability to fall by roughly a fifth without breaching it, and it was never raised even though the company has beaten it all year. On growth: the only commitment is that the pace continues — revenue went from ₹1,597 crore for the year to March 2025 to more than ₹2,200 crore in nine months, and 'this pace will continue'. No revenue target, no order-intake target, no year-end order book, no quarterly building rate, and no win rate on the 29 gigawatt pipeline was given, each of them refused when asked. On the signed book: the 2.92 gigawatts gets built over about 12 to 15 months. On owned generation: 120 megawatts arrives next financial year at roughly ₹3.5 crore per megawatt, with some connected around March, with no target return and no financing plan. On battery storage: no number of any kind for the next two to three years, only that the opportunity grows and profitability there will match solar. Two soft, dateable promises worth checking later: hybrid and firm-supply capability 'in next few quarters, maybe a year', and data-centre work to be announced to the exchanges if and when anything is signed.",
+      "Analyst Q&A concerns": "Analysts pushed hardest on four things and got a number for none of them. First, the panel content of the order book and of the quarter's work — asked by four different analysts in four different forms, refused every time, with the related-party version of the question ('were these modules through Waaree Energies?') answered only with 'some' of them being from the parent. Second, forward numbers — year-end order book, sustainable quarterly building rate, and the proportion of the 29 gigawatt pipeline the company expects to win, all declined, twice with the phrase 'difficult to give any'. Third, the economics of the new owned-generation business — investment per megawatt was given, target return was refused twice to two different analysts, electricity sale contracts and funding were left open. Fourth, the quarter itself: the drop in profitability from the previous quarter and the fall in both building volume and new orders versus the previous quarter were each raised twice, and each time the answer was about the nine-month total rather than the quarter. Additional unanswered or deflected items: the value of the battery order (the answer trailed off mid-sentence), the battery-cell price risk over an 18-to-24-month contract, the amount of customer money still to be collected, the analyst's claim that government-focused rivals earn 5 to 6 percentage points less, the effect of the shortage of transmission capacity, and what the 44 gigawatts of stranded projects means for Waaree. Three exchanges cut the other way and are worth keeping: management volunteered that it uses no bank cash borrowing for operations; it stated the government-versus-private split of the book twice, consistently, unprompted the second time; and it corrected an analyst who believed a rooftop subsidiary had been created, saying none was. Note also that four questioners were cut off by the moderator mid-line — on execution targets, the panel share of the book, working capital, and the run rate — so several of the refusals were never allowed a follow-up."
+    }
+  }
+];
+
+const THEME_ORDER = [
+  "Demand & volumes", "Pricing & margins", "Competition", "Raw materials",
+  "Segments & products", "International", "Capex & projects",
+  "Balance sheet & capital allocation", "Distribution & network",
+  "Strategy & outlook", "Guidance", "Analyst Q&A concerns",
+];
+
+const KINDS = [
+  { k: "all", label: "All" },
+  { k: "fact", label: "Facts" },
+  { k: "guidance", label: "Guidance" },
+  { k: "opinion", label: "Views" },
+  { k: "qna", label: "Q&A" },
+];
+
+let fCall = "all", fKind = "all", fTheme = "all";
+
+const esc = s => String(s ?? "").replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+
+function segmented(el, items, current, onPick) {
+  el.innerHTML = items.map(i =>
+    `<button type="button" data-v="${esc(i.k)}" aria-pressed="${i.k === current}">${esc(i.label)}</button>`).join("");
+  el.onclick = ev => {
+    const b = ev.target.closest("button[data-v]");
+    if (b) onPick(b.dataset.v);
+  };
+}
+
+function themesPresent() {
+  const seen = new Set();
+  CALLS.forEach(c => c.detailed.forEach(p => seen.add(p.theme)));
+  const ordered = THEME_ORDER.filter(t => seen.has(t));
+  const extra = [...seen].filter(t => !THEME_ORDER.includes(t)).sort();
+  return [...ordered, ...extra];
+}
+
+function render() {
+  segmented(document.getElementById("fCall"),
+    [{ k: "all", label: "All" }, ...CALLS.map(c => ({ k: c.quarter, label: c.quarter }))],
+    fCall, v => { fCall = v; render(); });
+  segmented(document.getElementById("fKind"), KINDS, fKind, v => { fKind = v; render(); });
+
+  const themeSel = document.getElementById("fTheme");
+  if (themeSel.options.length === 0) {
+    themeSel.innerHTML = `<option value="all">All themes</option>` +
+      themesPresent().map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join("");
+    themeSel.onchange = () => { fTheme = themeSel.value; render(); };
+  }
+
+  let shown = 0, total = 0;
+  const out = [];
+
+  for (const call of CALLS) {
+    total += call.detailed.length;
+    if (fCall !== "all" && call.quarter !== fCall) continue;
+
+    const pts = call.detailed.filter(p =>
+      (fKind === "all" || p.kind === fKind) && (fTheme === "all" || p.theme === fTheme));
+    if (!pts.length) continue;
+    shown += pts.length;
+
+    // group by theme, in canonical order
+    const byTheme = new Map();
+    for (const p of pts) {
+      if (!byTheme.has(p.theme)) byTheme.set(p.theme, []);
+      byTheme.get(p.theme).push(p);
+    }
+    const themes = [...byTheme.keys()].sort(
+      (a, b) => (THEME_ORDER.indexOf(a) + 1 || 99) - (THEME_ORDER.indexOf(b) + 1 || 99));
+
+    out.push(`<section class="call">
+      <div class="call-head">
+        <span class="call-q">${esc(call.quarter)}</span>
+        <span class="call-date">call ${esc(call.call_date)} · ${pts.length} of ${call.detailed.length} pointers</span>
+      </div>
+      ${themes.map(th => `
+        <div class="theme-group">
+          <p class="theme-name">${esc(th)}</p>
+          ${(call.theme_summaries || {})[th]
+            ? `<p class="theme-summary"><span class="lbl">Summary</span>${esc(call.theme_summaries[th])}</p>`
+            : ""}
+          <ul class="pts">${byTheme.get(th).map(p => `
+            <li class="pt">
+              <span class="pt-body">${esc(p.point)}
+                ${p.quote ? `<blockquote>“${esc(p.quote)}”</blockquote>` : ""}
+              </span>
+              ${p.figure ? `<span class="pt-fig">${esc(p.figure)}</span>` : "<span></span>"}
+              <span class="pt-meta">
+                <span class="badge ${esc(p.kind)}">${esc(p.kind === "qna" ? "Q&A" : p.kind)}</span>
+                ${p.speaker ? `<span class="who">${esc(p.speaker)}</span>` : ""}
+              </span>
+            </li>`).join("")}
+          </ul>
+        </div>`).join("")}
+    </section>`);
+  }
+
+  document.getElementById("out").innerHTML =
+    out.length ? out.join("") : `<p class="empty">No pointers match these filters.</p>`;
+  document.getElementById("count").textContent = `${shown} of ${total} pointers`;
+}
+
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Suzlon Energy Ltd — earnings-call pointers (detailed)</title>
+<style>
+  .viz-root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --grid:           #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --hover:          rgba(11,11,11,0.05);
+    --scale:          #2a78d6;
+    --leverage:       #eb6834;
+    --capital:        #1baf7a;
+    --delta-good:     #006300;
+    --delta-bad:      #d03b3b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .viz-root {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page:           #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --grid:           #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --hover:          rgba(255,255,255,0.07);
+      --scale:          #3987e5;
+      --leverage:       #d95926;
+      --capital:        #199e70;
+      --delta-good:     #0ca30c;
+      --delta-bad:      #d03b3b;
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --page:           #0d0d0d;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --grid:           #2c2c2a;
+    --baseline:       #383835;
+    --border:         rgba(255,255,255,0.10);
+    --hover:          rgba(255,255,255,0.07);
+    --scale:          #3987e5;
+    --leverage:       #d95926;
+    --capital:        #199e70;
+    --delta-good:     #0ca30c;
+    --delta-bad:      #d03b3b;
+  }
+
+  html, body { margin: 0; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--page, #f9f9f7); }
+  .viz-root { background: var(--page); color: var(--text-primary); min-height: 100vh; padding: 32px 20px 64px; box-sizing: border-box; }
+  /* capped deliberately: this page is prose, and a very long line hurts reading */
+  .card {
+    max-width: min(1180px, 94vw); margin: 0 auto; background: var(--surface-1);
+    border: 1px solid var(--border); border-radius: 10px; padding: 24px 24px 20px;
+  }
+  @media (max-width: 640px) {
+    .viz-root { padding: 14px 8px 40px; }
+    .card { max-width: 100%; padding: 14px 12px 14px; border-radius: 8px; }
+    h1 { font-size: 17px; }
+    .controls { gap: 6px; }
+    .count { margin-left: 0; flex-basis: 100%; }
+    select { max-width: 100%; }
+    li.pt { grid-template-columns: 1fr; }        /* figure drops below the text */
+    .pt-fig { white-space: normal; }
+    .call-src { margin-left: 0; flex-basis: 100%; }
+  }
+
+  .crumb { font-size: 12px; margin: 0 0 10px; }
+  .crumb a { color: var(--scale); text-decoration: none; }
+  .crumb a:hover { text-decoration: underline; }
+  .crumb span { color: var(--text-muted); }
+
+  h1 { font-size: 19px; font-weight: 600; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 2px; line-height: 1.5; }
+  .note { font-size: 12px; color: var(--text-muted); margin: 6px 0 0; line-height: 1.5; }
+
+  /* filters: one row above the content */
+  .controls { display: flex; align-items: center; gap: 8px; margin: 18px 0 4px; flex-wrap: wrap; }
+  .controls .label { font-size: 11.5px; color: var(--text-muted); margin-right: 2px; }
+  .segmented { display: inline-flex; border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+  .segmented button {
+    font: inherit; font-size: 12px; padding: 5px 10px; border: 0; cursor: pointer;
+    background: transparent; color: var(--text-secondary); border-right: 1px solid var(--border);
+  }
+  .segmented button:last-child { border-right: 0; }
+  .segmented button:hover { background: var(--hover); }
+  .segmented button[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); font-weight: 600; }
+  select {
+    font: inherit; font-size: 12px; padding: 5px 8px; border: 1px solid var(--border);
+    border-radius: 7px; background: var(--surface-1); color: var(--text-secondary);
+  }
+  .count { font-size: 11.5px; color: var(--text-muted); margin-left: auto; font-variant-numeric: tabular-nums; }
+
+  /* one block per call */
+  .call { margin: 26px 0 0; }
+  .call-head {
+    position: sticky; top: 0; z-index: 3; background: var(--surface-1);
+    padding: 9px 0 8px; border-bottom: 1px solid var(--grid);
+    display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap;
+  }
+  .call-q { font-size: 14px; font-weight: 600; }
+  .call-date { font-size: 11.5px; color: var(--text-muted); }
+  .call-src { font-size: 11px; margin-left: auto; }
+  .call-src a { color: var(--scale); }
+
+  .theme-group { margin: 15px 0 0; }
+  .theme-name {
+    font-size: 11.5px; font-weight: 600; color: var(--text-secondary);
+    text-transform: uppercase; letter-spacing: .04em; margin: 0 0 7px;
+  }
+  .theme-summary {
+    font-size: 12.5px; color: var(--text-secondary); line-height: 1.6;
+    margin: 0 0 10px; padding: 9px 12px 10px 13px;
+    background: var(--hover); border-left: 2px solid var(--capital); border-radius: 0 6px 6px 0;
+  }
+  .theme-summary .lbl {
+    display: block; font-size: 9.5px; font-weight: 600; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--text-muted); margin-bottom: 3px;
+  }
+  ul.pts { margin: 0; padding: 0; list-style: none; }
+  li.pt {
+    font-size: 12.5px; color: var(--text-secondary); line-height: 1.55;
+    padding: 8px 0 9px; border-bottom: 1px solid var(--grid);
+    display: grid; grid-template-columns: 1fr auto; gap: 3px 10px;
+  }
+  li.pt:last-child { border-bottom: 0; }
+  .pt-body { min-width: 0; }
+  .pt-fig {
+    font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums;
+    white-space: nowrap; font-size: 12px;
+  }
+  .pt-meta { grid-column: 1 / -1; display: flex; gap: 7px; align-items: center; flex-wrap: wrap; margin-top: 3px; }
+  .badge {
+    font-size: 10px; padding: 1px 6px; border-radius: 4px; border: 1px solid var(--border);
+    color: var(--text-muted); white-space: nowrap;
+  }
+  .badge.fact     { border-color: var(--capital); color: var(--capital); }
+  .badge.guidance { border-color: var(--scale);   color: var(--scale); }
+  .badge.qna      { border-color: var(--leverage); color: var(--leverage); }
+  .badge.opinion  { border-style: dashed; }
+  .who { font-size: 10.5px; color: var(--text-muted); }
+  blockquote {
+    margin: 5px 0 0; padding: 4px 0 4px 10px; border-left: 2px solid var(--border);
+    font-size: 11.5px; color: var(--text-muted); font-style: italic;
+  }
+  .empty { font-size: 12.5px; color: var(--text-muted); padding: 24px 0; text-align: center; }
+  .src { font-size: 11.5px; color: var(--text-muted); margin: 24px 0 0; padding-top: 14px; border-top: 1px solid var(--grid); line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="viz-root">
+  <div class="card">
+    <p class="crumb"><a href="/research/">← All analyses</a> <span>/</span>
+      <a href="financials">Suzlon Energy Ltd dashboard</a> <span>/ earnings-call pointers</span></p>
+
+    <h1>Suzlon Energy Ltd — earnings-call pointers, detailed</h1>
+    <p class="sub">Every substantive pointer from the last 2 calls, Q4 FY26 (2026-05-25) through Q1 FY27 (2026-07-28). The dashboard carries only the headline items — this is the full set.</p>
+    <p class="note">Badges separate <span class="badge fact">fact</span> reported results from <span class="badge guidance">guidance</span> forward-looking statements, <span class="badge opinion">opinion</span> management views, and <span class="badge qna">Q&amp;A</span> pushback from questioners or non-answers. Treat guidance as a claim, not a result. Figures are quoted as stated — nothing rounded or inferred. Each theme opens with a <strong>plain-language summary</strong> of that theme for that call — jargon expanded, figures kept. The pointers beneath it are the precise layer, in the company’s own terms. A summary covers the whole theme and does not narrow when you filter.</p>
+
+    <div class="controls">
+      <span class="label">Call</span>
+      <span class="segmented" id="fCall" role="group" aria-label="Filter by call"></span>
+      <span class="label" style="margin-left:6px">Type</span>
+      <span class="segmented" id="fKind" role="group" aria-label="Filter by kind"></span>
+      <select id="fTheme" aria-label="Filter by theme"></select>
+      <span class="count" id="count"></span>
+    </div>
+
+    <div id="out"></div>
+
+    <p class="src">Source: company earnings-call transcripts filed with BSE/NSE. Figures are quoted as management stated them and were transcribed by machine, so treat anything that reads like a table as indicative. Commentary is management's own; inclusion here is not endorsement. Not investment advice.</p>
+  </div>
+</div>
+
+<script>
+const CALLS = [
+  {
+    "quarter": "Q1 FY27",
+    "call_date": "2026-07-28",
+    "detailed": [
+      {
+        "theme": "Deliveries & commissioning",
+        "point": "Highest-ever Q1 deliveries at 506 MW, presented as evidence of execution resilience despite the disruption",
+        "figure": "506 MW",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "fact",
+        "quote": "Suzlon delivered 506 megawatts in Q1, making our highest ever first quarter deliveries."
+      },
+      {
+        "theme": "Deliveries & commissioning",
+        "point": "Commissioned capacity (COD) grew 2.3x year-on-year, and the erected-but-uncommissioned pool grew alongside it",
+        "figure": "269 MW COD vs 117 MW; 1,257 MW erected awaiting commissioning",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "fact",
+        "quote": "Q1 FY27, Suzlon installations grew 2.3x from 117 to 269 megawatts COD with more than 1,257 megawatts of erected, but waiting for commissioning turbines"
+      },
+      {
+        "theme": "Deliveries & commissioning",
+        "point": "The erected pool has grown since the prior call — 971 MW erected at FY26 close became 1,257 MW at Q1 FY27 close. The conversion of that pool has still not been dated",
+        "figure": "971 MW (Q4 FY26 call, 25 May 2026) → 1,257 MW (Q1 FY27)",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "fact"
+      },
+      {
+        "theme": "Deliveries & commissioning",
+        "point": "Asked when the 973 MW of erected inventory (his figure) converts and whether in Q2 or Q3, the CFO gave no quarter and substituted the standard H1/H2 seasonality split",
+        "figure": "H1 35–40% / H2 60–65%",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "qna",
+        "quote": "Historically, what we have seen is, let's say, about 35, 40 in H1 versus 60, 65 in H2. I think that trend still remains."
+      },
+      {
+        "theme": "Deliveries & commissioning",
+        "point": "The analyst's arithmetic — a 237 MW gap between delivery and commissioning in Q1 alone — was acknowledged as structural and permanent rather than closed",
+        "figure": "506 MW delivered vs 269 MW commissioned; gap ~237 MW (Balasubramanian's figure)",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "qna",
+        "quote": "the position that we have on RR versus commissioning there is a certain gap and that will continue to remain"
+      },
+      {
+        "theme": "Deliveries & commissioning",
+        "point": "Asked specifically whether the deferred deliveries land in Q2, the CFO did not answer the quarter and repeated the half-year split — a question left unanswered on the record",
+        "figure": "restated 35–40% H1, 60–65% H2",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "qna",
+        "quote": "I think we have to look at it from an H1, H2 perspective, like I answered 1 of the previous questions. We are roughly about 35%-40% in H1 and, let's say, 60%, 65%."
+      },
+      {
+        "theme": "Deliveries & commissioning",
+        "point": "The CEO used the commissioning growth as the headline proof point of the quarter",
+        "figure": "'23% on revenue and 12% on RR', '130% growth in commissioning', 1,250 MW erected",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "fact",
+        "quote": "23% on revenue and 12% on RR. More importantly, 130% growth in commissioning. And on top of it, another 1,250 MW erected waiting to be e commissioned."
+      },
+      {
+        "theme": "Supply chain & geopolitics",
+        "point": "10–20% of the quarter's deliveries were deferred by West Asia geopolitical disruption; recovery is asserted but undated and unquantified in rupees",
+        "figure": "~10–20% of deliveries deferred",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "guidance",
+        "quote": "These disruptions deferred approximately 10% to 20% of deliveries, which is expected to be recovered in coming quarters."
+      },
+      {
+        "theme": "Supply chain & geopolitics",
+        "point": "The disruption was specifically about fuel and heavy-lift logistics, not components",
+        "figure": "fuel availability; cranes, trailers, transport vehicles",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "fact",
+        "quote": "temporary supply chain and logistics disruptions arising from geopolitical tensions in the Middle East, which impacted fuel availability and movement of critical equipment including cranes, trailers"
+      },
+      {
+        "theme": "Supply chain & geopolitics",
+        "point": "Management frames the same disruption as strengthening the long-term investment case for domestic renewables — an interpretation no analyst challenged",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "opinion",
+        "quote": "While Middle East tensions created near-term supply chain disruptions, we have also reinforced the strategic importance of energy security, further strengthening the long-term investment case"
+      },
+      {
+        "theme": "Order book & DevCo model",
+        "point": "Order book 6.1 GW, up from 5.9 GW disclosed on the prior call; ~1 GW booked in the first four months of FY27",
+        "figure": "6.1 GW order book (vs 5.9 GW at 25 May 2026); ~1 GW orders in 4 months",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "fact",
+        "quote": "Order book is a healthy 6.1 gigawatt reaffirming our market leadership. In the first 4 months of FY27, we have already secured ~1 gigawatt of orders"
+      },
+      {
+        "theme": "Order book & DevCo model",
+        "point": "60% of new orders now come through the DevCo (land plus connectivity, sold as ready sites) engine — 600+ MW in four months",
+        "figure": "600+ MW DevCo orders = 60% of new orders",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "fact",
+        "quote": "strong market acceptance reflected in 600-plus megawatts of orders booked within the 4 months, which translates to 60% of the business coming from the DevCo-led engine"
+      },
+      {
+        "theme": "Order book & DevCo model",
+        "point": "Asked for advances booked, execution timeline versus non-DevCo orders and whether the 602 MW contract is margin accretive, the CEO answered none of the three with a figure and substituted 'value accretive' for margin accretive",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "qna",
+        "quote": "all advances, everything is in the same nature as we have done in the past, and they are value accretive"
+      },
+      {
+        "theme": "Order book & DevCo model",
+        "point": "The DevCo orders booked so far are the mature, pre-assembled sites; the later-year DevCo pipeline is unannounced and follows 'a slightly different strategy'",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "fact",
+        "quote": "The year 3, 4, 5 DevCo orders, which is also part of the Suzlon 2.0 strategy. Those are yet to be announced, where we have a slightly different strategy."
+      },
+      {
+        "theme": "Order book & DevCo model",
+        "point": "Land already bought is expected to be released back into cash as DevCo advances arrive — asserted, with no amount and no date",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "guidance",
+        "quote": "whatever investments we already made in the land, in fact, they will get unlocked very soon as the advances start coming in and we increase the site progress"
+      },
+      {
+        "theme": "Order book & DevCo model",
+        "point": "Analyst put the PSU plus C&I share of the order book at ~85%; management neither confirmed nor corrected it. The company's own disclosure on the prior call was 66%",
+        "figure": "~85% (Balasubramanian's figure) vs 'Order book of 5.9 gigawatt consists of 66% of C&I and PSU segment' (25 May 2026)",
+        "speaker": "Balasubramanian (Arihant Capital)",
+        "kind": "qna",
+        "quote": "around the 85% of order book is from PSU and C&I sector. So, I'm trying to understand whether it's a PSU-dominated order book"
+      },
+      {
+        "theme": "Order book & DevCo model",
+        "point": "Asked for the receivable-days difference on PSU orders, the CEO gave no days at all and asserted that pricing compensates for slow payment",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "qna",
+        "quote": "Wherever there are payable days both there, the pricing is adequately done in a manner that it accounts for the days. So, I think from that aspect, I think we are well covered."
+      },
+      {
+        "theme": "Order book & DevCo model",
+        "point": "Asked whether the customer mix persists, the CEO explicitly declined to forecast it",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "qna",
+        "quote": "It's an evolving market. I cannot predict that."
+      },
+      {
+        "theme": "Pricing & average selling price",
+        "point": "ASP rose from ₹5.6cr/MW to ₹6.3cr/MW, attributed entirely to project mix rather than price",
+        "figure": "₹5.6cr/MW (Q1 FY26) → ₹6.3cr/MW (Q1 FY27)",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "fact",
+        "quote": "ASP increased from INR5.6 crores per megawatt in Q1 FY26 to INR6.3 crores per megawatt in Q1 FY27, aided by project mix."
+      },
+      {
+        "theme": "Pricing & average selling price",
+        "point": "The driver is the EPC share jumping 10 percentage points year-on-year — the same shift that explains the increase in material consumed",
+        "figure": "EPC share 22% (Q1 FY26) → 32% (Q1 FY27); prior call disclosed 20% → 28% in H2 FY26",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "fact",
+        "quote": "If you see last year, the same quarter, we were 22% share of EPC. And this year, we have 32% share of EPC. There's a substantial shift."
+      },
+      {
+        "theme": "Pricing & average selling price",
+        "point": "Management confirmed the higher per-MW number is scope, not pricing power — the cleanest statement on the call",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "fact",
+        "quote": "Because the scope has increased, so the revenue has increased."
+      },
+      {
+        "theme": "Pricing & average selling price",
+        "point": "The CFO called the ASP 'a judgmental number' and would only say it stays 'in that range' while project work is high",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "guidance",
+        "quote": "So, as our project business will be higher, we will see this number in that range. Again, this is also a judgmental number overall is what I would like to say."
+      },
+      {
+        "theme": "Pricing & average selling price",
+        "point": "Analyst's own ASP figures (5.3 → 6.2) differ from management's (5.6 → 6.3) and were never reconciled; he asked twice for WTG-only pricing ex-EPC and for the rupee-depreciation impact",
+        "figure": "'realization has gone up from 5.3 to 6.2' (Abhishek, Motilal Oswal)",
+        "speaker": "Abhishek (Motilal Oswal)",
+        "kind": "qna",
+        "quote": "I think realization has gone up from 5 points sorry, from 5.3 to 6.2. But if we exclude EPC and just talk about WTG, then how is that coming along?"
+      },
+      {
+        "theme": "Pricing & average selling price",
+        "point": "The first response to the pricing question was not about pricing; the CEO pivoted to demand and bid volumes and closed unsure he had answered",
+        "figure": "'almost 5 gigawatts of bids in the market right now'",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "qna",
+        "quote": "I think the question is not about the demand. I think the question is execution... I don't know if I've answered your question, Abhishek."
+      },
+      {
+        "theme": "Pricing & average selling price",
+        "point": "Re-asked, the entire answer on domestic turbine pricing under a weaker rupee was six words, with cost optimisation offered instead of a price figure",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "qna",
+        "quote": "More or less same, more or less same. I mean, yes, your INR depreciation has happened."
+      },
+      {
+        "theme": "Pricing & average selling price",
+        "point": "Cost defence rests on volume and supplier-base development rather than price increases",
+        "figure": "'3-megawatt series, we already done 9 gigawatt of orders'",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "opinion",
+        "quote": "it's a constant movement on cost optimization, volume, and it's end of the day volume game. As you ramp up volumes, you also bring your unit cost down."
+      },
+      {
+        "theme": "Margins & costs",
+        "point": "Revenue +23% but EBITDA flat and lower in absolute terms — the central tension of the quarter",
+        "figure": "Revenue ₹3,819cr (+23% Y-o-Y); EBITDA ₹595cr vs ₹599cr; PBT ₹390cr; PAT ₹305cr",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "fact",
+        "quote": "Suzlon reported consolidated revenue of INR3,819 crores in Q1 FY2027, a 23% year-on-year growth with EBITDA at INR595 crores and PBT at INR390 crores."
+      },
+      {
+        "theme": "Margins & costs",
+        "point": "Three stated causes of the flat EBITDA: upfronted Suzlon 2.0 spend, lost operating leverage from deferred deliveries, and mix shift from the higher-margin AMS segment to RE Solutions",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "fact",
+        "quote": "There are certain investments that we are making for our 2.0 Suzlon strategy... some of the expenses have to be upfronted, right? Benefit of these expenses will come over a period of time."
+      },
+      {
+        "theme": "Margins & costs",
+        "point": "Fixed costs named: the Puducherry facility, senior hiring, and Suzlon 2.0 programme spend",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "fact",
+        "quote": "Higher fixed costs reflects investments made to support scale, including the Puducherry facility, leadership strengthening and Suzlon 2.0 initiatives."
+      },
+      {
+        "theme": "Margins & costs",
+        "point": "Analyst's per-MW EBIT challenge was never addressed — the CFO answered on consolidated EBITDA instead. Note the analyst's two figures as printed are inconsistent with the word 'declined'",
+        "figure": "'from INR26 lakh per megawatt to INR52 lakh per megawatt' (Mohit Kumar's figures, as transcribed)",
+        "speaker": "Mohit Kumar (ICICI Securities)",
+        "kind": "qna",
+        "quote": "On a per megawatt basis, the EBIT has declined from INR26 lakh per megawatt to INR52 lakh per megawatt, while the average selling price has only gone up, right?"
+      },
+      {
+        "theme": "Margins & costs",
+        "point": "Sumit Kishore noted WTG fixed costs ran at Q4 FY26 levels despite much lower volume and asked for the full-year number — management gave no full-year fixed-cost figure",
+        "speaker": "Sumit Kishore (Axis Capital)",
+        "kind": "qna",
+        "quote": "the fixed cost in WTG business in Q1 seems to be at Q4 FY26 levels despite much lower volume... How should we think about the full year WTG fixed cost here?"
+      },
+      {
+        "theme": "Margins & costs",
+        "point": "NON-ANSWER: the CFO refused outright to size the export/Suzlon 2.0 fixed costs when explicitly asked for a trackable number",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "qna",
+        "quote": "Not really, Sumit, I don't want to put a number to it. Let me just say that we are judicious at it... And to be very frank about it as the Group CFO, I'm not very worried."
+      },
+      {
+        "theme": "Margins & costs",
+        "point": "GUIDANCE MOVED UNDER PRESSURE: asked a third time, in a different form, the CEO produced ₹40–50cr — the figure the CFO had just refused to give",
+        "figure": "₹40cr–₹50cr 'across various subheads'",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "qna",
+        "quote": "Same question you've asked a different way, Sweta, you are also laughing anyway. But okay, so it's about INR40 crores to INR50 crores is what would be the number across various subheads"
+      },
+      {
+        "theme": "Margins & costs",
+        "point": "The CFO then detached the ₹40–50cr from the quarter, so it is neither a quantified one-off nor a full-year number",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "qna",
+        "quote": "See, it's a year-long journey, Shweta. It is not a 1-quarter story. Ajay is not saying that we have baked it everything in the first quarter... but not a big number, I would say."
+      },
+      {
+        "theme": "Margins & costs",
+        "point": "CFO's margin band: 17–18% 'plus minus 1% to 2%' — a band that permits 15% to 20%",
+        "figure": "17–18% ±1–2%",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "guidance",
+        "quote": "we have always said that our EBITDA margins between 17% to 18% last year was the position that we had taken. My sense is that this year also, plus minus 1% to 2% from there, we should be able to maintain"
+      },
+      {
+        "theme": "Margins & costs",
+        "point": "SAME-CALL DIVERGENCE: minutes later the CEO gave the same 17–18% with a ±0.5% tolerance — a band a quarter as wide as the CFO's",
+        "figure": "17–18% ±0.5%",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "guidance",
+        "quote": "typically, we've been operating at about 17%, 18% margin. Our endeavor will be to remain in that realm. We can give or take, 0.5% up and down."
+      },
+      {
+        "theme": "Margins & costs",
+        "point": "Versus the prior call the margin language has loosened: on 25 May 2026 the CFO said WTG margins could not materially fall, against a delivered FY26 margin of 18.1% (+100bps)",
+        "figure": "FY26 EBITDA margin 18.1%, up 100bps; 'WTG margins, I don't think materially can go down' (Rahul Jain, 25 May 2026)",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "fact"
+      },
+      {
+        "theme": "Margins & costs",
+        "point": "Gross-margin pressure confirmed as mix-driven with a one-time cost element, not commodity inflation",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "qna",
+        "quote": "The mix with respect to the AMS business, which is a higher margin business versus supply of, let's say, the RE Solutions business, is the one that has impacted it."
+      },
+      {
+        "theme": "Margins & costs",
+        "point": "NON-ANSWER: asked for the steady-state margin at a hypothetical 50/50 EPC and turbine-supply mix, the CFO rejected the framing and gave no number",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "qna",
+        "quote": "The way to look at it is not EPC versus non-EPC. The way to look at it is the RE solutions business and the RE AMS business."
+      },
+      {
+        "theme": "Services, foundry & forging",
+        "point": "AMS installed base 16.1+ GW in India with availability consistently above 95%; Renom's assets under management keep growing on multi-brand additions",
+        "figure": "16.1+ GW (vs 15.7 GW at 25 May 2026); availability >95%",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "fact",
+        "quote": "Our RE AMS portfolio remained strong with 16.1+ GW installed base in India and machine availability crossing consistently above 95%."
+      },
+      {
+        "theme": "Services, foundry & forging",
+        "point": "The 43% services margin printed this quarter is explicitly above the sustainable level, per management — a reported figure flagged as a peak by the company itself",
+        "figure": "43% this quarter; guided 'higher 30s and closer to 40%' (first said 38%, 39%)",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "guidance",
+        "quote": "In this quarter, it's slightly elevated at 43%. I believe it should be more or less in the higher 30s and closer to 40%. That's the way we'll endeavor to work on."
+      },
+      {
+        "theme": "Services, foundry & forging",
+        "point": "Foundry & forging quarterly revenue ₹126cr and EBITDA ₹22cr, against FY26 full-year figures of ₹597cr and ₹119cr disclosed on the prior call",
+        "figure": "Q1 FY27: ₹126cr revenue, ₹22cr EBITDA; FY26: ₹597cr revenue, ₹119cr EBITDA",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "fact",
+        "quote": "Foundry and forging continues to scale strongly. Revenues at INR126 crores and EBITDA at INR22 crores with continued momentum driven by domestic demand and export growth."
+      },
+      {
+        "theme": "Services, foundry & forging",
+        "point": "The CEO conceded foundry & forging is the unit most exposed to the Gulf disruption because its large customers sit there",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "fact",
+        "quote": "This is 1 business which gets more impacted with the geopolitical issues which were happening in the recent past... The big customers we found got into the Gulf crisis."
+      },
+      {
+        "theme": "Services, foundry & forging",
+        "point": "NON-ANSWER: asked whether foundry utilisation can ramp to 50% or any material level, the CEO gave no utilisation figure and described structure and intent instead",
+        "figure": "three segments — foundry, forging, bearing; '3 or 4 KPIs'",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "qna",
+        "quote": "In fact, in the coming quarters, you will see the whole strategy panning out beautifully well... I'm very confident this business has a lot of promise in time to come."
+      },
+      {
+        "theme": "Services, foundry & forging",
+        "point": "Stated intent to raise the non-Suzlon, non-wind and export share of foundry & forging, with no target attached to any of the three",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "guidance",
+        "quote": "while Suzlon will be a big buyer, but we want to actually increase the share of non-Suzlon and non-wind and exports"
+      },
+      {
+        "theme": "Investment & capacity",
+        "point": "Manufacturing capacity 4.5 GW fully operational, with three AI-enabled smart factories being added",
+        "figure": "4.5 GW; 3 smart factories",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "fact",
+        "quote": "4.5 gigawatt manufacturing capacity fully operational expanding footprint with 3 AI-enabled smart factories to drive efficiency and scale."
+      },
+      {
+        "theme": "Investment & capacity",
+        "point": "GUIDANCE CHANGED WHILE BEING CALLED UNCHANGED: capex now ~₹700cr ±₹100cr, described as the guidance given on earlier calls",
+        "figure": "~₹700cr ±₹100cr",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "guidance",
+        "quote": "capex, we had guided even earlier calls also closer to INR700 crores plus minus, maybe INR100 crores depending on the timing... By and large, that guidance remains intact."
+      },
+      {
+        "theme": "Investment & capacity",
+        "point": "PRIOR CALL: the same executive guided ~₹600cr ±₹50cr on 25 May 2026, against FY26 spend an analyst put at ~₹550cr. The figure is ₹100cr higher and the band twice as wide, and no analyst noted the change",
+        "figure": "₹600cr ±₹50cr (25 May 2026) → ₹700cr ±₹100cr (28 Jul 2026)",
+        "speaker": "Ajay Kapur (Group CEO), Q4 FY26 call",
+        "kind": "fact",
+        "quote": "We would have a run rate of about INR600-odd plus minus 50 going forward."
+      },
+      {
+        "theme": "Investment & capacity",
+        "point": "The capex is forward-looking — blade factories for the 5 MW series, not support for the existing 4.5 GW",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "fact",
+        "quote": "it's investing into the future rather than just looking at the current 4.5 gigawatt capacity"
+      },
+      {
+        "theme": "Investment & capacity",
+        "point": "Capex excludes DevCo land, which is carried as inventory — confirmed explicitly",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "fact",
+        "quote": "No. No, that's separate. This is capex. Pure capex."
+      },
+      {
+        "theme": "Investment & capacity",
+        "point": "NON-ANSWER: asked for the payback period on S175, new blade factories and the Blue Sky relaunch, and whether revenue lands in FY28 or FY29, the CEO named neither a payback period nor a year",
+        "figure": "'next 12 to 18 months'; international market seeding 18–24 months",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "qna",
+        "quote": "I think all these investments pan out over the next 12 to 18 months. And we're very hopeful that the payback for all these is a very fairly short payback."
+      },
+      {
+        "theme": "Investment & capacity",
+        "point": "REFUSED THEN SUPPLIED: the CFO declined to endorse the 4,500→7,500 MW capacity figure an investor attributed to J.P. Chalasani's One Earth campus interview",
+        "figure": "4,500 MW → 7,500 MW (investor's figure, sourced to J.P. Chalasani)",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "qna",
+        "quote": "I'll not give you a number from 4,500 megawatts to 7,500 megawatts but if the current capacity, everything shifts to -- let's say the 5-megawatt... It will be much higher."
+      },
+      {
+        "theme": "Investment & capacity",
+        "point": "Later in the same call the CEO used 7,500 MW of wind himself when defending the FY31 target — the number the CFO had declined to give",
+        "figure": "FY31: 10 GW renewable sales, 75-25 split → 7,500 MW wind",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "qna",
+        "quote": "we said 10 gigawatt sales of RE, which would include wind as well as solar and BESS. We also mentioned that you can take a 75-25 breakup. So, we are looking at 7,500 MW wind"
+      },
+      {
+        "theme": "Investment & capacity",
+        "point": "Transition to the 5 MW platform is gated by the order book's composition, which is largely the 3 MW S144 series",
+        "figure": "6.1 GW order book 'largely S144 3 series'; 2 GW of retail/other orders",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "fact",
+        "quote": "your current order book, if you see the 6.1 gigawatt is largely S144 3 series"
+      },
+      {
+        "theme": "Investment & capacity",
+        "point": "No overseas manufacturing — the export strategy is build in India, sell globally",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "fact",
+        "quote": "No, These are all currently in India. As of now, the foreign strategy is to be able to manufacture in India and sell globally."
+      },
+      {
+        "theme": "Balance sheet & working capital",
+        "point": "Net worth ₹9,869cr and net cash ₹2,322cr at June 2026; the net cash position is lower than the ₹2,384cr reported at March 2026 and no analyst asked why",
+        "figure": "Net worth ₹9,869cr (vs ₹9,464cr Mar-26); net cash ₹2,322cr (vs ₹2,384cr Mar-26)",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "fact",
+        "quote": "strong consolidated net worth of INR9,869 crores, our net cash position of INR2,322 crores, further enhances our financial flexibility and resilience"
+      },
+      {
+        "theme": "Balance sheet & working capital",
+        "point": "Interest cost up ~30% year-on-year (analyst's figure); the CFO attributed it to revenue growth and working-capital utilisation, and said borrowing rates have fallen without quantifying by how much",
+        "figure": "interest up ~30% Y-o-Y (Amit Bhinde's figure); revenue +23%",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "qna",
+        "quote": "our overall rate that we can command from the market has actually come down. This is a positive change that has happened."
+      },
+      {
+        "theme": "Balance sheet & working capital",
+        "point": "NON-ANSWER: asked to quantify DevCo's contribution to the higher interest cost, the CFO declined to separate it while conceding cash would otherwise be better",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "qna",
+        "quote": "If there was no investment in DevCo, obviously, there would have been a better cash position that was available with us. But I don't think we need to look at it from that perspective."
+      },
+      {
+        "theme": "Balance sheet & working capital",
+        "point": "DevCo capital: ₹500cr cap on a revolving basis, ₹200–300cr currently deployed",
+        "figure": "cap ₹500cr revolving; deployed ₹200–300cr",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "guidance",
+        "quote": "our overall DevCo investment is expected to be INR500 crores on a revolving in nature. Currently, we will probably in the range of INR200 crores to INR300 crores."
+      },
+      {
+        "theme": "Balance sheet & working capital",
+        "point": "ANALYST CHALLENGE ON A CHANGED NUMBER: Priyesh Babariya said the DevCo limit had been ₹250–300cr and asked whether the new ₹500cr can grow further",
+        "figure": "₹250–300cr → ₹500cr (analyst's framing)",
+        "speaker": "Priyesh Babariya (Mahindra Manulife Mutual Fund)",
+        "kind": "qna",
+        "quote": "Earlier, we were actually expected to limit our investment to, let's say, INR250 crores to INR300 crores. Now we are expecting to actually increase it to INR500 crores."
+      },
+      {
+        "theme": "Balance sheet & working capital",
+        "point": "The CFO rejected the premise, calling ₹250cr 'a very long back number' and claiming ₹500cr had been the figure since the Suzlon 2.0 announcement",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "qna",
+        "quote": "I think the INR250 crores number that you are talking about is a very long back number... we have talked about this as a INR500 crores number even at that point in time."
+      },
+      {
+        "theme": "Balance sheet & working capital",
+        "point": "PRIOR CALL CONTRADICTS THE REBUTTAL: on 25 May 2026 J.P. Chalasani gave ₹300cr as the amount held for DevCo and Rahul Jain said deployment was already '300, 350'. The deployed figure quoted this call is lower, at ₹200–300cr",
+        "figure": "₹300cr framework, '300, 350' deployed (25 May 2026) vs ₹500cr cap, ₹200–300cr deployed (28 Jul 2026)",
+        "speaker": "J.P. Chalasani and Rahul Jain, Q4 FY26 call",
+        "kind": "fact",
+        "quote": "we talked about earlier about INR300 crores of the cash we keep it for this"
+      },
+      {
+        "theme": "Balance sheet & working capital",
+        "point": "₹500cr is described as the current cap with a commitment to come back if it changes",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "guidance",
+        "quote": "As of now, that's the cap that we have If there is a change on it, we'll certainly come back and give you the positioning around it"
+      },
+      {
+        "theme": "Balance sheet & working capital",
+        "point": "Working-capital cycle claimed to have reduced significantly, with the figure left in the presentation rather than stated on the call; EPC growth said not to worsen it",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "qna",
+        "quote": "we will see a significant reduction in the number right? So I think EPC or non-EPC working capital cycle is what it is. It is not negatively impacted by EPC."
+      },
+      {
+        "theme": "Balance sheet & working capital",
+        "point": "Tax charge of ~22% including deferred tax (analyst's figure) is explained as the rundown of previously recognised deferred tax assets and essentially non-cash",
+        "figure": "~22% effective rate (Amit Bhinde's figure); prior call: ₹3,000–3,500cr unrecognised deferred tax assets, non-cash for two years",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "fact",
+        "quote": "all the tax charges that you see on our P&L is the recognition and the, let's say, the rundown of the deferred tax assets that have been recognized in the past. None of these are cash items."
+      },
+      {
+        "theme": "Balance sheet & working capital",
+        "point": "Working capital limits stated as adequate for the current order book — the same sentence used on the prior call",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "fact",
+        "quote": "Adequate working capital limits have been tied up for execution of the current order book."
+      },
+      {
+        "theme": "Exports & international",
+        "point": "S175 launched with a maiden India order; Blue Sky platform marks the return to advanced global markets with S175 and S163",
+        "figure": "S175 5 MW (India); S163 6.3 MW (international)",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "fact",
+        "quote": "The successful launch and maiden order for S175 in India, alongside the Blue Sky Platform, marks Suzlon's return to advance global markets with S175 and S163"
+      },
+      {
+        "theme": "Exports & international",
+        "point": "International revenue is 18–24 months away from a first shipment in any new market — the concrete lag on the export story",
+        "figure": "18–24 months to seed a market and first shipment",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "guidance",
+        "quote": "Internationally, it takes anywhere between 18 months to 24 months to seed the market and start the first shipment."
+      },
+      {
+        "theme": "Exports & international",
+        "point": "S175 domestic deliveries start at the end of FY27 and into FY28",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "guidance",
+        "quote": "we've already got the first order of S175, which will start deliveries end of this year and next year"
+      },
+      {
+        "theme": "Exports & international",
+        "point": "Export pipeline named by geography only, with no order, revenue or margin figure attached anywhere on the call",
+        "figure": "Europe, Australia, Latin America, Southeast Asia",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "fact",
+        "quote": "Exports expanding global footprint with a growing opportunity pipeline spanning key international markets with opportunities under evaluation in Europe, Australia, Latin America and Southeast Asia."
+      },
+      {
+        "theme": "Exports & international",
+        "point": "Suzlon will not compete on price overseas — it expects to price at par with local players and compete on yield and delivery",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "opinion",
+        "quote": "we don't compete with China, we don't compete with -- on price alone. We purely compete on the product and the delivery... we should be pricing at par with the local players"
+      },
+      {
+        "theme": "Exports & international",
+        "point": "The stated entry wedge abroad is small 2 MW turbines for repowering, plus an existing installed fleet and service presence",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "opinion",
+        "quote": "smaller turbines, 2-megawatt series for repowering is something an order we believe we should be able to procure from Europe and Australia"
+      },
+      {
+        "theme": "Storage, solar & repowering",
+        "point": "Repowering opportunity sized at ~25 GW nationally, on sites commissioned 10–20 years ago with small, low-hub turbines",
+        "figure": "~25 GW; S88 to S120 platform work under way",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "fact",
+        "quote": "repowering has a potential of close to 25 gigawatts in the country"
+      },
+      {
+        "theme": "Storage, solar & repowering",
+        "point": "DATED COMMITMENT — track it: confirmed repowering orders promised before the end of FY27, with pilots and orders to be disclosed in one or two quarters",
+        "figure": "'next 1 or 2 quarters' for pilots; confirmed order book 'before we end this year'",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "guidance",
+        "quote": "the team is very confident that before we end this year, we would have already logged in confirmed order book from the repowering in India first"
+      },
+      {
+        "theme": "Storage, solar & repowering",
+        "point": "Battery storage is still at partner-discussion stage, with first arrangements guided within a couple of months and a 3.1 GW FY31 target; no partner named and no economics given",
+        "figure": "3.1 GW by FY31; partnerships 'in the next couple of months'",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "guidance",
+        "quote": "in the next couple of months, we should be able to close those partnerships and the first cut arrangements. Our target is that by FY31, we want to come with 3.1 gigawatts"
+      },
+      {
+        "theme": "Storage, solar & repowering",
+        "point": "Management explicitly flagged the risk of getting storage wrong rather than the upside",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "opinion",
+        "quote": "it will take time. But we want to do it right because again, this sector, if you don't get it right, you end up not creating value accretive."
+      },
+      {
+        "theme": "Storage, solar & repowering",
+        "point": "Solar ambition is framed as a serviceable base near existing depots — a sizing exercise, not an order book",
+        "figure": "20+ GW serviceable solar asset base within a 25 km radius of Suzlon service locations",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "fact",
+        "quote": "we have identified 20-plus gigawatt serviceable solar asset base, leveraging Suzlon's extensive field presence and infrastructure within 25-kilometer radius of Suzlon service locations"
+      },
+      {
+        "theme": "Storage, solar & repowering",
+        "point": "Hybrid controllers developed in-house have pilot orders signed — the only signed commercial evidence in the adjacency story",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "fact",
+        "quote": "What we have also done is hybrid controllers through our simple R&D. A few customers have already signed up with us for pilot orders."
+      },
+      {
+        "theme": "Policy & industry demand",
+        "point": "Peak power demand has crossed 270+ GW, framed as the structural case for wind in non-solar hours",
+        "figure": "270+ GW peak demand",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "fact",
+        "quote": "The country's peak power demand has already crossed 270-plus gigawatts, reinforcing the need for large-scale RE capacity additions, especially during non-solar hours, which is peak demand."
+      },
+      {
+        "theme": "Policy & industry demand",
+        "point": "Industry installation outlook is now undated: 'cross 10 gigawatts in the near term' and 15 GW by FY31, against 57 GW installed and a 100 GW by 2030 target",
+        "figure": "10 GW 'near term'; 15 GW by FY31; 57 GW installed; 100 GW by 2030",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "guidance",
+        "quote": "annual installations expected to cross 10 gigawatts in the near term and reaching 15 gigawatts by FY31"
+      },
+      {
+        "theme": "Policy & industry demand",
+        "point": "A DATE THAT DRIFTED: on 25 May 2026 the same executive gave year-specific industry figures of 8 GW in FY27 and ~10 GW in FY28; those years are gone, replaced by 'near term'",
+        "figure": "'8 gigawatt in '27 and maybe 10 gigawatt in '28' (25 May 2026); FY23 2.3 GW, FY24 3.3 GW, FY25 4.1 GW, FY26 6 GW",
+        "speaker": "Ajay Kapur (Group CEO), Q4 FY26 call",
+        "kind": "fact",
+        "quote": "Our numbers would be more or less plus/minus you can give some leeway, 8 gigawatt in '27 and maybe 10 gigawatt in '28."
+      },
+      {
+        "theme": "Policy & industry demand",
+        "point": "~5 GW of bids are live in the market; management says demand is not the constraint, execution is",
+        "figure": "~5 GW of bids",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "fact",
+        "quote": "when we look at the current bids in the market, there are almost 5 gigawatts of bids in the market right now as I speak to you"
+      },
+      {
+        "theme": "Policy & industry demand",
+        "point": "NON-ANSWER: asked whether Suzlon is gaining share since ALMM took effect and whether the rule extends to yaw and pitch drives, neither part was answered — the second was pushed offline",
+        "figure": "ALMM: utility bids from Aug-25, C&I deadline Dec-26 (Mohit Kumar's dates)",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "qna",
+        "quote": "Suzlon is fully compliant and well positioned versus import-dependent competitors. On the second part of your question, we can connect separately."
+      },
+      {
+        "theme": "Policy & industry demand",
+        "point": "NOT DISCUSSED: the transcript contains no mention of ISTS transmission-charge waivers, tariffs or power-purchase agreements, and the prior call's work with the government on GNA connectivity rules — raised by J.P. Chalasani — did not reappear",
+        "speaker": "—",
+        "kind": "fact"
+      },
+      {
+        "theme": "Policy & industry demand",
+        "point": "Repowering described as gaining traction with visibility over 2–3 years, alongside STU, PSU and C&I bid pipelines",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "opinion",
+        "quote": "Repowering also started gaining traction and there is rising customer interest, which gives visibility of several opportunities ramping up in next 2 to 3 years."
+      },
+      {
+        "theme": "Guidance",
+        "point": "Long-term growth ambition reaffirmed at 25% compound annual growth for five years under Suzlon 2.0, immediately after explaining why the quarter's profit did not grow",
+        "figure": "25% CAGR for 5 years",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "guidance",
+        "quote": "in the long term, we continue to grow in line with our ambitions set up for Suzlon 2.0 at 25% CAGR for the next 5 years"
+      },
+      {
+        "theme": "Guidance",
+        "point": "The FY31 target of 10 GW of renewable sales is only two months old and management already says it will be revised annually",
+        "figure": "FY31: 10 GW (wind + solar + storage), 75-25 split",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "guidance",
+        "quote": "with every passing year, we will keep updating our FY31 forecast, which we had made only 2 months back"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Management's own framing of Q1: a hit quarter with the benefit deferred — 'Q1 FY27 is impacted due to the above factors'",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "opinion",
+        "quote": "Q1 FY27 is impacted due to the above factors and in the long term, we continue to grow in line with our ambitions"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Second-half operating leverage is the stated route back to the margin band — a claim resting on the deferred deliveries actually arriving",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "guidance",
+        "quote": "also we go out and operating leverage plays out in H2, we will certainly see a better positive change to that"
+      },
+      {
+        "theme": "Management & disclosure",
+        "point": "J.P. Chalasani, Group Executive Counsel and a principal speaker who delivered the closing remarks on the 25 May 2026 call, is not listed in management on this call and does not speak. No management change was announced, explained or asked about anywhere in the transcript",
+        "figure": "Management on 28 Jul 2026: Ajay Kapur (Group CEO), Rahul Jain (Group CFO). On 25 May 2026: J.P. Chalasani, Ajay Kapur, Rahul Jain",
+        "speaker": "—",
+        "kind": "fact"
+      },
+      {
+        "theme": "Management & disclosure",
+        "point": "The only reference to J.P. Chalasani on this call is an investor quoting a past interview of his, and management declined to stand behind the number in it",
+        "speaker": "Satpal Singh Khanuja (Ishaan Ventures)",
+        "kind": "qna",
+        "quote": "there was an interview of J.P.C. sir, which was held at One Earth campus, where he said that once the 5-megawatt machines are like started... the installed capacity will automatically go from 4,500 to 7,500"
+      },
+      {
+        "theme": "Management & disclosure",
+        "point": "Rumour of a foreign-shareholding cap denied flatly, with the CFO saying the company could not impose one",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "qna",
+        "quote": "Not really. I don't think there is any such thing that, in fact, I can't place a cap on it. That's the rule. Nothing else."
+      },
+      {
+        "theme": "Management & disclosure",
+        "point": "The closing invitation to follow up carried a limiting qualifier — investor relations will answer only what is already public",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "opinion",
+        "quote": "please do connect with our Investor Relations team. We will be happy to answer the questions that you have for information in the public domain."
+      },
+      {
+        "theme": "Management & disclosure",
+        "point": "Working-capital improvement was asserted on the call but the figure was left in the investor presentation rather than stated — a pattern of pointing at documents instead of giving numbers",
+        "speaker": "Rahul Jain (Group CFO)",
+        "kind": "opinion"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "REFUSAL CLUSTER — quantification of the growth spend: refused by the CFO, extracted at ₹40–50cr from the CEO on the third ask, then detached from any period by the CFO",
+        "figure": "asked by Sumit Kishore (Axis), Prakhar Porwal (Ambit), Sweta Jain (Anand Rathi)",
+        "speaker": "Rahul Jain (Group CFO) / Ajay Kapur (Group CEO)",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "REFUSAL CLUSTER — segment and unit economics: no receivable days for PSU orders, no foundry utilisation figure, no advance or timeline on the 602 MW DevCo contract, no steady-state margin at a 50/50 mix, no payback period on the new platforms",
+        "speaker": "—",
+        "kind": "qna"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Asked what kinds of fixed cost Suzlon 2.0 involves, the CEO listed categories but attached no amount to any of them",
+        "figure": "new plants, technology for new prototypes, marketing in international markets",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "qna",
+        "quote": "we have to incur, for example, new plants we are setting up. We're making investment in technology for the new protos... These are all those investments, which are inevitable"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Prakhar Porwal's assumption that the DevCo conversion cycle runs 3–4 years went uncorrected; the CEO answered only about the currently-sold mature sites",
+        "figure": "'I assume the conversion cycle is 3, 4 years' (Prakhar Porwal's figure)",
+        "speaker": "Prakhar Porwal (Ambit Capital)",
+        "kind": "qna",
+        "quote": "because I assume the conversion cycle is 3, 4 years. So are these the projects where land has been acquired and the customer has given an advance for these contracts"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "The material-consumption line question was answered in one sentence, and it is the same answer as the price-per-megawatt question — everything on this call routes back to the EPC share",
+        "figure": "EPC 22% → 32%",
+        "speaker": "Ajay Kapur (Group CEO)",
+        "kind": "qna",
+        "quote": "Basically, it is the EPC."
+      }
+    ],
+    "theme_summaries": {
+      "Deliveries & commissioning": "Suzlon shipped 506 megawatts of turbines in the quarter, its best-ever April-to-June quarter, and connected 269 megawatts to the grid and into generation — 2.3 times the 117 megawatts connected a year earlier. The gap between shipping and generating is the thing to watch: 1,257 megawatts of turbines are physically erected but not yet switched on, up from 971 megawatts at the end of March, and management says that stock is what makes future grid connections rise. One analyst put the erected-but-waiting figure at 973 megawatts and was never corrected. Asked when it converts, the finance chief would not name a quarter and fell back on the usual shape of Suzlon's year: 35-40% of the year's work in the first half, 60-65% in the second. When another analyst asked point blank whether the deliveries pushed out of this quarter come back specifically in the July-September quarter, he repeated the half-year split instead of answering. So the record has a very strong shipping number, a large and growing pile of finished-but-idle turbines, and no dated commitment about when either converts into cash.",
+      "Supply chain & geopolitics": "Tension in the Middle East disrupted fuel supply and the movement of cranes, trailers and transport vehicles needed to put turbines up, and management says this pushed roughly 10% to 20% of the quarter's deliveries into later quarters — its own explanation for why profit did not follow sales. It is described as temporary and recoverable, but no rupee value was attached to the deferral and no date was given for the recovery beyond the general second-half weighting. The same disruption hit the metal-castings business hardest, where the chief executive conceded 'the big customers we found got into the Gulf crisis'. Management simultaneously argues the disruption helps the long-run case, because energy security makes home-grown renewable power more attractive — a reading that turns its own bad quarter into a strategic positive, and one no analyst tested.",
+      "Order book & DevCo model": "The order book stands at 6.1 gigawatts, up from 5.9 gigawatts three months earlier, and about 1 gigawatt of new orders came in during the first four months of the year. The striking part is where they came from: 600-plus megawatts, or 60% of new orders, came through DevCo — Suzlon's model of buying land and securing grid connection itself, then selling a ready-to-build site together with the turbines. Management says these are sites it had already assembled, so the money already sunk into land 'will get unlocked very soon as the advances start coming in'. Asked three specific things about the 602-megawatt DevCo contract — how much customer money has been received upfront, how the build timetable compares with ordinary orders, and whether it earns a better margin — the chief executive answered none of them numerically, saying only that the terms are the same as always and the contracts are 'value accretive', which is not the same claim as margin accretive. An analyst said about 85% of the order book is now government undertakings and large corporates; management's own figure on the previous call was 66%, and the 85% was neither confirmed nor corrected. Asked what the difference in payment delay is for government customers, the answer contained no number of days.",
+      "Pricing & average selling price": "The average price Suzlon books per megawatt rose from ₹5.6 crore to ₹6.3 crore, and management was clear that this is not a price increase: the share of work where Suzlon builds the whole project rather than just supplying turbines went from 22% of the quarter a year ago to 32% now, so Suzlon is booking more of the project's value. As the chief executive put it, 'because the scope has increased, so the revenue has increased'. That matters because a rising price per megawatt looks like pricing power and is in fact extra low-margin construction revenue — which is also part of why profit did not keep pace with sales. Asked directly what has happened to pure turbine pricing once the construction work is stripped out, and whether the weaker rupee has squeezed it, the answer was 'more or less same, more or less same', with no figure. The analyst's own price figures (5.3 rising to 6.2) differ from management's and were never reconciled on the call. Management calls the price per megawatt 'a judgmental number' and says it stays 'in that range' while the project share stays high.",
+      "Margins & costs": "Sales rose 23% to ₹3,819 crore, but operating profit — sales less running costs, before interest, tax and wear-and-tear charges — was ₹595 crore against ₹599 crore a year earlier, so all the growth was absorbed. Profit before tax was ₹390 crore and net profit ₹305 crore. Management gave three reasons: costs pulled forward for the Suzlon 2.0 plan (the new Puducherry plant, senior hires, new product work), fewer deliveries than planned so fixed costs were spread over less volume, and a mix shift towards the lower-margin turbine-and-construction business away from the higher-margin business of servicing turbines. On how big the pulled-forward costs are, the finance chief refused to give a number at all, saying only 'we are judicious at it' and that he is 'not very worried'; pressed a third time by another analyst, the chief executive gave ₹40 crore to ₹50 crore, whereupon the finance chief said it is 'a year-long journey... not a 1-quarter story', so even that figure now floats between the quarter and the year. On the margin target the two executives do not match: the finance chief said last year's 17% to 18% holds 'plus minus 1% to 2%', which permits anything from 15% to 20%, while the chief executive minutes later said the same 17-18% 'give or take, 0.5% up and down'. Last year's actual was 18.1%, and this quarter's ₹595 crore on ₹3,819 crore of sales sits below the bottom of the 17-18% range, so the wider band is the one doing the work.",
+      "Services, foundry & forging": "The business of maintaining turbines now covers 16.1 gigawatts in India, up from 15.7 gigawatts three months earlier, with machines available above 95% of the time, and the multi-brand servicing arm Renom keeps adding fleet. This is the high-margin part of the group, and it earned 43% in the quarter — but the chief executive volunteered that this is too good to last and the run rate is 'higher 30s and closer to 40%', after first mishearing the analyst and quoting 38-39%. That is management flagging one of its own reported numbers as a peak, which is worth more than the number itself. The metal castings and forged-parts business did ₹126 crore of sales and ₹22 crore of operating profit in the quarter, against ₹597 crore and ₹119 crore for the whole of last year. It was the unit worst hit by the Gulf disruption because its big customers are there. Asked plainly whether factory usage can get to 50% or any other concrete level, the chief executive gave no utilisation figure at all — he described a three-part split into castings, forgings and bearings, mentioned 'three or four targets given to them', and said the strategy would 'pan out beautifully well'. There is a stated intent to sell more outside Suzlon, outside wind, and abroad, with no number attached to any of the three.",
+      "Investment & capacity": "Factory capacity is 4.5 gigawatts a year and fully in use, with three plants being fitted out with automated blade lines. Spending on plants and equipment is guided at 'closer to ₹700 crore plus minus, maybe ₹100 crore', and the chief executive said that guidance 'remains intact' — but on the previous call, nine weeks earlier, he himself guided 'about ₹600-odd plus minus 50', and the year just ended saw about ₹550 crore spent (an analyst's figure). So the amount is ₹100 crore higher and the margin of error twice as wide, while being described as unchanged; nobody on the call noticed. The money is explicitly for the future, not for today's 4.5 gigawatts: new blade plants for the bigger 5-megawatt machines. Land bought to assemble ready-to-build project sites is separate and is not counted in that figure. On how much capacity actually rises when the factories switch to 5-megawatt machines, the finance chief refused to endorse the 4,500-to-7,500-megawatt figure an analyst quoted from a past interview by J.P. Chalasani, saying only that it 'will be much higher' — and then later in the same call the chief executive used 7,500 megawatts of wind himself when explaining the 2031 goal. Asked whether any of this spending is happening near the overseas markets being targeted, the answer was no: everything is built in India and shipped out.",
+      "Balance sheet & working capital": "Shareholders' funds stand at ₹9,869 crore and the company holds ₹2,322 crore more cash than debt. The cash pile is ₹62 crore smaller than the ₹2,384 crore reported at the end of March, and no analyst asked why. Interest costs rose about 30% against the same quarter last year (an analyst's figure); the finance chief attributed it to sales being 23% higher and short-term borrowing use being flat to slightly up, and said the rate Suzlon can borrow at has come down — without saying by how much or to what. Asked to quantify how much of that interest increase comes from money tied up in project land the company buys itself, he declined to separate it, saying 'I don't think we need to look at it from that perspective', while conceding that without that land investment 'there would have been a better cash position'. The tax charge, which one analyst put at about 22% including deferred tax against earlier guidance of no tax for a year or two, is explained as the unwinding of tax credits recognised in the past and therefore almost entirely a book entry rather than cash going out. Management claims 'a significant reduction' in the time between spending on a project and being paid for it, points to the investor presentation for the figure rather than stating it, and insists that taking on more construction work does not stretch it.",
+      "Exports & international": "Suzlon has relaunched into export markets with the Blue Sky range, built around a 5-megawatt machine for India and a 6.3-megawatt machine abroad, and has opportunities under evaluation in Europe, Australia, Latin America and Southeast Asia. The honest number here is the lag: management says it takes 18 to 24 months to seed a new country and get to a first shipment, which pushes meaningful overseas revenue well past this year. On price, the chief executive says Suzlon will not undercut anyone — it expects to price 'at par with the local players' and compete on the energy a turbine produces and on delivery, not on being cheap, including against Chinese makers. He also frames the opening as easier than it looks because Suzlon machines and service teams are already present in those markets from its earlier era. All of this is built entirely in India and exported; no overseas factory is planned. Notably, on the previous call the same executive said the European venture would become 'one of the big revenue driver and a bottom line driver' in the next couple of years; this call put no revenue, order or profit figure on exports at all, and management declined to size the cost of building the export business.",
+      "Storage, solar & repowering": "Three adjacent businesses were discussed and none of them has a signed number yet. On batteries, Suzlon is still only in talks with potential technology partners — 'a few rounds' held, 'some of them are quite encouraging' — with a stated aim of closing first arrangements 'in the next couple of months' and reaching 3.1 gigawatts by 2031; no partner, no investment figure, no economics. On solar, the company has identified more than 20 gigawatts of other people's solar plants sitting within 25 kilometres of its existing service depots that it could service, which is a sizing exercise, not an order book. Replacing old turbines with modern ones on existing wind sites is the most concrete of the three: management puts the national opportunity at about 25 gigawatts, notes that a large share of India's fleet went up 10 to 20 years ago on small, low turbines at what were the best wind sites, and has committed to something dated — the chief executive expects to name pilots and orders 'in the next 1 or 2 quarters' and says 'before we end this year, we would have already logged in confirmed order book from the repowering in India first'. That promise has a deadline on it and should be checked against the next two calls. Suzlon has also sold pilot orders for its own controllers that run wind, solar and batteries together.",
+      "Policy & industry demand": "Management's demand case is that India's peak electricity demand has passed 270 gigawatts, driven by data centres, electric vehicles, cooling and industry, and that wind is the only renewable source that generates in the evening peak when solar has stopped — so the country needs it to reach 100 gigawatts of wind by 2030, from 57 gigawatts installed today. Yearly installations are said to be heading past 10 gigawatts 'in the near term' and 15 gigawatts by 2031, and around 5 gigawatts of tenders are live right now. That near-term framing is looser than it was: on the previous call the same executive gave year-by-year industry figures — about 8 gigawatts in this financial year and maybe 10 the year after — and those dated numbers are gone, replaced by an undated 'near term'. The chief executive also says the bottleneck is no longer demand but the ability to execute, which is the argument for Suzlon buying the land and grid connection itself and selling ready-to-build sites. On the government's approved-models rule for wind, which forces buyers towards locally made turbines, Suzlon says it is fully compliant and better placed than import-reliant rivals, but would not say whether it has actually gained share since the rule took effect, and pushed the question of whether the rule will extend to yaw and pitch drives off the call entirely. Nothing was said on this call about transmission-charge policy, and nobody asked — the previous call's talk of working with the government on grid-connection rules did not reappear.",
+      "Guidance": "What management committed to, in plain terms. Sales should build through the year on the usual pattern of 35-40% in the first half and 60-65% in the second, and the deliveries lost to the Gulf disruption come back 'in coming quarters' — with a refusal to say whether that means the July-September quarter. Operating profit should stay around last year's 17-18% of sales, but the two executives gave different tolerances in the same session (the finance chief ±1-2%, the chief executive ±0.5%), so the effective floor is somewhere between 15% and 16.5% depending on whom you believe. Spending on plants is put at about ₹700 crore give or take ₹100 crore and called unchanged, though it was ₹600 crore give or take ₹50 crore nine weeks earlier. Money tied up in project land is capped at ₹500 crore on a revolving basis with ₹200-300 crore used. The servicing business should settle from 43% down to the higher 30s or close to 40%. Confirmed orders for replacing old turbines are promised before the financial year ends. Battery partnerships are promised 'in the next couple of months'. The long-run frame is unchanged at 25% growth a year compounded for five years, and a 2031 target of 10 gigawatts of renewable sales that breaks 75-25 into 7,500 megawatts of wind — a forecast made only two months ago that management already says it 'will keep updating' every year.",
+      "Management & disclosure": "The most significant thing about this call may be who was not on it. J.P. Chalasani, Group Executive Counsel, led the previous call on 25 May 2026, answered a large share of its questions and delivered its closing remarks. He is absent from this call's management list, speaks no words in the transcript, and neither the company nor a single analyst refers to the change — the only mention of him is an investor quoting a past interview he gave. A senior figure disappeared from the disclosure and the record contains no explanation and no question. Beyond that, the call shows a consistent pattern of pushing detail off the record: one question on component rules was answered with 'we can connect separately', the size of the growth spend was refused before being partly conceded, the increase in borrowing costs caused by project land was declined outright, and the closing remarks invited follow-up while quietly limiting it — the investor relations team will answer 'the questions that you have for information in the public domain'. One rumour was dealt with cleanly: asked whether Suzlon has capped how much foreign investors may hold, the finance chief denied it flatly and said the company could not impose such a cap anyway.",
+      "Analyst Q&A concerns": "Analysts pushed hardest on three things and got a partial answer to one. First, the cost of the growth plan: two analysts and then a third in a different form finally extracted ₹40-50 crore from the chief executive after the finance chief had refused to give any figure, and the finance chief then unpicked the timeframe, so the number belongs to no defined period. Second, the money put into buying project land, where an analyst's recollection that the limit used to be ₹250-300 crore was dismissed as 'a very long back number' even though the previous call, nine weeks earlier, recorded ₹300 crore as the framework and ₹300-350 crore already spent. Third, pricing: an analyst asked twice what has happened to turbine prices once construction revenue is stripped out and got 'more or less same' and nothing else, with his own price figures left unreconciled against management's. Recurring refusals: no receivable days for government customers, no factory utilisation figure for the castings business, no payback period for the new turbine platforms and plants, no market-share claim after the approved-models rule took effect, no advance payment or timetable for the 602-megawatt project contract, no steady-state margin for a mix half construction and half turbines, and no quarter named for the deferred deliveries. Two items cut the other way and are worth keeping: the chief executive volunteered that the 43% earned in the servicing business is above what is sustainable, and he put a dated promise on the record that confirmed orders for replacing old turbines will be booked before the financial year ends."
+    }
+  },
+  {
+    "quarter": "Q4 FY26",
+    "call_date": "2026-05-25",
+    "detailed": [
+      {
+        "theme": "Guidance",
+        "point": "Management graded itself against a prior-year promise of 60% growth using three metrics, all of which cleared it; the metric named in the promise was never specified",
+        "figure": "FY26: EBITDA +63%, consolidated PBT +67%, WTG revenue +65%",
+        "speaker": "J.P. Chalasani",
+        "kind": "fact",
+        "quote": "at the beginning of the financial year, we said that in FY '26, we will have a 60% of growth. That was the commitment what we made, and we are glad to say that we achieved that"
+      },
+      {
+        "theme": "Guidance",
+        "point": "The two growth figures that fell below 60% — consolidated revenue and megawatts delivered — were reported separately by the CFO and never set against the commitment",
+        "figure": "FY26 consolidated revenue INR16,679cr, +54% Y-o-Y; FY26 deliveries 2,456 MW, +58%",
+        "speaker": "Rahul Jain",
+        "kind": "fact",
+        "quote": "For the full year FY '26, deliveries grew 58% to 2,456 megawatts. Strong execution momentum drove revenues up to INR16,679 crores, up 54% Y-o-Y"
+      },
+      {
+        "theme": "Guidance",
+        "point": "The FY27 industry installation forecast widened within the same call — 8 GW when first given, 8 to 9 GW when restated to the next questioner",
+        "figure": "First: 'plus/minus you can give some leeway, 8 gigawatt in '27 and maybe 10 gigawatt in '28'. Restated: 'next year market can be anywhere between 8 to 9 gigawatt'",
+        "speaker": "Ajay Kapur",
+        "kind": "guidance",
+        "quote": "Our numbers would be more or less plus/minus you can give some leeway, 8 gigawatt in '27 and maybe 10 gigawatt in '28"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Long-term industry guidance: installations crossing 10 GW near term and ~15 GW within five years, stated separately as FY30 or FY31",
+        "figure": "FY23 2.3 GW, FY24 3.3 GW, FY25 4.1 GW, FY26 6+ GW (highest since 2017); near term >10 GW; ~15 GW by FY30/31; 56 GW installed; 100 GW national target by 2030",
+        "speaker": "Ajay Kapur",
+        "kind": "guidance",
+        "quote": "installations expected to cross 10 gigawatt in the near term and reaching 15 gigawatts in the next 5 years"
+      },
+      {
+        "theme": "Guidance",
+        "point": "Management explicitly refused to give absolute FY27 company numbers, offering leading indicators and a trend instead",
+        "speaker": "Ajay Kapur",
+        "kind": "qna",
+        "quote": "I would not like to venture into giving absolute numbers other than saying that the trend is already very positive and strong"
+      },
+      {
+        "theme": "Guidance",
+        "point": "NON-ANSWER: asked whether 2,500 MW of FY27 deliveries was the most probable scenario, the CEO refused twice and the group counsel substituted the historical trend for a forecast",
+        "figure": "Trend cited: 700 MW to 1,550 MW to 2,456 MW",
+        "speaker": "Ajay Kapur / J.P. Chalasani",
+        "kind": "qna",
+        "quote": "Now you're putting words in my mouth... We cannot give you that number, as I mentioned. / please look at the past trend, 700 to 1,550. 1,550 to 2,456"
+      },
+      {
+        "theme": "Guidance",
+        "point": "NON-ANSWER: asked directly for FY27 and FY28 guidance, the CEO referred the questioner to a private conversation rather than answering on the call",
+        "speaker": "Ajay Kapur",
+        "kind": "qna",
+        "quote": "Other than that, if you want some more specific ones, we can separately connect with you"
+      },
+      {
+        "theme": "Guidance",
+        "point": "The EPC share target was reaffirmed with an interim marker, making it one of the few dated, checkable commitments on the call",
+        "figure": "EPC share of order book: ~20% in Q2, 28% now, 50% by FY28",
+        "speaker": "J.P. Chalasani",
+        "kind": "guidance",
+        "quote": "We also promised that our EPC order share in our order book, EPC share will keep increasing to 50% by FY '28... In Q2, we were at around 20%. Now we reached 28%"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Record deliveries in both the quarter and the year, described as the highest ever in India",
+        "figure": "Q4 FY26 830 MW (vs 573 MW in Q4 FY25, +45%); FY26 2,456 MW, +58%",
+        "speaker": "Ajay Kapur",
+        "kind": "fact",
+        "quote": "Suzlon delivered a record 830 megawatts in Q4 and 2,456 megawatts in FY '26, which are our ever-highest deliveries in India"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Commissioning is far below deliveries: the erected-but-not-commissioned stock exceeds a full year of commissioning",
+        "figure": "FY26 commissioned 744 MW; erected not commissioned 971 MW; combined 1,715 MW; Q4 commissioning 332 MW vs 95 MW in Q4 FY25",
+        "speaker": "Ajay Kapur",
+        "kind": "fact",
+        "quote": "Suzlon commissioned 744 megawatts in FY '26 And another 971 megawatt is erected, taking the number to 1,715 megawatt"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "The erected-not-commissioned figure was restated inconsistently inside the call — 971 MW in prepared remarks, 'almost 975' in Q&A; ~350 MW of it is held up on the customer's side",
+        "figure": "971 MW / 'almost 975 megawatts'; ~350 MW 'just ready for commissioning'",
+        "speaker": "Ajay Kapur",
+        "kind": "qna",
+        "quote": "there are almost 975 megawatts of turbines erected and not yet commissioned. Of those, almost 350 are just ready for commissioning. They are just waiting for the last mile because this is on the customer scope"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "NON-ANSWER: asked when installations would overtake new activity so the pending pile falls, the CEO gave growth percentages and organisational changes but no date and no target",
+        "figure": "Q4 deliveries 573 to 830 MW (+45%); Q4 commissioning 95 to 332 MW ('250% improvement'); weak base attributed to 'an industry-specific issue'",
+        "speaker": "Ajay Kapur",
+        "kind": "qna",
+        "quote": "I'm seeing a very good traction. I believe this trend will continue"
+      },
+      {
+        "theme": "Demand & volumes",
+        "point": "Industry backdrop cited as supportive: power demand growth and a record peak, used to argue for wind-dominated round-the-clock solutions",
+        "figure": "Power demand +5% to 6% since April; peak demand 270-plus GW; FY26 wind installations crossing 6 GW, highest since 2017",
+        "speaker": "Ajay Kapur",
+        "kind": "fact",
+        "quote": "we are seeing a strong start to the year '27 with power demand growing 5% to 6% since April, and peak demand has already touched 270-plus gigawatt"
+      },
+      {
+        "theme": "Order book & inflows",
+        "point": "Order book grew only 0.9 GW across a year in which 2,456 MW was delivered; management framed the flat book as reassurance",
+        "figure": "Opening 5 GW, closing 5.9 GW (5,892 MW); 66% C&I and PSU",
+        "speaker": "Ajay Kapur",
+        "kind": "fact",
+        "quote": "we are more or less closing at the same order book as we started the year... Our opening book was 5, and we are closing at 5.9. I think that is not a concern"
+      },
+      {
+        "theme": "Order book & inflows",
+        "point": "ANALYST CHALLENGE (Mohit Kumar, ICICI Securities, his words): order inflow was 'tad muted' in Q4 and he asked whether a couple of declining quarters should be assumed before the book picks up",
+        "speaker": "Mohit Kumar (analyst)",
+        "kind": "qna",
+        "quote": "order inflow has been very, very good for the year, but for the quarter, it seems to be tad muted... is it fair to assume a decline for a couple of quarters"
+      },
+      {
+        "theme": "Order book & inflows",
+        "point": "Management denied a coming decline and attributed slow closure to the EPC transition, with a dated promise of announcements from June",
+        "speaker": "J.P. Chalasani",
+        "kind": "guidance",
+        "quote": "we are in advanced stage, and I think you will significantly start hearing from June itself this quarter, the EPC orders getting closed. So therefore, I don't think there will be any downward trend"
+      },
+      {
+        "theme": "Order book & inflows",
+        "point": "Cumulative order intake for the S144 platform disclosed, and used as the basis for supplier renegotiation leverage",
+        "figure": "S144 order intake close to 9 GW (3.X series)",
+        "speaker": "Ajay Kapur",
+        "kind": "fact",
+        "quote": "Our S144 order intake has reached close to 9 gigawatts, a strong endorsement of its advanced technology and customer trust"
+      },
+      {
+        "theme": "Order book & inflows",
+        "point": "Asked whether the 5,892 MW book contains non-moving orders after last year's cleanup, the CEO asserted it does not, with no breakdown offered",
+        "speaker": "Ajay Kapur",
+        "kind": "qna",
+        "quote": "Sumit, as of now, there is nothing of that sort. And as management from time to time, we will undertake such actions... our order book is very healthy. In fact, I would stop at that"
+      },
+      {
+        "theme": "Order book & inflows",
+        "point": "ANALYST CHALLENGE (Mohit Kumar, his figures from NTPC Green's public deck): a 6.6 GW contracted-plus-awarded pipeline with only 1-2 GW tied up and no closures in 8-9 months",
+        "figure": "Analyst's figures: 6.6 GW pipeline, 'barely have tied up maybe 1 gigawatt or 2 gigawatt', no closure in 'last maybe 8 to 9 months'",
+        "speaker": "Mohit Kumar (analyst)",
+        "kind": "qna",
+        "quote": "we haven't seen any closure in last maybe 8 to 9 months. How do you think about the pipeline? I'm talking particularly about NTPC?"
+      },
+      {
+        "theme": "Order book & inflows",
+        "point": "Management did not dispute the PSU closure drought; it attributed the delay to NTPC's split-contract structure and pointed to a shift to turnkey EPC tenders",
+        "figure": "215 MW turnkey contract in AP already out; 'another 540 megawatts in AP plus another 2,000 megawatts in AP' understood to be coming",
+        "speaker": "J.P. Chalasani",
+        "kind": "qna",
+        "quote": "That's not yielding good results in terms of project execution. So they are now moving... towards a turnkey EPC contracts... I think the split contracts was making the capacity addition delay"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "Full-year profitability improved with operating leverage, but the quarterly growth rate was well below the annual one",
+        "figure": "FY26 EBITDA INR3,022cr, +63%, margin 18.1% (up 100bps Y-o-Y); Q4 FY26 EBITDA INR964cr, +39%; Q4 revenue INR5,468cr; Q4 PBT INR833cr; Q4 PAT INR1,114cr",
+        "speaker": "Rahul Jain",
+        "kind": "fact",
+        "quote": "Consolidated EBITDA increased to INR3,022 crores reflecting a strong operating leverage with 63% Y-o-Y growth. EBITDA margin expanded to 18.1%, up 100 basis points Y-o-Y"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "WTG segment contribution margin disclosed alongside segment revenue",
+        "figure": "WTG revenue INR14,040cr, +65%; contribution margin 24.5%",
+        "speaker": "Rahul Jain",
+        "kind": "fact",
+        "quote": "The WTG segment revenues grew 65% to INR14,040 crores, with contribution margin at 24.5%"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "The OMS margin recovery promised at the Q2 call was delivered, and management called out the earlier dip as the one-off it had claimed",
+        "figure": "OMS EBITDA margin 40.5% for FY26",
+        "speaker": "J.P. Chalasani",
+        "kind": "fact",
+        "quote": "some of you had a concern that EBITDA has fallen for our OMS business. And we clearly said it's a one-off. And by end of the year, we will recoup it. And accordingly, at the end of the year, we achieved the EBITDA of 40.5%"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "GUIDANCE THAT MOVED (step 1): asked whether FY27 margins stay stable with no real pressure, the CFO hedged on 'materially' rather than confirming",
+        "speaker": "Rahul Jain",
+        "kind": "guidance",
+        "quote": "WTG margins, I don't think materially can go down"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "GUIDANCE THAT MOVED (step 2): in the same answer the CEO undercut the pricing lever entirely, pointing to business-model change instead",
+        "speaker": "Ajay Kapur",
+        "kind": "opinion",
+        "quote": "I'm not too sure how much of pricing we can increase, but certainly business model reorientation is what we are currently working on"
+      },
+      {
+        "theme": "Pricing & margins",
+        "point": "GUIDANCE THAT MOVED (step 3): pressed a third time on steel, the assurance became conditional and approximate, with volatility flagged",
+        "speaker": "Rahul Jain",
+        "kind": "guidance",
+        "quote": "we should have a fair capability of maintaining margins where we were exiting. But obviously, there is -- this is an environment that is also volatile. So let's say, there or thereabouts, we should be in good shape"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Currency exposure is partly contractual pass-through and partly repriced only on new contracts; the mitigation was asserted but never sized",
+        "speaker": "Rahul Jain",
+        "kind": "qna",
+        "quote": "Some of our contracts have a pass-through with respect to the foreign currency impact... with our cost management drives, we've been able to mitigate that impact to a very large extent is what I would say"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "NON-ANSWER: asked what levers protect margins given that not all contracts carry pass-through clauses, the CFO named steel as 'largely a pass-through' but declined to quantify the excluded PSU contracts",
+        "speaker": "Rahul Jain",
+        "kind": "qna",
+        "quote": "steel is largely a pass-through other than maybe some PSU contracts. So I'm not really very worried about steel"
+      },
+      {
+        "theme": "Raw materials",
+        "point": "Cost levers named are all self-help — R&D, supply diversification, localisation and an annual cost-reduction target; volume is framed as supplier-negotiation leverage",
+        "figure": "9 GW S144 order book cited as the renegotiation lever as it reaches COD; 'resident supply chain' credited with 3 years of cost cuts",
+        "speaker": "Ajay Kapur",
+        "kind": "opinion",
+        "quote": "every year, we have a target of constantly cutting on cost because that's the only way you can remain resilient and our resident supply chain has helped us over the last 3 years to keep cutting costs"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "SE Forge scaled on both revenue and profit, though the profit growth rate was stated two different ways in the same call",
+        "figure": "SE Forge revenue INR597cr, +22% Y-o-Y; EBITDA INR119cr, stated as '+61% Y-o-Y' by the CEO and 'up by 60%' by the group counsel",
+        "speaker": "Ajay Kapur",
+        "kind": "fact",
+        "quote": "The revenue at INR597 crores, up 22% Y-o-Y and EBITDA at INR119 crores, up 61% Y-o-Y"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "The INR70cr consolidated exceptional item is wholly SE Forge — an old arbitration settled in Suzlon's favour — and specifically not OMS, correcting the analyst's assumption",
+        "figure": "Exceptional item INR70cr, consolidated",
+        "speaker": "Rahul Jain",
+        "kind": "qna",
+        "quote": "to answer it simply, no, it is not in the OMS business, it is largely SE Forge. Actually, it is fully SE Forge, it was an old arbitration matter that got settled in our Favor"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "OMS scale and machine availability disclosed; Renom's growth described qualitatively with no size, revenue or profit figure given",
+        "figure": "15.7+ GW under management in India; machine availability consistently above 95%",
+        "speaker": "Ajay Kapur",
+        "kind": "fact",
+        "quote": "Our OMS business remained strong with 15.7 plus gigawatts under management in India and machine availability consistently above 95%. Renom's AUM is consistently growing"
+      },
+      {
+        "theme": "Segments & products",
+        "point": "NON-ANSWER: on solar and batteries, no acquisition is near and the ownership-versus-asset-light strategy was explicitly deferred",
+        "speaker": "Ajay Kapur",
+        "kind": "qna",
+        "quote": "there's nothing round on the corner... But yes, that's very much in our agenda. But what strategy, asset-light versus investing, that's something we'll talk to you in time to come, but not today"
+      },
+      {
+        "theme": "International",
+        "point": "European re-entry launched via the Blue Sky platform in Spain, with two new large turbines aimed at both repowering and new build",
+        "figure": "Blue Sky platform launched in Spain; S175 and S163 turbines",
+        "speaker": "Ajay Kapur",
+        "kind": "fact",
+        "quote": "The Blue Sky platform launched in Spain marks our reentry into European and other export markets with S175 and S163 turbines"
+      },
+      {
+        "theme": "International",
+        "point": "GUIDANCE without a number: Europe framed as a major future revenue and profit driver within a couple of years, with interest reported in the existing 2 MW and 3 MW series",
+        "speaker": "Ajay Kapur",
+        "kind": "guidance",
+        "quote": "We feel in the next couple of years, this will become one of the big revenue driver and a bottom line driver. We'll talk about it more at some other opportune moment"
+      },
+      {
+        "theme": "International",
+        "point": "NON-ANSWER: asked specifically for the vision behind the European venture and why now, the answer was legacy presence and conference meetings, with fructification deferred and no order, market or revenue detail",
+        "speaker": "Ajay Kapur",
+        "kind": "qna",
+        "quote": "Of course, it will take some time for that to fructify. But around the sidelines of the conference, we met lots of developers, IPPs and utilities. Most of them are very excited to work with us"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Manufacturing capacity fully operational, with three AI-enabled blade factories being added",
+        "figure": "4.5 GW manufacturing capacity fully operational; 3 AI-enabled smart blade factories",
+        "speaker": "Ajay Kapur",
+        "kind": "fact",
+        "quote": "4.5-gigawatt manufacturing capacity fully operational, expanding footprint with 3 AI-enabled smart blade factories to drive efficiency and scale"
+      },
+      {
+        "theme": "Capex & projects",
+        "point": "Forward capex run rate guided — the clearest quantified forward commitment on the call, and small relative to FY26 EBITDA of INR3,022cr",
+        "figure": "FY26 capex ~INR550cr (analyst's figure, unchallenged); forward run rate 'about INR600-odd plus minus 50'",
+        "speaker": "Ajay Kapur",
+        "kind": "guidance",
+        "quote": "as we expand our capacity to participate in the demand... We would have a run rate of about INR600-odd plus minus 50 going forward"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Balance sheet position at year end: net worth and net cash, with working capital limits stated as adequate for the current book",
+        "figure": "Consolidated net worth INR9,464cr; net cash INR2,384cr as at 31 March 2026",
+        "speaker": "Rahul Jain",
+        "kind": "fact",
+        "quote": "consolidated net worth of INR9,464 crores. Our net cash balance at INR2,384 crores further enhances our financial flexibility and resilience"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "ANALYST CHALLENGE (Sumit Kishore, Axis Capital, his own figures): operating cash flow of ~INR12bn against EBITDA of ~INR30bn, asked alongside working capital, receivables and doubtful-debt provisions",
+        "figure": "Analyst's figures: FY26 operating cash flow ~INR12bn vs EBITDA ~INR30bn",
+        "speaker": "Sumit Kishore (analyst)",
+        "kind": "qna",
+        "quote": "if you look at your operating cash flow, it's about INR12 billion for FY '26 versus your EBITDA of INR30 billion. So could you please speak about the increase in working capital and receivables and whether there are any provisions for doubtful debtors?"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "The working capital build was confirmed as PSU receivables and said to have been priced into the tenders; the doubtful-debt provisions question was not answered at all",
+        "speaker": "Rahul Jain",
+        "kind": "qna",
+        "quote": "Working capital is predominantly a receivables buildup as primarily due to the PSU contracts. However, this was anticipated and factored into the tender pricing as well"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Management's counter to the cash-conversion challenge was the net cash delta and the use of non-fund-based limits, plus an unquantified claim that working capital days could improve",
+        "figure": "Cash position delta 'INR400 crores plus'",
+        "speaker": "Rahul Jain",
+        "kind": "opinion",
+        "quote": "most of this is serviced through non-fund based limits and in a secular growth scenario, working capital days could improve substantially going forward as well"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Reported PAT exceeds PBT because of deferred tax asset recognition; the quarterly adjustment figure was given on request",
+        "figure": "FY26 PAT INR3,153cr vs PBT INR2,422cr (+67%); DTA recognition INR742cr for FY26; INR281cr to be adjusted in Q4 reported PAT",
+        "speaker": "Rahul Jain",
+        "kind": "fact",
+        "quote": "PAT includes a deferred tax asset recognition of INR742 crores for the year FY '26 / the number on the reported PAT that I have for the quarter is about INR281 crores"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "Unrecognised deferred tax assets remain large and the tax line is guided to be a non-cash charge for the next two years",
+        "figure": "Unrecognised DTA 'in the range of about INR3,000 crores to INR3,500 crores'; 'for the next two years, only the deferred tax charge will come into the profit and loss account'",
+        "speaker": "Rahul Jain",
+        "kind": "guidance",
+        "quote": "Given our current run rate, we believe that there is -- for the next two years, only the deferred tax charge will come into the profit and loss account, which is also a noncash charge"
+      },
+      {
+        "theme": "Balance sheet & capital allocation",
+        "point": "GUIDANCE THAT MOVED: the DevCo capital ceiling of ~INR300cr is already fully used, and the CFO immediately signalled more working capital will be needed beyond it",
+        "figure": "Stated threshold ~INR300cr of cash; currently deployed 'in the range of about 300, 350'; non-fund-based facility flagged if connectivity is added",
+        "speaker": "J.P. Chalasani / Rahul Jain",
+        "kind": "qna",
+        "quote": "we talked about earlier about INR300 crores of the cash we keep it for this / As of now, the number is in the range of about 300, 350... as we go on, we will see some more working capital needs on that side"
+      },
+      {
+        "theme": "Regulation & policy",
+        "point": "The deviation-settlement tolerance for wind has been tightened by CERC, applies to existing projects, and reaches fossil-fuel parity by 2031; it is currently under stay but management expects it to stand",
+        "figure": "Tolerance from plus/minus 15% to plus/minus 10%; fossil-fuel level by 2031; new projects bidding from 1 April 2026; renewables crossing 50% of energy demand on some days",
+        "speaker": "J.P. Chalasani",
+        "kind": "fact",
+        "quote": "the CERC has come now for wind changing it from plus minus 15 to plus minus 10... new projects are going to bid it out from 1st of April 2026. So right from the day 1 they get commissioned, they'll get on with fossil fuel"
+      },
+      {
+        "theme": "Regulation & policy",
+        "point": "Suzlon intends to monetise the tightened rule as a scheduling and forecasting service, including for already-installed customers, with international collaboration planned",
+        "speaker": "J.P. Chalasani",
+        "kind": "guidance",
+        "quote": "we developed a strong scheduling and forecasting model, which we're testing till now at plus minus 15%. We are now quickly moved into making it plus minus 10%... we would use this as an opportunity for us as an additional service"
+      },
+      {
+        "theme": "Regulation & policy",
+        "point": "The evening-peak generation mix is management's central argument for wind demand and for FDRE tenders",
+        "figure": "At the 270 GW daytime peak: solar 22%, wind 5%. At the 250 GW evening peak (holding to ~midnight): solar 0%, wind 21%",
+        "speaker": "J.P. Chalasani",
+        "kind": "fact",
+        "quote": "In that, the solar contributed 22% and 5% with wind during the daytime. In the evening peak when it was 250 gigawatts, solar was 0 and wind was 21%"
+      },
+      {
+        "theme": "Regulation & policy",
+        "point": "Bid formats will vary by state rather than converge on FDRE, and pure wind tenders are reappearing at centre and state level; APERC precedent cited for FDRE tariff",
+        "figure": "APERC approved an FDRE bid of 400 MW with 90% availability in 2 morning and 2 evening hours plus 60% CUF in the last financial year",
+        "speaker": "J.P. Chalasani",
+        "kind": "fact",
+        "quote": "whether FDRE comes or the RTC comes or hybrid comes or the 2 existing comes, it all would depend upon state to state load profile and current generation mix"
+      },
+      {
+        "theme": "Regulation & policy",
+        "point": "Suzlon is lobbying the central government to change GNA rules so connectivity becomes transferable, which would enable it to develop RE parks — and would require more capital",
+        "speaker": "J.P. Chalasani",
+        "kind": "opinion",
+        "quote": "we are also working with the Government of India for a possibility of changing GNA regulations so that we can develop RE parks with connectivity, which is transferable"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "The Andhra Pradesh project implementation agreement, stalled after a change of government, was extended by 24 months in April, restoring development rights over 2.1 GW",
+        "figure": "PIA signed 2015, extended by 2 years / 24 months in April; development rights 2.1 GW (2,100 MW); commissioning under it stated as FY16-FY17 in prepared remarks and FY17-FY18 in Q&A",
+        "speaker": "J.P. Chalasani",
+        "kind": "fact",
+        "quote": "in April, they've extended the PIA by another 2 years. Under this PIA, we have developmental rights for 2.1 gigawatts, 2,100 megawatt, out of which 775-megawatt is the PPA"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "The 775 MW PPA is being converted to FDRE pending APERC tariff fixation, with buyers identified and Suzlon intending to supply the full renewable stack plus services, not just the wind portion",
+        "figure": "775 MW; 'a couple of clients who are keen to take up this project once PPA gets approved'",
+        "speaker": "J.P. Chalasani",
+        "kind": "qna",
+        "quote": "we have an option to -- not we have option, we have intention to supply the entire FDRE rather than just the wind portion of it. So because now we are really getting into full RE stack"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "DATED PROMISE: the balance 1,325 MW is to convert into firm EPC contracts within six months from June — a specific, checkable commitment",
+        "figure": "1,325 MW; 'from June onwards next 6 months'",
+        "speaker": "J.P. Chalasani",
+        "kind": "guidance",
+        "quote": "we would see this from June onwards next 6 months, the entire 1,325 megawatts getting converted into firm EPC contracts"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "The development pipeline was reaffirmed at the same figures as the previous interaction, with the CEO saying 'probably slightly higher' and the group counsel insisting the number is dynamic by construction",
+        "figure": "22-23 GW identified sites; ~8 GW in active development (analyst recalled 7 GW at the previous interaction); separately ~25 GW of assets held, of which 8-10 GW 'very much better baked'",
+        "speaker": "J.P. Chalasani / Ajay Kapur",
+        "kind": "qna",
+        "quote": "we've talked about 22 to 23 gigawatts of identified sites and about 8 gigawatts development that work is progressing / Probably slightly higher / It is a dynamic situation. So it will never remain static"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "STRUCTURAL OPACITY: land deals are never announced, only EPC contracts are, and an EPC announcement is not flagged as originating in the development pipeline — so outside progress tracking is impossible by design",
+        "figure": "Land contracts signed before reaching 25% of land acquisition; ArcelorMittal EPC contract cited as having come out of the development pipeline",
+        "speaker": "J.P. Chalasani",
+        "kind": "qna",
+        "quote": "we don't announce the land contracts. We will only announce when we do the EPC contracts... when we announce the EPC contract, we don't announce it has come from the development pipeline"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "EPC scope clarified: land, erection and balance of plant, sometimes the pooling substation, and transmission only in 'extremely rare' cases",
+        "speaker": "J.P. Chalasani",
+        "kind": "qna",
+        "quote": "EPC contracts normally we do the land supply, erection and the BOP. And in some cases, we also do the pooling substations. In very extremely rare cases, but very, very rare, we take up the transmission"
+      },
+      {
+        "theme": "Strategy & outlook",
+        "point": "A new Group CEO took over during the year, introduced on this call; the prior Group CEO now holds the Group Executive Counsel role and still answered most industry and project questions",
+        "figure": "Ajay Kapur, previously Managing Director of Ambuja Cements, 3 decades across infrastructure, power, construction and heavy industries",
+        "speaker": "J.P. Chalasani",
+        "kind": "fact",
+        "quote": "I also welcome Ajay Kapur, who has now taken over the baton and he will take you through the most of the things"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "A DISCLOSURE DISAPPEARED: the execution-progress detail provided in each of the previous two quarters was absent this quarter, and the CEO acknowledged it without explaining why",
+        "speaker": "Ajay Kapur",
+        "kind": "qna",
+        "quote": "last two quarters, you used to provide the execution progress. This quarter, we haven't provided that (analyst) / I think if it's not there, we will have it provided (CEO)"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "NON-ANSWER: a request for monthly installation disclosure, argued on share-price volatility grounds, drew no commitment from either the CEO or the CFO",
+        "speaker": "Ajay Kapur / Rahul Jain",
+        "kind": "qna",
+        "quote": "some things you can do it, some things you don't want to do it, but there is something. That's what I hear you / there is some merit in it, but we will have to evaluate the positions internally"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "Forward specifics were repeatedly routed off the record into private conversations rather than answered on the call",
+        "speaker": "Ajay Kapur",
+        "kind": "qna",
+        "quote": "if you want some more specific ones, we can separately connect with you / But certainly, we can have a discussion whenever you want to"
+      },
+      {
+        "theme": "Analyst Q&A concerns",
+        "point": "The call ran only eight questioners and was cut at 'the last 2 questions'; nobody asked about the CEO transition's mandate, the flat order book beyond the opening question, or the share of the book that is EPC-priced versus equipment-priced",
+        "kind": "opinion"
+      }
+    ],
+    "theme_summaries": {
+      "Demand & volumes": "Suzlon shipped 830 megawatts of turbines in the January-March quarter and 2,456 megawatts across the full year to March 2026 — 58% more than the year before, and the most it has ever delivered in India. Switching those turbines on lags a long way behind shipping them: only 744 megawatts were fully commissioned and handed over during the year, while 971 megawatts stood erected in the field without running (a figure management restated later in the call as 'almost 975'). About 350 megawatts of that stock is finished work waiting on the buyer — 'just waiting for the last mile because this is on the customer scope'. Commissioning in the final quarter was 332 megawatts against 95 a year earlier, which management called a 250% improvement while conceding the weak base was 'also an industry-specific issue'; quarterly deliveries went from 573 to 830 megawatts, up 45%. For the wider market, India installed more than 6 gigawatts of wind in the year, its best since 2017, after 4.1 the previous year, 3.3 before that and 2.3 in the year to March 2023, with 56 gigawatts installed in total and a national target of 100 gigawatts by 2030. The thing to watch is the gap between turbines delivered and turbines generating: it is money already spent that has not yet been collected, and the answer to a direct question about when that gap starts closing was about reorganising the field teams and running 'drives', not a date.",
+      "Pricing & margins": "For the full year, operating profit was 3,022 crore rupees, 63% higher than last year, and worked out to 18.1% of sales — one percentage point better than the year before. On the turbine business alone, what was left after direct costs was 24.5% of its sales. The servicing arm, which maintains turbines already in the field, finished the year earning 40.5% of its sales as operating profit; management pointed out this fulfilled a promise made at the September-quarter call that a dip there was 'a one-off' that would be recouped by year end. In the March quarter itself operating profit grew 39%, well below the 63% for the year, so the rate of improvement is slowing. On the year ahead, the assurance got weaker each time it was tested. Asked whether a falling rupee (which makes imported content dearer) forces price increases, the finance chief said some contracts pass the currency through and cost-cutting had offset the rest 'to a very large extent'. Asked for the plain version — will profitability hold? — the answer hedged on one word: of the turbine business, 'I don't think materially can go down'. The chief executive added in the same answer that 'I'm not too sure how much of pricing we can increase'. By the third question on the subject the language had slipped again, to holding profitability 'there or thereabouts' in what he called 'an environment that is also volatile'. No figure for next year was given to anyone.",
+      "Raw materials": "Steel is the largest input and the finance chief said it is 'largely a pass-through' — customers absorb the price moves — except in some contracts with state-owned utilities. He would not say how large that exception is, which is the whole question, because the analyst had asked precisely because 'not all contracts have those' clauses. A weaker rupee raises the cost of imported content; some contracts pass that through too, and everything else only gets repriced when new contracts are signed. Beyond contract terms, every lever named was self-help rather than price: engineering the cost down, spreading purchases across more suppliers, and making more in India. The chief executive said a 'resident supply chain has helped us over the last 3 years to keep cutting costs', that there is 'a target of constantly cutting on cost' every year, and that the roughly 9 gigawatts of cumulative orders for the S144 turbine gives the buying teams leverage to renegotiate with suppliers as those projects get built. None of it was quantified.",
+      "Order book & inflows": "The order book closed the year at 5.9 gigawatts, or 5,892 megawatts, against 5.0 gigawatts at the start — so a record delivery year was roughly, but only roughly, replaced. The first analyst on the call described the final quarter's new orders as 'tad muted' and asked whether orders would fall for a couple of quarters; management said no and gave a reason rather than a number: Suzlon is moving from selling turbines to selling whole finished projects, which means many separate contracts, the customer doing its own wind assessment, and separate land agreements, so each deal takes longer to close. Two-thirds of the book (66%) is corporate and industrial buyers plus state-owned utilities, the fastest-growing part. Full-project work has gone from 20% of the book to 28% in the second half, with a stated target of 50% by March 2028. Cumulative orders for the S144 turbine are close to 9 gigawatts. The checkable promise is a date: firm project contracts start being announced 'from June itself this quarter'. Asked whether any of the 5,892 megawatts is stuck or slow-moving — a fair question, since Suzlon cleaned dead orders out of the book a year earlier — the chief executive said 'there is nothing of that sort' and offered no breakdown to support it.",
+      "Segments & products": "Two businesses sit alongside turbines. The forging and casting arm made 597 crore rupees of sales, 22% more than last year, and 119 crore rupees of operating profit — which the chief executive put at 61% growth and the group counsel at 60% in the same call, a small inconsistency worth noting because nobody corrected it. A 70 crore rupee one-off gain in the consolidated accounts, described as settlement of contractual matters, is 'fully SE Forge' — an old arbitration decided in Suzlon's favour — and explicitly not the servicing business, which is what the analyst had assumed. The servicing arm maintains 15.7 gigawatts of turbines in India and keeps them available more than 95% of the time, and Renom, the multi-brand servicing company, keeps adding fleet; no separate figure for Renom's size or profit was given. On solar and batteries, where investors have been expecting a move, the answer was deliberately empty: no acquisition 'round the corner', it is 'very much in our agenda', and whether Suzlon would put its own money into owning such plants or stay out of ownership altogether is 'something we'll talk to you in time to come, but not today'.",
+      "International": "Suzlon has relaunched outside India. A product family called Blue Sky was unveiled in Spain at the Madrid wind conference, built around two large turbines — the S175 and S163 — aimed both at new projects and at replacing ageing ones, and pitched on higher output, better reliability and a lower cost per unit of electricity generated. The chief executive said the developers, independent producers and utilities he met there were keen, 'surprisingly' on the existing 2-megawatt and 3-megawatt machines as much as the new ones, and that this 'will become one of the big revenue driver and a bottom line driver' in 'the next couple of years'. That sentence is the entire sizing of the opportunity: no order, no country, no revenue figure, no date, and an explicit deferral — 'We'll talk about it more at some other opportune moment.' Asked why the European push is starting now rather than earlier, the reasoning offered was the legacy fleet, the brand and the offices Suzlon still has abroad, not any specific trigger, and management conceded 'it will take some time for that to fructify'.",
+      "Capex & projects": "Manufacturing capacity of 4.5 gigawatts a year is fully operational, and Suzlon is adding three blade factories it describes as AI-enabled. Spending on plant and equipment was roughly 550 crore rupees last year, and the chief executive gave a forward run rate of 'about INR600-odd plus minus 50' — so somewhere between 550 and 650 crore rupees a year. That is the single clearest forward number anyone got on this call, and it is strikingly small next to the 3,022 crore rupees of operating profit the company earned. The implication is that growth here is not held back by factory spending: the cash is being absorbed by bills customers have not paid and by land bought ahead of projects, not by machinery.",
+      "Balance sheet & capital allocation": "Suzlon ended March 2026 with shareholders' funds of 9,464 crore rupees and 2,384 crore rupees more cash than debt, and said it has enough borrowing lines arranged to execute the current order book. The awkward part came from an analyst's own arithmetic: cash actually generated by operations was about 1,200 crore rupees against roughly 3,000 crore rupees of operating profit, so most of the year's profit did not arrive as cash. The finance chief confirmed the cause — 'predominantly a receivables buildup', meaning money owed by customers, mainly on contracts with state-owned utilities — said it had been anticipated and priced into those tenders, and pointed out most of it is carried on guarantee-type facilities rather than borrowed cash. The part of the question asking whether any of those debts have been written down as doubtful was left unanswered. His comfort was that net cash still rose by 'INR400 crores plus'. Reported profit is also flattered by tax accounting: the year's profit of 3,153 crore rupees is larger than its profit before tax of 2,422 crore rupees because 742 crore rupees of past tax losses were booked as an asset (281 crore rupees of that in the March quarter alone). A further 3,000 to 3,500 crore rupees of such credits are still unrecognised, and for the next two years the tax line will be a charge that costs no cash. Finally, the land-buying development arm was described as ring-fenced at about 300 crore rupees of cash — but it is already at '300, 350', and the finance chief added that 'we will see some more working capital needs on that side', meaning more cash tied up there. The stated ceiling is therefore already reached and openly expected to move.",
+      "Regulation & policy": "The rule that matters most to Suzlon's customers is the penalty for promising the grid more or less power than you actually deliver. The central regulator has tightened the permitted error for wind from plus-or-minus 15% to plus-or-minus 10%, applied it to existing projects as well as new ones, set a path to the same standard as coal plants by 2031, and required projects bid from 1 April 2026 to live with it from day one. It is currently stayed by a court, but management's own view is that it will stand, because on a growing number of days renewable sources already supply more than half of the electricity actually consumed. Suzlon's response is to turn the problem into a product: a forecasting and scheduling model it had been running at the 15% tolerance has been moved to 10%, it will be offered to owners of existing plants too, and Suzlon intends to collaborate with international partners on it. Management's case for wind rests on the shape of the day: at the record daytime peak of 270 gigawatts, solar supplied 22% of it and wind 5%, but at the evening peak of 250 to 260 gigawatts — which now persists to around midnight — solar supplied nothing and wind supplied 21%. That is why buyers are shifting to contracts that promise round-the-clock supply, and why pure wind tenders are reappearing at both central and state level. Separately, Suzlon is lobbying the central government to change grid-connection rules so connection rights become transferable, which would let it develop renewable parks.",
+      "Strategy & outlook": "The strategy is to stop being a turbine supplier and become a project builder, and to make that possible by locking up sites years before anyone needs them. Suzlon says it has identified 22 to 23 gigawatts of sites with about 8 gigawatts under active development — the same figures it gave at the previous interaction, though the chief executive volunteered 'probably slightly higher' and the group counsel insisted the number is dynamic by design because new measuring masts, new substation plans and new hybrid-capable sites get added continuously. Separately the chief executive said Suzlon sits on about 25 gigawatts of assets across the country, of which 8 to 10 are 'very much better baked'. The buying is done quietly: land is acquired where a sale looks likely and a contract is signed before a quarter of the land is bought, and — critically for anyone checking progress from outside — land deals are never announced, only the full-project construction contracts are, and when one is announced it is not flagged as having come from this pipeline. The ArcelorMittal contract was named as one that did. The near-term test is Andhra Pradesh. A 2015 state agreement giving Suzlon rights to develop 2,100 megawatts was stalled by a change of government and has now been extended by 24 months. Of that, 775 megawatts already has a power-purchase contract whose tariff is still being set by the state regulator and which is being converted into a round-the-clock renewable format; a couple of buyers are said to be interested in taking the project and Suzlon intends to supply the whole mix — wind, solar and storage — plus the servicing afterwards, not just the wind portion. The remaining 1,325 megawatts will 'completely get monetized from June onwards in the next 6 months' as construction contracts, which is a specific promise with a specific deadline and should be checked at the December-quarter call.",
+      "Guidance": "Management opened by marking its own homework against last year's promise of '60% of growth', and the three numbers it chose to report all cleared the bar: operating profit up 63%, profit before tax up 67%, turbine-business sales up 65%. The two numbers it did not place next to the 60% both fell short — total company sales rose 54% and megawatts delivered rose 58%. The original promise never specified which figure it was about, so it could be graded on whichever one passed; that is a reason to treat the claim as something to test rather than as a commitment kept. For the year ahead, no company-level number was given at all, to anyone, despite being asked at least three times. The market forecast moved inside the single call: told to one analyst as '8 gigawatt in 27 and maybe 10 gigawatt in 28' with 'some leeway', it came back to the next analyst as 'anywhere between 8 to 9 gigawatt'. Longer term, installations are seen 'crossing 10 gigawatt in the near term' and reaching about 15 gigawatts by the year to March 2030 or 2031. The only hard company commitments on the call are the share of the order book from full-project work reaching 50% by March 2028, plant spending of roughly 550 to 650 crore rupees a year, project contracts being announced from June, and the 1,325 megawatts in Andhra Pradesh converting within six months. Everything else was a trend, a leading indicator, or an offer to talk privately.",
+      "Analyst Q&A concerns": "Three disclosure problems ran through the questions, and together they matter more than any single answer. First, something that used to be published stopped being published: an analyst pointed out that the execution-progress detail given in each of the previous two quarters was missing from this quarter's material. The reply was an acknowledgement with no explanation — 'if it's not there, we will have it provided' — immediately followed by the good news on commissioning. A disclosure that vanishes in the quarter where the gap between turbines delivered and turbines running is at its widest deserves checking next quarter. Second, a shareholder asked for monthly installation numbers, on the grounds that 'the entire stock price is very jittery based on the installation progress'. He was told 'some things you can do it, some things you don't want to do it' and that management would 'evaluate the positions internally'; nothing was promised. Third, when analysts asked for forward numbers they were repeatedly pointed off the record — 'if you want some more specific ones, we can separately connect with you' and 'we can have a discussion whenever you want to' — which routes specifics into private conversations rather than the transcript. When one shareholder asked directly whether 2,500 megawatts of deliveries next year was the most likely outcome, the answer was 'Now you're putting words in my mouth', then 'We cannot give you that number', then a redirect to the past trend: '700 to 1,550. 1,550 to 2,456.' Notably, nobody on the call asked about the new chief executive's mandate or about why the order book grew so little against a record delivery year beyond the first question."
+    }
+  }
+];
+
+const THEME_ORDER = [
+  "Demand & volumes", "Pricing & margins", "Competition", "Raw materials",
+  "Segments & products", "International", "Capex & projects",
+  "Balance sheet & capital allocation", "Distribution & network",
+  "Strategy & outlook", "Guidance", "Analyst Q&A concerns",
+];
+
+const KINDS = [
+  { k: "all", label: "All" },
+  { k: "fact", label: "Facts" },
+  { k: "guidance", label: "Guidance" },
+  { k: "opinion", label: "Views" },
+  { k: "qna", label: "Q&A" },
+];
+
+let fCall = "all", fKind = "all", fTheme = "all";
+
+const esc = s => String(s ?? "").replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+
+function segmented(el, items, current, onPick) {
+  el.innerHTML = items.map(i =>
+    `<button type="button" data-v="${esc(i.k)}" aria-pressed="${i.k === current}">${esc(i.label)}</button>`).join("");
+  el.onclick = ev => {
+    const b = ev.target.closest("button[data-v]");
+    if (b) onPick(b.dataset.v);
+  };
+}
+
+function themesPresent() {
+  const seen = new Set();
+  CALLS.forEach(c => c.detailed.forEach(p => seen.add(p.theme)));
+  const ordered = THEME_ORDER.filter(t => seen.has(t));
+  const extra = [...seen].filter(t => !THEME_ORDER.includes(t)).sort();
+  return [...ordered, ...extra];
+}
+
+function render() {
+  segmented(document.getElementById("fCall"),
+    [{ k: "all", label: "All" }, ...CALLS.map(c => ({ k: c.quarter, label: c.quarter }))],
+    fCall, v => { fCall = v; render(); });
+  segmented(document.getElementById("fKind"), KINDS, fKind, v => { fKind = v; render(); });
+
+  const themeSel = document.getElementById("fTheme");
+  if (themeSel.options.length === 0) {
+    themeSel.innerHTML = `<option value="all">All themes</option>` +
+      themesPresent().map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join("");
+    themeSel.onchange = () => { fTheme = themeSel.value; render(); };
+  }
+
+  let shown = 0, total = 0;
+  const out = [];
+
+  for (const call of CALLS) {
+    total += call.detailed.length;
+    if (fCall !== "all" && call.quarter !== fCall) continue;
+
+    const pts = call.detailed.filter(p =>
+      (fKind === "all" || p.kind === fKind) && (fTheme === "all" || p.theme === fTheme));
+    if (!pts.length) continue;
+    shown += pts.length;
+
+    // group by theme, in canonical order
+    const byTheme = new Map();
+    for (const p of pts) {
+      if (!byTheme.has(p.theme)) byTheme.set(p.theme, []);
+      byTheme.get(p.theme).push(p);
+    }
+    const themes = [...byTheme.keys()].sort(
+      (a, b) => (THEME_ORDER.indexOf(a) + 1 || 99) - (THEME_ORDER.indexOf(b) + 1 || 99));
+
+    out.push(`<section class="call">
+      <div class="call-head">
+        <span class="call-q">${esc(call.quarter)}</span>
+        <span class="call-date">call ${esc(call.call_date)} · ${pts.length} of ${call.detailed.length} pointers</span>
+      </div>
+      ${themes.map(th => `
+        <div class="theme-group">
+          <p class="theme-name">${esc(th)}</p>
+          ${(call.theme_summaries || {})[th]
+            ? `<p class="theme-summary"><span class="lbl">Summary</span>${esc(call.theme_summaries[th])}</p>`
+            : ""}
+          <ul class="pts">${byTheme.get(th).map(p => `
+            <li class="pt">
+              <span class="pt-body">${esc(p.point)}
+                ${p.quote ? `<blockquote>“${esc(p.quote)}”</blockquote>` : ""}
+              </span>
+              ${p.figure ? `<span class="pt-fig">${esc(p.figure)}</span>` : "<span></span>"}
+              <span class="pt-meta">
+                <span class="badge ${esc(p.kind)}">${esc(p.kind === "qna" ? "Q&A" : p.kind)}</span>
+                ${p.speaker ? `<span class="who">${esc(p.speaker)}</span>` : ""}
+              </span>
+            </li>`).join("")}
+          </ul>
+        </div>`).join("")}
+    </section>`);
+  }
+
+  document.getElementById("out").innerHTML =
+    out.length ? out.join("") : `<p class="empty">No pointers match these filters.</p>`;
+  document.getElementById("count").textContent = `${shown} of ${total} pointers`;
+}
+
+render();
+</script>
+</body>
+</html>
